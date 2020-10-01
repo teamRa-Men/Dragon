@@ -12,7 +12,6 @@ import android.graphics.RectF;
 
 
 public class Dragon extends Character {
-    float deltaTime;
     Segment[] segments = new Segment[30];
     Wing frontWing, backWing;
     Leg frontLeg, backLeg;
@@ -22,8 +21,6 @@ public class Dragon extends Character {
     int bodyEnd = segments.length/4;
     public boolean breathingFire;
     float distanceTravelled = 0;
-
-
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -45,16 +42,16 @@ public class Dragon extends Character {
                 segments[i] = new Segment(this, i, radius);
             }
             else{
-                segments[i] = new Segment(this, i, (float) Math.pow((float) (segments.length - i) /(segments.length - bodyEnd)*0.7f+0.3f,1) * radius);
+                segments[i] = new Segment(this, i, (float) Math.pow((float) (segments.length - i) /(segments.length - bodyEnd)*0.8f+0.2f,1) * radius);
             }
         }
 
-        frontLeg = new Leg(this, bodyEnd+1, true);
-        backLeg = new Leg(this, bodyEnd+1, false);
-        frontArm = new Arm(this, bodyStart, true);
-        backArm = new Arm(this, bodyStart, false);
-        frontWing = new Wing(segments[bodyStart],(int)(radius*6), true);
-        backWing = new Wing(segments[bodyStart],(int)(radius*6), false);
+        frontLeg = new Leg(this, segments[bodyEnd+1], true);
+        backLeg = new Leg(this, segments[bodyEnd+1], false);
+        frontArm = new Arm(this, segments[bodyStart], true);
+        backArm = new Arm(this, segments[bodyStart], false);
+        frontWing = new Wing(this,segments[bodyStart],(int)(radius*6), true);
+        backWing = new Wing(this,segments[bodyStart],(int)(radius*6), false);
         head = new Head(this, radius*0.4f);
     }
 
@@ -249,7 +246,7 @@ class Segment{
             }
             sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), false);
             src = new RectF(0, 0, radius * 2, radius * 2);
-            int c = (int)(155*((float)(dragon.segments.length-index)/dragon.segments.length)+100);
+            int c = (int)(105*((float)(dragon.segments.length-index)/dragon.segments.length)+150);
             paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
 
         }
@@ -257,7 +254,7 @@ class Segment{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.tail);
             sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius), (int) (dragon.radius), false);
             src = new RectF(0, 0, dragon.radius, dragon.radius);
-            int c = 100;
+            int c = 150;
             paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
         }
 
@@ -298,13 +295,11 @@ class Leg{
     Bitmap sprite;
     RectF src;
     Paint paint;
-    int index;
     Segment segment;
 
-    public Leg(Dragon dragon, int index, boolean front){
+    public Leg(Dragon dragon, Segment segment, boolean front){
         this.dragon = dragon;
-        this.index = index;
-        this.segment = dragon.segments[index];
+        this.segment = segment;
         position = dragon.position;
         paint = new Paint();
 
@@ -326,8 +321,8 @@ class Leg{
         Matrix matrix = new Matrix();
         RectF dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(Math.signum(dragon.segments[index].direction.x),1,  dst.centerX(),dst.centerY());
-        matrix.postRotate( Math.signum(dragon.segments[index].direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
+        matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
+        matrix.postRotate( Math.signum(segment.direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
         canvas.drawBitmap(sprite, matrix,paint);
 
     }
@@ -341,13 +336,11 @@ class Arm{
     Bitmap sprite;
     RectF src;
     Paint paint;
-    int index;
     Segment segment;
 
-    public Arm(Dragon dragon, int index, boolean front){
+    public Arm(Dragon dragon, Segment segment, boolean front){
         this.dragon = dragon;
-        this.index = index;
-        this.segment = dragon.segments[index];
+        this.segment = segment;
         position = dragon.position;
         paint = new Paint();
 
@@ -370,8 +363,8 @@ class Arm{
         Matrix matrix = new Matrix();
         RectF dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(Math.signum(dragon.segments[index].direction.x),1,  dst.centerX(),dst.centerY());
-        matrix.postRotate( Math.signum(dragon.segments[index].direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
+        matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
+        matrix.postRotate( Math.signum(segment.direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
         canvas.drawBitmap(sprite, matrix,paint);
 
     }
@@ -384,13 +377,15 @@ class Wing{
     Bitmap sprite;
     RectF src;
     RectF dst;
-    float time;
+    float time, flap;
     boolean front;
     Paint paint;
+    Dragon dragon;
 
-    public Wing(Segment segment, int size, boolean front){
+    public Wing(Dragon dragon, Segment segment, int size, boolean front){
         this.segment = segment;
         this.front = front;
+        this.dragon = dragon;
         paint = new Paint();
         if(front) {
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.wing);
@@ -412,15 +407,17 @@ class Wing{
 
         dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        float flap = (float)Math.sin(time/750*Math.PI);
+
         matrix.postScale(1,flap,left,bottom);
         matrix.postRotate((float) rotation, dst.centerX(),dst.bottom);
         canvas.drawBitmap(sprite, matrix,paint);
 
     }
     public void update(float deltaTime){
-        time += deltaTime;
+        time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1);
         position = segment.position;
+        //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
+        flap = (float)Math.sin(time/1000*Math.PI);
         rotation = segment.rotation;
     }
 }

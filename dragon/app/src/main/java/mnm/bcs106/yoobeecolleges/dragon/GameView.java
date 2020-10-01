@@ -142,13 +142,13 @@ public class GameView extends SurfaceView implements Runnable {
 
                     long started = System.currentTimeMillis();
                     draw();
-                    System.out.println( "draw " + (System.currentTimeMillis()-started));
+                    //System.out.println( "draw " + (System.currentTimeMillis()-started));
                     long drawTime = System.currentTimeMillis() - started;
                     int lag = (int) (fixedDeltaTime - drawTime);
                     totalFrame += drawTime;
                     numberFrame++;
-                    System.out.println("average " + totalFrame/numberFrame);
-                    System.out.println( lag);
+                    //System.out.println("average " + totalFrame/numberFrame);
+                    //System.out.println( lag);
                     /*
                     if (lag > 0) {
                         try {
@@ -292,7 +292,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         if(player.visible){
             player.update(fixedDeltaTime);
-            //If the tower is destroyed, tell the game controller to show game over alert dialog
+
         }
         else{
             if(!Game.instance.gameOver) {
