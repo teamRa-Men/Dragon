@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 //Handles the music in the shapes game
-public class Music {
+public class Music{
     public static MediaPlayer musicPlayer;
     public static boolean isPlaying = true;
 

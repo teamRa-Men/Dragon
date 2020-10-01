@@ -54,8 +54,10 @@ public class Game extends AppCompatActivity {
 
     //Player control
     boolean dragging = false;
+    boolean breathFire = false;
     Vector2 dragTo, dragFrom;
-    int controlRadius = 150;
+    int controlRadius = 40;
+    Vector2 fireButton;
 
     public Context context;
 
@@ -74,21 +76,23 @@ public class Game extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             screenHeight = displayMetrics.heightPixels;
             screenWidth = displayMetrics.widthPixels;
+            fireButton = new Vector2(screenWidth*8/10,screenHeight*8/10);
 
             //initialize
             initUI();
             initSound(this);
 
+            waveStart();
+            handler = new Handler();
+
+
             //start game loop
             gameView = new GameView(this);
             ConstraintLayout gameLayout = findViewById(R.id.gameLayout);
             gameLayout.addView(gameView);
-
-
-            waveStart();
-            handler = new Handler();
             updateUI();
-            gameView.resume();
+
+
 
         }
     }
@@ -141,11 +145,17 @@ public class Game extends AppCompatActivity {
             }
         };
         //30 frames per second
-        handler.postDelayed(runnable, 1000/10);
+        handler.postDelayed(runnable, 1000/30);
 
         if(!gameOver) {
             //gameView.setPlayerMovement(dragTo);
-            gameView.movePlayerBy(dragTo);
+            if(dragFrom !=null && dragTo!=null) {
+                gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / 200));
+            }
+            else {
+                gameView.movePlayerBy(null);
+            }
+            gameView.breathFire(breathFire);
             pointsAndLevels();
 
         }
@@ -292,27 +302,26 @@ public class Game extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         Vector2 p = new Vector2(event.getX(),event.getY());
 
-        //if (GameView.instance.player.position.sub(p).sqrMagnitude() < 5000) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                dragFrom = p;
-                dragging = true;
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            dragFrom = p;
+            dragging = true;
+            if(Vector2.distance(p,fireButton) < controlRadius){
+                breathFire = true;
             }
-
-        //}
-
+        }
 
         if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() ==  MotionEvent.ACTION_OUTSIDE) {
             dragging = false;
             dragTo = null;
+            breathFire = false;
         }
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             if (dragging) {
-                dragTo = p.sub(dragFrom).multiply(1f/200);
+                dragTo = p;
             }
         }
 
-
-            return super.onTouchEvent(event);
+        return super.onTouchEvent(event);
 
     }
 }

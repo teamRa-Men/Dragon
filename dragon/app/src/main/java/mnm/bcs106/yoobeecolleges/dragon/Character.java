@@ -8,17 +8,12 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 
 public class Character extends Destroyable {
-        AreaEffect effect; // Area affect on trigger
 
         float maxMoveSpeed;
-
-        Detect detection;
-        Chase chasing;
-
         ActionController attackController;
         ActionController stunController;
 
-        public int spawningSoundEffect = -1;
+
         float friction = 0f;
 
         float UIalpha = 0;
@@ -28,9 +23,8 @@ public class Character extends Destroyable {
         GameObject target = null; //Target to move towards
         Vector2 targetPosition = Vector2.zero;
 
-        public Character(Bitmap sprite, float offsetX, float offsetY, AreaEffect effect) {
+        public Character(Bitmap sprite, float offsetX, float offsetY) {
             super(sprite, offsetX, offsetY);
-            this.effect = effect;
             stunController = new ActionController(0,200,0);
         }
 
@@ -41,16 +35,6 @@ public class Character extends Destroyable {
         public void setStunController(int chargeTime, int performTime, int coolDownTime){
             stunController = new ActionController(chargeTime,performTime,coolDownTime);
         }
-
-
-        public void setDetection(int detectRange, int detectAngle) {
-            detection = new Detect(this, detectRange, detectAngle);
-        }
-
-        public void setChasing(float distFromTarget) {
-            chasing = new Chase(distFromTarget);
-        }
-
 
         public void setTarget(GameObject target){
             this.target = target;
@@ -81,14 +65,8 @@ public class Character extends Destroyable {
             simulated = true;
             visible = true;
 
-            if(spawningSoundEffect > -1) {
-                SoundEffects.instance.play(spawningSoundEffect);
-            }
-        }
 
-    public void setSpawningSoundEffect(int spawningSoundEffect) {
-        this.spawningSoundEffect = spawningSoundEffect;
-    }
+        }
 
     @Override
         public void draw(Canvas canvas) {
@@ -114,7 +92,6 @@ public class Character extends Destroyable {
                 p.setAlpha((int)(UIalpha*255));
                 canvas.drawText(UIString, position.x, position.y - height, p);
             }
-            effect.draw(canvas);
         }
 
         public void setUIString(String s){
@@ -169,86 +146,5 @@ public class Character extends Destroyable {
 }
 
 
-class ShakingAnim{
-    public static Vector2 shake(float width, float height, float maxDispX, float maxDispY){
-        float dispY = height * ((float) Math.random() - 0.5f)*maxDispY;
-        float dispX = width * ((float) Math.random() - 0.5f)*maxDispX;
-        return  new Vector2(dispX, dispY);
-    }
-}
 
-class FadingAnim{
-    public static boolean fade(Paint paint){
-        int alpha = paint.getAlpha() - 10;
-        if (alpha > 0) {
-            paint.setAlpha(alpha);
-            return  true;
-        } else {
-            return false;
-        }
-    }
-}
-
-class Detect{
-    int detectRange, detectAngle;
-    Character character;
-
-    public Detect (Character character, int detectRange, int detectAngle){
-        this.detectAngle = detectAngle;
-        this.detectRange = detectRange;
-        this.character = character;
-    }
-    public boolean inDetectRange(Destroyable other){
-        Vector2 position = character.getPos();
-        Vector2 direction = character.getDir();
-        GameObject target =  character.target;
-
-        Vector2 dispOther = other.position.sub(position);
-        float distOther = dispOther.getLength();
-
-        if(distOther < detectRange){
-            if(target==null) {
-                double angle =  Math.acos(dispOther.dot(direction)/(distOther*1));
-                angle = Math.abs(Math.toDegrees(angle));
-                if (angle < detectAngle) {
-                    character.setTarget(other);
-                    return true;
-                }
-            }
-            else {
-                return true;
-            }
-        }
-        character.setTarget(null);
-        return false;
-    }
-}
-
-class Chase {
-    float distFromTarget;
-    public Chase(float distFromTarget){
-        this.distFromTarget = distFromTarget;
-    }
-
-    public boolean chasing(Character character) {
-        Vector2 position = character.position;
-        GameObject target = character.target;
-        float radius = character.radius;
-        float maxMoveSpeed = character.maxMoveSpeed;
-
-        Vector2 posToTarget = target.position.sub(position);
-        float distance = posToTarget.getLength();
-        character.setDir(posToTarget);
-
-        if (distance > radius + distFromTarget) {
-            character.setDir(posToTarget);
-            character.setSpeed(Math.min(distance / 50, 1) * maxMoveSpeed * posToTarget.getLength());
-        } else {
-            character.setSpeed(0);
-        }
-        return distance > radius + distFromTarget;
-    }
-
-
-}
 

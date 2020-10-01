@@ -15,7 +15,7 @@ public class GameObject implements Comparable{
     public float speed, angularVelocity, rotation, localRotation,  bounce = 0.3f, friction = 1f, mass =1;
     RectF srcRect;
     float radius = 0;
-    float dt = 0;
+    float fixedDeltaTime = 0;
     public boolean visible = true, simulated = false, facing = false, gravity = false, centerPivot = true;
 
     //The parent game object this is attached to if any
@@ -31,7 +31,7 @@ public class GameObject implements Comparable{
     public GameObject(Bitmap sprite, float offsetX, float offsetY){
         //Init visuals
         offset = new Vector2(offsetX,offsetY);//Bitmap offset from position
-        width = sprite.getWidth();
+        width= sprite.getWidth();
         height = sprite.getHeight();
         setSprite(sprite);
         paint = new Paint();
@@ -43,7 +43,7 @@ public class GameObject implements Comparable{
         velocity = new Vector2(0,0);
         speed = 0;
         if(GameView.instance != null){
-            dt = GameView.instance.fixedDeltaTime;
+            fixedDeltaTime = GameView.instance.fixedDeltaTime;
         }
     }
 
@@ -129,6 +129,7 @@ public class GameObject implements Comparable{
                         position.y + direction.y * speed * deltaTime);
 
                 rotation += angularVelocity*deltaTime;
+
             }
         }
     }
@@ -178,7 +179,7 @@ public class GameObject implements Comparable{
     //-----------------------------------------------------------------------------------------------------------
 
     public void setWidth(float w){
-        width = w;
+        width= w;
         height = w*(float)sprite.getHeight()/sprite.getWidth();
     }
 
@@ -306,5 +307,25 @@ public class GameObject implements Comparable{
 
         }
         return 0;
+    }
+}
+
+class ShakingAnim{
+    public static Vector2 shake(float width, float height, float maxDispX, float maxDispY){
+        float dispY = height * ((float) Math.random() - 0.5f)*maxDispY;
+        float dispX = width * ((float) Math.random() - 0.5f)*maxDispX;
+        return  new Vector2(dispX, dispY);
+    }
+}
+
+class FadingAnim{
+    public static boolean fade(Paint paint){
+        int alpha = paint.getAlpha() - 10;
+        if (alpha > 0) {
+            paint.setAlpha(alpha);
+            return  true;
+        } else {
+            return false;
+        }
     }
 }

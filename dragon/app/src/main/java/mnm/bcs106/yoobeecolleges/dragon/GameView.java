@@ -23,7 +23,7 @@ import java.util.Collections;
 
 public class GameView extends SurfaceView implements Runnable {
     public static GameView instance;
-    int screenWidth, screenHeight;
+    int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
 
     final static int FPS = 30;
@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //Physics
     public float groundLevel, gravity = 0.3f;
-    int physicsIterations = 3;
+    int physicsIterations = 5;
     Vector2 cameraDisp = Vector2.zero;
 
     //Projectile
@@ -41,7 +41,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //Logic
     boolean isRunning = false;
-    Thread gameThread;
+    Thread gameThread, drawThread;
     //WaveController waveController;//Controls when enemies spawn
     int enemyIndex = 0;//Next enemy in array to spawn
 
@@ -90,30 +90,29 @@ public class GameView extends SurfaceView implements Runnable {
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
+        cameraSize = screenWidth;
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
 
         holder = getHolder();
 
         //Ground gameobject
-        Bitmap groundSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.ground);
+        Bitmap groundSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.cloudy_sky);
         groundSprite = Bitmap.createScaledBitmap(groundSprite,screenWidth,screenHeight,false);
         ground =  new GameObject(groundSprite,0.5f,0.5f);
         ground.setPos(screenCenter);
 
         //Player gameobject
-        Bitmap swordSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.sword_swipe);
-        AreaEffect attack = new AreaEffect(swordSprite,0.5f,0.5f);
-        attack.init(screenWidth/8,screenWidth/8,screenHeight/16,20,1,20);
-
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
-        player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20, attack);
-        player.init(screenWidth/2, screenHeight-100,screenWidth/10, screenWidth/40,1f/2, 100);
-        player.setDetection(screenHeight/10,90);
+        player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
+
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
 
         Game.instance.gameOver = false;
+
+        resume();
+
     }
 
     Vector2 randomPosition(){
@@ -126,11 +125,42 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     //Game loop
     //-----------------------------------------------------------------------------------------------------------
-
+    float totalFrame, numberFrame;
     public void resume() {
         isRunning = true;
         gameThread = new Thread(this);
         gameThread.start();
+
+        drawThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                while(isRunning){
+                    if (!holder.getSurface().isValid()) {
+                        continue;
+                    }
+
+                    long started = System.currentTimeMillis();
+                    draw();
+                    System.out.println( "draw " + (System.currentTimeMillis()-started));
+                    long drawTime = System.currentTimeMillis() - started;
+                    int lag = (int) (fixedDeltaTime - drawTime);
+                    totalFrame += drawTime;
+                    numberFrame++;
+                    System.out.println("average " + totalFrame/numberFrame);
+                    System.out.println( lag);
+                    /*
+                    if (lag > 0) {
+                        try {
+                            //gameThread.sleep(lag);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }*/
+                }
+            }
+        });
+        drawThread.start();
     }
 
     public void pause() {
@@ -148,25 +178,35 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void run() {
         while (isRunning) {
-            if (!holder.getSurface().isValid()) {
-                continue;
-            }
-            long started = System.currentTimeMillis();
 
+            long started = System.currentTimeMillis();
             //Apply physics calculations per frame
             for (int i = 0; i < physicsIterations; i++) {
                 physics();
             }
+            long physicsTime = System.currentTimeMillis();
+            //System.out.println( "physics " + (physicsTime - started));
 
             //Apply ame logic to game objects
-            update();
 
-            //Draw graphics to surface view
-            draw();
+            update();
+            long updateTime = System.currentTimeMillis();
+            //System.out.println( "update " + (updateTime-physicsTime));
+
+
+            //draw();
+            //long drawTime = System.currentTimeMillis() - updateTime;
+            //System.out.println( "draw main " + drawTime);
+            //totalFrame += drawTime;
+            //numberFrame++;
+            //System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
+
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
+
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
@@ -175,6 +215,12 @@ public class GameView extends SurfaceView implements Runnable {
             }
             while (lag < 0) {
                 lag += fixedDeltaTime;
+                //Apply physics calculations per frame
+                for (int i = 0; i < physicsIterations; i++) {
+                    physics();
+                }
+                //Apply game logic to game objects
+                update();
             }
         }
     }
@@ -189,12 +235,24 @@ public class GameView extends SurfaceView implements Runnable {
 
         if (canvas != null) {
             Paint background = new Paint();
-            background.setColor(Color.WHITE);
+            background.setColor(Color.BLACK);
             canvas.drawRect(0,0,screenWidth,screenHeight, background);
             //Draw ground
             ground.draw(canvas);
 
+            player.draw(canvas);
 
+
+            Vector2 dragFrom = Game.instance.dragFrom;
+            Vector2 dragTo = Game.instance.dragTo;
+            Paint movePaint = new Paint();
+            movePaint.setColor(Color.WHITE);
+            movePaint.setAlpha(150);
+            if(dragFrom !=null && dragTo!=null) {
+                movePaint.setStrokeWidth(10);
+                canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, movePaint);
+            }
+            canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,movePaint);
             holder.unlockCanvasAndPost(canvas);
         }
 
@@ -212,41 +270,10 @@ public class GameView extends SurfaceView implements Runnable {
             //Enemy motion
             if (!player.destroyed) {
 
-                player.physics(deltaTime / physicsIterations);
+                player.physics(fixedDeltaTime / physicsIterations);
 
             }
         }
-    }
-
-    public boolean outOfBounds(GameObject g){
-        float r = g.radius;
-        RectF bounds = g.getBounds();
-        Vector2 v = g.getVelocity();
-
-        boolean out = false;
-        /*
-        if(bounds.left < ground.getLeft()){
-            g.setVelocity(g.bounce*Math.abs(v.x), g.friction*v.y);
-            g.position.x = ground.getLeft()+ g.offset.x*g.width + 5;
-            out = true;
-        }
-        else if(bounds.right > ground.getRight()){
-            g.setVelocity(-g.bounce*Math.abs(v.x), g.friction*v.y);
-            g.position.x = ground.getRight()-(1-g.offset.x)*g.width - 5;
-            out = true;
-        }*/
-        if(bounds.top < ground.getTop()){
-            g.setVelocity(g.friction*v.x, g.bounce*Math.abs(v.y));
-            g.position.y = ground.getTop()+ g.offset.y*g.height + 5;
-            out = true;
-        }
-        else if(bounds.bottom > ground.getBottom()){
-            g.setVelocity(g.friction*v.x, -g.bounce*Math.abs(v.y));
-            g.position.y = ground.getBottom() - (1-g.offset.y)*g.height - 5;
-            out = true;
-        }
-        return out;
-
     }
 
 
@@ -264,12 +291,8 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     private void update() {
         if(player.visible){
-
-            player.update(deltaTime);
-
-
+            player.update(fixedDeltaTime);
             //If the tower is destroyed, tell the game controller to show game over alert dialog
-
         }
         else{
             if(!Game.instance.gameOver) {
@@ -277,12 +300,11 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-    //Move to position
-    public void setPlayerMovement(Vector2 moveTo){
-        player.move(moveTo);
-    }
     public void movePlayerBy(Vector2 moveBy){
         player.moveBy(moveBy);
+    }
+    public void breathFire(boolean breathingFire){
+        player.breathingFire = breathingFire;
     }
 }
 
