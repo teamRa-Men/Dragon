@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
 
-    final static int FPS = 30;
+    final static int FPS = 24;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
     float deltaTime = fixedDeltaTime;
 
@@ -149,14 +149,14 @@ public class GameView extends SurfaceView implements Runnable {
                     numberFrame++;
                     //System.out.println("average " + totalFrame/numberFrame);
                     //System.out.println( lag);
-                    /*
+
                     if (lag > 0) {
                         try {
-                            //gameThread.sleep(lag);
+                            gameThread.sleep(lag);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }*/
+                    }
                 }
             }
         });

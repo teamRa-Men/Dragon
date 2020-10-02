@@ -107,4 +107,7 @@ public class Vector2 {
     public static Vector2 reflection(Vector2 v, Vector2 n){
         return v.sub(n.multiply(2*v.dot(n)));
     }
+    public Vector2 inverse(){
+        return new Vector2(y,x);
+    }
 }
