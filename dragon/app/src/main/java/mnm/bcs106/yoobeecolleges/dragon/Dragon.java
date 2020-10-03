@@ -22,7 +22,7 @@ public class Dragon extends Character {
     Head head;
     FireBreath fireBreath;
     int bodyStart = segments.length/7;
-    int bodyEnd = segments.length/4;
+    int bodyEnd = segments.length/3;
     public boolean breathingFire;
     float distanceTravelled = 0;
 
@@ -47,17 +47,17 @@ public class Dragon extends Character {
                 segments[i] = new Segment(this, i, (segments[i-1].radius+radius)/2);
             }
             else{
-                segments[i] = new Segment(this, i, (float) Math.pow((float) (segments.length - i) /(segments.length - bodyEnd)*0.8f+0.1f,1) * radius);
+                segments[i] = new Segment(this, i, (float) Math.pow((float) (segments.length - i) /(segments.length - bodyEnd)*0.85f+0.05f,1) * radius);
             }
-            float c = Math.min((float)(segments.length-i)/segments.length,0.3f)+0.7f;
+            float c = Math.min((float)(segments.length-i)/segments.length,0.4f)+0.6f;
 
             segments[i].paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
                                                                                (int)(Color.green(dragonColor)*c),
                                                                                (int)(Color.blue(dragonColor)*c)),0));
         }
 
-        frontLeg = new Leg(this, segments[bodyEnd+1], true);
-        backLeg = new Leg(this, segments[bodyEnd+1], false);
+        frontLeg = new Leg(this, segments[bodyEnd], true);
+        backLeg = new Leg(this, segments[bodyEnd], false);
         frontArm = new Arm(this, segments[bodyStart-1], true);
         backArm = new Arm(this, segments[bodyStart-1], false);
         frontWing = new Wing(this,segments[bodyStart+2],(int)(radius*6), true);
@@ -149,12 +149,14 @@ public class Dragon extends Character {
             }
             if(i==bodyStart-segments.length/10){
                 frontArm.draw(canvas);
+                frontWing.draw(canvas);
             }
             segments[i].draw(canvas);
         }
-        head.draw(canvas);
-        frontWing.draw(canvas);
         fireBreath.draw(canvas);
+        head.draw(canvas);
+
+
     }
 
     @Override
@@ -274,8 +276,7 @@ class Segment{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.tail);
             sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius), (int) (dragon.radius), false);
             src = new RectF(0, 0, dragon.radius, dragon.radius);
-            int c = 100;
-            paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
+
         }
 
 
@@ -449,11 +450,12 @@ class FireBreath{
     ArrayList<Flame> flames = new ArrayList<Flame>();
     int currentBreath = 0;
     Dragon dragon;
+    float range = 200;
 
     public FireBreath(Dragon dragon){
         this.dragon = dragon;
         for(int i = 0; i < breathSize;i++){
-            flames.add(new Flame(dragon.radius*(1+(float)Math.random())*2, 200));
+            flames.add(new Flame(dragon,  range));
         }
     }
     public void breath(float deltaTime){
@@ -462,7 +464,7 @@ class FireBreath{
         }
 
         Flame f =  flames.get(currentBreath);
-        f.shoot(dragon.position.add(new Vector2(0,dragon.radius/3)), dragon.direction, dragon.speed+0.6f);
+        f.shoot(dragon.segments[0].position, dragon.direction, dragon.speed+range/300);
 
         currentBreath++;
 
@@ -487,17 +489,18 @@ class Flame {
     Vector2 direction;
     Vector2 position;
     float speed;
-    float distanceTravelled;
     float range;
     float size, maxSize;
     boolean active = false;
     Bitmap sprites[] = new Bitmap[6];
     int flameType;
-
-    public Flame(float maxSize, float range){
+    Dragon dragon;
+float distanceTravelled;
+    public Flame(Dragon dragon, float range){
         rect = new RectF(0,0,size,size);
         this.range = range;
-        this.maxSize = maxSize;
+        this.dragon = dragon;
+        maxSize = dragon.radius*(1.25f+(float)Math.random())*2;
         direction = Vector2.zero;
         position = Vector2.zero;
 
@@ -512,11 +515,10 @@ class Flame {
     }
     public void physics(float deltaTime){
         if(active) {
+            distanceTravelled = Vector2.distance(dragon.position, position);
             if (distanceTravelled < range) {
-                float moveDistance = speed * deltaTime;
-                distanceTravelled += moveDistance;
-                position = position.add(direction.multiply(moveDistance));
-                size = (float)Math.pow(distanceTravelled/range,1)*maxSize;
+                position = position.add(direction.multiply(speed * deltaTime));
+                size = (float)Math.min(distanceTravelled/range*3f/2+0.25f,1)*maxSize;
 
             } else {
                 active = false;
@@ -535,8 +537,8 @@ class Flame {
             //}
             float left = position.x - size/2 + GameView.instance.cameraDisp.x;
             float right = left + size;
-            float bottom = position.y+size/2;
-            float top = bottom-size*((float)Math.cos(distanceTravelled/range*Math.PI*6)+9)/10;
+            float bottom = position.y+size/2 + dragon.radius/4;
+            float top = bottom-size*((float)Math.sin(distanceTravelled/range*Math.PI*6)+9)/10;
 
 
             rect = new RectF(left,top, right, bottom);
@@ -545,7 +547,7 @@ class Flame {
     }
     public void shoot(Vector2 position, Vector2 direction, float speed){
         this.speed = speed;
-        this.position = position.add(Vector2.getRandom().multiply(2));
+        this.position = position;
         this.direction = direction;
         active = true;
         distanceTravelled = 0;

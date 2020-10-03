@@ -125,9 +125,7 @@ public class GameObject implements Comparable{
                 }
             }
             if(simulated) {
-                position = new Vector2(position.x + direction.x * speed * deltaTime,
-                        position.y + direction.y * speed * deltaTime);
-
+                position = position.add(direction.multiply(speed * deltaTime));
                 rotation += angularVelocity*deltaTime;
 
             }

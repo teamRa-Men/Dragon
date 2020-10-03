@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
 
-    final static int FPS = 24;
+    final static int FPS = 30;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
     float deltaTime = fixedDeltaTime;
 
