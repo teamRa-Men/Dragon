@@ -35,7 +35,7 @@ public class Dragon extends Character {
         setAttackController(0,100,100);
 
         int cameraSize = GameView.instance.cameraSize;
-        init(GameView.instance.screenWidth/2, GameView.instance.screenHeight-100,cameraSize /30, cameraSize /60,1f/2, 100);
+        init(GameView.instance.screenWidth/2, GameView.instance.screenHeight-100,cameraSize /30, cameraSize /60,1f, 100);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
@@ -453,7 +453,7 @@ class FireBreath{
     public FireBreath(Dragon dragon){
         this.dragon = dragon;
         for(int i = 0; i < breathSize;i++){
-            flames.add(new Flame(dragon.radius*(1+(float)Math.random())*2, 150));
+            flames.add(new Flame(dragon.radius*(1+(float)Math.random())*2, 200));
         }
     }
     public void breath(float deltaTime){
@@ -462,7 +462,7 @@ class FireBreath{
         }
 
         Flame f =  flames.get(currentBreath);
-        f.shoot(dragon.position.add(new Vector2(0,dragon.radius/3)), dragon.direction, dragon.speed+0.4f);
+        f.shoot(dragon.position.add(new Vector2(0,dragon.radius/3)), dragon.direction, dragon.speed+0.6f);
 
         currentBreath++;
 
