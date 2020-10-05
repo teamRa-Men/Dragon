@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
 
-    final static int FPS = 24;
+    final static int FPS = 30;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
     float deltaTime = fixedDeltaTime;
 
@@ -131,36 +131,6 @@ public class GameView extends SurfaceView implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
 
-        drawThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                while(isRunning){
-                    if (!holder.getSurface().isValid()) {
-                        continue;
-                    }
-
-                    long started = System.currentTimeMillis();
-                    draw();
-                    //System.out.println( "draw " + (System.currentTimeMillis()-started));
-                    long drawTime = System.currentTimeMillis() - started;
-                    int lag = (int) (fixedDeltaTime - drawTime);
-                    totalFrame += drawTime;
-                    numberFrame++;
-                    //System.out.println("average " + totalFrame/numberFrame);
-                    //System.out.println( lag);
-
-                    if (lag > 0) {
-                        try {
-                            gameThread.sleep(lag);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-        drawThread.start();
     }
 
     public void pause() {
@@ -194,7 +164,7 @@ public class GameView extends SurfaceView implements Runnable {
             //System.out.println( "update " + (updateTime-physicsTime));
 
 
-            //draw();
+            draw();
             //long drawTime = System.currentTimeMillis() - updateTime;
             //System.out.println( "draw main " + drawTime);
             //totalFrame += drawTime;
@@ -236,7 +206,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (canvas != null) {
             Paint background = new Paint();
             background.setColor(Color.BLACK);
-            canvas.drawRect(0,0,screenWidth,screenHeight, background);
+            canvas.drawRect(0,0,screenWidth*1.2f,screenHeight, background);
             //Draw ground
             ground.draw(canvas);
 
