@@ -9,7 +9,7 @@ public class Scene {
     int height, width;
     float mountainX, hillsX;
 
-    int  groundX1, groundX0, mountainX1, mountainX0, hillsX1, hillsX0;
+    int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
     Dragon player;
 
     GameView gameView;
@@ -32,15 +32,20 @@ public class Scene {
     public void draw(Canvas canvas){
         canvas.drawBitmap(sky, gameView.cameraDisp.x + groundX0-width/4,0,null);
         canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX1-width/4,0,null);
+        canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX2-width/4,0,null);
+
 
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
 
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
+        canvas.drawBitmap(hillsBackground, hillsX+ hillsX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
 
         canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX0-width/4,height-ground.getHeight(),null);
         canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX1-width/4,height-ground.getHeight(),null);
+        canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX2-width/4,height-ground.getHeight(),null);
     }
 
     public void update(float deltaTime){
@@ -48,10 +53,13 @@ public class Scene {
         mountainX += dv*deltaTime/4;
         hillsX += dv*deltaTime/2;
         groundX0 = (int)(-gameView.cameraDisp.x/width)*width;
-        groundX1 = (int)(-gameView.cameraDisp.x/width-Math.signum(gameView.cameraDisp.x))*width;
+        groundX1 = (int)(-gameView.cameraDisp.x/width-1)*width;
+        groundX2 = (int)(-gameView.cameraDisp.x/width +1)*width;
         hillsX0 = (int)(-hillsX/width)*width;
-        hillsX1 = (int)(-hillsX/width-Math.signum(gameView.cameraDisp.x))*width;
+        hillsX1 = (int)(-hillsX/width-1)*width;
+        hillsX2 = (int)(-hillsX/width+1)*width;
         mountainX0 = (int)(-mountainX/width)*width;
-        mountainX1 = (int)(-mountainX/width-Math.signum(gameView.cameraDisp.x))*width;
+        mountainX1 = (int)(-mountainX/width-1)*width;
+        mountainX2 = (int)(-mountainX/width+1)*width;
     }
 }

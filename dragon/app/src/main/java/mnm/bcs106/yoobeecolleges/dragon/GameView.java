@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -44,6 +45,7 @@ public class GameView extends SurfaceView implements Runnable {
     Thread gameThread, drawThread;
     //WaveController waveController;//Controls when enemies spawn
     int enemyIndex = 0;//Next enemy in array to spawn
+    Vector2 moveBy;
 
     //Scene
     Scene scene;
@@ -57,6 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Drawing
     Bitmap wall;
     SurfaceHolder holder;
+
 
     public GameView(Context context) {
         super(context);
@@ -217,16 +220,28 @@ public class GameView extends SurfaceView implements Runnable {
 
             player.draw(canvas);
 
+            //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
             Vector2 dragTo = Game.instance.dragTo;
-            Paint movePaint = new Paint();
-            movePaint.setColor(Color.WHITE);
-            movePaint.setAlpha(150);
+            Paint p = new Paint();
+
+            p.setColor(Color.WHITE);
+            p.setAlpha(100);
             if(dragFrom !=null && dragTo!=null) {
-                movePaint.setStrokeWidth(10);
-                canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, movePaint);
+                p.setStrokeWidth(20);
+                p.setStrokeCap(Paint.Cap.ROUND);
+                canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, p);
             }
-            canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,movePaint);
+
+            canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,p);
+            Bitmap fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.flame5_minimalism);
+            fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
+            p.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
+            if(player.breathingFire){
+                p.setAlpha(255);
+            }
+            canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);
+
             holder.unlockCanvasAndPost(canvas);
         }
 
@@ -274,8 +289,17 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-    public void movePlayerBy(Vector2 moveBy){
-        player.moveBy(moveBy);
+    public void movePlayerBy(Vector2 dv){
+
+        if(dv!=null){
+            this.moveBy = new Vector2(dv.x,dv.y);
+            System.out.println(dv.getLength());
+            player.moveBy(moveBy.multiply(player.maxMoveSpeed));
+
+        }
+        else {
+            player.moveBy(dv);
+        }
     }
     public void breathFire(boolean breathingFire){
         player.breathingFire = breathingFire;

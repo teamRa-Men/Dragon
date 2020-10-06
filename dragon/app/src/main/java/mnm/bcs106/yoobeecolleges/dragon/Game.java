@@ -56,7 +56,7 @@ public class Game extends AppCompatActivity {
     boolean dragging = false;
     boolean breathFire = false;
     Vector2 dragTo, dragFrom;
-    int controlRadius = 40;
+    int controlRadius = 30;
     Vector2 fireButton;
 
     public Context context;
@@ -160,7 +160,7 @@ public class Game extends AppCompatActivity {
         if(!gameOver) {
             //gameView.setPlayerMovement(dragTo);
             if(dragFrom !=null && dragTo!=null) {
-                gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / 200));
+                gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius/2));
             }
             else {
                 gameView.movePlayerBy(null);
@@ -327,6 +327,12 @@ public class Game extends AppCompatActivity {
         }
         if (event.getAction() == MotionEvent.ACTION_MOVE) {
             if (dragging) {
+                Vector2 disp = p.sub(dragFrom);
+
+                if(disp.getLength()>controlRadius*2){
+
+                    p = disp.getNormal().multiply(Math.min(disp.getLength(),controlRadius*2)).add(dragFrom);
+                }
                 dragTo = p;
             }
         }
