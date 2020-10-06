@@ -380,9 +380,9 @@ class Segment{
         }
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
 
-        wave = (float)Math.sin((-time/1000+index/dragon.segments.length)*Math.PI)*dragon.radius*(float)Math.sin((index-dragon.bodyEnd)/dragon.bodyEnd*Math.PI)*2*0.05f;
+        wave = (float)Math.cos((-time/1000+index/dragon.segments.length*2)*Math.PI)*dragon.radius*(float)(index)/dragon.segments.length*0.3f;
         if(dragon.breathingFire){
-            wave+=(Math.random()-0.5f)*radius/8;
+            wave+=(Math.random()-0.5f)*radius/6;
         }
     }
 }
@@ -410,8 +410,8 @@ class Leg{
         else{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2.3f), false);
-        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2.3f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2f), false);
+        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2f);
     }
     public void draw(Canvas canvas){
         float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;
@@ -422,8 +422,8 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*1.1f;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/3;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1500*Math.PI+phase)*dragon.radius*4f/2;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1500*Math.PI+phase)*dragon.radius,0.2f);
         }
         float right = left + src.width();
         float bottom = top + src.height();
@@ -462,8 +462,8 @@ class Arm{
         else{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.arm_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2.3f), false);
-        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2.3f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2f), false);
+        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2f);
     }
     public void draw(Canvas canvas){
 
@@ -474,8 +474,8 @@ class Arm{
             if(front){
                 phase = (float)Math.PI;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/3;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1500*Math.PI+phase)*dragon.radius*3f/2;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1500*Math.PI+phase)*dragon.radius,0.2f);
         }
         float right = left + src.width();
         float bottom = top + src.height();
