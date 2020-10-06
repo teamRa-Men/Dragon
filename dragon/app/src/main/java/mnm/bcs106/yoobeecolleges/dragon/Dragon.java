@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -24,7 +25,7 @@ public class Dragon extends Character {
     int bodyStart = segments.length/7;
     int bodyEnd = segments.length/3-1;
     public boolean breathingFire;
-    float distanceTravelled = 0;
+    float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/2;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -32,10 +33,13 @@ public class Dragon extends Character {
         this.height = height;
         friction = 0.99f;
         facing = true;
+        upperBound = GameView.instance.screenHeight/5;
+        groundLevel = GameView.instance.groundLevel;
+
         setAttackController(0,100,100);
 
         int cameraSize = GameView.instance.cameraSize;
-        init(GameView.instance.screenWidth/2, GameView.instance.screenHeight-100,cameraSize /30, cameraSize /60,3f/4, 100);
+        init(GameView.instance.screenWidth/2, GameView.instance.screenHeight/2,cameraSize /30, cameraSize /60,3f/4, 100);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
@@ -49,7 +53,7 @@ public class Dragon extends Character {
             else{
                 segments[i] = new Segment(this, i, (segments[i-1].radius+(float) Math.pow((float) (segments.length - i) /(segments.length - bodyEnd)*0.6f+0.05f,1) * radius)/2);
             }
-            float c = Math.min((float)(segments.length-i)/segments.length,0.4f)+0.6f;
+            float c = Math.min((float)(segments.length-i)/segments.length*3/2,0.1f)+0.9f;
 
             segments[i].paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
                                                                                (int)(Color.green(dragonColor)*c),
@@ -114,13 +118,38 @@ public class Dragon extends Character {
 
                 if(!breathingFire) {
                     setDir(moveBy.add(direction.multiply(0.3f)));
-                    speed = (speed+Math.min(magnitude,maxMoveSpeed))/2;
+
+                    if(position.y > groundLevel-radius*2){
+                        speed = (speed + Math.min(magnitude, maxMoveSpeed*walkSpeed))/2;
+                        backWing.walking=true;
+                        frontWing.walking=true;
+                        backArm.walking=true;
+                        frontArm.walking=true;
+                        backLeg.walking=true;
+                        frontLeg.walking=true;
+                    }
+                    else {
+                        speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
+                        if(position.y > GameView.instance.screenHeight*3f/4){
+                            direction.y = Math.min(direction.y,0.1f);
+                            direction.x = Math.signum(direction.x)*Math.max(direction.x,0.5f);
+
+                        }
+                        backWing.walking=false;
+                        frontWing.walking=false;
+                        backArm.walking=false;
+                        frontArm.walking=false;
+                        backLeg.walking=false;
+                        frontLeg.walking=false;
+                    }
+
                 }
                 else {
                     float dirDff= Vector2.distance(direction,moveBy.getNormal())*4+1;
                     setDir(moveBy.multiply(1f/10).add(direction));
                     speed = (speed+Math.min(magnitude,maxMoveSpeed))/dirDff/3;
                 }
+
                 friction = 1;
             }
         }
@@ -130,6 +159,17 @@ public class Dragon extends Character {
 
     @Override
     public void physics(float deltaTime) {
+        if(position.y < upperBound){
+            direction.y = 0;
+            position.y = upperBound;
+        }
+        if(position.y > groundLevel-radius*3f/2){
+            direction.y = 0;
+            position.y = groundLevel-radius*3f/2;
+        }
+
+
+
         if(!destroyed)
             super.physics(deltaTime);
         speed*=friction;
@@ -199,7 +239,7 @@ class Head{
     float open;
     public float radius, time;
     Dragon dragon;
-    Bitmap spriteTop, spriteLower;
+    Bitmap spriteTop, spriteLower, spriteEye;
     RectF src;
     Paint paint = new Paint();
     public float wave;
@@ -208,10 +248,13 @@ class Head{
         this.radius = radius;
         this.dragon = dragon;
         position = dragon.position;
-        spriteTop = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_top);
+        spriteTop = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_top_minimalism);
         spriteTop = Bitmap.createScaledBitmap(spriteTop, (int) (radius * 2), (int) (radius * 2), false);
-        spriteLower = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_lower);
+        spriteLower = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_lower_minimalism);
         spriteLower = Bitmap.createScaledBitmap(spriteLower, (int) (radius * 2), (int) (radius * 2), false);
+        spriteEye = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.dragon_eye);
+        spriteEye = Bitmap.createScaledBitmap(spriteEye, (int) (radius * 2), (int) (radius * 2), false);
+
         src = new RectF(0, 0, radius * 2, radius * 2);
     }
     public void draw(Canvas canvas){
@@ -220,6 +263,8 @@ class Head{
         float top = position.y - src.height()*0.4f+wave*direction.x;;
         float right = left + src.width();
         float bottom = top + src.height();
+
+
 
         Matrix matrix = new Matrix();
         RectF dst = new RectF(left, top, right, bottom);
@@ -233,6 +278,7 @@ class Head{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
         canvas.drawBitmap(spriteTop, matrix,paint);
+        canvas.drawBitmap(spriteEye, matrix,null);
 
     }
     public void update(float deltaTime){
@@ -262,8 +308,8 @@ class Segment{
     double rotation;
     public float radius, time;
     Dragon dragon;
-    Bitmap sprite;
-    RectF src;
+    Bitmap sprite,tailSprite;
+    RectF src,tailSrc;
     Paint paint = new Paint();
     float index;
     public float wave;
@@ -273,26 +319,21 @@ class Segment{
         this.dragon = dragon;
         this.index = index;
         position = dragon.position;
-        if(index < dragon.segments.length-1) {
+        if(index < dragon.segments.length) {
             if (index % 2 == 0){
-               sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment);
+               sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment_minimalism);
             }
             else{
-                sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment_spiked);
+                sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment_spiked_minimalism);
             }
             sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), false);
             src = new RectF(0, 0, radius * 2, radius * 2);
-
-
-
-
         }
-        else{
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.tail);
-            sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius), (int) (dragon.radius), false);
-            src = new RectF(0, 0, dragon.radius, dragon.radius);
 
-        }
+            tailSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.tail_minimalism);
+            tailSprite = Bitmap.createScaledBitmap(tailSprite, (int) (dragon.radius), (int) (dragon.radius), false);
+            tailSrc = new RectF(0, 0, dragon.radius, dragon.radius);
+
 
 
     }
@@ -309,6 +350,20 @@ class Segment{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation, dst.centerX(),dst.centerY());
         canvas.drawBitmap(sprite, matrix,paint);
+
+        if(index==dragon.segments.length-1) {
+            left = position.x - tailSrc.width() / 2 + GameView.instance.cameraDisp.x + wave * direction.y;
+            top = position.y - tailSrc.height() / 4 + wave * direction.x;
+            right = left + tailSrc.width();
+            bottom = top + tailSrc.height();
+
+            matrix = new Matrix();
+            dst = new RectF(left, top, right, bottom);
+            matrix.setRectToRect(tailSrc, dst, Matrix.ScaleToFit.FILL);
+            matrix.postScale(1, Math.signum(direction.x), dst.centerX(), dst.centerY());
+            matrix.postRotate((float) rotation, dst.centerX(), dst.centerY());
+            canvas.drawBitmap(tailSprite, matrix, paint);
+        }
     }
     public void update(float deltaTime, Vector2 target){
         this.target = target;
@@ -341,27 +396,37 @@ class Leg{
     RectF src;
     Paint paint = new Paint();
     Segment segment;
+    boolean front,walking;
 
     public Leg(Dragon dragon, Segment segment, boolean front){
         this.dragon = dragon;
         this.segment = segment;
+        this.front = front;
         position = dragon.position;
 
         if(!front){
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_leg);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_leg_minimalism);
         }
         else{
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_minimalism);
         }
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2.3f), false);
         src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2.3f);
     }
     public void draw(Canvas canvas){
-        float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x+segment.wave*segment.direction.y;
-        float top = segment.position.y+segment.wave*segment.direction.x;
+        float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;
+        float top = segment.position.y;
+
+        if(walking){
+            float phase = (float)Math.PI/4;
+            if(!front){
+                phase = (float)Math.PI+(float)Math.PI/4;
+            }
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/3;
+        }
         float right = left + src.width();
         float bottom = top + src.height();
-
         Matrix matrix = new Matrix();
         RectF dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
@@ -381,25 +446,37 @@ class Arm{
     RectF src;
     Paint paint = new Paint();
     Segment segment;
+    public boolean walking;
+    boolean front;
 
     public Arm(Dragon dragon, Segment segment, boolean front){
         this.dragon = dragon;
         this.segment = segment;
+        this.front = front;
         position = dragon.position;
 
 
         if(!front){
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_arm);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_arm_minimalism);
         }
         else{
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.arm);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.arm_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.5f  ), (int) (dragon.radius * 2.5f), false);
-        src = new RectF(0, 0, dragon.radius*2.5f , dragon.radius * 2.5f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2.3f), false);
+        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2.3f);
     }
     public void draw(Canvas canvas){
-        float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x+segment.wave*segment.direction.y;
-        float top = segment.position.y+segment.wave*segment.direction.x;
+
+        float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;
+        float top = segment.position.y;
+        if(walking){
+            float phase = 0;
+            if(front){
+                phase = (float)Math.PI;
+            }
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/3;
+        }
         float right = left + src.width();
         float bottom = top + src.height();
 
@@ -420,20 +497,21 @@ class Wing{
     Bitmap sprite;
     RectF src;
     RectF dst;
-    float time, flap;
+    float time, flap,scaleX;
     boolean front;
     Paint paint = new Paint();
     Dragon dragon;
+    public boolean walking;
 
     public Wing(Dragon dragon, Segment segment, int size, boolean front){
         this.segment = segment;
         this.front = front;
         this.dragon = dragon;
         if(front) {
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.wing);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.wing_minimalism);
         }
         else {
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_wing);
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.back_wing_minimalism);
         }
         sprite = Bitmap.createScaledBitmap(sprite, size/2, size,false);
         src = new RectF(0, 0, sprite.getWidth(),sprite.getHeight());
@@ -442,8 +520,8 @@ class Wing{
     }
     public void draw(Canvas canvas){
 
-        float left = GameView.instance.cameraDisp.x+position.x - +sprite.getWidth()/2+segment.radius*0.3f*segment.direction.y*Math.signum(segment.direction.x)+segment.wave*segment.direction.y;
-        float right = left+sprite.getWidth();
+        float left = GameView.instance.cameraDisp.x+position.x - sprite.getWidth()*(scaleX/2)+segment.radius*0.3f*segment.direction.y*Math.signum(segment.direction.x)+segment.wave*segment.direction.y;
+        float right = left+sprite.getWidth()*scaleX;
         float top = position.y-sprite.getHeight()+segment.wave*segment.direction.x;
         float bottom = position.y+segment.radius/8+segment.wave*segment.direction.x;
 
@@ -458,10 +536,21 @@ class Wing{
     }
     public void update(float deltaTime){
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
-        position = segment.position;
+        position = new Vector2(segment.position.x,segment.position.y);
         //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
-        flap = (float)Math.sin(time/1000*Math.PI);
-        rotation = segment.rotation;
+        if(walking){
+            flap = (Math.signum(segment.direction.x)*1f/4+flap)/2;
+            rotation = segment.rotation+Math.signum(segment.direction.x)*10;
+            scaleX=(1.5f+scaleX)/2;
+            position.x -= Math.signum(segment.direction.x)*sprite.getWidth()*0.6f;
+        }
+        else {
+            flap = ((float) Math.sin(time / 1000 * Math.PI)+flap)/2;
+            rotation = segment.rotation;
+            scaleX=(1+scaleX)/2;
+
+        }
+
     }
 }
 
@@ -485,7 +574,7 @@ class FireBreath{
         }
         if(timeSinceShoot > shootTime) {
             Flame f = flames.get(currentBreath);
-            f.shoot(dragon.position, dragon.direction, dragon.speed + range / 350);
+            f.shoot(dragon.segments[0].position, dragon.direction, dragon.speed + range / 350);
             timeSinceShoot = 0;
             currentBreath++;
         }
@@ -526,12 +615,12 @@ float distanceTravelled;
         direction = Vector2.zero;
         position = Vector2.zero;
 
-        sprites[0] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame);
-        sprites[1] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame1);
-        sprites[2] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame2);
-        sprites[3] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame3);
-        sprites[4] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame4);
-        sprites[5] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame5);
+        sprites[0] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame_minimalism);
+        sprites[1] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame1_minimalism);
+        sprites[2] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame2_minimalism);
+        sprites[3] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame3_minimalism);
+        sprites[4] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame4_minimalism);
+        sprites[5] = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame5_minimalism);
 
         src = new RectF(0,0,sprites[0].getWidth(), sprites[0].getHeight());
     }
@@ -540,7 +629,7 @@ float distanceTravelled;
             distanceTravelled = Vector2.distance(dragon.position, position);
             if (distanceTravelled < range) {
                 position = position.add(direction.multiply(speed * deltaTime));
-                size = (float)Math.min(distanceTravelled/range*3f/4+1f/4,1)*maxSize;
+                size = Math.min(distanceTravelled/range*3f/4+0.23f,1)*maxSize;
 
             } else {
                 active = false;
@@ -553,15 +642,16 @@ float distanceTravelled;
     public void draw(Canvas canvas){
         if(active) {
             Paint paint = new Paint();
+            paint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
             //paint.setAlpha(150+(int)(Math.random()*100));
             //if(distanceTravelled > 5*range/6) {
                 //paint.setAlpha((int) ((range - distanceTravelled) / (range/6) * 255));
             //}
-            float width = (float)Math.cos(4*(distanceTravelled/range)*Math.PI*2)/8+1;
+            float width = 1;//(float)Math.cos(4*(distanceTravelled/range)*Math.PI*2)/8+1;
             float left = position.x - size/2*width + GameView.instance.cameraDisp.x;
             float right = left + size*width;//*(((float)Math.sin(distanceTravelled/range*Math.PI*4+maxSize*Math.PI)+7)/8);//+Math.abs(direction.y)/2);;
-            float bottom = position.y+size/2*3/2 + dragon.radius/4;
-            float top = bottom-size*3/2+ dragon.radius/4;
+            float bottom = position.y+size/2*3/2 + dragon.radius/8;
+            float top = bottom-size*3/2+ dragon.radius/8;
 
 
             dst = new RectF(left,top, right, bottom);

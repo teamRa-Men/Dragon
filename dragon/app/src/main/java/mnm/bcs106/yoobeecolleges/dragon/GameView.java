@@ -31,7 +31,7 @@ public class GameView extends SurfaceView implements Runnable {
     float deltaTime = fixedDeltaTime;
 
     //Physics
-    public float groundLevel, gravity = 0.3f;
+    public float groundLevel, upperBound, gravity = 0.3f;
     int physicsIterations = 5;
     Vector2 cameraDisp = Vector2.zero;
 
@@ -44,6 +44,9 @@ public class GameView extends SurfaceView implements Runnable {
     Thread gameThread, drawThread;
     //WaveController waveController;//Controls when enemies spawn
     int enemyIndex = 0;//Next enemy in array to spawn
+
+    //Scene
+    Scene scene;
 
     //Game objects
     int maxEnemyCount = 3;
@@ -95,11 +98,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         holder = getHolder();
 
-        //Ground gameobject
-        Bitmap groundSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.cloudy_sky);
-        groundSprite = Bitmap.createScaledBitmap(groundSprite,screenWidth,screenHeight,false);
-        ground =  new GameObject(groundSprite,0.5f,0.5f);
-        ground.setPos(screenCenter);
+        groundLevel = screenHeight*9/10;
+
+
 
         //Player gameobject
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
@@ -108,6 +109,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
+
+        //Init scene
+        scene = new Scene();
 
         Game.instance.gameOver = false;
 
@@ -208,10 +212,10 @@ public class GameView extends SurfaceView implements Runnable {
             background.setColor(Color.BLACK);
             canvas.drawRect(0,0,screenWidth*1.2f,screenHeight, background);
             //Draw ground
-            ground.draw(canvas);
+            //ground.draw(canvas);
+            scene.draw(canvas);
 
             player.draw(canvas);
-
 
             Vector2 dragFrom = Game.instance.dragFrom;
             Vector2 dragTo = Game.instance.dragTo;
@@ -262,7 +266,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         if(player.visible){
             player.update(fixedDeltaTime);
-
+            scene.update(fixedDeltaTime);
         }
         else{
             if(!Game.instance.gameOver) {
