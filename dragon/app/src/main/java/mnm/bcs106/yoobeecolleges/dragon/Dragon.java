@@ -116,8 +116,9 @@ public class Dragon extends Character {
             float magnitude = moveBy.getLength();
             if(magnitude > 0.01){
 
-                if(!breathingFire) {
-                    setDir(moveBy.add(direction.multiply(0.3f)));
+                    if(!breathingFire) {
+                        setDir(moveBy.add(direction.multiply(0.3f)));
+                    }
 
                     if(position.y > groundLevel-radius*2){
                         speed = (speed + Math.min(magnitude, maxMoveSpeed*walkSpeed))/2;
@@ -132,7 +133,7 @@ public class Dragon extends Character {
                         speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
                         if(position.y > GameView.instance.screenHeight*3f/4){
                             direction.y = Math.min(direction.y,0.1f);
-                            direction.x = Math.signum(direction.x)*Math.max(direction.x,0.5f);
+                            direction.x = Math.signum(direction.x)*Math.max(direction.x,0.8f);
 
                         }
                         backWing.walking=false;
@@ -143,10 +144,9 @@ public class Dragon extends Character {
                         frontLeg.walking=false;
                     }
 
-                }
-                else {
+                if(breathingFire) {
                     float dirDff= Vector2.distance(direction,moveBy.getNormal())*4+1;
-                    setDir(moveBy.multiply(1f/10).add(direction));
+                    setDir(moveBy.multiply(1f/20).add(direction));
                     speed = (speed+Math.min(magnitude,maxMoveSpeed))/dirDff/3;
                 }
 
@@ -422,7 +422,7 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*1.1f;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/3;
         }
         float right = left + src.width();
@@ -666,7 +666,7 @@ float distanceTravelled;
     public void shoot(Vector2 position, Vector2 direction, float speed){
         this.speed = speed;
         this.position = position;
-        this.direction = direction.add(Vector2.down.multiply(0.25f*Math.abs(direction.x)));
+        this.direction = direction.add(Vector2.down.multiply(0.1f*Math.abs(direction.x)));
         active = true;
         distanceTravelled = 0;
         size = 0;

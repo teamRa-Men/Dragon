@@ -127,7 +127,7 @@ public class Game extends AppCompatActivity {
         healthBar.setProgress(100);
 
         controlRadius = screenWidth/20;
-        fireButton = new Vector2(screenWidth,screenHeight*2/10);
+        fireButton = new Vector2(screenWidth*9/10,screenHeight*2/10);
 
         //Load high score
         SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
