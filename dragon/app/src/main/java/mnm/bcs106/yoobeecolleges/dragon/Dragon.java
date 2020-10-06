@@ -120,8 +120,9 @@ public class Dragon extends Character {
                         setDir(moveBy.add(direction.multiply(0.3f)));
                     }
 
-                    if(position.y > groundLevel-radius*2){
+                    if(position.y >= groundLevel-radius*3/2){
                         speed = (speed + Math.min(magnitude, maxMoveSpeed*walkSpeed))/2;
+
                         backWing.walking=true;
                         frontWing.walking=true;
                         backArm.walking=true;
