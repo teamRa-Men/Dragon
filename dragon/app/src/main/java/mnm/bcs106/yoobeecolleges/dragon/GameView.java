@@ -26,6 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
     public static GameView instance;
     int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
+    float zoom;
 
     final static int FPS = 30;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
@@ -293,7 +294,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         if(dv!=null){
             this.moveBy = new Vector2(dv.x,dv.y);
-            System.out.println(dv.getLength());
             player.moveBy(moveBy.multiply(player.maxMoveSpeed));
 
         }
