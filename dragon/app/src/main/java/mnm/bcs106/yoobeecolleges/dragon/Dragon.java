@@ -86,8 +86,8 @@ public class Dragon extends Character {
         backLeg = new Leg(this, segments.get(bodyEnd+1), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/8), true);
-        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/8), false);
+        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/9), true);
+        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/9), false);
         head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
