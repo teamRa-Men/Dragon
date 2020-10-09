@@ -27,6 +27,7 @@ public class Vector2 {
     public Vector2 getPerp(){
         return new Vector2(-y,x);
     }
+
     public float toDegrees(){
         return (float)Math.toDegrees(Math.atan2(y,x));
     }

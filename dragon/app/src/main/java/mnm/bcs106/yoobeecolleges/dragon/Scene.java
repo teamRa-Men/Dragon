@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 public class Scene {
     Bitmap sky, ground,mountainBackground, hillsBackground, sea;
     int height, width;
-    float mountainX, hillsX;
+    float mountainX, hillsX, groundX;
 
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
     Dragon player;
@@ -16,12 +16,12 @@ public class Scene {
     public Scene(){
         gameView = GameView.instance;
         player = gameView.player;
-        width = gameView.screenWidth*2;
-        height = gameView.screenHeight;
+        width = gameView.cameraSize*2;
+        height = gameView.cameraSize/2;
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
-        sky = Bitmap.createScaledBitmap(sky, width,height,false);
+        sky = Bitmap.createScaledBitmap(sky, width,GameView.instance.screenHeight,false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height - (int)gameView.groundLevel)*1.1f),false);
+        ground = Bitmap.createScaledBitmap(ground, width,(int)((GameView.instance.screenHeight - (int)gameView.groundLevel)*1.1f),false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
         mountainBackground = Bitmap.createScaledBitmap(mountainBackground, width,(int)(height/5),false);
         hillsBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.hills_background);
@@ -43,19 +43,21 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
 
-        canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX0-width/4,height-ground.getHeight(),null);
-        canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX1-width/4,height-ground.getHeight(),null);
-        canvas.drawBitmap(ground, gameView.cameraDisp.x+ groundX2-width/4,height-ground.getHeight(),null);
+        canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.screenHeight-ground.getHeight(),null);
+        canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.screenHeight-ground.getHeight(),null);
+        canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.screenHeight-ground.getHeight(),null);
     }
 
     public void update(float deltaTime){
-        float dv = -player.speed*Math.signum(player.direction.x);
-        mountainX += dv*deltaTime/4;
-        hillsX += dv*deltaTime/2;
-        groundX0 = (int)(-gameView.cameraDisp.x/width)*width;
-        groundX1 = (int)(-gameView.cameraDisp.x/width-1)*width;
-        groundX2 = (int)(-gameView.cameraDisp.x/width +1)*width;
-        hillsX0 = (int)(-hillsX/width)*width;
+        mountainX = gameView.cameraDisp.x/4;
+        hillsX = gameView.cameraDisp.x/2;
+        groundX = gameView.cameraDisp.x;
+
+
+        groundX0 = (int)(-groundX/width)*width;
+        groundX1 = (int)(-groundX/width-1)*width;
+        groundX2 = (int)(-groundX/width +1)*width;
+        hillsX0 = (int)(-(hillsX/width)*width);
         hillsX1 = (int)(-hillsX/width-1)*width;
         hillsX2 = (int)(-hillsX/width+1)*width;
         mountainX0 = (int)(-mountainX/width)*width;

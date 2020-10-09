@@ -340,4 +340,20 @@ public class Game extends AppCompatActivity {
         return super.onTouchEvent(event);
 
     }
+
+    public void onGrow(View view){
+        gameView.pause();
+        int size = gameView.player.size+5;
+        if(size <70)
+            gameView.player.initBody(size);
+        gameView.resume();
+    }
+
+    public void onShrink(View view){
+        gameView.pause();
+        int size = gameView.player.size-5;
+        if(size > 25)
+            gameView.player.initBody(size);
+        gameView.resume();
+    }
 }
