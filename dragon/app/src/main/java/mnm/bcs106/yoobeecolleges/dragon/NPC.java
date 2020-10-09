@@ -14,9 +14,11 @@ public class NPC {
     public int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
     public Rect npcRect;
     public float npcSpeed;
-    public  Boolean alive = true;
-    public  Point movement;
+    public Boolean alive = true;
+    public Point movement;
     public Point target = new Point();
+    public float npcFleeSpeed;
+    public boolean flee = false;
     public NPC (Bitmap bitmap, int x, int y, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
         npcX = x;
@@ -24,6 +26,7 @@ public class NPC {
         npcMaxHP = maxHP;
         npcHp = maxHP;
         npcSpeed = speed;
+        npcFleeSpeed = npcSpeed*4;
         npcWidth = width;
         npcHeight = height;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
@@ -42,7 +45,9 @@ public class NPC {
     public  boolean there = false;
     public void moveToTarget(float deltaTime){
         if (Math.abs(target.x-npcX) > 0.1){
-            npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
+            if (!flee){
+                npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
+            } else npcX+=Math.signum(target.x-npcX)*npcFleeSpeed*deltaTime;
         }
     }
     public void update(float deltaTime){
