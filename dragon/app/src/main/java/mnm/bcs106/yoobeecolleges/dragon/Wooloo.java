@@ -6,6 +6,7 @@ import android.graphics.Point;
 public class Wooloo extends NPC{
 
     int boundry;
+    int countdown;
     Point creationPoint = new Point();
 
     public Wooloo(Bitmap bitmap, int x, int y, float speed, int maxHP, int width, int height, int SBoundry) {
@@ -24,7 +25,11 @@ public class Wooloo extends NPC{
     public void update(float deltaTime) {
         super.update(deltaTime);
         if (npcX == target.x){
-            target.x = (int) (creationPoint.x+(Math.random()-0.5)*boundry);
+            countdown+=deltaTime;
+            if (countdown >= Math.random()*1000+1000){
+                target.x = (int) (creationPoint.x+(Math.random()-0.5)*boundry);
+                countdown = 0;
+            }
         }
     }
 }

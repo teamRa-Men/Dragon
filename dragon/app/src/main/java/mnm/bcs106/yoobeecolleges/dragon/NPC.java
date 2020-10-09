@@ -40,15 +40,6 @@ public class NPC {
         }
     }
     public  boolean there = false;
-    public void  move(int moveToX){
-        if(!there){
-            npcX+=npcSpeed;
-            if (npcX >= moveToX) there = true;
-        }else if (there){
-
-        }
-        npcRect.offsetTo(npcX,npcY);
-    }
     public void moveToTarget(float deltaTime){
         if (Math.abs(target.x-npcX) > 0.1){
             npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
