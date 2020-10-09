@@ -57,6 +57,6 @@ public class NPC {
     public void update(float deltaTime){
         moveToTarget(deltaTime);
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
-        npcRect.offsetTo(npcX,npcY);
+        npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
     }
 }
