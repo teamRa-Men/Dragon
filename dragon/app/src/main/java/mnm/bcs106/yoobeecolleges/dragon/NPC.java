@@ -10,13 +10,14 @@ import java.util.Timer;
 import java.util.Vector;
 
 public class NPC {
-    Bitmap npcBitmap;
-    int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
-    Rect npcRect;
-    int npcSpeed;
-    Boolean alive = true;
-    Point movement;
-    public NPC (Bitmap bitmap, int x, int y, int speed, int maxHP, int width,int height) {
+    public Bitmap npcBitmap;
+    public int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
+    public Rect npcRect;
+    public float npcSpeed;
+    public  Boolean alive = true;
+    public  Point movement;
+    public Point target = new Point();
+    public NPC (Bitmap bitmap, int x, int y, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
         npcX = x;
         npcY = y;
@@ -38,7 +39,7 @@ public class NPC {
             canvas.drawBitmap(npcBitmap,null,npcRect,null);
         }
     }
-    boolean there = false;
+    public  boolean there = false;
     public void  move(int moveToX){
         if(!there){
             npcX+=npcSpeed;
@@ -48,7 +49,14 @@ public class NPC {
         }
         npcRect.offsetTo(npcX,npcY);
     }
+    public void moveToTarget(float deltaTime){
+        if (Math.abs(target.x-npcX) > 0.1){
+            npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
+        }
+    }
     public void update(float deltaTime){
-
+        moveToTarget(deltaTime);
+        npcY = (int) GameView.instance.groundLevel-npcRect.height();
+        npcRect.offsetTo(npcX,npcY);
     }
 }
