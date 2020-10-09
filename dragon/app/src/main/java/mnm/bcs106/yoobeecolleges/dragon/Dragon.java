@@ -160,8 +160,12 @@ public class Dragon extends Character {
                     frontWing.walking = true;
                     backArm.walking = true;
                     frontArm.walking = true;
-                    backLeg.walking = true;
-                    frontLeg.walking = true;
+
+                    if(backLeg.segment.position.y >= groundLevel-radius*1.7f) {
+                        backLeg.walking = true;
+                        frontLeg.walking = true;
+                    }
+
                     setDir(moveBy.add(direction.multiply(0.3f)));
                     if(Math.abs(direction.x) > 0.3f) {
                         setDir(moveBy.multiply(1f / 15).add(direction));
@@ -492,7 +496,7 @@ class Leg{
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
         matrix.postRotate( Math.signum(segment.direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
-        if(dragon.flying) {
+        if(!walking) {
             canvas.drawBitmap(spriteFlying, matrix, paint);
         }
         else{
