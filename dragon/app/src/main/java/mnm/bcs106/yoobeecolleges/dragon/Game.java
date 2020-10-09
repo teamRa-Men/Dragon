@@ -344,7 +344,7 @@ public class Game extends AppCompatActivity {
     public void onGrow(View view){
         gameView.pause();
         int size = gameView.player.size+5;
-        if(size <70)
+        if(size <60)
             gameView.player.initBody(size);
         gameView.resume();
     }

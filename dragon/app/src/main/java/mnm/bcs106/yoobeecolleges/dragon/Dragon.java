@@ -46,7 +46,7 @@ public class Dragon extends Character {
         setAttackController(0,100,100);
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel-3f/2*radius);
 
-        initBody(65);
+        initBody(55);
 
     }
 
@@ -55,7 +55,7 @@ public class Dragon extends Character {
 
         this.size = size;
         int cameraSize = GameView.instance.cameraSize;
-        radius = (float)cameraSize*size/1800/2;
+        radius = (float)cameraSize*size/1800/(1.5f);
 
         bodyStart = size/7;
         bodyEnd = size/3-1;
@@ -86,8 +86,8 @@ public class Dragon extends Character {
         backLeg = new Leg(this, segments.get(bodyEnd+1), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/5), true);
-        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/5), false);
+        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/6), true);
+        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/6), false);
         head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
