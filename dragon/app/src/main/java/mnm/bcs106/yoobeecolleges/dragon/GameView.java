@@ -106,10 +106,11 @@ public class GameView extends SurfaceView implements Runnable {
         groundLevel = screenHeight*9/10;
 
         //Player gameobject
-        Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.circle);
+        Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
-        npc = new Wooloo(playerSprite,0+playerSprite.getWidth(),100,0.1f,100,playerSprite.getWidth()/3,playerSprite.getHeight()/3, 500);
+        Bitmap woolooSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.wooloo);
+        npc = new Wooloo(woolooSprite,0+playerSprite.getWidth(),100,0.1f,100,playerSprite.getWidth()/3,playerSprite.getHeight()/3, 500);
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
