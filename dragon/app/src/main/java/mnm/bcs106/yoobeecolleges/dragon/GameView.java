@@ -214,15 +214,16 @@ public class GameView extends SurfaceView implements Runnable {
 
         if (canvas != null) {
 
-            Paint background = new Paint();
-            background.setColor(Game.instance.getResources().getColor(R.color.colorDragon));
-            canvas.drawRect(0,0,screenWidth*1.2f,screenHeight, background);
+
             //Draw ground
             //ground.draw(canvas);
-            scene.draw(canvas);
+            scene.drawBackground(canvas);
 
             player.draw(canvas);
             npc.draw(canvas);
+
+            scene.drawForeground(canvas);
+
             //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
             Vector2 dragTo = Game.instance.dragTo;
