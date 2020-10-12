@@ -16,8 +16,8 @@ public class Scene {
     public Scene(){
         gameView = GameView.instance;
         player = gameView.player;
-        width = gameView.cameraSize*2;
-        height = gameView.cameraSize/2;
+        width = gameView.screenWidth*2;
+        height = gameView.cameraSize;
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
         sky = Bitmap.createScaledBitmap(sky, width,GameView.instance.screenHeight,false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
@@ -57,7 +57,7 @@ public class Scene {
         groundX0 = (int)(-groundX/width)*width;
         groundX1 = (int)(-groundX/width-1)*width;
         groundX2 = (int)(-groundX/width +1)*width;
-        hillsX0 = (int)(-(hillsX/width)*width);
+        hillsX0 = (int)(-hillsX/width)*width;
         hillsX1 = (int)(-hillsX/width-1)*width;
         hillsX2 = (int)(-hillsX/width+1)*width;
         mountainX0 = (int)(-mountainX/width)*width;

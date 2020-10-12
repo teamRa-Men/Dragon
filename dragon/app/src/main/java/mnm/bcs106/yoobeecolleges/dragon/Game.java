@@ -104,6 +104,7 @@ public class Game extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+
         if (hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -113,6 +114,8 @@ public class Game extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+
+
     }
 
 
@@ -220,7 +223,7 @@ public class Game extends AppCompatActivity {
         showGameOver.findViewById(R.id.mainMenu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                returnToMenu();
+
             }
         });
 
@@ -259,29 +262,6 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // On click methods
 
-    void returnToMenu() {
-        handler.removeCallbacks(runnable);
-        gameView.removeCallbacks(gameView.gameThread);
-        Intent i = new Intent(this, GameMenu.class);
-        startActivity(i);
-    }
-
-    public void returnToMenu(View view) {
-        returnToMenu();
-    }
-
-    public void onMusicButton(View view){
-        if(Music.isPlaying) {
-            //Toggle music off
-            musicButton.setBackground(getResources().getDrawable(R.drawable.sound_off));
-            Music.stopMusic();
-        }
-        else{
-            //Toggle music on
-            musicButton.setBackground(getResources().getDrawable(R.drawable.sound_on));
-            Music.playMusic();
-        }
-    }
 
 
 
@@ -344,7 +324,7 @@ public class Game extends AppCompatActivity {
     public void onGrow(View view){
         gameView.pause();
         int size = gameView.player.size+5;
-        if(size <60)
+        if(size <50)
             gameView.player.initBody(size);
         gameView.resume();
     }

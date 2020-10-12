@@ -55,10 +55,10 @@ public class Dragon extends Character {
 
         this.size = size;
         int cameraSize = GameView.instance.cameraSize;
-        radius = (float)cameraSize*size/1800;
+        radius = (float)cameraSize*size/2500;
 
-        bodyStart = size/7;
-        bodyEnd = size/3-1;
+        bodyStart = size/8;
+        bodyEnd = size/4;
 
 
         init(position.x, position.y,radius*2, radius,3f/4, 100);
@@ -67,13 +67,13 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.3f+0.4f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.3f+0.35f,1) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
             }
             else{
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f+0.05f,1) * radius)/2));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.8f,1.5f) * radius)/2+1));
             }
             float c = Math.min((float)(size-i)/size*10,0.2f)+0.8f;
 
@@ -86,8 +86,8 @@ public class Dragon extends Character {
         backLeg = new Leg(this, segments.get(bodyEnd+1), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/9), true);
-        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/9), false);
+        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/10), true);
+        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/10), false);
         head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
@@ -410,6 +410,7 @@ class Segment{
         src = new RectF(0, 0, radius * 2, radius * 2);
 
         dst = src;
+        paint.setAntiAlias(true);
     }
     public void draw(Canvas canvas){
 
@@ -436,14 +437,14 @@ class Segment{
 
         rotation = Math.toDegrees(Math.atan2(direction.y,direction.x));
 
-        if(disp.getLength() > Math.min(radius,dragon.radius/4)){
-            position = target.sub(direction.multiply(Math.min(radius,dragon.radius/4)));
+        if(disp.getLength() > Math.min(radius/2,dragon.radius/4)){
+            position = target.sub(direction.multiply(Math.min(radius/2,dragon.radius/4)));
         }
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
 
         wave = (float)Math.cos((-time/1000+index/dragon.segments.size()*2)*Math.PI)*dragon.radius*index/dragon.segments.size()*0.2f;
         if(dragon.breathingFire){
-            wave+=(Math.random()-0.5f)*radius/6;
+            //wave+=(Math.random()-0.5f)*radius/6;
         }
     }
 }
@@ -473,9 +474,9 @@ class Leg{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_minimalism);
             spriteFlying = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_flying_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2f), false);
-        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2f), false);
-        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
+        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
+        src = new RectF(0, 0, dragon.radius*2f , dragon.radius * 2f);
     }
     public void draw(Canvas canvas){
         float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;
@@ -531,8 +532,8 @@ class Arm{
         else{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.arm_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2.3f  ), (int) (dragon.radius * 2f), false);
-        src = new RectF(0, 0, dragon.radius*2.3f , dragon.radius * 2f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
+        src = new RectF(0, 0, dragon.radius*2f , dragon.radius * 2f);
     }
     public void draw(Canvas canvas){
 
@@ -632,10 +633,12 @@ class FireBreath{
     Dragon dragon;
     float range;
     float shootTime = 30, timeSinceShoot;
+    Vector2 direction;
 
     public FireBreath(Dragon dragon){
         this.dragon = dragon;
-range = 6*dragon.radius;
+        range = 6*dragon.radius;
+        direction = dragon.direction;
         for(float i = 0; i < breathSize;i++){
             flames.add(new Flame(dragon,  range,i/(float)breathSize));
         }
@@ -646,9 +649,11 @@ range = 6*dragon.radius;
         }
         if(timeSinceShoot > shootTime) {
             Flame f = flames.get(currentBreath);
-            f.shoot(dragon.position, dragon.direction, dragon.speed + range / 350);
+
+            f.shoot(dragon.position, direction, dragon.speed + range / 350);
             timeSinceShoot = 0;
             currentBreath++;
+
         }
         timeSinceShoot+=deltaTime;
     }
@@ -658,12 +663,15 @@ range = 6*dragon.radius;
                 Flame f = flames.get(i);
                 f.physics(deltaTime);
             }
+            direction = direction.add(dragon.direction.multiply(0.1f)).getNormal();
         }
         else {
             for (int i = 0; i < flames.size(); i++) {
                 Flame f = flames.get(i);
                 f.size=0;
+
             }
+            direction = dragon.direction;
         }
 
     }

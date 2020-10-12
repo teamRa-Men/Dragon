@@ -98,7 +98,7 @@ public class GameView extends SurfaceView implements Runnable {
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
-        cameraSize = screenWidth;
+        cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
 
         holder = getHolder();

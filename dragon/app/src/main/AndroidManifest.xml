@@ -10,12 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SpashScreen"
-            android:screenOrientation="landscape" />
-        <activity
-            android:name=".About"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".Game"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -24,9 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GameMenu"
-            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
