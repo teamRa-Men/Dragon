@@ -40,7 +40,7 @@ public class Dragon extends Character {
 
         friction = 0.99f;
         facing = true;
-        upperBound = GameView.instance.screenHeight/5;
+        upperBound = GameView.instance.screenHeight/10;
         groundLevel = GameView.instance.groundLevel;
 
         setAttackController(0,100,100);
@@ -55,7 +55,7 @@ public class Dragon extends Character {
 
         this.size = size;
         int cameraSize = GameView.instance.cameraSize;
-        radius = (float)cameraSize*size/2500;
+        radius = (float)cameraSize*size/3000;
 
         bodyStart = size/8;
         bodyEnd = size/4;
@@ -67,7 +67,7 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.3f+0.35f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.3f+0.4f,1) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
@@ -82,12 +82,12 @@ public class Dragon extends Character {
                     (int)(Color.blue(dragonColor)*c)),0));
         }
 
-        frontLeg = new Leg(this, segments.get(bodyEnd+1), true);
-        backLeg = new Leg(this, segments.get(bodyEnd+1), false);
+        frontLeg = new Leg(this, segments.get(bodyEnd+2), true);
+        backLeg = new Leg(this, segments.get(bodyEnd+2), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/10), true);
-        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/10), false);
+        frontWing = new Wing(this,segments.get(bodyStart+1),(int)(radius*radius/8), true);
+        backWing = new Wing(this,segments.get(bodyStart+1),(int)(radius*radius/8), false);
         head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
@@ -474,9 +474,9 @@ class Leg{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_minimalism);
             spriteFlying = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.leg_flying_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
-        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
-        src = new RectF(0, 0, dragon.radius*2f , dragon.radius * 2f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f-GameView.instance.screenWidth/200), false);
+        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f -GameView.instance.screenWidth/200), false);
+        src = new RectF(0, 0, dragon.radius*2f , dragon.radius * 2f-GameView.instance.screenWidth/200);
     }
     public void draw(Canvas canvas){
         float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;
@@ -532,8 +532,8 @@ class Arm{
         else{
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.arm_minimalism);
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f  ), (int) (dragon.radius * 2f), false);
-        src = new RectF(0, 0, dragon.radius*2f , dragon.radius * 2f);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius * 2f-GameView.instance.screenWidth/200), false);
+        src = new RectF(0, 0, dragon.radius*2f-GameView.instance.screenWidth/200 , dragon.radius * 2f-GameView.instance.screenWidth/200);
     }
     public void draw(Canvas canvas){
 

@@ -16,12 +16,12 @@ public class Scene {
     public Scene(){
         gameView = GameView.instance;
         player = gameView.player;
-        width = gameView.screenWidth*2;
+        width = (int)(gameView.screenWidth*1.5);
         height = gameView.cameraSize;
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
-        sky = Bitmap.createScaledBitmap(sky, width,GameView.instance.screenHeight,false);
+        sky = Bitmap.createScaledBitmap(sky, width, (int) gameView.groundLevel,false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((GameView.instance.screenHeight - (int)gameView.groundLevel)*1.1f),false);
+        ground = Bitmap.createScaledBitmap(ground, width,height/10,false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
         mountainBackground = Bitmap.createScaledBitmap(mountainBackground, width,(int)(height/5),false);
         hillsBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.hills_background);
@@ -43,9 +43,9 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
 
-        canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.screenHeight-ground.getHeight(),null);
-        canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.screenHeight-ground.getHeight(),null);
-        canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.screenHeight-ground.getHeight(),null);
+        canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.groundLevel-ground.getHeight()/10,null);
+        canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.groundLevel-ground.getHeight()/10,null);
+        canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.groundLevel-ground.getHeight()/10,null);
     }
 
     public void update(float deltaTime){

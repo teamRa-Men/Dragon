@@ -103,7 +103,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         holder = getHolder();
 
-        groundLevel = screenHeight*9/10;
+        groundLevel = screenHeight*7/10;
 
         //Player gameobject
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
@@ -215,7 +215,7 @@ public class GameView extends SurfaceView implements Runnable {
         if (canvas != null) {
 
             Paint background = new Paint();
-            background.setColor(Color.BLACK);
+            background.setColor(Game.instance.getResources().getColor(R.color.colorDragon));
             canvas.drawRect(0,0,screenWidth*1.2f,screenHeight, background);
             //Draw ground
             //ground.draw(canvas);

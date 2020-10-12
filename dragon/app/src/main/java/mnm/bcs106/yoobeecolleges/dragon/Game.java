@@ -123,14 +123,9 @@ public class Game extends AppCompatActivity {
     // Initialization Methods
 
     void initUI(){
-        scoreText = findViewById(R.id.scoreText);
-
-        //Health bar
-        healthBar = findViewById(R.id.healthBar);
-        healthBar.setProgress(100);
 
         controlRadius = screenWidth/20;
-        fireButton = new Vector2(screenWidth*9/10,screenHeight*2/10);
+        fireButton = new Vector2(screenWidth*9/10,screenHeight*8.5f/10);
 
         //Load high score
         SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
@@ -181,8 +176,7 @@ public class Game extends AppCompatActivity {
 
     //Calculate points scored and level
     void pointsAndLevels(){
-        healthBar.setProgress((int)GameView.instance.player.health);
-        scoreText.setText("SCORE   "+score);
+
 
     }
 
@@ -324,7 +318,7 @@ public class Game extends AppCompatActivity {
     public void onGrow(View view){
         gameView.pause();
         int size = gameView.player.size+5;
-        if(size <50)
+        if(size <60)
             gameView.player.initBody(size);
         gameView.resume();
     }
