@@ -23,6 +23,7 @@ public class NPC {
     public float npcFleeSpeed;
     public boolean flee = false;
     public ActionController damagePeriod;
+    public int direction;
     public NPC (Bitmap bitmap, int x, int y, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
         npcX = x;
@@ -62,10 +63,7 @@ public class NPC {
             RectF destTempRect = new RectF(left,top,right,bottom);
             Matrix matrix = new Matrix();
             matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
-            if (target.x != npcX){
-                matrix.postScale(Math.signum(target.x-npcX),1,destTempRect.centerX(),destTempRect.centerY());
-            }
-
+            matrix.postScale(direction,1,destTempRect.centerX(),destTempRect.centerY());
             canvas.drawBitmap(npcBitmap,matrix,null);
         }
     }
@@ -73,15 +71,18 @@ public class NPC {
     public void moveToTarget(float deltaTime){
         if (Math.abs(target.x-npcX) > 0.1){
             if (!flee){
-                npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
+                npcX+=direction*npcSpeed*deltaTime;
                 distTravel+=npcSpeed*deltaTime;
             } else {
-                npcX+=Math.signum(target.x-npcX)*npcFleeSpeed*deltaTime;
+                npcX+=direction*npcFleeSpeed*deltaTime;
                 distTravel+=npcFleeSpeed*deltaTime;
             }
         }
     }
     public void update(float deltaTime){
+        if (Math.abs(target.x-npcX)>1){
+            direction = (int) Math.signum(target.x-npcX);
+        }
         moveToTarget(deltaTime);
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
