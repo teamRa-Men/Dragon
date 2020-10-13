@@ -28,8 +28,14 @@ public class Dragon extends Character {
     int bodyStart;
     int bodyEnd;
     public boolean breathingFire, flying;
-    float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/3;
+    float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/2;
     Segment[] colliders = new Segment[4];
+
+
+    int goldHolding = 0;
+    int attack, maxMana;
+    float mana = maxMana;
+    int attackLevel, healthLevel, manaLevel, speedLevel;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -182,7 +188,7 @@ public class Dragon extends Character {
                     if(breathingFire) {
 
                         setDir(moveBy.multiply(1f / 15).add(direction));
-                        speed = (speed + Math.min(magnitude, maxMoveSpeed/4))/2;
+                        speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2;
 
                     }
                     else {
@@ -216,7 +222,7 @@ public class Dragon extends Character {
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
             RectF bound = segment.dst;
-            if(other.getBounds().intersect(bound.left,bound.top,bound.right,bound.bottom)){
+            if(other.getBounds().intersect(bound.left-radius,bound.top-radius,bound.right+radius,bound.bottom+radius)){
                 collided = true;
             }
         }
@@ -289,6 +295,10 @@ public class Dragon extends Character {
 */
     }
 
+    public void collectedGold(){
+        goldHolding++;
+        SoundEffects.instance.play(SoundEffects.PEW);
+    }
 
 
     @Override

@@ -56,7 +56,8 @@ public class GameView extends SurfaceView implements Runnable {
     public Dragon player;
     GameObject ground;
     NPC_Pool npc_pool;
-    //GoldController goldController;
+    GoldController goldController;
+    Lair lair;
 
 
     //Drawing
@@ -112,15 +113,16 @@ public class GameView extends SurfaceView implements Runnable {
 
         npc_pool = new NPC_Pool();
         npc_pool.spawnWooloo(500, (int) groundLevel);
-/*
+
         goldController = new GoldController();
-        goldController.spawnGold(screenCenter,5);*/
+        goldController.spawnGold(new Vector2(screenHeight/2, screenWidth/4),10);
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
 
         //Init scene
         scene = new Scene();
+        lair = new Lair();
 
         Game.instance.gameOver = false;
 
@@ -222,13 +224,13 @@ public class GameView extends SurfaceView implements Runnable {
             //Draw ground
             //ground.draw(canvas);
             scene.drawBackground(canvas);
-
+            lair.draw(canvas);
             player.draw(canvas);
             npc_pool.draw(canvas);
 
             scene.drawForeground(canvas);
 
-            //goldController.draw(canvas);
+            goldController.draw(canvas);
 
             //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
@@ -251,7 +253,14 @@ public class GameView extends SurfaceView implements Runnable {
                 p.setAlpha(255);
             }
             canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);
+            p.setTextSize(screenWidth/30);
+            p.setFakeBoldText(true);
+            p.setColor(Color.WHITE);
 
+
+
+            p.setTextAlign(Paint.Align.RIGHT);
+            canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
             holder.unlockCanvasAndPost(canvas);
         }
 
@@ -268,7 +277,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             //Enemy motion
             if (!player.destroyed) {
-               // goldController.physics(fixedDeltaTime);
+                goldController.physics(fixedDeltaTime / physicsIterations);
                 player.physics(fixedDeltaTime / physicsIterations);
             }
         }

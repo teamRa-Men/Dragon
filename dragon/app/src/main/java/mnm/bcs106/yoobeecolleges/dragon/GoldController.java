@@ -25,8 +25,8 @@ public class GoldController {
                 Gold goldSpawned = goldPool.get(0);
                 goldPool.remove(0);
                 activeGold.add(goldSpawned);
-                goldSpawned.position = position;
-                goldSpawned.setVelocity(new Vector2((float) (Math.random() - 0.5f) * 2, -(float) Math.random()));
+                goldSpawned.spawn(position);
+
             }
         }
     }

@@ -1,6 +1,7 @@
 
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -31,9 +32,13 @@ public class GameObject implements Comparable{
     public GameObject(Bitmap sprite, float offsetX, float offsetY){
         //Init visuals
         offset = new Vector2(offsetX,offsetY);//Bitmap offset from position
-        width= sprite.getWidth();
+        if(sprite == null) {
+            sprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.empty);
+        }
+        width = sprite.getWidth();
         height = sprite.getHeight();
         setSprite(sprite);
+
         paint = new Paint();
         drawDisplacement = new Vector2(0,0);
 
@@ -158,7 +163,7 @@ public class GameObject implements Comparable{
         //Game.instance.soundEffects.play(SoundEffects.HIT);
         //}
         setVelocity(speed*direction.x*friction,-speed*direction.y*bounce);
-        position.y = level;
+        position.y = level-height/2;
     }
     //-----------------------------------------------------------------------------------------------------------
     //Game logic
