@@ -56,6 +56,7 @@ public class GameView extends SurfaceView implements Runnable {
     public Dragon player;
     GameObject ground;
     NPC_Pool npc_pool;
+    //GoldController goldController;
 
 
     //Drawing
@@ -111,6 +112,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         npc_pool = new NPC_Pool();
         npc_pool.spawnWooloo(500, (int) groundLevel);
+/*
+        goldController = new GoldController();
+        goldController.spawnGold(screenCenter,5);*/
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
@@ -224,6 +228,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             scene.drawForeground(canvas);
 
+            //goldController.draw(canvas);
+
             //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
             Vector2 dragTo = Game.instance.dragTo;
@@ -262,7 +268,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             //Enemy motion
             if (!player.destroyed) {
-
+               // goldController.physics(fixedDeltaTime);
                 player.physics(fixedDeltaTime / physicsIterations);
             }
         }
@@ -286,6 +292,7 @@ public class GameView extends SurfaceView implements Runnable {
             player.update(fixedDeltaTime);
             scene.update(fixedDeltaTime);
             npc_pool.update(deltaTime);
+            //goldController.update(fixedDeltaTime);
         }
         else{
             if(!Game.instance.gameOver) {
@@ -303,6 +310,10 @@ public class GameView extends SurfaceView implements Runnable {
         else {
             player.moveBy(dv);
         }
+    }
+
+    public float getGroundLevel(){
+        return  groundLevel;
     }
     public void breathFire(boolean breathingFire){
         player.breathingFire = breathingFire;

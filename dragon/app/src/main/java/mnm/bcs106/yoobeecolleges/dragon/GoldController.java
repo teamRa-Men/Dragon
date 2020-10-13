@@ -7,13 +7,13 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 public class GoldController {
-    int maxGold = 50;
-    ArrayList<Gold> goldPool = new ArrayList<>();
-    ArrayList<Gold> activeGold = new ArrayList<>();
+    int maxGold = 10;
+    ArrayList<Gold> goldPool = new ArrayList<Gold>();
+    ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
 
     public GoldController(){
-        goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.circle);
+        goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
         for (int i = 0; i < maxGold; i++) {
             Gold newGold = new Gold(goldSprite,0.5f,0.5f);
             goldPool.add(newGold);
@@ -21,9 +21,13 @@ public class GoldController {
     }
     public void spawnGold(Vector2 position, int amount){
         for (int i = 0; i < amount; i++) {
-            Gold goldSpawned = goldPool.get(0);
-            goldPool.remove(goldSpawned);
-            activeGold.add(goldSpawned);
+            if(goldPool.size()>0) {
+                Gold goldSpawned = goldPool.get(0);
+                goldPool.remove(0);
+                activeGold.add(goldSpawned);
+                goldSpawned.position = position;
+                goldSpawned.setVelocity(new Vector2((float) (Math.random() - 0.5f) * 2, -(float) Math.random()));
+            }
         }
     }
 

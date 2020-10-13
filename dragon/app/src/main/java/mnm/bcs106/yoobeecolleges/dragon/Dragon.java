@@ -397,7 +397,7 @@ class Segment{
         this.radius = radius;
         this.dragon = dragon;
         this.index = index;
-        System.out.println(radius +" "+index);
+        //System.out.println(radius +" "+index);
         position = dragon.position.add(Vector2.left.multiply(1000));
 
         if (index % 2 == 0){
