@@ -1,4 +1,4 @@
-package com.example.buildings_prototype;
+package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,7 +9,7 @@ public class House extends Foundation{
     int currentInhabitants;
     int maxInhabitants;
 
-    public House(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, MainActivity activity){
+    public House(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity){
         super(buildingImage, x, y, tileNr, isStanding, activity );
 
         this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
