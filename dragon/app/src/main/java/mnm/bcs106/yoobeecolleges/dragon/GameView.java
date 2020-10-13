@@ -55,7 +55,7 @@ public class GameView extends SurfaceView implements Runnable {
     int maxEnemyCount = 3;
     public Dragon player;
     GameObject ground;
-    Wooloo npc;
+    NPC_Pool npc_pool;
 
 
     //Drawing
@@ -109,8 +109,8 @@ public class GameView extends SurfaceView implements Runnable {
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
-        Bitmap woolooSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.wooloo);
-        npc = new Wooloo(woolooSprite,0+playerSprite.getWidth(),100,0.1f,100,playerSprite.getWidth()/3,playerSprite.getHeight()/3, 500);
+        npc_pool = new NPC_Pool();
+        npc_pool.spawnWooloo(500, (int) groundLevel);
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
@@ -220,7 +220,7 @@ public class GameView extends SurfaceView implements Runnable {
             scene.drawBackground(canvas);
 
             player.draw(canvas);
-            npc.draw(canvas);
+            npc_pool.draw(canvas);
 
             scene.drawForeground(canvas);
 
@@ -285,7 +285,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(player.visible){
             player.update(fixedDeltaTime);
             scene.update(fixedDeltaTime);
-            npc.update(fixedDeltaTime);
+            npc_pool.update(deltaTime);
         }
         else{
             if(!Game.instance.gameOver) {

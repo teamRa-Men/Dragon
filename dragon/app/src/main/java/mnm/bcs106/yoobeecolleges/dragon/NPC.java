@@ -14,11 +14,12 @@ public class NPC {
     public int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
     public Rect npcRect;
     public float npcSpeed;
-    public Boolean alive = true;
+    public Boolean alive = false;
     public Point movement;
     public Point target = new Point();
     public float npcFleeSpeed;
     public boolean flee = false;
+    public ActionController damagePeriod;
     public NPC (Bitmap bitmap, int x, int y, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
         npcX = x;
@@ -30,9 +31,17 @@ public class NPC {
         npcWidth = width;
         npcHeight = height;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
+        damagePeriod = new ActionController(0,500,500);
     }
     public void spawn (){
         alive = true;
+    }
+    public  void OnDamage () {
+        damagePeriod.triggerAction();
+        npcHp-=10;
+        if (npcHp<=0){
+            death();
+        }
     }
     public void death(){
         alive = false;
@@ -54,5 +63,10 @@ public class NPC {
         moveToTarget(deltaTime);
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
+    }
+    public  void  physics(float deltaTime){
+        if (GameView.instance.player.fireBreath.collision(npcRect)&&!damagePeriod.performing){
+            OnDamage();
+        }
     }
 }
