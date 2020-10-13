@@ -9,7 +9,7 @@ public class NPC_Pool {
     Wooloo[] npcWooloo = new Wooloo[10];
     public NPC_Pool(){
         for(int i = 0 ;i < 10; i++){
-            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),0,0,0.2f,100,GameView.instance.cameraSize/9,GameView.instance.cameraSize/9,500);
+            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),0,0,0.1f,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
         }
     }
     public void spawnWooloo (int spawnX, int spawnY){
@@ -32,6 +32,13 @@ public class NPC_Pool {
         for (int i = 0; i<10;i++){
             if (npcWooloo[i].alive){
                 npcWooloo[i].update(deltaTime);
+            }
+        }
+    }
+    public void physics(float deltaTime){
+        for (int i = 0; i<10;i++){
+            if (npcWooloo[i].alive){
+                npcWooloo[i].physics(deltaTime);
             }
         }
     }

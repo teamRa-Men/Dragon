@@ -60,7 +60,7 @@ public class Scene {
         canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.groundLevel-ground.getHeight()/12,null);
         canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.groundLevel-ground.getHeight()/12,null);
         canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.groundLevel-ground.getHeight()/12,null);
-        canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight, frontPaint);
+        canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, frontPaint);
     }
 
 

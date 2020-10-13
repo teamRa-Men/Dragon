@@ -28,7 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     Vector2 screenCenter;
     float zoom;
 
-    final static int FPS = 30;
+    final static int FPS = 24;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
     float deltaTime = fixedDeltaTime;
 
@@ -258,7 +258,7 @@ public class GameView extends SurfaceView implements Runnable {
         cameraDisp.x = -player.position.x+screenWidth/2;
         if(!Game.instance.gameOver) {
 
-
+            npc_pool.physics(deltaTime);
 
             //Enemy motion
             if (!player.destroyed) {

@@ -31,20 +31,22 @@ public class NPC {
         npcWidth = width;
         npcHeight = height;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
-        damagePeriod = new ActionController(0,500,500);
+        damagePeriod = new ActionController(0,5000,5000);
     }
     public void spawn (){
         alive = true;
     }
     public  void OnDamage () {
         damagePeriod.triggerAction();
-        npcHp-=10;
+        npcHp-=1;
         if (npcHp<=0){
             death();
         }
     }
     public void death(){
         alive = false;
+        npcX = 0;
+        npcY = 0;
     }
     public void draw(Canvas canvas){
         if (alive){
