@@ -653,9 +653,7 @@ class FireBreath{
 
     }
     public void breath(float deltaTime){
-        if(currentBreath >= breathSize){
-            currentBreath = 0;
-        }
+
         if(timeSinceShoot > shootTime) {
             Flame f = flames.get(currentBreath);
             f.shoot(dragon.position, direction, dragon.speed + range / 350);
@@ -663,7 +661,9 @@ class FireBreath{
             f.shoot(dragon.position, direction, dragon.speed + range / 350);
             timeSinceShoot = 0;
             currentBreath++;
-
+            if(currentBreath >= breathSize){
+                currentBreath = 0;
+            }
         }
         timeSinceShoot+=deltaTime;
     }
@@ -681,6 +681,7 @@ class FireBreath{
     }
 
     public boolean collision(GameObject other) {
+
         boolean collided = false;
         collided = flames.get(currentBreath).dst.intersect(other.getBounds());
         return collided;
