@@ -27,7 +27,7 @@ public class NPC {
         npcMaxHP = maxHP;
         npcHp = maxHP;
         npcSpeed = speed;
-        npcFleeSpeed = npcSpeed*4;
+        npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*2));
         npcWidth = width;
         npcHeight = height;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
