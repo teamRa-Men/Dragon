@@ -27,7 +27,7 @@ public class NPC {
         npcMaxHP = maxHP;
         npcHp = maxHP;
         npcSpeed = speed;
-        npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*2));
+        npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*3));
         npcWidth = width;
         npcHeight = height;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
@@ -48,9 +48,15 @@ public class NPC {
         npcX = 0;
         npcY = 0;
     }
+    float distTravel = 0;
     public void draw(Canvas canvas){
         if (alive){
-            canvas.drawBitmap(npcBitmap,null,npcRect,null);
+            int top  = (int) (npcRect.top+Math.cos(distTravel/10)*10);
+            int left  = npcRect.left;
+            int right  = left+npcRect.width();
+            int bottom  = top+npcRect.height();
+            Rect tempRect = new Rect(left,top,right,bottom);
+            canvas.drawBitmap(npcBitmap,null,tempRect,null);
         }
     }
     public  boolean there = false;
@@ -58,7 +64,11 @@ public class NPC {
         if (Math.abs(target.x-npcX) > 0.1){
             if (!flee){
                 npcX+=Math.signum(target.x-npcX)*npcSpeed*deltaTime;
-            } else npcX+=Math.signum(target.x-npcX)*npcFleeSpeed*deltaTime;
+                distTravel+=npcSpeed*deltaTime;
+            } else {
+                npcX+=Math.signum(target.x-npcX)*npcFleeSpeed*deltaTime;
+                distTravel+=npcFleeSpeed*deltaTime;
+            }
         }
     }
     public void update(float deltaTime){

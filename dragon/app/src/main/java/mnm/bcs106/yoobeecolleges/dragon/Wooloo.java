@@ -1,7 +1,9 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 public class Wooloo extends NPC{
 
@@ -19,6 +21,11 @@ public class Wooloo extends NPC{
 
     public void setBoundry(int Boundry){
         boundry = Boundry;
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
     }
 
     @Override
