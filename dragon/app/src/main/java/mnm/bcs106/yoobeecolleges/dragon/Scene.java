@@ -40,7 +40,7 @@ public class Scene {
 
     public void drawBackground(Canvas canvas){
         canvas.drawRect(0, 0, gameView.screenWidth*1.2f,gameView.screenHeight, backPaint);
-        canvas.drawRect(0, gameView.groundLevel, gameView.screenWidth*1.2f,gameView.screenHeight, frontPaint);
+
 
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
@@ -57,9 +57,10 @@ public class Scene {
     }
     public void drawForeground(Canvas canvas){
 
-        canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.groundLevel-ground.getHeight()/10,null);
-        canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.groundLevel-ground.getHeight()/10,null);
-        canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.groundLevel-ground.getHeight()/10,null);
+        canvas.drawBitmap(ground, groundX+ groundX0-width/4,gameView.groundLevel-ground.getHeight()/12,null);
+        canvas.drawBitmap(ground, groundX+ groundX1-width/4,gameView.groundLevel-ground.getHeight()/12,null);
+        canvas.drawBitmap(ground, groundX+ groundX2-width/4,gameView.groundLevel-ground.getHeight()/12,null);
+        canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight, frontPaint);
     }
 
 
@@ -80,6 +81,6 @@ public class Scene {
 
         backPaint.setColor(Color.rgb(timeOfDay,timeOfDay,timeOfDay));
         time += deltaTime;
-        timeOfDay = (int)(255*Math.max(Math.min(Math.sin(time/1000/10)*2+0.5,1),0));
+        timeOfDay = (int)(250*Math.max(Math.min(Math.sin(time/1000/10)*2+0.5,1),0));
     }
 }
