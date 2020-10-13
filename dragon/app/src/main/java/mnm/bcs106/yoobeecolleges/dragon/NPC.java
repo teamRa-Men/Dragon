@@ -2,8 +2,11 @@ package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.text.BoringLayout;
 
 import java.sql.Time;
 import java.util.Timer;
@@ -51,12 +54,19 @@ public class NPC {
     float distTravel = 0;
     public void draw(Canvas canvas){
         if (alive){
+            RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
             int top  = (int) (npcRect.top+Math.cos(distTravel/10)*10);
             int left  = npcRect.left;
             int right  = left+npcRect.width();
             int bottom  = top+npcRect.height();
-            Rect tempRect = new Rect(left,top,right,bottom);
-            canvas.drawBitmap(npcBitmap,null,tempRect,null);
+            RectF destTempRect = new RectF(left,top,right,bottom);
+            Matrix matrix = new Matrix();
+            matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
+            if (target.x != npcX){
+                matrix.postScale(Math.signum(target.x-npcX),1,destTempRect.centerX(),destTempRect.centerY());
+            }
+
+            canvas.drawBitmap(npcBitmap,matrix,null);
         }
     }
     public  boolean there = false;
