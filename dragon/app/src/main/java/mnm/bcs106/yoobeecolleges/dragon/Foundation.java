@@ -1,4 +1,4 @@
-package com.example.buildings_prototype;
+package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,7 +16,7 @@ public class Foundation {
 
     int maxHealth;
 
-    protected MainActivity activity;
+    protected GameView activity;
 
     //current
     int inhabitantsSize;
@@ -32,7 +32,7 @@ public class Foundation {
 
     Bitmap buildingImage;
 
-    public Foundation(Bitmap buildingImage,int x, int y, int tileNr, boolean isStanding, MainActivity activity){
+    public Foundation(Bitmap buildingImage,int x, int y, int tileNr, boolean isStanding, GameView activity){
 
         this.activity = activity;
         this.isStanding = true;
