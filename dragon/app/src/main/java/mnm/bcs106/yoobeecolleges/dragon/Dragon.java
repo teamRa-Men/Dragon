@@ -686,7 +686,12 @@ class FireBreath{
         return collided;
     }
 
-
+    public boolean collision(Rect r) {
+        boolean collided = false;
+        RectF other = new RectF(r.left,r.top,r.right,r.bottom);
+        collided = flames.get(currentBreath).dst.intersect(other);
+        return collided;
+    }
 
     public void draw(Canvas canvas){
         if(dragon.breathingFire){
