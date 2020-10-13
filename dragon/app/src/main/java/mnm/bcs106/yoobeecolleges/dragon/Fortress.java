@@ -1,4 +1,4 @@
-package com.example.buildings_prototype;
+package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +50,7 @@ public class Fortress extends Foundation {
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
-    public Fortress(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, MainActivity activity) {
+    public Fortress(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity) {
         super(buildingImage, x, y, tileNr, isStanding, activity);
 
         Random r = new Random();
