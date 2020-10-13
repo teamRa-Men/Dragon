@@ -1,7 +1,9 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 public class Wooloo extends NPC{
 
@@ -22,19 +24,28 @@ public class Wooloo extends NPC{
     }
 
     @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+    }
+
+    @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-        if (Math.abs(GameView.instance.player.position.x-npcX)<500){
+        countdown+=deltaTime;
+        if (Math.abs(GameView.instance.player.position.x-npcX)<300){
             flee = true;
-            target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1000));
+            target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
             creationPoint.x= target.x;
-        }else if (npcX == target.x && Math.abs(GameView.instance.player.position.x-npcX)>500){
-            countdown+=deltaTime;
+        }else if (Math.abs(npcX-target.x) < 5){
+            npcX = target.x;
             if (countdown >= Math.random()*1000+1000){
                 flee = false;
-                target.x = (int) (creationPoint.x+(Math.random()-0.5)*boundry);
+                double targetDistance = (Math.random()-0.5)*boundry;
+                if (Math.abs(targetDistance) > boundry/5){
+                    target.x = (int) (creationPoint.x+targetDistance);
+                }
                 countdown = 0;
             }
         }
+        super.update(deltaTime);
     }
 }
