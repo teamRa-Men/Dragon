@@ -67,7 +67,7 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.3f+0.4f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.4f+0.4f,1) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
