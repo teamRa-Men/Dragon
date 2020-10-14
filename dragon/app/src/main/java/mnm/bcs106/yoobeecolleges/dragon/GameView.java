@@ -28,7 +28,9 @@ public class GameView extends SurfaceView implements Runnable {
     Vector2 screenCenter;
     float zoom;
 
+
     final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
+
     float deltaTime = fixedDeltaTime;
 
     //Physics
@@ -57,7 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
     NPC_Pool npc_pool;
     GoldController goldController;
     Lair lair;
-
+    Fortress fortress;
 
     //Drawing
     Bitmap wall;
@@ -124,6 +126,10 @@ public class GameView extends SurfaceView implements Runnable {
         scene = new Scene();
         lair = new Lair();
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.fortress);
+        b = Bitmap.createScaledBitmap(b,100,100,false);
+        fortress = new Fortress(b, screenWidth*2, (int)groundLevel, 4, true, this);
+
         Game.instance.gameOver = false;
 
         resume();
@@ -153,7 +159,7 @@ public class GameView extends SurfaceView implements Runnable {
         boolean retry = true;
         while (retry) {
             try {
-                gameThread.join();
+                gameThread.join();//execute completely and then stop
                 retry = false;
             } catch (Exception e) {
                 gameThread.stop();
@@ -177,7 +183,6 @@ public class GameView extends SurfaceView implements Runnable {
             update();
             long updateTime = System.currentTimeMillis();
             //System.out.println( "update " + (updateTime-physicsTime));
-
 
             draw();
             //long drawTime = System.currentTimeMillis() - updateTime;
@@ -227,6 +232,7 @@ public class GameView extends SurfaceView implements Runnable {
             lair.draw(canvas);
             player.draw(canvas);
             npc_pool.draw(canvas);
+            fortress.draw(canvas);
 
             scene.drawForeground(canvas);
 
@@ -256,9 +262,6 @@ public class GameView extends SurfaceView implements Runnable {
             p.setTextSize(screenWidth/30);
             p.setFakeBoldText(true);
             p.setColor(Color.WHITE);
-
-
-
             p.setTextAlign(Paint.Align.RIGHT);
             canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
             holder.unlockCanvasAndPost(canvas);
@@ -274,7 +277,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(!Game.instance.gameOver) {
 
             npc_pool.physics(fixedDeltaTime);
-
+            fortress.physics(deltaTime);
             //Enemy motion
             if (!player.destroyed) {
                 goldController.physics(fixedDeltaTime / physicsIterations);
@@ -303,6 +306,7 @@ public class GameView extends SurfaceView implements Runnable {
             npc_pool.update(fixedDeltaTime);
             System.out.println(fixedDeltaTime +" "+ deltaTime);
             //goldController.update(fixedDeltaTime);
+            fortress.update(fixedDeltaTime);
         }
         else{
             if(!Game.instance.gameOver) {
