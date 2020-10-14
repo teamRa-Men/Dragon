@@ -24,16 +24,20 @@ public class NPC {
     public boolean flee = false;
     public ActionController damagePeriod;
     public int direction;
-    public NPC (Bitmap bitmap, int x, int y, float speed, int maxHP, int width,int height) {
+    public int countdown;
+    public Point creationPoint = new Point();
+    public NPC (Bitmap bitmap, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
-        npcX = x;
-        npcY = y;
+        npcX = 0;
+        npcY = 0;
         npcMaxHP = maxHP;
         npcHp = maxHP;
         npcSpeed = speed;
         npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*3));
         npcWidth = width;
         npcHeight = height;
+        creationPoint.x = 0;
+        creationPoint.y = 0;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
         damagePeriod = new ActionController(0,5000,5000);
     }
@@ -80,6 +84,7 @@ public class NPC {
         }
     }
     public void update(float deltaTime){
+        countdown+=deltaTime;
         if (Math.abs(target.x-npcX)>1){
             direction = (int) Math.signum(target.x-npcX);
         }
@@ -90,6 +95,18 @@ public class NPC {
     public  void  physics(float deltaTime){
         if (GameView.instance.player.fireBreath.collision(npcRect)&&!damagePeriod.performing){
             OnDamage();
+        }
+    }
+
+    public void idle(int countDown, int boundry){
+        npcX = target.x;
+        if (countDown >= Math.random()*1000+1000){
+            flee = false;
+            double targetDistance = (Math.random()-0.5)*boundry;
+            if (Math.abs(targetDistance) > boundry/5){
+                target.x = (int) (creationPoint.x+targetDistance);
+            }
+            countDown = 0;
         }
     }
 }
