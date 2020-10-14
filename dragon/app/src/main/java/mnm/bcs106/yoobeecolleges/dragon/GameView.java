@@ -230,6 +230,7 @@ public class GameView extends SurfaceView implements Runnable {
             scene.drawBackground(canvas);
             lair.draw(canvas);
             fortress.draw(canvas);
+            projectilePool.draw(canvas);
             player.draw(canvas);
             npc_pool.draw(canvas);
 
@@ -237,7 +238,7 @@ public class GameView extends SurfaceView implements Runnable {
             scene.drawForeground(canvas);
 
             goldPool.draw(canvas);
-            projectilePool.draw(canvas);
+
 
             //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
