@@ -250,6 +250,18 @@ public class Dragon extends Character {
         }
         return collided;
     }
+    public boolean collisionStick(GameObject other) {
+        boolean collided = false;
+        for (int i = 0; i < colliders.length; i++) {
+            Segment segment = colliders[i];
+            RectF bound = segment.dst;
+            if(other.getBounds().intersect(bound.left-radius,bound.top-radius,bound.right+radius,bound.bottom+radius)){
+                collided = true;
+                //make child
+            }
+        }
+        return collided;
+    }
 
     @Override
     public void physics(float deltaTime) {
@@ -273,9 +285,13 @@ public class Dragon extends Character {
             super.physics(deltaTime);
         speed*=friction;
         if(breathingFire && mana > 0){
+            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2,direction.x,direction.y);
+            /*
             fireBreath.breath(deltaTime);
             mana -= fireManaCost*deltaTime/1000;
             mana = Math.max(0,mana);
+
+             */
         }
         fireBreath.physics(deltaTime);
 

@@ -22,23 +22,20 @@ public class Gold extends GameObject{
     @Override
     public void physics(float deltaTime) {
         if(Vector2.distance(GameView.instance.player.position,position)< width/2){
-            GameView.instance.goldController.collectedGold(this);
+            GoldPool.instance.collectedGold(this);
             GameView.instance.player.collectedGold();
             System.out.println("collected");
         }
         super.physics(deltaTime);
-       //System.out.println("phys");
-        if(position.y + width/2< GameView.instance.getGroundLevel()){
+        //System.out.println("phys");
+        if(position.y + height/2< GameView.instance.getGroundLevel()){
             setVelocity(getVelocity().x, getVelocity().y + 1f/2* deltaTime/1000);
 
         }
         else{
-            if(speed == 0){
-                //simulated = false;
-            }
-            else {
-                onGrounded(GameView.instance.getGroundLevel());
-            }
+
+            onGrounded(GameView.instance.getGroundLevel());
+
 
         }
 

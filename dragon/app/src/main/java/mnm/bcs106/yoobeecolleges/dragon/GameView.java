@@ -8,14 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 //-----------------------------------------------------------------------------------------------------------
 //Game engine
@@ -58,7 +54,8 @@ public class GameView extends SurfaceView implements Runnable {
     public Dragon player;
     GameObject ground;
     NPC_Pool npc_pool;
-    GoldController goldController;
+    GoldPool goldPool;
+    ProjectilePool projectilePool;
     Lair lair;
     Fortress fortress;
 
@@ -117,8 +114,9 @@ public class GameView extends SurfaceView implements Runnable {
         npc_pool.spawnWooloo(500, (int) groundLevel);
         npc_pool.spawnArcher(0, (int) groundLevel);
 
-        goldController = new GoldController();
-        GoldController.instance.spawnGold(screenHeight/2, screenWidth/4,10);
+        goldPool = new GoldPool();
+        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,10);
+        projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
@@ -238,7 +236,8 @@ public class GameView extends SurfaceView implements Runnable {
 
             scene.drawForeground(canvas);
 
-            goldController.draw(canvas);
+            goldPool.draw(canvas);
+            projectilePool.draw(canvas);
 
             //Draw Controls
             Vector2 dragFrom = Game.instance.dragFrom;
@@ -296,7 +295,8 @@ public class GameView extends SurfaceView implements Runnable {
             fortress.physics(deltaTime);
             //Enemy motion
             if (!player.destroyed) {
-                goldController.physics(fixedDeltaTime / physicsIterations);
+                goldPool.physics(fixedDeltaTime / physicsIterations);
+                projectilePool.physics(fixedDeltaTime / physicsIterations);
                 player.physics(fixedDeltaTime / physicsIterations);
             }
         }
@@ -320,6 +320,7 @@ public class GameView extends SurfaceView implements Runnable {
             player.update(fixedDeltaTime);
             scene.update(fixedDeltaTime);
             npc_pool.update(fixedDeltaTime);
+            projectilePool.update(fixedDeltaTime);
             System.out.println(fixedDeltaTime +" "+ deltaTime);
             //goldController.update(fixedDeltaTime);
             fortress.update(fixedDeltaTime);
