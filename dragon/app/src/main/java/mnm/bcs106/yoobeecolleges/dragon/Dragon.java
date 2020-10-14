@@ -48,12 +48,13 @@ public class Dragon extends Character {
         friction = 0.99f;
         facing = true;
         upperBound = GameView.instance.screenHeight/10;
-        groundLevel = GameView.instance.groundLevel;
 
-        setAttackController(0,100,100);
-        position = new Vector2(GameView.instance.screenWidth/2, groundLevel-3f/2*radius);
 
         initBody(65);
+        groundLevel = GameView.instance.groundLevel-1.7f*radius;
+
+        setAttackController(0,100,100);
+        position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
     }
 
@@ -174,7 +175,7 @@ public class Dragon extends Character {
                     backArm.walking = true;
                     frontArm.walking = true;
 
-                    if(backLeg.segment.position.y >= groundLevel-radius*1.7f) {
+                    if(backLeg.segment.position.y >= groundLevel*1.1f) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
                     }
@@ -218,7 +219,7 @@ public class Dragon extends Character {
                     backLeg.walking=false;
                     frontLeg.walking=false;
                 }
-                if(position.y > GameView.instance.groundLevel-GameView.instance.screenHeight/10) {
+                if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
                     direction.x = Math.signum(direction.x) * Math.max(direction.x, 0.8f);
                 }
@@ -250,12 +251,12 @@ public class Dragon extends Character {
             direction.y = 0;
             position.y = upperBound;
         }
-        if(position.y > groundLevel-radius*3f/2){
+        if(position.y > groundLevel){
             direction.y = 0;
-            position.y = groundLevel-radius*3f/2;
+            position.y = groundLevel;
         }
 
-        if(position.y >= groundLevel-radius*3/2){
+        if(position.y >= groundLevel){
             flying = false;
         }
         else{

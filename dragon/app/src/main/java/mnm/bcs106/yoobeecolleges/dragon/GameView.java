@@ -117,7 +117,7 @@ public class GameView extends SurfaceView implements Runnable {
         npc_pool.spawnWooloo(500, (int) groundLevel);
 
         goldController = new GoldController();
-        goldController.spawnGold(new Vector2(screenHeight/2, screenWidth/4),10);
+        GoldController.instance.spawnGold(screenHeight/2, screenWidth/4,10);
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);

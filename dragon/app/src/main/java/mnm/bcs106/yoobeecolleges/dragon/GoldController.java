@@ -11,21 +11,25 @@ public class GoldController {
     ArrayList<Gold> goldPool = new ArrayList<Gold>();
     ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
+    public static GoldController instance;
 
     public GoldController(){
+        if(instance == null){
+            instance = this;
+        }
         goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
         for (int i = 0; i < maxGold; i++) {
             Gold newGold = new Gold(goldSprite,0.5f,0.5f);
             goldPool.add(newGold);
         }
     }
-    public void spawnGold(Vector2 position, int amount){
+    public void spawnGold(int x, int y, int amount){
         for (int i = 0; i < amount; i++) {
             if(goldPool.size()>0) {
                 Gold goldSpawned = goldPool.get(0);
                 goldPool.remove(0);
                 activeGold.add(goldSpawned);
-                goldSpawned.spawn(position);
+                goldSpawned.spawn(new Vector2(x,y));
 
             }
         }
