@@ -9,6 +9,7 @@ import android.graphics.Rect;
 public class Foundation {
 
     int tileSize = 1;
+    int width, height;
     public final int TILE_SIZE = 100;
 
     //current
@@ -45,8 +46,10 @@ public class Foundation {
         this.x = x;
         this.y = y;
 
-
-        this.buildingImage = buildingImage;
+        width = TILE_SIZE*tileNr;
+        height = width;
+        this.buildingImage = Bitmap.createScaledBitmap(buildingImage,width, height,false);
+        collider = new Rect(x,y-height,x+width,height);
         damagePeriod = new ActionController(0,5000,5000);
 
 
@@ -64,9 +67,11 @@ public class Foundation {
     public void physics(float deltaTime){
 
 
-        if (Vector2.distance(GameView.instance.player.fireBreath.flames.get(GameView.instance.player.fireBreath.currentBreath).position, new Vector2(x,y))<100 && GameView.instance.player.breathingFire){
+        if (GameView.instance.player.fireBreath.collision(new Vector2(x,y), width)){
             OnDamage();
-            System.out.println("ouch");
+        }
+        if (GameView.instance.player.fireBreath.collision(collider)){
+            OnDamage();
         }
     }
 
@@ -77,7 +82,7 @@ public class Foundation {
     public  void OnDamage () {
         damagePeriod.triggerAction();
         health-=1;
-        System.out.println("ouch");
+
 
         if (health<=0){
             isStanding = false;

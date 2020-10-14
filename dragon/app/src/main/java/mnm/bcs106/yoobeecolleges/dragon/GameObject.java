@@ -313,22 +313,3 @@ public class GameObject implements Comparable{
     }
 }
 
-class ShakingAnim{
-    public static Vector2 shake(float width, float height, float maxDispX, float maxDispY){
-        float dispY = height * ((float) Math.random() - 0.5f)*maxDispY;
-        float dispX = width * ((float) Math.random() - 0.5f)*maxDispX;
-        return  new Vector2(dispX, dispY);
-    }
-}
-
-class FadingAnim{
-    public static boolean fade(Paint paint){
-        int alpha = paint.getAlpha() - 10;
-        if (alpha > 0) {
-            paint.setAlpha(alpha);
-            return  true;
-        } else {
-            return false;
-        }
-    }
-}
