@@ -18,7 +18,8 @@ public class ProjectilePool {
         if(instance == null){
             instance = this;
         }
-        arrowSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
+        arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.arrow);
+        arrowSprite = Bitmap.createScaledBitmap(arrowSprite,30,10,false);
         for (int i = 0; i < maxArrows; i++) {
             Projectile newArrow = new Projectile(arrowSprite,0f,0.5f);
             arrowPool.add(newArrow);
