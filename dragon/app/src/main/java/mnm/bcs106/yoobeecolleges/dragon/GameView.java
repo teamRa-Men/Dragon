@@ -28,7 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
     Vector2 screenCenter;
     float zoom;
 
-    final static int FPS = 90;
+    final static int FPS = 60;
     final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds
     float deltaTime = fixedDeltaTime;
 
@@ -153,7 +153,7 @@ public class GameView extends SurfaceView implements Runnable {
         boolean retry = true;
         while (retry) {
             try {
-                gameThread.join();
+                gameThread.join();//execute completely and then stop
                 retry = false;
             } catch (Exception e) {
                 gameThread.stop();
@@ -177,7 +177,6 @@ public class GameView extends SurfaceView implements Runnable {
             update();
             long updateTime = System.currentTimeMillis();
             //System.out.println( "update " + (updateTime-physicsTime));
-
 
             draw();
             //long drawTime = System.currentTimeMillis() - updateTime;
@@ -256,9 +255,6 @@ public class GameView extends SurfaceView implements Runnable {
             p.setTextSize(screenWidth/30);
             p.setFakeBoldText(true);
             p.setColor(Color.WHITE);
-
-
-
             p.setTextAlign(Paint.Align.RIGHT);
             canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
             holder.unlockCanvasAndPost(canvas);
