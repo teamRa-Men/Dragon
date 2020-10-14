@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         npc_pool = new NPC_Pool();
         npc_pool.spawnWooloo(500, (int) groundLevel);
-        npc_pool.spawnArcher(1000, (int) groundLevel);
+        npc_pool.spawnArcher(0, (int) groundLevel);
 
         goldController = new GoldController();
         goldController.spawnGold(new Vector2(screenHeight/2, screenWidth/4),10);

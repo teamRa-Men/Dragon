@@ -26,8 +26,7 @@ public class Wooloo extends NPC{
             target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
             creationPoint.x= target.x;
         }else if (Math.abs(npcX-target.x) < 5){
-            npcX = target.x;
-            idle(countdown,boundry);
+            idle(boundry);
         }
         super.update(deltaTime);
     }

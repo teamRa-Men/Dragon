@@ -98,15 +98,12 @@ public class NPC {
         }
     }
 
-    public void idle(int countDown, int boundry){
-        npcX = target.x;
-        if (countDown >= Math.random()*1000+1000){
+    public void idle(int boundry){
+        if (countdown >= Math.random()*1000+1000){
             flee = false;
             double targetDistance = (Math.random()-0.5)*boundry;
-            if (Math.abs(targetDistance) > boundry/5){
                 target.x = (int) (creationPoint.x+targetDistance);
-            }
-            countDown = 0;
+            countdown = 0;
         }
     }
 }
