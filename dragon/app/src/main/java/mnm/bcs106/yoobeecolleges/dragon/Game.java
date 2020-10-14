@@ -7,9 +7,11 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class Game extends AppCompatActivity {
 
     int screenHeight, screenWidth;
     public int score = 0, highScore;
+    float refreshRating;
 
     //misc
     MediaPlayer pointsPlayer;
@@ -65,6 +68,9 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        //Screen refresh rate detection
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        refreshRating = display.getRefreshRate();
 
         //Singleton
         if(instance == null) {
