@@ -21,7 +21,7 @@ public class Fortress extends Foundation {
 
     int currentGold;
     int maxGold;
-    public int goldRate = 1;
+    public int goldRate = 20;
 
     int currentTilesLeft;
     int currentTilesRight;
@@ -142,7 +142,8 @@ public class Fortress extends Foundation {
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
 
 
-    public void update(int deltaTime) {
+    public void update(float deltaTime) {
+        deltaTime = deltaTime/200;
         currentGold += goldRate * deltaTime;
         if (currentGold >= 240 && (currentBuildingsRight.size() + currentBuildingsLeft.size()) < 7) {
             System.out.println("Money aquired");
@@ -156,10 +157,10 @@ public class Fortress extends Foundation {
             if (lr < 0) {
 
                 if (rh < 0) {
-                    currentBuildingsLeft.add(new House(buildingImage, x - (currentTilesLeft + 1) * 100, y, 1, true, activity));
+                    currentBuildingsLeft.add(new House(buildingImage, x - (currentTilesLeft + 1) * 150, y, 1, true, activity));
                     currentTilesLeft+=1;
                 } else {
-                    currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 100, y, 2, true, activity));
+                    currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
                     currentTilesLeft+=3;
                 }
 
@@ -170,10 +171,10 @@ public class Fortress extends Foundation {
             } else {
 
                 if (rh < 0) {
-                    currentBuildingsRight.add(new House(buildingImage, x + (currentTilesRight + 1) * 100, y, 1, true, activity));
+                    currentBuildingsRight.add(new House(buildingImage, x + (currentTilesRight + 1) * 150, y, 1, true, activity));
                     currentTilesRight+=1;
                 } else {
-                    currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 100, y, 2, true, activity));
+                    currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
                     currentTilesRight+=3;
                 }
 

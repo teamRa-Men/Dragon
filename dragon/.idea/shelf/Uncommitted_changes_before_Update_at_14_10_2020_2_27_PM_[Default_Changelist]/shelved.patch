@@ -1,0 +1,161 @@
+Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\r\npackage mnm.bcs106.yoobeecolleges.dragon;\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.LightingColorFilter;\r\nimport android.graphics.Paint;\r\nimport android.graphics.RectF;\r\nimport android.util.AttributeSet;\r\nimport android.util.DisplayMetrics;\r\nimport android.view.SurfaceHolder;\r\nimport android.view.SurfaceView;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Collections;\r\n\r\n//-----------------------------------------------------------------------------------------------------------\r\n//Game engine\r\n//Handles logic, physics and graphics\r\n//-----------------------------------------------------------------------------------------------------------\r\n\r\npublic class GameView extends SurfaceView implements Runnable {\r\n    public static GameView instance;\r\n    int screenWidth, screenHeight, cameraSize;\r\n    Vector2 screenCenter;\r\n    float zoom;\r\n\r\n    final static int FPS = 90;\r\n    final float fixedDeltaTime = (int) (1000 / FPS); // in milliseconds\r\n    float deltaTime = fixedDeltaTime;\r\n\r\n    //Physics\r\n    public float groundLevel, upperBound, gravity = 0.3f;\r\n    int physicsIterations = 5;\r\n    Vector2 cameraDisp = Vector2.zero;\r\n\r\n    //Projectile\r\n    int projectileIndex = 0;//Next projectile in array to spawn\r\n    float shootSpeedVariance=0.1f, shootDirectionVariance = 10f;//Error in shooting speed and direction\r\n\r\n    //Logic\r\n    boolean isRunning = false;\r\n    Thread gameThread, drawThread;\r\n    //WaveController waveController;//Controls when enemies spawn\r\n    int enemyIndex = 0;//Next enemy in array to spawn\r\n    Vector2 moveBy;\r\n\r\n    //Scene\r\n    Scene scene;\r\n\r\n    //Game objects\r\n    int maxEnemyCount = 3;\r\n    public Dragon player;\r\n    GameObject ground;\r\n    NPC_Pool npc_pool;\r\n    GoldController goldController;\r\n    Lair lair;\r\n\r\n\r\n    //Drawing\r\n    Bitmap wall;\r\n    SurfaceHolder holder;\r\n\r\n\r\n    public GameView(Context context) {\r\n        super(context);\r\n        init();\r\n    }\r\n\r\n    public GameView(Context context, AttributeSet attrs) {\r\n        super(context, attrs);\r\n        init();\r\n    }\r\n\r\n    public GameView(Context context, AttributeSet attrs, int defStyleAttr) {\r\n        super(context, attrs, defStyleAttr);\r\n        init();\r\n    }\r\n\r\n    public GameView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {\r\n        super(context, attrs, defStyleAttr, defStyleRes);\r\n        init();\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    //Initialization\r\n    //-----------------------------------------------------------------------------------------------------------\r\n\r\n    void init(){\r\n        //Singleton\r\n        if(instance == null) {\r\n            instance = this;\r\n        }\r\n\r\n        //Dimensions\r\n        DisplayMetrics displayMetrics = new DisplayMetrics();\r\n        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);\r\n        screenHeight = displayMetrics.heightPixels;\r\n        screenWidth = displayMetrics.widthPixels;\r\n        cameraSize = (int) (screenWidth);\r\n        screenCenter = new Vector2(screenWidth/2,screenHeight/2);\r\n\r\n        holder = getHolder();\r\n\r\n        groundLevel = screenHeight*7/10;\r\n\r\n        //Player gameobject\r\n        Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);\r\n        player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);\r\n\r\n        npc_pool = new NPC_Pool();\r\n        npc_pool.spawnWooloo(500, (int) groundLevel);\r\n\r\n        goldController = new GoldController();\r\n        goldController.spawnGold(new Vector2(screenHeight/2, screenWidth/4),10);\r\n\r\n        player.setDamagedSound(SoundEffects.DAMAGE);\r\n        player.setDestroyedSound(SoundEffects.DEATH);\r\n\r\n        //Init scene\r\n        scene = new Scene();\r\n        lair = new Lair();\r\n\r\n        Game.instance.gameOver = false;\r\n\r\n        resume();\r\n\r\n    }\r\n\r\n    Vector2 randomPosition(){\r\n        Vector2 random = Vector2.getRandom();\r\n        random.x *= ground.width*0.3f;\r\n        random.y *= ground.height*0.3f;\r\n        return ground.position.add(random);\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    //Game loop\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    float totalFrame, numberFrame;\r\n    public void resume() {\r\n        isRunning = true;\r\n        gameThread = new Thread(this);\r\n        gameThread.start();\r\n\r\n    }\r\n\r\n    public void pause() {\r\n        isRunning = false;\r\n        boolean retry = true;\r\n        while (retry) {\r\n            try {\r\n                gameThread.join();\r\n                retry = false;\r\n            } catch (Exception e) {\r\n                gameThread.stop();\r\n            }\r\n        }\r\n    }\r\n\r\n    public void run() {\r\n        while (isRunning) {\r\n\r\n            long started = System.currentTimeMillis();\r\n            //Apply physics calculations per frame\r\n            for (int i = 0; i < physicsIterations; i++) {\r\n                physics();\r\n            }\r\n            long physicsTime = System.currentTimeMillis();\r\n            //System.out.println( \"physics \" + (physicsTime - started));\r\n\r\n            //Apply ame logic to game objects\r\n\r\n            update();\r\n            long updateTime = System.currentTimeMillis();\r\n            //System.out.println( \"update \" + (updateTime-physicsTime));\r\n\r\n\r\n            draw();\r\n            //long drawTime = System.currentTimeMillis() - updateTime;\r\n            //System.out.println( \"draw main \" + drawTime);\r\n            //totalFrame += drawTime;\r\n            //numberFrame++;\r\n            //System.out.println(\"average main \" + totalFrame/numberFrame);\r\n\r\n            //If the time between frames does not match the target FPS, delay or skip to match\r\n\r\n            deltaTime = (System.currentTimeMillis() - started);\r\n            int lag = (int) (fixedDeltaTime - deltaTime);\r\n\r\n            //System.out.println(deltaTime + \" \" + fixedDeltaTime + \" \" + lag);\r\n            if (lag > 0) {\r\n                try {\r\n                    gameThread.sleep(lag);\r\n                } catch (Exception e) {\r\n                }\r\n            }\r\n            while (lag < 0) {\r\n                lag += fixedDeltaTime;\r\n                //Apply physics calculations per frame\r\n                for (int i = 0; i < physicsIterations; i++) {\r\n                    physics();\r\n                }\r\n                //Apply game logic to game objects\r\n                update();\r\n            }\r\n        }\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    //Graphics\r\n    //-----------------------------------------------------------------------------------------------------------\r\n\r\n    private void draw() {\r\n\r\n        Canvas canvas = holder.lockCanvas(null);\r\n\r\n        if (canvas != null) {\r\n\r\n\r\n            //Draw ground\r\n            //ground.draw(canvas);\r\n            scene.drawBackground(canvas);\r\n            lair.draw(canvas);\r\n            player.draw(canvas);\r\n            npc_pool.draw(canvas);\r\n\r\n            scene.drawForeground(canvas);\r\n\r\n            goldController.draw(canvas);\r\n\r\n            //Draw Controls\r\n            Vector2 dragFrom = Game.instance.dragFrom;\r\n            Vector2 dragTo = Game.instance.dragTo;\r\n            Paint p = new Paint();\r\n\r\n            p.setColor(Color.WHITE);\r\n            p.setAlpha(100);\r\n            if(dragFrom !=null && dragTo!=null) {\r\n                p.setStrokeWidth(20);\r\n                p.setStrokeCap(Paint.Cap.ROUND);\r\n                canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, p);\r\n            }\r\n\r\n            canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,p);\r\n            Bitmap fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.flame5_minimalism);\r\n            fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);\r\n            p.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));\r\n            if(player.breathingFire){\r\n                p.setAlpha(255);\r\n            }\r\n            canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);\r\n            p.setTextSize(screenWidth/30);\r\n            p.setFakeBoldText(true);\r\n            p.setColor(Color.WHITE);\r\n\r\n\r\n\r\n            p.setTextAlign(Paint.Align.RIGHT);\r\n            canvas.drawText(player.goldHolding+\" G\",screenWidth, screenHeight/10,p);\r\n            holder.unlockCanvasAndPost(canvas);\r\n        }\r\n\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    //Physics\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    private void physics() {\r\n        cameraDisp.x = -player.position.x+screenWidth/2;\r\n        if(!Game.instance.gameOver) {\r\n\r\n            npc_pool.physics(fixedDeltaTime);\r\n\r\n            //Enemy motion\r\n            if (!player.destroyed) {\r\n                goldController.physics(fixedDeltaTime / physicsIterations);\r\n                player.physics(fixedDeltaTime / physicsIterations);\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    //If gameobject is above ground level, apply gravity\r\n    public void gravity(GameObject g) {\r\n        if (g.position.y  < groundLevel) {\r\n            g.setVelocity(g.getVelocity().x, g.getVelocity().y + gravity * fixedDeltaTime / 1000 / physicsIterations);\r\n        } else {\r\n            g.onGrounded(groundLevel);\r\n        }\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    //Game logic\r\n    //-----------------------------------------------------------------------------------------------------------\r\n    private void update() {\r\n        if(player.visible){\r\n            player.update(fixedDeltaTime);\r\n            scene.update(fixedDeltaTime);\r\n            npc_pool.update(fixedDeltaTime);\r\n            //goldController.update(fixedDeltaTime);\r\n        }\r\n        else{\r\n            if(!Game.instance.gameOver) {\r\n                Game.instance.showGameOver = true;\r\n            }\r\n        }\r\n    }\r\n    public void movePlayerBy(Vector2 dv){\r\n\r\n        if(dv!=null){\r\n            this.moveBy = new Vector2(dv.x,dv.y);\r\n            player.moveBy(moveBy.multiply(player.maxMoveSpeed));\r\n\r\n        }\r\n        else {\r\n            player.moveBy(dv);\r\n        }\r\n    }\r\n\r\n    public float getGroundLevel(){\r\n        return  groundLevel;\r\n    }\r\n    public void breathFire(boolean breathingFire){\r\n        player.breathingFire = breathingFire;\r\n    }\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java	(revision e00e1533172439953bacc29142dc22a7fd61f985)
++++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java	(date 1602637237503)
+@@ -58,7 +58,7 @@
+     NPC_Pool npc_pool;
+     GoldController goldController;
+     Lair lair;
+-
++    Fortress fortress;
+ 
+     //Drawing
+     Bitmap wall;
+@@ -124,6 +124,10 @@
+         scene = new Scene();
+         lair = new Lair();
+ 
++        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.house);
++        b = Bitmap.createScaledBitmap(b,100,100,false);
++        fortress = new Fortress(b, 400, 400, 4, true, this);
++
+         Game.instance.gameOver = false;
+ 
+         resume();
+Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Foundation.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package mnm.bcs106.yoobeecolleges.dragon;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Rect;\r\n\r\npublic class Foundation {\r\n\r\n    int tileSize = 1;\r\n    public final int TILE_SIZE = 100;\r\n\r\n    //current\r\n    int health;\r\n\r\n    int maxHealth;\r\n\r\n    protected GameView activity;\r\n\r\n    //current\r\n    int inhabitantsSize;\r\n\r\n    // matthews Villager function as an array,\r\n    // to tell the building how many villagers live inside\r\n\r\n    // if health 0 = false;\r\n    boolean isStanding;\r\n\r\n    public int x,y;\r\n    Rect collision;\r\n\r\n    Bitmap buildingImage;\r\n\r\n    public Foundation(Bitmap buildingImage,int x, int y, int tileNr, boolean isStanding, GameView activity){\r\n\r\n        this.activity = activity;\r\n        this.isStanding = true;\r\n\r\n        health = maxHealth;\r\n\r\n        this.x = x;\r\n        this.y = y;\r\n        collision = new Rect(x,y,x+tileSize,y + tileSize);\r\n\r\n        this.buildingImage = buildingImage;\r\n\r\n\r\n\r\n    }\r\n\r\n    public void draw(Canvas c){\r\n        c.drawBitmap(buildingImage,x,y,null);\r\n    }\r\n\r\n    public int getTileNr(){\r\n        return 1;\r\n    }\r\n\r\n    public void physics(float deltaTime){\r\n\r\n    }\r\n\r\n    public void update(){\r\n\r\n    }\r\n\r\n}\r\n\r\n\r\n    //public newSlime[] Puddle = new newSlime[12];\r\n    //int puddleSize = 0;\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Foundation.java	(revision e00e1533172439953bacc29142dc22a7fd61f985)
++++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Foundation.java	(date 1602635798147)
+@@ -68,7 +68,3 @@
+ }
+ 
+ 
+-    //public newSlime[] Puddle = new newSlime[12];
+-    //int puddleSize = 0;
+-
+-
+Index: ../buildings_prototype/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_7\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../buildings_prototype/.idea/misc.xml	(revision e00e1533172439953bacc29142dc22a7fd61f985)
++++ ../buildings_prototype/.idea/misc.xml	(date 1602637206303)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: ../buildings_prototype/.idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <compositeConfiguration>\r\n          <compositeBuild compositeDefinitionSource=\"SCRIPT\" />\r\n        </compositeConfiguration>\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../buildings_prototype/.idea/gradle.xml	(revision e00e1533172439953bacc29142dc22a7fd61f985)
++++ ../buildings_prototype/.idea/gradle.xml	(date 1602637206353)
+@@ -1,15 +1,20 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+-        <compositeConfiguration>
+-          <compositeBuild compositeDefinitionSource="SCRIPT" />
+-        </compositeConfiguration>
++        <option name="testRunner" value="PLATFORM" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
++        <option name="modules">
++          <set>
++            <option value="$PROJECT_DIR$" />
++            <option value="$PROJECT_DIR$/app" />
++          </set>
++        </option>
+         <option name="resolveModulePerSourceSet" value="false" />
+-        <option name="testRunner" value="PLATFORM" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: ../buildings_prototype/.idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../buildings_prototype/.idea/vcs.xml	(date 1602636883608)
++++ ../buildings_prototype/.idea/vcs.xml	(date 1602636883608)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../buildings_prototype/.idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../buildings_prototype/.idea/compiler.xml	(date 1602637206332)
++++ ../buildings_prototype/.idea/compiler.xml	(date 1602637206332)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <bytecodeTargetLevel target="1.8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: ../buildings_prototype/.idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../buildings_prototype/.idea/jarRepositories.xml	(date 1602637238060)
++++ ../buildings_prototype/.idea/jarRepositories.xml	(date 1602637238060)
+@@ -0,0 +1,25 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="BintrayJCenter" />
++      <option name="name" value="BintrayJCenter" />
++      <option name="url" value="https://jcenter.bintray.com/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="Google" />
++      <option name="name" value="Google" />
++      <option name="url" value="https://dl.google.com/dl/android/maven2/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
