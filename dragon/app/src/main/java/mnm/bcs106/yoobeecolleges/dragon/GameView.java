@@ -115,6 +115,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         npc_pool = new NPC_Pool();
         npc_pool.spawnWooloo(500, (int) groundLevel);
+        npc_pool.spawnArcher(0, (int) groundLevel);
 
         goldController = new GoldController();
         GoldController.instance.spawnGold(screenHeight/2, screenWidth/4,10);
@@ -317,6 +318,7 @@ public class GameView extends SurfaceView implements Runnable {
             player.update(fixedDeltaTime);
             scene.update(fixedDeltaTime);
             npc_pool.update(fixedDeltaTime);
+            System.out.println(fixedDeltaTime +" "+ deltaTime);
             //goldController.update(fixedDeltaTime);
             fortress.update(fixedDeltaTime);
         }
