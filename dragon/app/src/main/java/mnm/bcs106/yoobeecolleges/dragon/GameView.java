@@ -30,12 +30,13 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
+    //final float fixedDeltaTime = (int) (1000 / 60); // in milliseconds
 
     float deltaTime = fixedDeltaTime;
 
     //Physics
     public float groundLevel, upperBound, gravity = 0.3f;
-    int physicsIterations = 5;
+    int physicsIterations = 2;
     Vector2 cameraDisp = Vector2.zero;
 
     //Projectile
@@ -95,7 +96,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(instance == null) {
             instance = this;
         }
-
+        System.out.println(fixedDeltaTime);
         //Dimensions
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -117,7 +118,7 @@ public class GameView extends SurfaceView implements Runnable {
         npc_pool.spawnArcher(0, (int) groundLevel);
 
         goldController = new GoldController();
-        goldController.spawnGold(new Vector2(screenHeight/2, screenWidth/4),10);
+        GoldController.instance.spawnGold(screenHeight/2, screenWidth/4,10);
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
@@ -230,9 +231,10 @@ public class GameView extends SurfaceView implements Runnable {
             //ground.draw(canvas);
             scene.drawBackground(canvas);
             lair.draw(canvas);
+            fortress.draw(canvas);
             player.draw(canvas);
             npc_pool.draw(canvas);
-            fortress.draw(canvas);
+
 
             scene.drawForeground(canvas);
 
@@ -259,12 +261,26 @@ public class GameView extends SurfaceView implements Runnable {
                 p.setAlpha(255);
             }
             canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);
+
+            p = new Paint();
             p.setTextSize(screenWidth/30);
             p.setFakeBoldText(true);
             p.setColor(Color.WHITE);
             p.setTextAlign(Paint.Align.RIGHT);
+            p.setShadowLayer(10,0,0,Color.BLACK);
             canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
+
+            p.setColor(Color.BLACK);
+            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+screenWidth/3, screenHeight/20+10, p);
+            canvas.drawRect(screenWidth/20, screenHeight/20+20 ,screenWidth/20+screenWidth/3, screenHeight/20+30, p);
+            p.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
+            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+ screenWidth/3*player.health/player.maxHealth, screenHeight/20+10, p);
+            p.setColor(Game.instance.getResources().getColor(R.color.colorMana));
+            canvas.drawRect(screenWidth/20, screenHeight/20+20,screenWidth/20+ screenWidth/3*player.mana/player.maxMana, screenHeight/20+30, p);
+
             holder.unlockCanvasAndPost(canvas);
+
+
         }
 
     }
@@ -330,7 +346,9 @@ public class GameView extends SurfaceView implements Runnable {
         return  groundLevel;
     }
     public void breathFire(boolean breathingFire){
-        player.breathingFire = breathingFire;
+
+            player.breathingFire = breathingFire;
+
     }
 }
 

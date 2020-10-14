@@ -34,7 +34,7 @@ public class Scene {
         hillsBackground = Bitmap.createScaledBitmap(hillsBackground, width,(int)(height/5),false);
         backPaint = new Paint();
         frontPaint = new Paint();
-        frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorDragon));
+        frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
         backPaint.setColor(Color.rgb(timeOfDay,timeOfDay,timeOfDay));
     }
 

@@ -33,8 +33,9 @@ public class Dragon extends Character {
 
 
     int goldHolding = 0;
-    int attack, maxMana;
+    int attack, maxMana = 100;
     float mana = maxMana;
+    float flyingManaCost = 5, fireManaCost = 10, manaRegen=5;
     int attackLevel, healthLevel, manaLevel, speedLevel;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
@@ -47,12 +48,13 @@ public class Dragon extends Character {
         friction = 0.99f;
         facing = true;
         upperBound = GameView.instance.screenHeight/10;
-        groundLevel = GameView.instance.groundLevel;
 
-        setAttackController(0,100,100);
-        position = new Vector2(GameView.instance.screenWidth/2, groundLevel-3f/2*radius);
 
         initBody(65);
+
+
+        setAttackController(0,100,100);
+
 
     }
 
@@ -65,7 +67,8 @@ public class Dragon extends Character {
 
         bodyStart = size/9;
         bodyEnd = size/4;
-
+        groundLevel = GameView.instance.groundLevel-1.7f*radius;
+        position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
         init(position.x, position.y,radius*2, radius,3f/4, 100);
 
@@ -73,7 +76,7 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.4f+0.3f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.5f+0.3f,1) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
@@ -92,8 +95,8 @@ public class Dragon extends Character {
         backLeg = new Leg(this, segments.get(bodyEnd+2), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/8), true);
-        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*radius/8), false);
+        frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), true);
+        backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), false);
         head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
@@ -109,17 +112,7 @@ public class Dragon extends Character {
             Segment segment = segments.get(i*(bodyEnd+size)/2/colliders.length);
             colliders[i] = segment;
         }
-/*
-        speed = radius;
 
-        for(int i = 0; i < size;i++){
-            moveBy(Vector2.right);
-            physics(fixedDeltaTime);
-            update(fixedDeltaTime);
-        }
-
-        GameView.instance.cameraDisp = Vector2.zero;*/
-        speed = 0;
         moveBy(Vector2.right);
     }
 
@@ -155,6 +148,14 @@ public class Dragon extends Character {
         if(moveBy == null){
             setDir(Math.signum(direction.x),direction.y/2);
             friction = 0.97f;
+            if(!breathingFire) {
+                mana += manaRegen * fixedDeltaTime / 1000;
+                mana = Math.min(mana, maxMana);
+                if (!flying ){
+                    mana += manaRegen * 2 * fixedDeltaTime / 1000;
+                    mana = Math.min(mana, maxMana);
+                }
+            }
             return;
         }
         if(!stunController.performing) {
@@ -167,7 +168,7 @@ public class Dragon extends Character {
                     backArm.walking = true;
                     frontArm.walking = true;
 
-                    if(backLeg.segment.position.y >= groundLevel-radius*1.7f) {
+                    if(backLeg.segment.position.y >= groundLevel-radius/10) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
                     }
@@ -179,22 +180,43 @@ public class Dragon extends Character {
 
                     }
                     else {
-                        speed = 0;
+                        speed = speed*0.99f;
                     }
                     direction.y = Math.min(direction.y,0);
-
+                    if(!breathingFire) {
+                        mana += manaRegen * fixedDeltaTime / 1000;
+                        mana = Math.min(mana, maxMana);
+                    }
                 }
                 else {
+                    mana -= flyingManaCost*fixedDeltaTime/1000*(GameView.instance.screenHeight - position.y)/ GameView.instance.screenHeight;
+                    mana = Math.max(0,mana);
+
                     if(breathingFire) {
 
                         setDir(moveBy.multiply(1f / 15).add(direction));
-                        speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2;
+
+                        if(mana <= 0){
+                            direction.y = 0.5f;
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
+                        }
+                        else {
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2;
+                        }
 
                     }
                     else {
                         setDir(moveBy.add(direction.multiply(0.3f)));
-                        speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
+
+                        if(mana <= 0){
+                            direction.y = 0.5f;
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
+                        }
+                        else {
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
+                        }
                     }
+
 
                     backWing.walking=false;
                     frontWing.walking=false;
@@ -203,7 +225,7 @@ public class Dragon extends Character {
                     backLeg.walking=false;
                     frontLeg.walking=false;
                 }
-                if(position.y > GameView.instance.groundLevel-GameView.instance.screenHeight/10) {
+                if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
                     direction.x = Math.signum(direction.x) * Math.max(direction.x, 0.8f);
                 }
@@ -235,12 +257,12 @@ public class Dragon extends Character {
             direction.y = 0;
             position.y = upperBound;
         }
-        if(position.y > groundLevel-radius*3f/2){
+        if(position.y > groundLevel){
             direction.y = 0;
-            position.y = groundLevel-radius*3f/2;
+            position.y = groundLevel;
         }
 
-        if(position.y >= groundLevel-radius*3/2){
+        if(position.y >= groundLevel){
             flying = false;
         }
         else{
@@ -250,8 +272,10 @@ public class Dragon extends Character {
         if(!destroyed)
             super.physics(deltaTime);
         speed*=friction;
-        if(breathingFire){
+        if(breathingFire && mana > 0){
             fireBreath.breath(deltaTime);
+            mana -= fireManaCost*deltaTime/1000;
+            mana = Math.max(0,mana);
         }
         fireBreath.physics(deltaTime);
 
@@ -345,6 +369,7 @@ class Head{
         spriteEye = Bitmap.createScaledBitmap(spriteEye, (int) (radius * 2), (int) (radius * 2), false);
 
         src = new RectF(0, 0, radius * 2, radius * 2);
+
     }
     public void draw(Canvas canvas){
 
@@ -421,6 +446,7 @@ class Segment{
 
         dst = src;
         paint.setAntiAlias(true);
+
     }
     public void draw(Canvas canvas){
 
@@ -685,23 +711,27 @@ class FireBreath{
                 f = backFlames.get(i);
                 f.physics(deltaTime);
             }
-            direction = direction.add(dragon.direction.multiply(0.1f)).getNormal();
+            direction = dragon.direction.add(direction).multiply(0.5f);
 
 
     }
 
     public boolean collision(GameObject other) {
-
-        boolean collided = false;
-        collided = flames.get(currentBreath).dst.intersect(other.getBounds());
-        return collided;
+        return collision(other.getBounds());
     }
 
     public boolean collision(Rect r) {
-        boolean collided = false;
+
         RectF other = new RectF(r.left,r.top,r.right,r.bottom);
-        collided = flames.get(currentBreath).dst.intersect(other);
-        return collided;
+        return collision(other);
+    }
+    public boolean collision(RectF r) {
+
+        RectF other = new RectF(r.left,r.top,r.right,r.bottom);
+        return flames.get(currentBreath).dst.intersect(other) && dragon.breathingFire ;
+    }
+    public boolean collision(Vector2 center, float radius) {
+        return Vector2.distance(flames.get(currentBreath).position, center) < radius && dragon.breathingFire;
     }
 
     public void draw(Canvas canvas){

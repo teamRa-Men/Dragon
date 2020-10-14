@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDark">#181819</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorDragon">#181819</color>
+    <color name="colorDragon">#CC5866</color>
     <color name="colorFire">#FFE8A2</color>
+    <color name="colorHealth">#B3FFA2</color>
+    <color name="colorMana">#A2E2FF</color>
 </resources>

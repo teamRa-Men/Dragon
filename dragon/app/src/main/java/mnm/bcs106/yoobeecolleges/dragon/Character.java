@@ -125,8 +125,8 @@ public class Character extends Destroyable {
         protected void destroyAnim(Canvas canvas) {
             if(visible) {
                 //Fading animation
-                visible = FadingAnim.fade(paint);
-                drawDisplacement = ShakingAnim.shake(width,height,1/50,1/20);
+                visible = SharedAnim.fade(paint);
+                drawDisplacement = SharedAnim.shake(width,height,1/50,1/20);
                 //Shaking animation
 
             }
