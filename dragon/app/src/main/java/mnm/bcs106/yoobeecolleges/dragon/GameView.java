@@ -348,7 +348,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void breathFire(boolean breathingFire){
 
             player.breathingFire = breathingFire;
-        
+
     }
 }
 

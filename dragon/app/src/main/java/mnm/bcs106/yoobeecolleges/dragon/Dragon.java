@@ -35,7 +35,7 @@ public class Dragon extends Character {
     int goldHolding = 0;
     int attack, maxMana = 100;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 15, manaRegen=5;
+    float flyingManaCost = 5, fireManaCost = 10, manaRegen=5;
     int attackLevel, healthLevel, manaLevel, speedLevel;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
@@ -711,7 +711,7 @@ class FireBreath{
                 f = backFlames.get(i);
                 f.physics(deltaTime);
             }
-            direction = dragon.direction;
+            direction = dragon.direction.add(direction).multiply(0.5f);
 
 
     }
