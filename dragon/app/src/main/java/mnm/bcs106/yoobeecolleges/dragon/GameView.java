@@ -59,7 +59,7 @@ public class GameView extends SurfaceView implements Runnable {
     NPC_Pool npc_pool;
     GoldController goldController;
     Lair lair;
-
+    Fortress fortress;
 
     //Drawing
     Bitmap wall;
@@ -124,6 +124,10 @@ public class GameView extends SurfaceView implements Runnable {
         //Init scene
         scene = new Scene();
         lair = new Lair();
+
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.fortress);
+        b = Bitmap.createScaledBitmap(b,100,100,false);
+        fortress = new Fortress(b, screenWidth*2, (int)groundLevel, 4, true, this);
 
         Game.instance.gameOver = false;
 
@@ -227,6 +231,7 @@ public class GameView extends SurfaceView implements Runnable {
             lair.draw(canvas);
             player.draw(canvas);
             npc_pool.draw(canvas);
+            fortress.draw(canvas);
 
             scene.drawForeground(canvas);
 
@@ -271,7 +276,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(!Game.instance.gameOver) {
 
             npc_pool.physics(fixedDeltaTime);
-
+            fortress.physics(deltaTime);
             //Enemy motion
             if (!player.destroyed) {
                 goldController.physics(fixedDeltaTime / physicsIterations);
@@ -299,6 +304,7 @@ public class GameView extends SurfaceView implements Runnable {
             scene.update(fixedDeltaTime);
             npc_pool.update(fixedDeltaTime);
             //goldController.update(fixedDeltaTime);
+            fortress.update(fixedDeltaTime);
         }
         else{
             if(!Game.instance.gameOver) {
