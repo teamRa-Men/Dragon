@@ -175,7 +175,7 @@ public class Dragon extends Character {
                     backArm.walking = true;
                     frontArm.walking = true;
 
-                    if(backLeg.segment.position.y >= groundLevel*1.1f) {
+                    if(backLeg.segment.position.y >= groundLevel-radius/10) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
                     }
@@ -703,7 +703,7 @@ class FireBreath{
                 f = backFlames.get(i);
                 f.physics(deltaTime);
             }
-            direction = direction.add(dragon.direction.multiply(0.1f)).getNormal();
+            direction = dragon.direction;
 
 
     }
