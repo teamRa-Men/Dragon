@@ -261,6 +261,8 @@ public class GameView extends SurfaceView implements Runnable {
                 p.setAlpha(255);
             }
             canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);
+
+            p = new Paint();
             p.setTextSize(screenWidth/30);
             p.setFakeBoldText(true);
             p.setColor(Color.WHITE);
@@ -344,7 +346,9 @@ public class GameView extends SurfaceView implements Runnable {
         return  groundLevel;
     }
     public void breathFire(boolean breathingFire){
-        player.breathingFire = breathingFire;
+
+            player.breathingFire = breathingFire;
+        
     }
 }
 
