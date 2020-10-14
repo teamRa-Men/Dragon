@@ -198,7 +198,7 @@ public class Dragon extends Character {
 
                         if(mana <= 0){
                             direction.y = 0.5f;
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed/4))/2 ;
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
                         }
                         else {
                             speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2;
@@ -210,7 +210,7 @@ public class Dragon extends Character {
 
                         if(mana <= 0){
                             direction.y = 0.5f;
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed/4))/2 ;
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
                         }
                         else {
                             speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
