@@ -63,11 +63,8 @@ public class Foundation {
 
     public void physics(float deltaTime){
 
-        collider = new Rect(x,y-buildingImage.getHeight(),x+buildingImage.getWidth(),y );
 
-        System.out.println(GameView.instance.player.fireBreath.collision(collider));
-
-        if (GameView.instance.player.fireBreath.collision(collider)){
+        if (Vector2.distance(GameView.instance.player.fireBreath.flames.get(GameView.instance.player.fireBreath.currentBreath).position, new Vector2(x,y))<100 && GameView.instance.player.breathingFire){
             OnDamage();
             System.out.println("ouch");
         }
