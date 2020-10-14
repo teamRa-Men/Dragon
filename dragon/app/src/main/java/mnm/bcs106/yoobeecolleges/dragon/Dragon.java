@@ -285,7 +285,11 @@ public class Dragon extends Character {
             super.physics(deltaTime);
         speed*=friction;
         if(breathingFire && mana > 0){
-            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2,direction.x,direction.y);
+
+            if(Math.random()<0.1)
+            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+
+
             /*
             fireBreath.breath(deltaTime);
             mana -= fireManaCost*deltaTime/1000;

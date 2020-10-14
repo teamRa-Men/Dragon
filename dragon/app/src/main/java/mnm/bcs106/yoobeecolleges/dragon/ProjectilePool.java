@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ProjectilePool {
 
-    int maxArrows = 10;
+    int maxArrows = 100;
     ArrayList<Projectile> arrowPool = new ArrayList<Projectile>();
     ArrayList<Projectile> activeArrows = new ArrayList<Projectile>();
     Bitmap arrowSprite;
@@ -18,10 +18,10 @@ public class ProjectilePool {
         if(instance == null){
             instance = this;
         }
-        arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.arrow);
-        arrowSprite = Bitmap.createScaledBitmap(arrowSprite,30,10,false);
+        arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
+
         for (int i = 0; i < maxArrows; i++) {
-            Projectile newArrow = new Projectile(arrowSprite,0f,0.5f);
+            Projectile newArrow = new Projectile(arrowSprite,1f,0.5f);
             arrowPool.add(newArrow);
         }
     }
