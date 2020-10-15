@@ -80,7 +80,7 @@ public class Dragon extends Character {
                 segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.55f,2) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.8f)/2));
             }
             else{
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1));
@@ -464,7 +464,7 @@ class Segment{
         src = new RectF(0, 0, radius * 2, radius * 2);
 
         dst = src;
-      
+
 
     }
     public void draw(Canvas canvas){
