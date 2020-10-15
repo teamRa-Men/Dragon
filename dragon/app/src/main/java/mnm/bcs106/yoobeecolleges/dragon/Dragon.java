@@ -183,11 +183,9 @@ public class Dragon extends Character {
                     else {
                         speed = speed*0.99f;
                     }
-                    direction.y = Math.min(direction.y,0);
-                    if(!breathingFire) {
-                        mana += manaRegen * fixedDeltaTime / 1000;
-                        mana = Math.min(mana, maxMana);
-                    }
+                    if(mana <= 0)
+                    direction.y = Math.max(direction.y,0);
+
                 }
                 else {
                     mana -= flyingManaCost*fixedDeltaTime/1000*(GameView.instance.screenHeight - position.y)/ GameView.instance.screenHeight;
@@ -226,6 +224,7 @@ public class Dragon extends Character {
                     backLeg.walking=false;
                     frontLeg.walking=false;
                 }
+
                 if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
                     direction.x = Math.signum(direction.x) * Math.max(direction.x, 0.8f);
@@ -287,16 +286,16 @@ public class Dragon extends Character {
         speed*=friction;
         if(breathingFire && mana > 0){
 
-            if(Math.random()<0.05)
-            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+            //if(Math.random()<0.05)
+            //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
 
 
-            /*
+
             fireBreath.breath(deltaTime);
             mana -= fireManaCost*deltaTime/1000;
             mana = Math.max(0,mana);
 
-             */
+
         }
         fireBreath.physics(deltaTime);
 
@@ -332,12 +331,13 @@ public class Dragon extends Character {
 
         head.draw(canvas);
         //Debug: show colliders
+        /*
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
         }
-
+*/
     }
 
     public void collectedGold(){
@@ -424,10 +424,8 @@ class Head{
         // wave = (float)Math.cos((-time/1000)*Math.PI)*dragon.radius*0.2f;
 
         wave = 0;
-        if(dragon.breathingFire){
+        if(dragon.breathingFire && dragon.mana > 0){
             wave+=(Math.random()-0.5f)*radius/4;
-        }
-        if(dragon.breathingFire){
             open = (45+open)/2 + (float)Math.random()*10;
         }
         else{
