@@ -49,7 +49,9 @@ public class Foundation {
 
         width = TILE_SIZE*tileNr;
         height = width;
+
         this.buildingImage = Bitmap.createScaledBitmap(buildingImage,width, height,false);
+        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,GameView.instance.cameraSize*6/10,GameView.instance.cameraSize*6/10,false);
 
         collider = new Rect(x,y-height,x+width,height);
         damagePeriod = new ActionController(0,5000,5000);

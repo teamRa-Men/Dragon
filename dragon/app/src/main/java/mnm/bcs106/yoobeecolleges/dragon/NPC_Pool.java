@@ -15,20 +15,24 @@ public class NPC_Pool {
         }
     }
     public void spawnWooloo (int spawnX, int spawnY, int ammount){
-        for (int i = 0;i<ammount;i++){
-            if (!npcWooloo[i].alive) {
+        int d = 0;
+        for (int i = 0;i<size;i++){
+            if (!npcWooloo[i].alive && d < ammount) {
                 npcWooloo[i].alive = true;
                 npcWooloo[i].npcX = spawnX;
                 npcWooloo[i].npcY = spawnY;
+                d++;
             }
         }
     }
     public void spawnArcher (int spawnX, int spawnY, int ammount){
+        int d = 0;
         for (int i = 0;i<ammount;i++){
-            if (!npcRangedNPC[i].alive) {
+            if (!npcRangedNPC[i].alive && d < ammount) {
                 npcRangedNPC[i].alive = true;
                 npcRangedNPC[i].npcX = spawnX;
                 npcRangedNPC[i].npcY = spawnY;
+                d++;
             }
         }
     }
