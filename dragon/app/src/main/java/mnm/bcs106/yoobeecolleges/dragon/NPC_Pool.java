@@ -15,11 +15,12 @@ public class NPC_Pool {
         }
     }
     public void spawnWooloo (int spawnX, int spawnY, int ammount){
-        for (int i = 0;i<ammount;i++){
+        for (int i = 0;i<ammount;){
             if (!npcWooloo[i].alive) {
                 npcWooloo[i].alive = true;
                 npcWooloo[i].npcX = spawnX;
                 npcWooloo[i].npcY = spawnY;
+                i++;
             }
         }
     }
@@ -29,6 +30,7 @@ public class NPC_Pool {
                 npcRangedNPC[i].alive = true;
                 npcRangedNPC[i].npcX = spawnX;
                 npcRangedNPC[i].npcY = spawnY;
+                i++;
             }
         }
     }
