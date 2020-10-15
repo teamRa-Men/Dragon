@@ -4,11 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 public class Projectile extends GameObject {
-    int damage;
+    int damage = 5;
     float pushX, pushY;
-    float coolDown; //This determines when the projectile returns to the pool after being shot
+    float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
-
+    public boolean returnToPool = false;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY) {
         super(sprite, offsetX, offsetY);
@@ -38,6 +38,7 @@ public class Projectile extends GameObject {
                 paint.setAlpha(alpha);
                 if (timeSinceShot > coolDown) {
                     init();
+                   returnToPool = true;
                 }
             }
 
@@ -49,23 +50,37 @@ public class Projectile extends GameObject {
     public void physics(float deltaTime) {
         super.physics(deltaTime);
         timeSinceShot+=deltaTime;
+        //gravity
+
+        if(GameView.instance.player.collision(this)){
+            GameView.instance.player.onDamage(damage);
+        }
+
+        if(position.y < GameView.instance.getGroundLevel()){
+            setVelocity(getVelocity().x, getVelocity().y + 1f/2* deltaTime/1000);
+
+        }
+        else{
+
+                onGrounded(GameView.instance.getGroundLevel());
+
+
+        }
     }
 
-    public void shoot(float s, float dx, float dy){
-        init();
-        speed = s;
+
+    public void shoot(int x, int y, float speed, float dx, float dy){
+
+        position = new Vector2(x,y);
+        this.speed = speed;
         timeSinceShot = 0;
         setDir(dx,dy);
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
-        gravity = true;
         simulated = true;
         visible = true;
         //Game.instance.soundEffects.play(Game.instance.soundEffects.PEW);
     }
 
-    public void shoot(float s, Vector2 d){
-        shoot(s,d.x,d.y);
-    }
 
     void init(){
         centerPivot = false;
@@ -77,24 +92,6 @@ public class Projectile extends GameObject {
 
     }
 
-    protected void onCollision(GameObject other) {
-        try{
-            //Stop on collision
-            speed = 0;
-            gravity = false;
-            simulated = false;
-
-            //Attach to the game object
-            setParent(other);
-
-            //Apply momentum and health effect (damage) to object if it is destroyable
-            ((Destroyable)other).onDamage(damage, direction.x*pushX, direction.y*pushY);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     //Stop if the projectile hits the ground
     @Override
@@ -106,17 +103,5 @@ public class Projectile extends GameObject {
         speed = 0;
     }
 
-    //Set the momentum of the shot to transfer to the game object the projectile hits
-    public void setPush(float x, float y){
-        pushX = x;
-        pushY = y;
-    }
-    public void setDamage(int dmg){
-        damage =dmg;
-    }
-
-    public void setCoolDown(float milliseconds, float deltaTime){
-        coolDown = milliseconds/deltaTime;
-    }
 
 }

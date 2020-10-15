@@ -29,7 +29,7 @@ public class Dragon extends Character {
     int bodyEnd;
     public boolean breathingFire, flying;
     float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/2;
-    Segment[] colliders = new Segment[4];
+    Segment[] colliders;
 
 
     int goldHolding = 0;
@@ -62,6 +62,7 @@ public class Dragon extends Character {
         segments.clear();
 
         this.size = size;
+        colliders = new Segment[size/10];
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
@@ -250,6 +251,18 @@ public class Dragon extends Character {
         }
         return collided;
     }
+    public boolean collisionStick(GameObject other) {
+        boolean collided = false;
+        for (int i = 0; i < colliders.length; i++) {
+            Segment segment = colliders[i];
+            RectF bound = segment.dst;
+            if(other.getBounds().intersect(bound.left-radius,bound.top-radius,bound.right+radius,bound.bottom+radius)){
+                collided = true;
+                //make child
+            }
+        }
+        return collided;
+    }
 
     @Override
     public void physics(float deltaTime) {
@@ -273,9 +286,17 @@ public class Dragon extends Character {
             super.physics(deltaTime);
         speed*=friction;
         if(breathingFire && mana > 0){
+
+            if(Math.random()<0.05)
+            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+
+
+            /*
             fireBreath.breath(deltaTime);
             mana -= fireManaCost*deltaTime/1000;
             mana = Math.max(0,mana);
+
+             */
         }
         fireBreath.physics(deltaTime);
 
@@ -310,13 +331,13 @@ public class Dragon extends Character {
         }
 
         head.draw(canvas);
-/*Debug: show colliders
+        //Debug: show colliders
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
         }
-*/
+
     }
 
     public void collectedGold(){

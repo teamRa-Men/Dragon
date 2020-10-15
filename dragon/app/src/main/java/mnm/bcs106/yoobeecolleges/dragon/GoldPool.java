@@ -6,14 +6,14 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
-public class GoldController {
+public class GoldPool {
     int maxGold = 10;
     ArrayList<Gold> goldPool = new ArrayList<Gold>();
     ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
-    public static GoldController instance;
+    public static GoldPool instance;
 
-    public GoldController(){
+    public GoldPool(){
         if(instance == null){
             instance = this;
         }
