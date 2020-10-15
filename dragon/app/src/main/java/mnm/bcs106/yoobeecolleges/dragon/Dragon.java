@@ -29,7 +29,7 @@ public class Dragon extends Character {
     int bodyEnd;
     public boolean breathingFire, flying;
     float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/2;
-    Segment[] colliders = new Segment[4];
+    Segment[] colliders;
 
 
     int goldHolding = 0;
@@ -62,6 +62,7 @@ public class Dragon extends Character {
         segments.clear();
 
         this.size = size;
+        colliders = new Segment[size/10];
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
@@ -287,7 +288,7 @@ public class Dragon extends Character {
         if(breathingFire && mana > 0){
 
             if(Math.random()<0.05)
-            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
 
 
             /*
@@ -330,13 +331,13 @@ public class Dragon extends Character {
         }
 
         head.draw(canvas);
-/*Debug: show colliders
+        //Debug: show colliders
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
         }
-*/
+
     }
 
     public void collectedGold(){
