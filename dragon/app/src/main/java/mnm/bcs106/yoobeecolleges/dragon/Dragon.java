@@ -464,7 +464,7 @@ class Segment{
         src = new RectF(0, 0, radius * 2, radius * 2);
 
         dst = src;
-        paint.setAntiAlias(true);
+      
 
     }
     public void draw(Canvas canvas){
@@ -542,7 +542,7 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*3f/2;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius,0.15f);
         }
         float right = left + src.width();
