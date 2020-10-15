@@ -8,8 +8,8 @@ public class ArcherTower extends Foundation {
     float attackRange = (1/3);
     int[] Arrows = new int[15];
 
-    public ArcherTower(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity){
-        super(buildingImage, x, y, tileNr, isStanding, activity );
+    public ArcherTower( int x, int y, boolean isStanding, GameView activity){
+        super( x, y, 1, isStanding, activity );
 
         this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
         this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);

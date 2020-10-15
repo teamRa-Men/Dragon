@@ -124,9 +124,8 @@ public class GameView extends SurfaceView implements Runnable {
         scene = new Scene();
         lair = new Lair();
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.fortress);
-        b = Bitmap.createScaledBitmap(b,100,100,false);
-        fortress = new Fortress(b, screenWidth*2, (int)groundLevel, 4, true, this);
+
+        fortress = new Fortress( screenWidth*2, (int)groundLevel, true, this);
 
         Game.instance.gameOver = false;
 
