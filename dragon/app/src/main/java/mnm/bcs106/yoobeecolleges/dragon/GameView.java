@@ -111,7 +111,6 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-        npc_pool.spawnWooloo(500, (int) groundLevel);
         npc_pool.spawnArcher(0, (int) groundLevel);
 
         goldPool = new GoldPool();

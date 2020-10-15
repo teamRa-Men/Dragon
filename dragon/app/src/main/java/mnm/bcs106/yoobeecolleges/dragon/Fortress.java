@@ -161,10 +161,10 @@ public class Fortress extends Foundation {
                 if (rh < 0) {
                     currentBuildingsLeft.add(new House(buildingImage, x - (currentTilesLeft + 1) * offset, y, 1, true, activity));
                     currentTilesLeft+=1;
-                } //else {
-                 //   currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
-                  //  currentTilesLeft+=3;
-                //}
+                } else {
+                    currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
+                    currentTilesLeft+=3;
+                }
 
 
                 currentBuilding++;
@@ -176,10 +176,10 @@ public class Fortress extends Foundation {
                     currentBuildingsRight.add(new House(buildingImage, x + (currentTilesRight + 1) * offset, y, 1, true, activity));
                     currentTilesRight+=1;
                 }
-                //else {
-                  //  currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
-                    //currentTilesRight+=3;
-                //}
+                else {
+                    currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
+                    currentTilesRight+=3;
+                }
 
 
                 currentBuilding++;
