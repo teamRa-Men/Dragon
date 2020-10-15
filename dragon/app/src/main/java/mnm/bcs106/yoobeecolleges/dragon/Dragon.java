@@ -66,9 +66,9 @@ public class Dragon extends Character {
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
-        bodyStart = size/9;
+        bodyStart = size/8;
         bodyEnd = size/4;
-        groundLevel = GameView.instance.groundLevel-1.7f*radius;
+        groundLevel = GameView.instance.groundLevel-1.6f*radius;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
         init(position.x, position.y,radius*2, radius,3f/4, 100);
@@ -77,13 +77,13 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.5f+0.3f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.55f,2) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2));
             }
             else{
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.8f,1.5f) * radius)/2+1));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1));
             }
             float c = Math.min((float)(size-i)/size*10,0.2f)+0.8f;
 
@@ -98,7 +98,7 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), true);
         backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), false);
-        head = new Head(this, radius*1.1f);
+        head = new Head(this, radius*1f);
         fireBreath = new FireBreath(this);
 
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
@@ -183,11 +183,9 @@ public class Dragon extends Character {
                     else {
                         speed = speed*0.99f;
                     }
-                    direction.y = Math.min(direction.y,0);
-                    if(!breathingFire) {
-                        mana += manaRegen * fixedDeltaTime / 1000;
-                        mana = Math.min(mana, maxMana);
-                    }
+                    if(mana <= 0)
+                    direction.y = Math.max(direction.y,0);
+
                 }
                 else {
                     mana -= flyingManaCost*fixedDeltaTime/1000*(GameView.instance.screenHeight - position.y)/ GameView.instance.screenHeight;
@@ -226,6 +224,7 @@ public class Dragon extends Character {
                     backLeg.walking=false;
                     frontLeg.walking=false;
                 }
+
                 if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
                     direction.x = Math.signum(direction.x) * Math.max(direction.x, 0.8f);
@@ -287,16 +286,16 @@ public class Dragon extends Character {
         speed*=friction;
         if(breathingFire && mana > 0){
 
-            if(Math.random()<0.05)
-            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+            //if(Math.random()<0.05)
+            //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
 
 
-            /*
+
             fireBreath.breath(deltaTime);
             mana -= fireManaCost*deltaTime/1000;
             mana = Math.max(0,mana);
 
-             */
+
         }
         fireBreath.physics(deltaTime);
 
@@ -332,12 +331,13 @@ public class Dragon extends Character {
 
         head.draw(canvas);
         //Debug: show colliders
+        /*
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
         }
-
+*/
     }
 
     public void collectedGold(){
@@ -424,10 +424,8 @@ class Head{
         // wave = (float)Math.cos((-time/1000)*Math.PI)*dragon.radius*0.2f;
 
         wave = 0;
-        if(dragon.breathingFire){
+        if(dragon.breathingFire && dragon.mana > 0){
             wave+=(Math.random()-0.5f)*radius/4;
-        }
-        if(dragon.breathingFire){
             open = (45+open)/2 + (float)Math.random()*10;
         }
         else{
@@ -456,7 +454,7 @@ class Segment{
         //System.out.println(radius +" "+index);
         position = dragon.position.add(Vector2.left.multiply(1000));
 
-        if (index % 2 == 0){
+        if (index % 2 != 0){
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment_minimalism);
         }
         else{
@@ -466,7 +464,7 @@ class Segment{
         src = new RectF(0, 0, radius * 2, radius * 2);
 
         dst = src;
-        paint.setAntiAlias(true);
+      
 
     }
     public void draw(Canvas canvas){
@@ -544,7 +542,7 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*3f/2;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius,0.15f);
         }
         float right = left + src.width();
@@ -601,7 +599,7 @@ class Arm{
             if(front){
                 phase = (float)Math.PI;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*3f/2;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*0.8f;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius,0.15f);
         }
         float right = left + src.width();
