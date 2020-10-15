@@ -19,15 +19,14 @@ public class ProjectilePool {
             instance = this;
         }
         arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
-
         for (int i = 0; i < maxArrows; i++) {
             Projectile newArrow = new Projectile(arrowSprite,1f,0.5f);
             arrowPool.add(newArrow);
         }
     }
     public void shootArrow(int x, int y, float speed, float dx, float dy){
-
         if(arrowPool.size()>0) {
+            System.out.println("Something");
             Projectile arrow = arrowPool.get(0);
             arrowPool.remove(0);
             activeArrows.add(arrow);
