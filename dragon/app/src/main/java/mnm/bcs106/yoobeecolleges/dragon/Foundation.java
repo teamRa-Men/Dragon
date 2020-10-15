@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Foundation {
 
@@ -41,19 +42,22 @@ public class Foundation {
         this.isStanding = true;
 
         maxHealth = 200;
-        health = maxHealth;
+        this.health = maxHealth;
 
         this.x = x;
-        this.y = y;
+        this.y = (int)GameView.instance.groundLevel-3;
 
         width = TILE_SIZE*tileNr;
         height = width;
         this.buildingImage = Bitmap.createScaledBitmap(buildingImage,width, height,false);
+
         collider = new Rect(x,y-height,x+width,height);
         damagePeriod = new ActionController(0,5000,5000);
 
-
-
+        if (health<=0){
+            Log.i("ouch", "Foundation: ");
+            this.isStanding = false;
+        }
     }
 
     public void draw(Canvas c){
@@ -81,12 +85,7 @@ public class Foundation {
 
     public  void OnDamage () {
         damagePeriod.triggerAction();
-        health-=1;
-
-
-        if (health<=0){
-            isStanding = false;
-        }
+        this.health-=1;
     }
 }
 

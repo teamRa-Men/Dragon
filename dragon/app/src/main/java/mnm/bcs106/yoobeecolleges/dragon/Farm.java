@@ -4,10 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Farm extends Foundation{
 
@@ -35,6 +34,15 @@ public class Farm extends Foundation{
         //working simple farmimplementation, 3 tiles big, allways placed thw same.
            this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
            this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
+
+           maxCattle = 4;
+
+        if (currentCattle < maxCattle) {
+            GameView.instance.npc_pool.spawnWooloo(x, (int)GameView.instance.groundLevel);
+            currentCattle++;
+        }
+
+
 
 
 
@@ -123,13 +131,11 @@ public class Farm extends Foundation{
 //    class Farmhouse{
 //
 //    }
-
-    public void spawnWOOLOOOOS(){
-        //some type of other requirements
-        if(currentCattle < maxCattle){
-
-        }
+    @Override
+    public void draw(Canvas c) {
+        super.draw(c);
     }
+
 
     @Override
     public int getTileNr() {
