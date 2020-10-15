@@ -71,6 +71,7 @@ public class NPC {
             canvas.drawBitmap(npcBitmap,matrix,null);
         }
     }
+
     public  boolean there = false;
     public void moveToTarget(float deltaTime){
         if (Math.abs(target.x-npcX) > 0.1){
