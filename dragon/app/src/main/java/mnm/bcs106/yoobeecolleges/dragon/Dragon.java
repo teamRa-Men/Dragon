@@ -66,9 +66,9 @@ public class Dragon extends Character {
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
-        bodyStart = size/9;
+        bodyStart = size/8;
         bodyEnd = size/4;
-        groundLevel = GameView.instance.groundLevel-1.7f*radius;
+        groundLevel = GameView.instance.groundLevel-1.6f*radius;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
         init(position.x, position.y,radius*2, radius,3f/4, 100);
@@ -77,13 +77,13 @@ public class Dragon extends Character {
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
         for (int i = 0; i < size; i++) {
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.5f+0.3f,1) * radius));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.55f,2) * radius));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius)/2));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2));
             }
             else{
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.8f,1.5f) * radius)/2+1));
+                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1));
             }
             float c = Math.min((float)(size-i)/size*10,0.2f)+0.8f;
 
@@ -98,7 +98,7 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), true);
         backWing = new Wing(this,segments.get(bodyStart+2),(int)(radius*4), false);
-        head = new Head(this, radius*1.1f);
+        head = new Head(this, radius*1f);
         fireBreath = new FireBreath(this);
 
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
@@ -454,7 +454,7 @@ class Segment{
         //System.out.println(radius +" "+index);
         position = dragon.position.add(Vector2.left.multiply(1000));
 
-        if (index % 2 == 0){
+        if (index % 2 != 0){
             sprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.segment_minimalism);
         }
         else{
@@ -599,7 +599,7 @@ class Arm{
             if(front){
                 phase = (float)Math.PI;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*3f/2;
+            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius*0.8f;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius,0.15f);
         }
         float right = left + src.width();
