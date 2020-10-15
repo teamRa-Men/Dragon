@@ -286,14 +286,14 @@ public class Dragon extends Character {
         speed*=friction;
         if(breathingFire && mana > 0){
 
-            //if(Math.random()<0.05)
-            //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+            if(Math.random()<0.05)
+            ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
 
 
 
-            fireBreath.breath(deltaTime);
-            mana -= fireManaCost*deltaTime/1000;
-            mana = Math.max(0,mana);
+            //fireBreath.breath(deltaTime);
+            //mana -= fireManaCost*deltaTime/1000;
+            //mana = Math.max(0,mana);
 
 
         }
