@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -30,11 +31,6 @@ public class Fortress extends Foundation {
     ArrayList<Foundation> currentBuildingsRight = new ArrayList<Foundation>();
     ArrayList<Foundation> currentBuildingsLeft = new ArrayList<Foundation>();
 
-//    HashMap<Foundation, Integer> currentBuildingsLeft = new HashMap<Foundation, Integer>();
-//    HashMap<Foundation, Integer> currentBuildingsRight = new HashMap<Foundation, Integer>();
-
-
-
     //number of buildings in the village/town
     int currentBuilding;
 
@@ -50,13 +46,14 @@ public class Fortress extends Foundation {
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
-    public Fortress(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity) {
-        super(buildingImage, x, y, tileNr, isStanding, activity);
+    public Fortress(int x, int y, boolean isStanding, GameView activity) {
+        super(x, y,4, isStanding, activity);
 
+        buildingImage = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fortress);
+        buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
         Random r = new Random();
         x = r.nextInt();
 
-        tileNr = 4;
 
         // lv up conditions
         /*if(((currentTilesLeft+currenttTilesRight)-2 >= maxTiles) && (currentGold >=((maxGold/10)*9)
@@ -74,79 +71,17 @@ public class Fortress extends Foundation {
 
     }
 
-
-    //Working system, no arraylist unknown what if building destroyed
-    /*
-    public void update(int deltaTime){
-        currentGold += goldRate * deltaTime;
-        if(currentGold >= 240 && currentBuilding < 7 && (currentTilesLeft+currentTilesRight) < maxTiles){
-
-            //left or right
-            double lr = (Math.random()-0.5f);
-            //int direction = (lr < 0 ? currentTilesRight : currentTilesLeft);
-
-            //type of house
-            double rh = (Math.random()-0.5f);
-
-            if(lr < 0 ){
-
-                if(rh < 0)
-                {buildings[currentBuilding] = new House(buildingImage, x - (currentTilesLeft+1)*100,y,1,true, activity);}
-
-
-                else
-                    {buildings[currentBuilding] = new Farm(buildingImage, x - (currentTilesLeft+1)*100,y,2,true, activity);}
-
-
-                currentTilesLeft+=buildings[currentBuilding].getTileNr();
-                currentBuilding++;
-                currentGold -= 150;}
-
-
-            else{
-
-                if(rh < 0)
-                {buildings[currentBuilding] = new House(buildingImage, x + (currentTilesRight+1)*100,y,1,true, activity);}
-
-                else
-                {buildings[currentBuilding] = new Farm(buildingImage, x + (currentTilesRight+1)*100,y,2,true, activity);}
-
-
-                currentTilesRight+=buildings[currentBuilding].getTileNr();
-                currentBuilding++;
-                currentGold -= 150;}
-
-        }
-    }
-
-
-
-    @Override
-    public void draw(Canvas c){
-        super.draw(c);
-        for(int i = 0 ;i < 7; i++){
-
-            if(buildings[i] != null){
-
-                buildings[i].draw(c);
-            }
-        }
-    }
-
-    public void position(Fortress f){
-
-    }
-}
-    */
-
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
 
 
     public void update(float deltaTime) {
+
         deltaTime = deltaTime/200;
         currentGold += goldRate * deltaTime;
+
         if (currentGold >= 240 && (currentBuildingsRight.size() + currentBuildingsLeft.size()) < 7) {
             System.out.println("Money aquired");
+
             //left or right
             double lr = (Math.random() - 0.5f);
             //int direction = (lr < 0 ? currentTilesRight : currentTilesLeft);
@@ -154,17 +89,18 @@ public class Fortress extends Foundation {
             //type of house
             double rh = (Math.random() - 0.5f);
 
-            int offset = (int)(150-((Math.random()*25)));
+            int offset = (int)(tilesize-((Math.random()*tilesize/10)));
 
             if (lr < 0) {
 
                 if (rh < 0) {
-                    currentBuildingsLeft.add(new House(buildingImage, x - (currentTilesLeft + 1) * offset, y, 1, true, activity));
+                    currentBuildingsLeft.add(new House(x - (currentTilesLeft + 1) * offset, y, true, activity));
                     currentTilesLeft+=1;
-                } else {
-                    currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
-                    currentTilesLeft+=3;
                 }
+                //else {
+                //currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
+                //currentTilesLeft+=3;
+                //}
 
 
                 currentBuilding++;
@@ -173,13 +109,13 @@ public class Fortress extends Foundation {
             } else {
 
                 if (rh < 0) {
-                    currentBuildingsRight.add(new House(buildingImage, x + (currentTilesRight + 1) * offset, y, 1, true, activity));
+                    currentBuildingsRight.add(new House(x + (currentTilesRight + 1)*offset, y, true, activity));
                     currentTilesRight+=1;
                 }
-                else {
-                    currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
-                    currentTilesRight+=3;
-                }
+                //else {
+                //currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
+                //currentTilesRight+=3;
+                //}
 
 
                 currentBuilding++;
@@ -219,6 +155,20 @@ public class Fortress extends Foundation {
     public void position(Fortress f) {
 
     }
+
+    public void physics(float deltaTime){
+        super.physics(deltaTime);
+
+        for(int i = 0; i < currentBuildingsLeft.size(); i++){
+            currentBuildingsLeft.get(i).physics(deltaTime);
+        }
+
+        for(int i = 0; i < currentBuildingsRight.size(); i++){
+            currentBuildingsRight.get(i).physics(deltaTime);
+        }
+    }
+
+
 
     /*
     //HASMAPS

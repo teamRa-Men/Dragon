@@ -123,9 +123,8 @@ public class GameView extends SurfaceView implements Runnable {
         scene = new Scene();
         lair = new Lair();
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.fortress);
-        b = Bitmap.createScaledBitmap(b,100,100,false);
-        fortress = new Fortress(b, screenWidth*2, (int)groundLevel, 4, true, this);
+
+        fortress = new Fortress( screenWidth*2, (int)groundLevel, true, this);
 
         Game.instance.gameOver = false;
 
@@ -158,7 +157,7 @@ public class GameView extends SurfaceView implements Runnable {
                     deltaTime = (System.currentTimeMillis() - started);
                     int lag = (int) (fixedDeltaTime - deltaTime);
 
-                    System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+                    //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
                     if (lag > 0) {
                         try {
                             gameThread.sleep(lag);
@@ -212,10 +211,10 @@ public class GameView extends SurfaceView implements Runnable {
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average main " + totalFrame/numberFrame);
+            //System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 

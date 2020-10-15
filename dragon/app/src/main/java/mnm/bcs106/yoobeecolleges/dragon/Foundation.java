@@ -4,19 +4,23 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class Foundation {
+import java.net.PasswordAuthentication;
 
-    int tileSize = 1;
+public class Foundation {
+    public int tilesize;
+    int tileNr = 1;
     int width, height;
-    public final int TILE_SIZE = 100;
 
     //current
-    int health;
+    protected int health;
 
-    int maxHealth;
+    protected int maxHealth=100;
 
     protected GameView activity;
 
@@ -36,34 +40,31 @@ public class Foundation {
     public ActionController damagePeriod;
 
 
-    public Foundation(Bitmap buildingImage,int x, int y, int tileNr, boolean isStanding, GameView activity){
-
+    public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
+        tilesize =GameView.instance.cameraSize/12;
+        this.tileNr=tileNr;
         this.activity = activity;
         this.isStanding = true;
 
-        maxHealth = 200;
         this.health = maxHealth;
 
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
 
-        width = TILE_SIZE*tileNr;
+        width = tilesize*tileNr;
         height = width;
 
-        this.buildingImage = Bitmap.createScaledBitmap(buildingImage,width, height,false);
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,GameView.instance.cameraSize*6/10,GameView.instance.cameraSize*6/10,false);
+
 
         collider = new Rect(x,y-height,x+width,height);
-        damagePeriod = new ActionController(0,5000,5000);
+        damagePeriod = new ActionController(0,0,2000);
 
-        if (health<=0){
-            Log.i("ouch", "Foundation: ");
-            this.isStanding = false;
-        }
     }
 
     public void draw(Canvas c){
-        c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),null);
+        Paint p = new Paint();
+        //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
+        c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),p);
     }
 
     public int getTileNr(){
@@ -71,7 +72,6 @@ public class Foundation {
     }
 
     public void physics(float deltaTime){
-
 
         if (GameView.instance.player.fireBreath.collision(new Vector2(x,y), width)){
             OnDamage();
@@ -82,12 +82,24 @@ public class Foundation {
     }
 
     public void update(float deltaTime){
-
+        damagePeriod.update(deltaTime);
     }
 
     public  void OnDamage () {
-        damagePeriod.triggerAction();
-        this.health-=1;
+        if(isStanding){
+            damagePeriod.triggerAction();
+
+            if(damagePeriod.charging){
+                health-=1;
+                health = Math.max(health,0);
+                Log.i("gmg","dmg");
+                System.out.println(health);
+                damagePeriod.cooling=true;
+            }
+
+        }
+
+
     }
 }
 

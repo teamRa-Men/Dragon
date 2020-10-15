@@ -10,9 +10,12 @@ public class House extends Foundation{
 
     int currentInhabitants;
     int maxInhabitants;
+    int maxHealth = 400;
+    public House(int x, int y, boolean isStanding, GameView activity){
+        super(x, y,1, isStanding, activity );
 
-    public House(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity){
-        super(buildingImage, x, y, tileNr, isStanding, activity );
+
+        health = maxHealth;
 
         double rh = (Math.random()*3);
         double flipp = (Math.random() - 0.5f);
@@ -27,11 +30,11 @@ public class House extends Foundation{
             this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
         }
 
+        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
+
         if(flipp < 0){
 
         }
-
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,128,128,false);
 
     }
 
@@ -45,5 +48,17 @@ public class House extends Foundation{
     @Override
     public int getTileNr() {
         return 1;
+    }
+
+    @Override
+    public void OnDamage() {
+        super.OnDamage();
+
+        if(health == 0){
+            isStanding = false;
+            buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.houseruin);
+            buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
+            Log.i("ouch","damaged");
+        }
     }
 }
