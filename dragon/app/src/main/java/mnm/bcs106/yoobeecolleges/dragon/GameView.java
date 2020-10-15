@@ -111,7 +111,6 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-        npc_pool.spawnArcher(0, (int) groundLevel);
 
         goldPool = new GoldPool();
         GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,10);
@@ -223,7 +222,7 @@ public class GameView extends SurfaceView implements Runnable {
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
