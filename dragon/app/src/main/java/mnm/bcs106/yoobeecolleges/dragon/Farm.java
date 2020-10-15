@@ -39,12 +39,9 @@ public class Farm extends Foundation{
 
         if (currentCattle < maxCattle) {
             GameView.instance.npc_pool.spawnWooloo(x, (int)GameView.instance.groundLevel);
+
             currentCattle++;
         }
-
-
-
-
 
 
            //randomised spriteposition for farmobjects, currently on Hold

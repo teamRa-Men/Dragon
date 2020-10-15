@@ -93,7 +93,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(instance == null) {
             instance = this;
         }
-        System.out.println(fixedDeltaTime);
+        //System.out.println(fixedDeltaTime);
         //Dimensions
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
