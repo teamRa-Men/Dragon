@@ -28,17 +28,16 @@ public class Farm extends Foundation{
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
 
-    public Farm(Bitmap buildingImage, int x, int y, int tileNr, boolean isStanding, GameView activity){
-        super(buildingImage, x, y, tileNr, isStanding, activity);
+    public Farm(Bitmap buildingImage, int x, int y, boolean isStanding, GameView activity){
+        super( x, y,3, isStanding, activity);
 
         //working simple farmimplementation, 3 tiles big, allways placed thw same.
            this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
            this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
 
            maxCattle = 4;
-
-
            GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel,4);
+
 
 
 
