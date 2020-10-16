@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#181819</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorDragon">#431E23</color>
-    <color name="colorFire">#FFE8A2</color>
-    <color name="colorHealth">#B3FFA2</color>
+    <color name="colorDragon">#101210</color>
+    <color name="colorFire">#FFAA5F</color>
+    <color name="colorHealth">#4C5A48</color>
     <color name="colorMana">#A2E2FF</color>
 </resources>

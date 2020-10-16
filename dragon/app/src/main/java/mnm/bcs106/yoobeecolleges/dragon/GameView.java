@@ -292,12 +292,12 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
 
             p.setColor(Color.BLACK);
-            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+screenWidth/3, screenHeight/20+10, p);
-            canvas.drawRect(screenWidth/20, screenHeight/20+20 ,screenWidth/20+screenWidth/3, screenHeight/20+30, p);
+            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+screenWidth/4, screenHeight/20+10, p);
+            canvas.drawRect(screenWidth/20, screenHeight/20+20 ,screenWidth/20+screenWidth/4, screenHeight/20+30, p);
             p.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
-            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+ screenWidth/3*player.health/player.maxHealth, screenHeight/20+10, p);
+            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+ screenWidth/4*player.health/player.maxHealth, screenHeight/20+10, p);
             p.setColor(Game.instance.getResources().getColor(R.color.colorMana));
-            canvas.drawRect(screenWidth/20, screenHeight/20+20,screenWidth/20+ screenWidth/3*player.mana/player.maxMana, screenHeight/20+30, p);
+            canvas.drawRect(screenWidth/20, screenHeight/20+20,screenWidth/20+ screenWidth/4*player.mana/player.maxMana, screenHeight/20+30, p);
 
             holder.unlockCanvasAndPost(canvas);
 

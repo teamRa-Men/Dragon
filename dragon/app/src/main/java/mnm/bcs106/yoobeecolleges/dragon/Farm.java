@@ -38,7 +38,7 @@ public class Farm extends Foundation{
            maxCattle = 4;
 
 
-           GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel);
+           GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel,4);
 
 
 
