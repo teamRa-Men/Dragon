@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 
 public class Scene {
@@ -22,7 +23,7 @@ public class Scene {
     public Scene(){
         gameView = GameView.instance;
         player = gameView.player;
-        width = (int)(gameView.screenWidth*1.5);
+        width = (int)(gameView.screenWidth*1.5f);
         height = gameView.cameraSize;
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
         sky = Bitmap.createScaledBitmap(sky, width, (int) gameView.groundLevel,false);
@@ -39,20 +40,20 @@ public class Scene {
     }
 
     public void drawBackground(Canvas canvas){
-        canvas.drawRect(0, 0, gameView.screenWidth*1.2f,gameView.screenHeight, backPaint);
+        canvas.drawRect(0, 0, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, backPaint);
 
 
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
 
-        canvas.drawBitmap(hillsBackground, hillsX+ hillsX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
-        canvas.drawBitmap(hillsBackground, hillsX+ hillsX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
-        canvas.drawBitmap(hillsBackground, hillsX+ hillsX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),null);
+        canvas.drawBitmap(hillsBackground, hillsX+ hillsX0-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
+        canvas.drawBitmap(hillsBackground, hillsX+ hillsX1-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
+        canvas.drawBitmap(hillsBackground, hillsX+ hillsX2-width/4,gameView.groundLevel-mountainBackground.getHeight(),backPaint);
 
-        canvas.drawBitmap(sky, gameView.cameraDisp.x + groundX0-width/4,0,null);
-        canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX1-width/4,0,null);
-        canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX2-width/4,0,null);
+        canvas.drawBitmap(sky, gameView.cameraDisp.x + groundX0-width/4,0,backPaint);
+        canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX1-width/4,0,backPaint);
+        canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX2-width/4,0,backPaint);
 
     }
     public void drawForeground(Canvas canvas){
@@ -80,7 +81,8 @@ public class Scene {
         mountainX2 = (int)(-mountainX/width+1)*width;
 
         backPaint.setColor(Color.rgb(timeOfDay,timeOfDay,timeOfDay));
+        backPaint.setColorFilter(new LightingColorFilter(Color.argb(150,timeOfDay,timeOfDay,Math.min(timeOfDay+3,255)),0));
         time += deltaTime;
-        timeOfDay = (int)(250*Math.max(Math.min(Math.sin(time/1000/10)*2+0.5,1),0));
+        timeOfDay = (int)(250*Math.max(Math.min(Math.sin(time/1000/10)*2+0.5,1),0.2));
     }
 }
