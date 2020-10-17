@@ -3,9 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#181819</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorDragon">#FF7272</color>
+    <color name="colorDragon">#FF8181</color>
     <color name="colorFire">#FFFBD6</color>
     <color name="colorFireCold">#FFC36B</color>
-    <color name="colorHealth">#AFE481</color>
+    <color name="colorHealth">#C1FF8B</color>
     <color name="colorMana">#A2E2FF</color>
 </resources>

@@ -211,17 +211,17 @@ public class GameView extends SurfaceView implements Runnable {
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            //System.out.println( "draw main " + drawTime);
+            System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            //System.out.println("average main " + totalFrame/numberFrame);
+            System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
@@ -249,14 +249,15 @@ public class GameView extends SurfaceView implements Runnable {
         Canvas canvas = holder.lockCanvas(null);
 
         if (canvas != null) {
-            scene.drawBackground(canvas);
-            lair.draw(canvas);
-            fortress.draw(canvas);//3ms
-            projectilePool.draw(canvas);
-            player.draw(canvas);
-            npc_pool.draw(canvas);
-            scene.drawForeground(canvas);//2ms
-            goldPool.draw(canvas);
+            //90
+            scene.drawBackground(canvas);//40
+            lair.draw(canvas);//80
+            fortress.draw(canvas);//90
+            projectilePool.draw(canvas);//80
+            player.draw(canvas);//80
+            npc_pool.draw(canvas);//90
+            scene.drawForeground(canvas);//
+            goldPool.draw(canvas);//
 
 
             //Draw Controls
