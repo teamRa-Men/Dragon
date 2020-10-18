@@ -18,8 +18,8 @@ public class ArcherTower extends Foundation {
 
         this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
         this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
-        creationPoint.x = x;
-        creationPoint.y = (int)GameView.instance.groundLevel + buildingImage.getHeight();
+        creationPoint.x = x+(width/2);
+        creationPoint.y = (int)GameView.instance.groundLevel - buildingImage.getHeight();
 
         System.out.println("Tower spawned");
     }
@@ -33,33 +33,26 @@ public class ArcherTower extends Foundation {
     // calculates if the dragon is in range
     public boolean inRange(){
         System.out.println("something went off");
-        if (!lockTarget && Math.abs(GameView.instance.player.position.y-y)<500){
-            lockTarget = true;
-            target.x = (int) GameView.instance.player.position.x;
+        if (Math.abs(GameView.instance.player.position.y-y)<500){
             System.out.println("in range");
             return true;}
-
-        else if (lockTarget){
-            target.x = (int) GameView.instance.player.position.x;
-            if (Math.abs(GameView.instance.player.position.x-x)>1000){
-                //target.x = npcX;
-                lockTarget = false;
-            }
-        }
         return false;
     }
 
 
     //shooting an arrow at target
     public void Attack(){
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 30, GameView.instance.player.position.x, GameView.instance.player.position.y,30);
+        float dx = GameView.instance.player.position.x-x;
+        float dy =GameView.instance.player.position.y-y;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
     }
 
 
     //
     public void update(float fixedDeltaTime){
         if(inRange()) {
-            Attack();
+            if(Math.random() < 0.01){
+            Attack();}
         }
     }
 

@@ -41,7 +41,7 @@ public class Foundation {
 
 
     public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
-        tilesize =GameView.instance.cameraSize/12;
+        tilesize =GameView.instance.cameraSize/9;
         this.tileNr=tileNr;
         this.activity = activity;
         this.isStanding = true;
@@ -51,7 +51,7 @@ public class Foundation {
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
 
-        width = tilesize*tileNr;
+        width = (tilesize-(tilesize/10))*tileNr;
         height = width;
 
 

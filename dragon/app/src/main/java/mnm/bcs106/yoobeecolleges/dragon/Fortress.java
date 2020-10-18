@@ -81,7 +81,7 @@ public class Fortress extends Foundation {
             //type of house
             double rh = (Math.random() - 0.5f);
 
-            int offset = (int)(tilesize+((Math.random()*tilesize/12)));
+            int offset = (int)(tilesize+((Math.random()*(tilesize-((tilesize/10)*9)))));
 
             if (lr < 0) {
 

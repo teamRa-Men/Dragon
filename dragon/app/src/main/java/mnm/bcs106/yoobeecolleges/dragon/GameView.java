@@ -112,7 +112,7 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-        npc_pool.spawnWizard(500,500,3);
+        //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
         GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
@@ -215,17 +215,17 @@ public class GameView extends SurfaceView implements Runnable {
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average main " + totalFrame/numberFrame);
+            //System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
