@@ -85,7 +85,7 @@ public class Dragon extends Character {
             else{
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1));
             }
-            float c = Math.min((float)(size-i)/size/4,0.25f)+0.75f;
+            float c = Math.min((float)(size-i)/size/5,0.15f)+0.85f;
 
             segments.get(i).paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
                     (int)(Color.green(dragonColor)*c),
@@ -96,8 +96,8 @@ public class Dragon extends Character {
         backLeg = new Leg(this, segments.get(bodyEnd+2), false);
         frontArm = new Arm(this, segments.get(bodyStart), true);
         backArm = new Arm(this, segments.get(bodyStart), false);
-        frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*4), true);
-        backWing = new Wing(this,segments.get(bodyStart),(int)(radius*4), false);
+        frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), true);
+        backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
         head = new Head(this, radius*1f);
         fireBreath = new FireBreath(this);
 
@@ -237,6 +237,12 @@ public class Dragon extends Character {
         }
 
     }
+    public boolean inReach(Vector2 p){
+        p  = p.add(GameView.instance.cameraDisp.multiply(1));
+        Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
+        return  Vector2.sqrDistance(hand,p)<100;
+    }
+
 
     @Override
     public boolean collision(GameObject other) {
@@ -331,9 +337,11 @@ public class Dragon extends Character {
 
         head.draw(canvas);
         //Debug: show colliders
-        /*
+/*
         Paint p = new Paint();
         p.setColor(Color.BLACK);
+        canvas.drawRect(frontArm.dst,p);
+        /*
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
         }
@@ -342,7 +350,7 @@ public class Dragon extends Character {
 
     public void collectedGold(){
         goldHolding++;
-        SoundEffects.instance.play(SoundEffects.PEW);
+        //SoundEffects.instance.play(SoundEffects.PEW);
     }
 
 
@@ -462,7 +470,7 @@ class Segment{
         }
         sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), false);
         src = new RectF(0, 0, radius * 2, radius * 2);
-
+        paint.setAntiAlias(true);
         dst = src;
 
 
@@ -542,8 +550,8 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/2,0.1f);
+            left+=dragon.speed/dragon.maxMoveSpeed*(Math.cos(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)+0.5)*dragon.radius;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
         }
         float right = left + src.width();
         float bottom = top + src.height();
@@ -571,6 +579,7 @@ class Arm{
     Dragon dragon;
     Bitmap sprite;
     RectF src;
+    RectF dst;
     Paint paint = new Paint();
     Segment segment;
     public boolean walking;
@@ -591,6 +600,7 @@ class Arm{
         }
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f-GameView.instance.screenWidth/200 , dragon.radius *3/2f-GameView.instance.screenWidth/200);
+        dst = src;
     }
     public void draw(Canvas canvas){
 
@@ -601,17 +611,19 @@ class Arm{
             if(front){
                 phase = (float)Math.PI;
             }
-            left+=dragon.speed/dragon.maxMoveSpeed*Math.cos(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/1000*Math.PI+phase)*dragon.radius/2,0.1f);
+            left+=dragon.speed/dragon.maxMoveSpeed*(Math.cos(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)+0.5)*dragon.radius;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
         }
         float right = left + src.width();
         float bottom = top + src.height();
 
         Matrix matrix = new Matrix();
-        RectF dst = new RectF(left, top, right, bottom);
+        dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
-        matrix.postRotate( Math.signum(segment.direction.x)*dragon.speed/dragon.maxMoveSpeed*30, dst.centerX(),dst.top);
+        if(!walking) {
+            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 30, dst.centerX(), dst.top);
+        }
         canvas.drawBitmap(sprite, matrix,paint);
 
     }
@@ -854,7 +866,7 @@ class Flame {
     public void shoot(Vector2 position, Vector2 direction, float speed){
         this.speed = speed;
         this.position = position;
-        this.direction = direction.add(Vector2.down.multiply(0.1f*Math.abs(direction.x)));
+        this.direction = direction;//.add(Vector2.down.multiply(0.1f*Math.abs(direction.x)));
         active = true;
         distanceTravelled = 0;
         size = 0;

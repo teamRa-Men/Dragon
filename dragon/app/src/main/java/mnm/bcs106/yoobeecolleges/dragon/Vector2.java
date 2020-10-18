@@ -91,6 +91,13 @@ public class Vector2 {
         return (float)Math.sqrt(dx*dx+dy*dy);
     }
 
+    public static float sqrDistance(Vector2 v, Vector2 u){
+        float dx = v.x - u.x;
+        float dy = v.y - u.y;
+
+        return dx*dx+dy*dy;
+    }
+
     //Rotate a vector by degrees
     public static Vector2 rotate(Vector2 v, float degrees){
         double rad = Math.toRadians(degrees);

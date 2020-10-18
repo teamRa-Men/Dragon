@@ -58,11 +58,11 @@ public class GameView extends SurfaceView implements Runnable {
     ProjectilePool projectilePool;
     Lair lair;
     Fortress fortress;
+    Hud hud;
 
     //Drawing
-    Bitmap wall;
     SurfaceHolder holder;
-
+    Paint back = new Paint();
 
     public GameView(Context context) {
         super(context);
@@ -101,6 +101,7 @@ public class GameView extends SurfaceView implements Runnable {
         screenWidth = displayMetrics.widthPixels;
         cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
+        back.setColor(Color.WHITE);
 
         holder = getHolder();
 
@@ -113,11 +114,13 @@ public class GameView extends SurfaceView implements Runnable {
         npc_pool = new NPC_Pool();
 
         goldPool = new GoldPool();
-        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,10);
+        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,200);
         projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
+
+        hud = new Hud();
 
         //Init scene
         scene = new Scene();
@@ -246,63 +249,24 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void draw() {
 
-        Canvas canvas = holder.lockCanvas(null);
+            Canvas canvas = holder.lockCanvas(null);
+            if (canvas != null) {
+                //90
+                canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
+                //scene.drawBackground(canvas);//40
+                //lair.draw(canvas);//80
+                fortress.draw(canvas);//90
+                projectilePool.draw(canvas);//80
+                player.draw(canvas);//80
+                npc_pool.draw(canvas);//90
+                scene.drawForeground(canvas);//
+                goldPool.draw(canvas);//
 
-        if (canvas != null) {
-            //90
-            scene.drawBackground(canvas);//40
-            lair.draw(canvas);//80
-            fortress.draw(canvas);//90
-            projectilePool.draw(canvas);//80
-            player.draw(canvas);//80
-            npc_pool.draw(canvas);//90
-            scene.drawForeground(canvas);//
-            goldPool.draw(canvas);//
-
-
-            //Draw Controls
-
-            Vector2 dragFrom = Game.instance.dragFrom;
-            Vector2 dragTo = Game.instance.dragTo;
-            Paint p = new Paint();
-
-            p.setColor(Color.WHITE);
-            p.setAlpha(100);
-            if(dragFrom !=null && dragTo!=null) {
-                p.setStrokeWidth(20);
-                p.setStrokeCap(Paint.Cap.ROUND);
-                canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, p);
+                hud.draw(canvas);
+                holder.unlockCanvasAndPost(canvas);
             }
 
-            canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,p);
-            Bitmap fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.flame5_minimalism);
-            fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
-            p.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
-            if(player.breathingFire){
-                p.setAlpha(255);
-            }
-            canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, p);
 
-            p = new Paint();
-            p.setTextSize(screenWidth/30);
-            p.setFakeBoldText(true);
-            p.setColor(Color.WHITE);
-            p.setTextAlign(Paint.Align.RIGHT);
-            p.setShadowLayer(10,0,0,Color.BLACK);
-            canvas.drawText(player.goldHolding+" G",screenWidth, screenHeight/10,p);
-
-            p.setColor(Color.BLACK);
-            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+screenWidth/4, screenHeight/20+10, p);
-            canvas.drawRect(screenWidth/20, screenHeight/20+20 ,screenWidth/20+screenWidth/4, screenHeight/20+30, p);
-            p.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
-            canvas.drawRect(screenWidth/20, screenHeight/20,screenWidth/20+ screenWidth/4*player.health/player.maxHealth, screenHeight/20+10, p);
-            p.setColor(Game.instance.getResources().getColor(R.color.colorMana));
-            canvas.drawRect(screenWidth/20, screenHeight/20+20,screenWidth/20+ screenWidth/4*player.mana/player.maxMana, screenHeight/20+30, p);
-
-            holder.unlockCanvasAndPost(canvas);
-
-
-        }
 
     }
 
@@ -344,8 +308,9 @@ public class GameView extends SurfaceView implements Runnable {
             npc_pool.update(fixedDeltaTime);
             projectilePool.update(fixedDeltaTime);
             //System.out.println(fixedDeltaTime +" "+ deltaTime);
-            //goldController.update(fixedDeltaTime);
+            goldPool.update(fixedDeltaTime);
             fortress.update(fixedDeltaTime);
+            hud.update(deltaTime);
         }
         else{
             if(!Game.instance.gameOver) {
@@ -370,7 +335,7 @@ public class GameView extends SurfaceView implements Runnable {
     }
     public void breathFire(boolean breathingFire){
 
-            player.breathingFire = breathingFire;
+        player.breathingFire = breathingFire;
 
     }
 }
