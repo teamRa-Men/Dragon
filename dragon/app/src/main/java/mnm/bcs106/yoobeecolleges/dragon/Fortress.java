@@ -16,7 +16,7 @@ public class Fortress extends Foundation {
 
     //All the stuff the fortress needs and can do;
 
-    int lv = 0;
+    int lv;
 
     int maxHealth = 500;
 
@@ -30,14 +30,17 @@ public class Fortress extends Foundation {
 
     ArrayList<Foundation> currentBuildingsRight = new ArrayList<Foundation>();
     ArrayList<Foundation> currentBuildingsLeft = new ArrayList<Foundation>();
+    int maxBuildings;
 
     //number of buildings in the village/town
-    int currentBuilding;
 
     public int currentTownInhabitants;
     public int maxTownInhabitants; // defined by the houses/farms
 
-    public Foundation[] buildings = new Foundation[7];
+    //public Foundation[] buildings = new Foundation[5];
+
+    ArcherTower archertower;
+    boolean hasTowers = false;
 
 
     // attack function
@@ -54,32 +57,21 @@ public class Fortress extends Foundation {
         Random r = new Random();
         x = r.nextInt();
 
-
-        // lv up conditions
-        /*if(((currentTilesLeft+currenttTilesRight)-2 >= maxTiles) && (currentGold >=((maxGold/10)*9)
-                &&(currentTownInhabitants == maxTownInhabitants-2))){
-
-            lv++;
-            maxGold = maxGold * lv + 300;
-            maxTiles += 3;
-        }
-
-
-        maxTiles = 5;
-        */
-
-
+        maxBuildings = 5;
+        maxGold = 400;
+        lv = 0;
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
 
-
     public void update(float deltaTime) {
 
-        deltaTime = deltaTime/200;
-        currentGold += goldRate * deltaTime;
+        if(currentGold < maxGold){
+            deltaTime = deltaTime/200;
+            currentGold += goldRate * deltaTime;
+        }
 
-        if (currentGold >= 240 && (currentBuildingsRight.size() + currentBuildingsLeft.size()) < 7) {
+        if (currentGold >= 240 && (currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings) {
             System.out.println("Money aquired");
 
             //left or right
@@ -89,7 +81,7 @@ public class Fortress extends Foundation {
             //type of house
             double rh = (Math.random() - 0.5f);
 
-            int offset = (int)(tilesize-((Math.random()*tilesize/10)));
+            int offset = (int)(tilesize+((Math.random()*tilesize/12)));
 
             if (lr < 0) {
 
@@ -97,28 +89,24 @@ public class Fortress extends Foundation {
                     currentBuildingsLeft.add(new House(x - (currentTilesLeft + 1) * offset, y, true, activity));
                     currentTilesLeft+=1;
                 }
-                //else {
-                //currentBuildingsLeft.add(new Farm(buildingImage, x - (currentTilesLeft + 1) * 150, y, 2, true, activity));
-                //currentTilesLeft+=3;
-                //}
+                else {
+                    currentBuildingsLeft.add(new Farm(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
+                    currentTilesLeft+=3;
+                }
 
-
-                currentBuilding++;
                 currentGold -= 150;
 
             } else {
 
                 if (rh < 0) {
-                    currentBuildingsRight.add(new House(x + (currentTilesRight + 1)*offset, y, true, activity));
+                    currentBuildingsRight.add(new House(x + (tilesize*3) +(currentTilesRight + 1)*offset, y, true, activity));
                     currentTilesRight+=1;
                 }
-                //else {
-                //currentBuildingsRight.add(new Farm(buildingImage, x + (currentTilesRight + 1) * 150, y, 2, true, activity));
-                //currentTilesRight+=3;
-                //}
+                else {
+                    currentBuildingsRight.add(new Farm(x + (tilesize*3) +(currentTilesRight + 1) * tilesize, y, true, activity));
+                    currentTilesRight+=3;
+                }
 
-
-                currentBuilding++;
                 currentGold -= 150;
             }
 
@@ -129,7 +117,38 @@ public class Fortress extends Foundation {
 //            System.out.println("Right Tiles :" +currentTilesRight);
 
         }
+
+        //Lv up conditions
+        if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+                && (currentGold >= (maxGold/10*9))
+                && lv == 0){
+
+            lv++;
+            maxGold = maxGold * 4 + 300;
+            maxBuildings = 12;
+
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize*3) +(currentTilesRight + 1) * tilesize, y, true, activity));
+            currentTilesRight+=2;
+
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
+            currentTilesLeft+=2;
+
+            hasTowers = true;
+
+        }
+
+       for(int i = 0; i < currentBuildingsRight.size(); i++){
+           currentBuildingsRight.get(i).update(deltaTime);
+       }
+        for(int i = 0; i < currentBuildingsLeft.size(); i++){
+            currentBuildingsLeft.get(i).update(deltaTime);
+        }
+
     }
+
+
+
+
 
     @Override
     public void draw(Canvas c) {
