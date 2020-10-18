@@ -36,9 +36,8 @@ public class Farm extends Foundation{
            this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
 
            maxCattle = 4;
+           GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel,4);
 
-
-           GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel ,4);
 
 
 

@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 public class GoldPool {
-    int maxGold = 10;
+    int maxGold = 200;
     ArrayList<Gold> goldPool = new ArrayList<Gold>();
     ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
