@@ -8,11 +8,15 @@ public class RangedNPC extends NPC {
     public boolean lockTarget = false;
     public Bitmap attackTexture;
     public ActionController arrowRechargeTime;
+    public float hitX;
+    public float hitY;
+    public int dmg;
 
     public RangedNPC(Bitmap bitmap, float speed, int maxHP, int width, int height, int damage) {
         super(bitmap, speed, maxHP, width, height);
         target.x = npcX;
         arrowRechargeTime = new ActionController(1000, (float) 0.01,2000);
+        dmg = damage;
     }
 
     @Override
@@ -31,7 +35,7 @@ public class RangedNPC extends NPC {
             target.x = (int) GameView.instance.player.position.x;
             arrowRechargeTime.triggerAction();
             if (arrowRechargeTime.performing){
-                GameView.instance.projectilePool.shootArrow(npcX,npcY,1f, (float) (GameView.instance.player.position.x-npcX+Math.random()/4), (float) (GameView.instance.player.position.y-npcY+Math.random()/4));
+               shoot();
             }
             if (Math.abs(GameView.instance.player.position.x-npcX)>1000){
                 creationPoint.x = npcX;
@@ -45,7 +49,9 @@ public class RangedNPC extends NPC {
     }
 
     public void shoot(){
-
+        hitX = (float) (GameView.instance.player.position.x-npcX+Math.random()/4);
+        hitY = (float) (GameView.instance.player.position.y-npcX+Math.random()/4);
+        GameView.instance.projectilePool.shootArrow(npcX,npcY,1f, hitX , hitY, dmg);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 30, GameView.instance.player.position.x, GameView.instance.player.position.y);
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 30, GameView.instance.player.position.x, GameView.instance.player.position.y,30);
     }
 
 
