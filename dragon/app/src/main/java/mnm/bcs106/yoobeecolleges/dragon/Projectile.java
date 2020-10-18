@@ -55,21 +55,17 @@ public class Projectile extends GameObject {
         if(GameView.instance.player.collision(this)){
             GameView.instance.player.onDamage(damage);
         }
-
-        if(position.y < GameView.instance.getGroundLevel()){
-            setVelocity(getVelocity().x, getVelocity().y + 1f/2* deltaTime/1000);
-
-        }
-        else{
-
+        if(gravity) {
+            if (position.y < GameView.instance.getGroundLevel()) {
+                setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
+            } else {
                 onGrounded(GameView.instance.getGroundLevel());
-
-
+            }
         }
     }
 
 
-    public void shoot(int x, int y, float speed, float dx, float dy){
+    public void shoot(int x, int y, float speed, float dx, float dy, boolean gravity){
 
         position = new Vector2(x,y);
         this.speed = speed;
@@ -78,6 +74,7 @@ public class Projectile extends GameObject {
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
         simulated = true;
         visible = true;
+        this.gravity = gravity;
         //Game.instance.soundEffects.play(Game.instance.soundEffects.PEW);
     }
 

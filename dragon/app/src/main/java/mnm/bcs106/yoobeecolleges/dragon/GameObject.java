@@ -91,7 +91,7 @@ public class GameObject implements Comparable{
                 Matrix matrix = new Matrix();
                 RectF drawTo = getBounds();
                 drawTo.offset(GameView.instance.cameraDisp.x,0);
-                matrix.setRectToRect(srcRect, drawTo, Matrix.ScaleToFit.CENTER);
+                matrix.setRectToRect(srcRect, drawTo, Matrix.ScaleToFit.FILL);
                 matrix.postScale(scaleX,scaleY,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
                 matrix.postRotate(r,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
 
@@ -156,6 +156,7 @@ public class GameObject implements Comparable{
     protected void onCollision(GameObject other){
 
     }
+
 
     protected  void onGrounded(float level){
         //if(speed > 0.1){

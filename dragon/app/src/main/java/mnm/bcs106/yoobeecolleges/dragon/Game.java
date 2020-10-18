@@ -332,7 +332,7 @@ public class Game extends AppCompatActivity {
     public void onShrink(View view){
         gameView.pause();
         int size = gameView.player.size-5;
-        if(size > 25)
+        if(size > 35)
             gameView.player.initBody(size);
         gameView.resume();
     }
