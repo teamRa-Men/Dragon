@@ -8,7 +8,7 @@ public class Projectile extends GameObject {
     float pushX, pushY;
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
-    public boolean returnToPool = false;
+    public boolean returnToPool = false,gravity = false;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY) {
         super(sprite, offsetX, offsetY);

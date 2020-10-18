@@ -17,7 +17,7 @@ public class GameObject implements Comparable{
     RectF srcRect;
     float radius = 0;
     float fixedDeltaTime = 0;
-    public boolean visible = true, simulated = false, facing = false, gravity = false, centerPivot = true;
+    public boolean visible = true, simulated = false, facing = false, centerPivot = true;
 
     //The parent game object this is attached to if any
     GameObject parent = null;
