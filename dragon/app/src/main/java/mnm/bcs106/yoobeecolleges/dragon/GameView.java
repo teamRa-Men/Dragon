@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         npc_pool = new NPC_Pool();
 
         goldPool = new GoldPool();
-        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,200);
+        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);
