@@ -30,8 +30,8 @@ public class Gold extends GameObject{
 
     public  void spawn(Vector2 p){
         position = p;
-        direction = new Vector2((float) (Math.random()-0.5f), (float)Math.random());
-        speed = spawnSpeed;
+        direction = new Vector2((float) (Math.random()-0.5f), (float) (Math.random()-0.5f)).getNormal();
+        speed = spawnSpeed*((float)Math.random());
     }
 
     @Override
