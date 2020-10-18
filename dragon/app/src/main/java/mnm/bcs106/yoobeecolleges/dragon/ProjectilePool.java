@@ -28,6 +28,7 @@ public class ProjectilePool {
 
         for (int i = 0; i < maxArrows; i++) {
             Projectile newArrow = new Projectile(arrowSprite,1f,0.5f);
+
             arrowPool.add(newArrow);
         }
 
@@ -38,24 +39,26 @@ public class ProjectilePool {
             magicPool.add(newMagic);
         }
     }
-    public void shootArrow(int x, int y, float speed, float dx, float dy){
+    public void shootArrow(int x, int y, float speed, float dx, float dy, int damage){
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
             arrowPool.remove(0);
             activeArrows.add(arrow);
+            arrow.damage = damage;
             arrow.shoot(x,y,speed,dx,dy,true);
 
         }
 
     }
 
-    public void shootMagic(int x, int y, float speed, float dx, float dy){
+    public void shootMagic(int x, int y, float speed, float dx, float dy, int damage){
 
         if(magicPool.size()>0) {
             Projectile magic = magicPool.get(0);
             magicPool.remove(0);
             activeMagic.add(magic);
+            magic.damage = damage;
             magic.shoot(x,y,speed,dx,dy,false);
 
         }
