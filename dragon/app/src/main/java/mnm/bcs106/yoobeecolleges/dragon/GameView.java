@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //Physics
     public float groundLevel, upperBound, gravity = 0.3f;
-    int physicsIterations = 1;
+    int physicsIterations = 3;
     Vector2 cameraDisp = Vector2.zero;
 
     //Projectile
@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
-        //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
+        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);

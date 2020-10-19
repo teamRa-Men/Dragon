@@ -22,7 +22,7 @@ public class Gold extends GameObject{
         width = GameView.instance.screenWidth/30/3;
         height = width;
         phase = Math.random()*Math.PI*2;
-        gravity = true;
+        gravity = 1f/2;
     }
 
 

@@ -261,15 +261,17 @@ public class Dragon extends Character {
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
             if(segment.getBounds().contains(other.position.x,other.position.y)){
-                collided = true;
-                other.setParent(segment);
+                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.8) {
+                    collided = true;
+                    other.setParent(segment);
+                }
             }
         }
         return collided;
     }
     //lead
     public Vector2 aimFor(){
-        return colliders[(int)(colliders.length/2)-1].position;
+        return segments.get(bodyStart).position;
     }
 
     @Override
@@ -475,6 +477,7 @@ class Segment extends GameObject{
         paint.setAntiAlias(true);
         dst = src;
         matrix = new Matrix();
+        centerPivot = true;
     }
     @Override
     public void draw(Canvas canvas){
@@ -703,7 +706,7 @@ class FireBreath{
     int currentBreath = 0;
     Dragon dragon;
     float range;
-    float shootTime = 10, timeSinceShoot;
+    float shootTime = 20, timeSinceShoot;
     Vector2 direction;
     Bitmap flameShadow;
 
@@ -714,10 +717,10 @@ class FireBreath{
         direction = dragon.direction;
 
         for(float i = 0; i < breathSize;i++){
-            backFlames.add(new Flame(dragon,  range,Game.instance.getResources().getColor(R.color.colorFireCold), 1.5f*dragon.radius*(1.25f+(float)Math.random())));
+            backFlames.add(new Flame(dragon,  range,Game.instance.getResources().getColor(R.color.colorFireCold), 2f*dragon.radius*(1.25f+(float)Math.random())));
         }
         for(float i = 0; i < breathSize;i++){
-            flames.add(new Flame(dragon,  range,Game.instance.getResources().getColor(R.color.colorFire), 0.75f*dragon.radius*(1.25f+(float)Math.random())));
+            flames.add(new Flame(dragon,  range,Game.instance.getResources().getColor(R.color.colorFire), 1f*dragon.radius*(1.25f+(float)Math.random())));
         }
         flameShadow = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flame_shadow);
 
@@ -823,7 +826,7 @@ class Flame {
             distanceTravelled = Vector2.distance(dragon.position, position);
             if (distanceTravelled < range) {
                 position = position.add(direction.multiply(speed * deltaTime));
-                size = Math.min(distanceTravelled/range*0.75f+0.25f,1)*maxSize;
+                size = Math.min(distanceTravelled/range*0.8f+0.2f,1)*maxSize;
                 //paint.setAlpha((int)(Math.min(distanceTravelled/range*2+0.1f,1)*255));
 
             } else {

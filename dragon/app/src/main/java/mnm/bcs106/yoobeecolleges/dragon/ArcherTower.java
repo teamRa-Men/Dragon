@@ -6,7 +6,7 @@ import android.graphics.Point;
 
 public class ArcherTower extends Foundation {
 
-    float attackRange = 1f/3;
+    float attackRange = 1f/2;
     public Projectile[] Arrows = new Projectile[15];
 
 
@@ -32,7 +32,7 @@ public class ArcherTower extends Foundation {
     // calculates if the dragon is in range
     public boolean inRange(){
         //System.out.println("something went off");
-        if (Math.abs(GameView.instance.player.position.y-y)<GameView.instance.cameraSize*attackRange){
+        if (Math.abs(GameView.instance.player.position.x-x)<GameView.instance.cameraSize*attackRange){
             //System.out.println("in range");
             return true;}
         return false;
@@ -41,20 +41,22 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = 1+(float)(Math.random()-0.5);
-        float randomy = 1+(float)(Math.random()-0.5);
+        float randomx = (float)(Math.random()-0.5)/2;
+        float randomy = -(float)(Math.random())/4;
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy = target.y-creationPoint.y;
-
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx*randomx, dy*randomy, 0);
+        float l = (float) Math.sqrt(dx*dx +dy*dy);
+        dx /=l;
+        dy/=l;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1f/2, dx+randomx, dy+randomy, 1);
     }
 
 
     //
     public void update(float fixedDeltaTime){
         if(inRange()) {
-            if(Math.random() < 0.02){
+            if(Math.random() < 0.05){
             Attack();}
         }
     }

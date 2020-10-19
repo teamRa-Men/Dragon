@@ -2,13 +2,14 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 public class Projectile extends GameObject {
     int damage = 5;
     float pushX, pushY;
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
-    public boolean returnToPool = false,gravity = false;
+    public boolean returnToPool = false;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY) {
         super(sprite, offsetX, offsetY);
@@ -19,7 +20,7 @@ public class Projectile extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+
 
         //If attached parent is destroyed, remove from parent
         if(parent!=null) {
@@ -43,7 +44,7 @@ public class Projectile extends GameObject {
             }
 
         }
-
+        super.draw(canvas);
     }
 
     @Override
@@ -54,34 +55,34 @@ public class Projectile extends GameObject {
         if(parent == null){
             if(GameView.instance.player.projectileCollision(this)){
                 GameView.instance.player.onDamage(damage);
+                timeSinceShot = coolDown*0.75f;
             }
         }
     }
 
 
-    public void shoot(int x, int y, float speed, float dx, float dy, boolean gravity){
+    public void shoot(int x, int y, float speed, float dx, float dy, float gravity){
 
         position = new Vector2(x,y);
         this.speed = speed;
         timeSinceShot = 0;
         setDir(dx,dy);
-        parent = null;
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
         simulated = true;
-        this.gravity = gravity;
-        physics(1);
         visible = true;
+        parent = null;
+        this.gravity = gravity;
         //Game.instance.soundEffects.play(Game.instance.soundEffects.PEW);
     }
 
 
     void init(){
-        position = new Vector2(-100,-100);
-        speed = 0;
+        visible=false;
+        position = new Vector2(GameView.instance.screenWidth*2,GameView.instance.screenHeight*2);
         centerPivot = false;
         facing = true;
         simulated=false;
-        visible=false;
+        matrix = new Matrix();
         paint.setAlpha(255);
         parent = null;
     }
