@@ -49,8 +49,9 @@ public class RangedNPC extends NPC {
     }
 
     public void shoot(){
-        hitX = (float) (GameView.instance.player.position.x-npcX+Math.random()/4);
-        hitY = (float) (GameView.instance.player.position.y-npcX+Math.random()/4);
+        Vector2 target = GameView.instance.player.aimFor();
+        hitX = (target.x-npcX)*(((float)Math.random()-0.5f)/4+1);
+        hitY = (target.y-npcX)*(((float)Math.random()-0.5f)/4+1);
         GameView.instance.projectilePool.shootArrow(npcX,npcY,1f, hitX , hitY, dmg);
     }
 

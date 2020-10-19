@@ -28,23 +28,13 @@ public class Destroyable extends GameObject{
     }
 
 
-
     public void onDamage(float damage){
-        onDamage(damage,0,0);
-    }
-
-    public void onDamage(float damage, float dx,float dy){
         //On damage apply effect on health
         health -=damage;
 
         //Sound effect on being hit
         if(damagedSound>-1){
             Game.instance.soundEffects.play(damagedSound,1f,1,1);
-        }
-
-        //Apply momentum from attack
-        if(radius >0) {
-            setVelocity(velocity.add(new Vector2(dx / radius , dy /radius)));
         }
 
         //Turn red when health is low

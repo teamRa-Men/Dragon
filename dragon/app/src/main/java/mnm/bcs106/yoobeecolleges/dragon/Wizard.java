@@ -15,8 +15,9 @@ public class Wizard extends RangedNPC {
 
     @Override
     public void shoot() {
-        hitX = (float) (GameView.instance.player.position.x-npcX);
-        hitY = (float) (GameView.instance.player.position.y-npcY);
-        GameView.instance.projectilePool.shootArrow(npcX,npcY,1f, hitX , hitY,dmg);
+        Vector2 target = GameView.instance.player.aimFor();
+        hitX = target.x-npcX;
+        hitY = target.y-npcY;
+        GameView.instance.projectilePool.shootMagic(npcX,npcY,1f, hitX , hitY,dmg);
     }
 }

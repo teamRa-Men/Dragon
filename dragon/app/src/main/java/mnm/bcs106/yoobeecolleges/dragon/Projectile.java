@@ -38,7 +38,7 @@ public class Projectile extends GameObject {
                 paint.setAlpha(alpha);
                 if (timeSinceShot > coolDown) {
                     init();
-                   returnToPool = true;
+                    returnToPool = true;
                 }
             }
 
@@ -48,18 +48,12 @@ public class Projectile extends GameObject {
 
     @Override
     public void physics(float deltaTime) {
+
         super.physics(deltaTime);
         timeSinceShot+=deltaTime;
-        //gravity
-
-        if(GameView.instance.player.collision(this)){
-            GameView.instance.player.onDamage(damage);
-        }
-        if(gravity) {
-            if (position.y < GameView.instance.getGroundLevel()) {
-                setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
-            } else {
-                onGrounded(GameView.instance.getGroundLevel());
+        if(parent == null){
+            if(GameView.instance.player.projectileCollision(this)){
+                GameView.instance.player.onDamage(damage);
             }
         }
     }
@@ -71,22 +65,25 @@ public class Projectile extends GameObject {
         this.speed = speed;
         timeSinceShot = 0;
         setDir(dx,dy);
+        parent = null;
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
         simulated = true;
-        visible = true;
         this.gravity = gravity;
+        physics(1);
+        visible = true;
         //Game.instance.soundEffects.play(Game.instance.soundEffects.PEW);
     }
 
 
     void init(){
+        position = new Vector2(-100,-100);
+        speed = 0;
         centerPivot = false;
         facing = true;
         simulated=false;
         visible=false;
         paint.setAlpha(255);
         parent = null;
-
     }
 
 
@@ -99,6 +96,4 @@ public class Projectile extends GameObject {
         }
         speed = 0;
     }
-
-
 }

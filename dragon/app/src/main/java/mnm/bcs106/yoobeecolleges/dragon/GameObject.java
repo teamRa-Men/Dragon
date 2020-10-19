@@ -17,7 +17,7 @@ public class GameObject implements Comparable{
     RectF srcRect;
     float radius = 0;
     float fixedDeltaTime = 0;
-    public boolean visible = true, simulated = false, facing = false, centerPivot = true;
+    public boolean visible = true, simulated = false, facing = false, centerPivot = true, gravity = false;
 
     //The parent game object this is attached to if any
     GameObject parent = null;
@@ -27,7 +27,7 @@ public class GameObject implements Comparable{
     private Bitmap sprite;
     public Paint paint;
     Vector2 drawDisplacement;
-
+    Matrix matrix = new Matrix();
 
     public GameObject(Bitmap sprite, float offsetX, float offsetY){
         //Init visuals
@@ -55,48 +55,10 @@ public class GameObject implements Comparable{
     //-----------------------------------------------------------------------------------------------------------
     //Visuals
     //-----------------------------------------------------------------------------------------------------------
-
-    protected void setZ(){
-        z = position.y;
-    }
     public void draw(Canvas canvas){
 
         if(visible) {
-            setZ();
-            if (sprite != null) {
-                //Rotate sprite around pivot
-                float r = rotation;
-                Vector2 pivot = position;
-                if(centerPivot) {
-                    pivot = getCenter();
-                }
-
-                //Handle transformations if attached to a parent gameobject
-                if(parent!= null){
-                    //Rotate sprite around pivot relative to parent
-                    r = localRotation+parent.rotation;
-                    Vector2 p = Vector2.rotate(localPosition, parent.rotation);
-
-                    //Displace from pivot relative to parent
-                    if(parent.centerPivot){
-                        position = parent.getCenter().add(p);
-                    }
-                    else {
-                        position = parent.getPos().add(p);
-                    }
-
-                }
-
-                //Drawing transformation matices
-                Matrix matrix = new Matrix();
-                RectF drawTo = getBounds();
-                drawTo.offset(GameView.instance.cameraDisp.x,0);
-                matrix.setRectToRect(srcRect, drawTo, Matrix.ScaleToFit.FILL);
-                matrix.postScale(scaleX,scaleY,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
-                matrix.postRotate(r,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
-
-                canvas.drawBitmap(sprite, matrix, paint);
-            }
+            canvas.drawBitmap(sprite, matrix, paint);
         }
     }
 
@@ -108,6 +70,9 @@ public class GameObject implements Comparable{
         scaleY = -Math.abs(scaleY);
     }
 
+    public RectF getDrawTo(){
+        return getBounds();
+    }
     //-----------------------------------------------------------------------------------------------------------
     //Physics
     //-----------------------------------------------------------------------------------------------------------
@@ -130,9 +95,11 @@ public class GameObject implements Comparable{
                 }
             }
             if(simulated) {
+                if(gravity){
+                    gravity(deltaTime);
+                }
                 position = position.add(direction.multiply(speed * deltaTime));
                 rotation += angularVelocity*deltaTime;
-
             }
         }
     }
@@ -149,12 +116,27 @@ public class GameObject implements Comparable{
         return collided;
     }
 
+
+
     protected boolean collisionCheck(GameObject other){
         return true;
     }
 
     protected void onCollision(GameObject other){
 
+    }
+
+    public void gravity(float deltaTime){
+        if(GameView.instance != null) {
+            if (position.y + height / 2 < GameView.instance.getGroundLevel()) {
+                setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
+            } else {
+                onGrounded(GameView.instance.getGroundLevel());
+            }
+        }
+        else{
+            setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
+        }
     }
 
 
@@ -175,7 +157,37 @@ public class GameObject implements Comparable{
         position = position.add(new Vector2(speedX*deltaTime,speedY*deltaTime));
     }
     public void update(float deltaTime){
+        if(visible) {
+            //Rotate sprite around pivot
+            float r = rotation;
+            Vector2 pivot = position;
+            if(centerPivot) {
+                pivot = getCenter();
+            }
+            //Handle transformations if attached to a parent gameobject
+            if(parent!= null){
+                //Rotate sprite around pivot relative to parent
+                r = localRotation+parent.rotation;
+                Vector2 p = Vector2.rotate(localPosition, parent.rotation);
+                //Displace from pivot relative to parent
+                if(parent.centerPivot){
+                    position = parent.getCenter().add(p);
+                    pivot =parent.getCenter();
+                }
+                else {
+                    position = parent.getPos().add(p);
+                    pivot = parent.getPos();
+                }
 
+            }
+
+            //Drawing transformation matices
+            RectF drawTo = getDrawTo();
+            drawTo.offset(GameView.instance.cameraDisp.x,GameView.instance.cameraDisp.y);
+            matrix.setRectToRect(srcRect, drawTo, Matrix.ScaleToFit.FILL);
+            matrix.postScale(scaleX,scaleY,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
+            matrix.postRotate(r,pivot.x+GameView.instance.cameraDisp.x,pivot.y+GameView.instance.cameraDisp.y);
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------

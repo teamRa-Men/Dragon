@@ -62,7 +62,7 @@ public class Dragon extends Character {
         segments.clear();
 
         this.size = size;
-        colliders = new Segment[size/10];
+        colliders = new Segment[size/8];
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
@@ -123,9 +123,9 @@ public class Dragon extends Character {
     }
 
     @Override
-    public void onDamage(float damage, float dx, float dy) {
+    public void onDamage(float damage) {
         if(!stunController.performing) {
-            super.onDamage(damage, dx, dy);
+            super.onDamage(damage);
         }
         stunController.triggerAction();
     }
@@ -249,24 +249,27 @@ public class Dragon extends Character {
         boolean collided = false;
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
-            RectF bound = segment.dst;
-            if(other.getBounds().intersect(bound.left-radius,bound.top-radius,bound.right+radius,bound.bottom+radius)){
+            if(segment.collision(other)){
                 collided = true;
             }
         }
         return collided;
     }
-    public boolean collisionStick(GameObject other) {
+    public boolean projectileCollision(GameObject other) {
         boolean collided = false;
+
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
-            RectF bound = segment.dst;
-            if(other.getBounds().intersect(bound.left-radius,bound.top-radius,bound.right+radius,bound.bottom+radius)){
+            if(segment.getBounds().contains(other.position.x,other.position.y)){
                 collided = true;
-                //make child
+                other.setParent(segment);
             }
         }
         return collided;
+    }
+    //lead
+    public Vector2 aimFor(){
+        return colliders[(int)(colliders.length/2)-1].position;
     }
 
     @Override
@@ -341,11 +344,11 @@ public class Dragon extends Character {
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         canvas.drawRect(frontArm.dst,p);
-        /*
+
         for (int i = 0; i < colliders.length; i++) {
             canvas.drawRect(colliders[i].dst,p);
-        }
-*/
+        }*/
+
     }
 
     public void collectedGold(){
@@ -442,20 +445,19 @@ class Head{
     }
 }
 
-class Segment{
-    public Vector2 position;
+class Segment extends GameObject{
     public Vector2 target;
-    public Vector2 direction;
-    double rotation;
     public float radius, time;
     Dragon dragon;
     Bitmap sprite,tailSprite;
-    RectF src, dst,tailSrc;
+    RectF src, dst,collider,tailSrc;
+    Matrix matrix;
     Paint paint = new Paint();
     float index;
     public float wave;
 
     public Segment(Dragon dragon, int index, float radius){
+        super(null,0.5f,0.25f);
         this.radius = radius;
         this.dragon = dragon;
         this.index = index;
@@ -472,33 +474,17 @@ class Segment{
         src = new RectF(0, 0, radius * 2, radius * 2);
         paint.setAntiAlias(true);
         dst = src;
-
-
+        matrix = new Matrix();
     }
+    @Override
     public void draw(Canvas canvas){
-
-        float left = position.x- src.width()/2 + GameView.instance.cameraDisp.x+wave*direction.y;
-        float top = position.y - src.height()/4+wave*direction.x;
-        float right = left + src.width();
-        float bottom = top + src.height();
-
-        Matrix matrix = new Matrix();
-        dst = new RectF(left, top, right, bottom);
-        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
-        matrix.postRotate((float) rotation, dst.centerX(),dst.centerY());
         canvas.drawBitmap(sprite, matrix,paint);
-
-
     }
     public void update(float deltaTime, Vector2 target){
         this.target = target;
         Vector2 disp = target.sub(position);
         direction = disp.getNormal();
-
-
-
-        rotation = Math.toDegrees(Math.atan2(direction.y,direction.x));
+        rotation = (float)Math.toDegrees(Math.atan2(direction.y,direction.x));
 
         if(disp.getLength() > Math.min(radius/2,dragon.radius/4)){
             position = target.sub(direction.multiply(Math.min(radius/2,dragon.radius/4)));
@@ -506,9 +492,24 @@ class Segment{
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
 
         wave = (float)Math.cos((-time/1000+index/dragon.segments.size()*2)*Math.PI)*dragon.radius*index/dragon.segments.size()*0.2f;
-        if(dragon.breathingFire){
-            //wave+=(Math.random()-0.5f)*radius/6;
-        }
+
+        float left = position.x- src.width()/2+wave*direction.y;
+        float top = position.y - src.height()/4+wave*direction.x;
+        float right = left + src.width();
+        float bottom = top + src.height();
+
+        collider = new RectF(left, top, right, bottom);
+        dst = new RectF(left + GameView.instance.cameraDisp.x, top+ GameView.instance.cameraDisp.y, right+ GameView.instance.cameraDisp.x, bottom+ GameView.instance.cameraDisp.y);
+
+        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
+        matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
+        matrix.postRotate((float) rotation, dst.centerX(),dst.centerY());
+
+    }
+
+    @Override
+    public RectF getBounds() {
+        return collider;
     }
 }
 

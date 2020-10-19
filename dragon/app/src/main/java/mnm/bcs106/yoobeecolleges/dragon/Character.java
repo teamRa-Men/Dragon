@@ -133,8 +133,8 @@ public class Character extends Destroyable {
         }
 
     @Override
-    public void onDamage(float damage, float dx, float dy) {
-        super.onDamage(damage, dx, dy);
+    public void onDamage(float damage) {
+        super.onDamage(damage);
         stunController.triggerAction();
     }
 
