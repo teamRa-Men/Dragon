@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
-        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
+        //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);
@@ -204,7 +204,7 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            System.out.println( "physics " + (physicsTime - started));
+            //System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
@@ -224,7 +224,7 @@ public class GameView extends SurfaceView implements Runnable {
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
@@ -252,8 +252,8 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = holder.lockCanvas(null);
             if (canvas != null) {
                 //90
-                canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
-                //scene.drawBackground(canvas);//40
+                //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
+                scene.drawBackground(canvas);//40
                 //lair.draw(canvas);//80
                 fortress.draw(canvas);//90
                 projectilePool.draw(canvas);//80

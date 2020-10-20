@@ -762,14 +762,11 @@ class FireBreath{
         RectF other = new RectF(r.left,r.top,r.right,r.bottom);
         return collision(other);
     }
-    public boolean collision(RectF r) {
+    public boolean collision(RectF other) {
+        //SSystem.out.println("fire colled");
+        return flames.get(currentBreath).collider.intersect(other) && dragon.breathingFire ;
+    }
 
-        RectF other = new RectF(r.left,r.top,r.right,r.bottom);
-        return flames.get(currentBreath).dst.intersect(other) && dragon.breathingFire ;
-    }
-    public boolean collision(Vector2 center, float radius) {
-        return Vector2.distance(flames.get(currentBreath).position, center) < radius && dragon.breathingFire;
-    }
 
     public void draw(Canvas canvas){
         if(dragon.breathingFire){
@@ -786,7 +783,7 @@ class FireBreath{
     }
 }
 class Flame {
-    RectF dst;
+    RectF dst, collider;
     RectF src;
     Vector2 direction;
     Vector2 position;
@@ -816,7 +813,7 @@ class Flame {
 
         src = new RectF(0,0,sprites[0].getWidth(), sprites[0].getHeight());
         dst = new RectF(0,0,0,0);
-
+        collider = new RectF(0,0,0,0);
 
 
         paint.setColorFilter(new LightingColorFilter(color,0));
@@ -829,6 +826,7 @@ class Flame {
                 size = Math.min(distanceTravelled/range*0.8f+0.2f,1)*maxSize;
                 //paint.setAlpha((int)(Math.min(distanceTravelled/range*2+0.1f,1)*255));
 
+
             } else {
                 active = false;
             }
@@ -840,13 +838,14 @@ class Flame {
             size=0;
         }
         float width = 1;//(float)Math.cos(4*(distanceTravelled/range)*Math.PI*2)/8+1;
-        float left = position.x - size/2*width + GameView.instance.cameraDisp.x;
+        float left = position.x - size/2*width;
         float right = left + size*width;//*(((float)Math.sin(distanceTravelled/range*Math.PI*4+maxSize*Math.PI)+7)/8);//+Math.abs(direction.y)/2);;
         float bottom = position.y+size/2*3/2 + dragon.radius/8;
         float top = bottom-size*3/2+ dragon.radius/8;
 
-
-        dst = new RectF(left,top, right, bottom);
+        collider = new RectF(left,top,right,bottom);
+        dst = new RectF(left + GameView.instance.cameraDisp.x,top+GameView.instance.cameraDisp.y, right + GameView.instance.cameraDisp.x, bottom + GameView.instance.cameraDisp.y
+        );
     }
     public void draw(Canvas canvas){
         if(dragon.breathingFire && active) {

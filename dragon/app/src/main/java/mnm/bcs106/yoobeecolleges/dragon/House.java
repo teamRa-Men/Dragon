@@ -10,7 +10,7 @@ public class House extends Foundation{
 
     int currentInhabitants;
     int maxInhabitants;
-    int maxHealth = 400;
+    int maxHealth = 100;
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,1, isStanding, activity );
 
@@ -54,7 +54,7 @@ public class House extends Foundation{
     public void OnDamage() {
         super.OnDamage();
 
-        if(health == 0){
+        if(health == 0 && isStanding){
             isStanding = false;
             buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.houseruin);
             buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);

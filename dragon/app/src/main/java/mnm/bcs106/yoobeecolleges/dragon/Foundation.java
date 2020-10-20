@@ -56,8 +56,8 @@ public class Foundation {
 
 
 
-        collider = new Rect(x,y-height,x+width,height);
-        damagePeriod = new ActionController(0,0,2000);
+        collider = new Rect(x,y-height,x+width,y);
+        damagePeriod = new ActionController(10,0,2000);
 
     }
 
@@ -65,6 +65,7 @@ public class Foundation {
         Paint p = new Paint();
         //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
         c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),p);
+
     }
 
     public int getTileNr(){
@@ -72,11 +73,9 @@ public class Foundation {
     }
 
     public void physics(float deltaTime){
-
-        if (GameView.instance.player.fireBreath.collision(new Vector2(x,y), width)){
-            OnDamage();
-        }
+        //Log.i("gmg","phy");
         if (GameView.instance.player.fireBreath.collision(collider)){
+            Log.i("gmg","hit fire");
             OnDamage();
         }
     }
@@ -88,12 +87,13 @@ public class Foundation {
     public  void OnDamage () {
         if(isStanding){
             damagePeriod.triggerAction();
+           // Log.i("gmg","standing");
 
             if(damagePeriod.charging){
-                health-=1;
+                health-=3;
                 health = Math.max(health,0);
-                Log.i("gmg","dmg");
-                System.out.println(health);
+                //Log.i("gmg","dmg");
+                System.out.println("health "+ health);
                 damagePeriod.cooling=true;
             }
 
