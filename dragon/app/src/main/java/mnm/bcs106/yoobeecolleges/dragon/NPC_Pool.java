@@ -4,7 +4,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class NPC_Pool {
-    int size = 24;
+    int size = 20;
 
     Wooloo[] npcWooloo = new Wooloo[size];
     RangedNPC[] npcRangedNPC = new RangedNPC[size];

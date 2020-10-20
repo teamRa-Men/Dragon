@@ -21,8 +21,6 @@ public class ArcherTower extends Foundation {
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - buildingImage.getHeight();
 
-        buildingType = 4;
-
         System.out.println("Tower spawned");
     }
 
@@ -44,8 +42,8 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = (float)(Math.random()-0.5)*15;
-        float randomy = (float)(Math.random()-0.5)*15;
+        float randomx = (float)(Math.random()-0.5)/5;
+        float randomy = (float)(Math.random()-0.5)/5;
 
         float dx = GameView.instance.player.position.x-x;
         float dy =GameView.instance.player.position.y-y;

@@ -22,9 +22,7 @@ public class Gold extends GameObject{
         width = GameView.instance.screenWidth/30/3;
         height = width;
         phase = Math.random()*Math.PI*2;
-
-
-
+        gravity = 1f/2;
     }
 
 
@@ -48,19 +46,12 @@ public class Gold extends GameObject{
     @Override
     public void physics(float deltaTime) {
         super.physics(deltaTime);
-
-
         if (GameView.instance.player.inReach(position)) {
             GoldPool.instance.collectedGold(this);
             GameView.instance.player.collectedGold();
             System.out.println("collected");
         }
-
-        //System.out.println("phys");
-        if (position.y + height / 2 < GameView.instance.getGroundLevel()) {
-            setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
-        } else {
-            onGrounded(GameView.instance.getGroundLevel());
-        }
     }
+
+
 }

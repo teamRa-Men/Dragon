@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class ProjectilePool {
 
-    int maxArrows = 100;
+    int maxArrows = 20;
     ArrayList<Projectile> arrowPool = new ArrayList<Projectile>();
     ArrayList<Projectile> activeArrows = new ArrayList<Projectile>();
     Bitmap arrowSprite;
 
-    int maxMagic = 100;
+    int maxMagic = 5;
     ArrayList<Projectile> magicPool = new ArrayList<Projectile>();
     ArrayList<Projectile> activeMagic = new ArrayList<Projectile>();
     Bitmap magicSprite;
@@ -21,13 +21,13 @@ public class ProjectilePool {
     public static ProjectilePool instance;
 
     public ProjectilePool(){
-        if(instance == null){
+
             instance = this;
-        }
+
         arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
 
         for (int i = 0; i < maxArrows; i++) {
-            Projectile newArrow = new Projectile(arrowSprite,1f,0.5f);
+            Projectile newArrow = new Projectile(arrowSprite,0.7f,0.5f);
 
             arrowPool.add(newArrow);
         }
@@ -35,7 +35,7 @@ public class ProjectilePool {
         magicSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
 
         for (int i = 0; i < maxMagic; i++) {
-            Projectile newMagic = new Projectile(magicSprite,1f,0.5f);
+            Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f);
             magicPool.add(newMagic);
         }
     }
@@ -43,11 +43,11 @@ public class ProjectilePool {
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
+            arrow.shoot(x,y,speed,dx,dy,1f/8);
             arrowPool.remove(0);
-            activeArrows.add(arrow);
-            arrow.damage = damage;
-            arrow.shoot(x,y,speed,dx,dy,true);
 
+            arrow.damage = damage;
+            activeArrows.add(arrow);
         }
 
     }
@@ -56,11 +56,11 @@ public class ProjectilePool {
 
         if(magicPool.size()>0) {
             Projectile magic = magicPool.get(0);
+            magic.shoot(x,y,speed,dx,dy,0);
             magicPool.remove(0);
-            activeMagic.add(magic);
-            magic.damage = damage;
-            magic.shoot(x,y,speed,dx,dy,false);
 
+            magic.damage = damage;
+            activeMagic.add(magic);
         }
 
     }
@@ -77,24 +77,26 @@ public class ProjectilePool {
     public void physics(float deltaTime){
         for (int i = 0; i < activeArrows.size(); i++) {
             Projectile arrow = activeArrows.get(i);
-            if(arrow.visible) {
-                arrow.physics(deltaTime);
-            }
             if(arrow.returnToPool){
                 activeArrows.remove(arrow);
                 arrowPool.add(arrow);
                 arrow.returnToPool=false;
+                arrow.init();
+            }
+            else {
+                arrow.physics(deltaTime);
             }
         }
         for (int i = 0; i < activeMagic.size(); i++) {
             Projectile magic = activeMagic.get(i);
-            if(magic.visible) {
-                magic.physics(deltaTime);
-            }
             if(magic.returnToPool){
                 activeMagic.remove(magic);
                 magicPool.add(magic);
                 magic.returnToPool=false;
+                magic.init();
+            }
+            else {
+                magic.physics(deltaTime);
             }
         }
     }

@@ -11,8 +11,10 @@ public class Scene {
     Bitmap sky, ground,mountainBackground, hillsBackground, sea;
     int height, width;
     float mountainX, hillsX, groundX;
-    int timeOfDay;
-    float time;
+    float timeOfDay;
+    int dayLength;
+    int day;
+    public static Scene instance;
 
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
     Dragon player;
@@ -22,6 +24,10 @@ public class Scene {
     GameView gameView;
     public Scene(){
         gameView = GameView.instance;
+        instance = this;
+
+        dayLength = 1*60*1000;
+
         player = gameView.player;
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
@@ -36,7 +42,7 @@ public class Scene {
         backPaint = new Paint();
         frontPaint = new Paint();
         frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
-        backPaint.setColor(Color.rgb(timeOfDay,timeOfDay,timeOfDay));
+        backPaint.setColor(Color.rgb(253,253,255));
     }
 
     public void drawBackground(Canvas canvas){
@@ -46,9 +52,9 @@ public class Scene {
         //canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX2-width/4,0,backPaint);
 
 
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,0,backPaint);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX1,0,backPaint);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2,0,backPaint);
+        //canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,0,backPaint);
+        //canvas.drawBitmap(mountainBackground, mountainX+ mountainX1,0,backPaint);
+        //canvas.drawBitmap(mountainBackground, mountainX+ mountainX2,0,backPaint);
 
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX0,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
@@ -81,8 +87,16 @@ public class Scene {
         mountainX2 = (int)(-mountainX/width+1)*width;
 
         //backPaint.setColor(Color.rgb(timeOfDay-10,timeOfDay-10,timeOfDay));
-        backPaint.setColorFilter(new LightingColorFilter(Color.rgb(timeOfDay,timeOfDay,timeOfDay),0));
-        time += deltaTime;
-        timeOfDay = (int)(250*Math.max(Math.min(Math.sin(time/1000/10)*2+0.5,1),0.2));
+        int c =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.2));
+        System.out.println(c);
+        backPaint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
+
+
+        timeOfDay +=deltaTime;
+        System.out.println(timeOfDay/dayLength);
+        if(timeOfDay > dayLength){
+            timeOfDay = 0;
+            day++;
+        }
     }
 }

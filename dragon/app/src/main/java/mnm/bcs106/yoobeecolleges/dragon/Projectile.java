@@ -2,13 +2,14 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 public class Projectile extends GameObject {
     int damage = 5;
     float pushX, pushY;
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
-    public boolean returnToPool = false,gravity = false;
+    public boolean returnToPool = false;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY) {
         super(sprite, offsetX, offsetY);
@@ -19,7 +20,7 @@ public class Projectile extends GameObject {
 
     @Override
     public void draw(Canvas canvas) {
-        super.draw(canvas);
+
 
         //If attached parent is destroyed, remove from parent
         if(parent!=null) {
@@ -38,34 +39,29 @@ public class Projectile extends GameObject {
                 paint.setAlpha(alpha);
                 if (timeSinceShot > coolDown) {
                     init();
-                   returnToPool = true;
+                    returnToPool = true;
                 }
             }
 
         }
-
+        super.draw(canvas);
     }
 
     @Override
     public void physics(float deltaTime) {
+
         super.physics(deltaTime);
         timeSinceShot+=deltaTime;
-        //gravity
-
-        if(GameView.instance.player.collision(this)){
-            GameView.instance.player.onDamage(damage);
-        }
-        if(gravity) {
-            if (position.y < GameView.instance.getGroundLevel()) {
-                setVelocity(getVelocity().x, getVelocity().y + 1f / 2 * deltaTime / 1000);
-            } else {
-                onGrounded(GameView.instance.getGroundLevel());
+        if(parent == null){
+            if(GameView.instance.player.projectileCollision(this)){
+                GameView.instance.player.onDamage(damage);
+                timeSinceShot = coolDown*0.75f;
             }
         }
     }
 
 
-    public void shoot(int x, int y, float speed, float dx, float dy, boolean gravity){
+    public void shoot(int x, int y, float speed, float dx, float dy, float gravity){
 
         position = new Vector2(x,y);
         this.speed = speed;
@@ -74,19 +70,21 @@ public class Projectile extends GameObject {
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
         simulated = true;
         visible = true;
+        parent = null;
         this.gravity = gravity;
         //Game.instance.soundEffects.play(Game.instance.soundEffects.PEW);
     }
 
 
     void init(){
+        visible=false;
+        position = new Vector2(GameView.instance.screenWidth*2,GameView.instance.screenHeight*2);
         centerPivot = false;
         facing = true;
         simulated=false;
-        visible=false;
+        matrix = new Matrix();
         paint.setAlpha(255);
         parent = null;
-
     }
 
 
@@ -99,6 +97,4 @@ public class Projectile extends GameObject {
         }
         speed = 0;
     }
-
-
 }

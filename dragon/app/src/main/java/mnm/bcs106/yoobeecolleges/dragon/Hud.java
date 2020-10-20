@@ -24,7 +24,7 @@ public class Hud {
     Dragon player;
 
     public Hud(){
-        if(instance == null){
+
             instance = this;
 
             screenWidth = GameView.instance.screenWidth;
@@ -56,7 +56,7 @@ public class Hud {
             manaBottom = manaTop+10;
             healthTop = screenWidth/20;
             healthBottom = healthTop+10;
-        }
+
     }
     public void update(float deltaTime){
         dragFrom = Game.instance.dragFrom;

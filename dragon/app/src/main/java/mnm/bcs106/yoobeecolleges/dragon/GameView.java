@@ -25,14 +25,14 @@ public class GameView extends SurfaceView implements Runnable {
     float zoom;
 
 
-    final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
-    //final float fixedDeltaTime = (int) (1000 / 60); // in milliseconds
+    //final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
+    final float fixedDeltaTime = (int) (1000 / 30); // in milliseconds
 
     float deltaTime = fixedDeltaTime;
 
     //Physics
     public float groundLevel, upperBound, gravity = 0.3f;
-    int physicsIterations = 2;
+    int physicsIterations = 3;
     Vector2 cameraDisp = Vector2.zero;
 
     //Projectile
@@ -50,7 +50,6 @@ public class GameView extends SurfaceView implements Runnable {
     Scene scene;
 
     //Game objects
-    int maxEnemyCount = 3;
     public Dragon player;
     GameObject ground;
     NPC_Pool npc_pool;
@@ -90,9 +89,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     void init(){
         //Singleton
-        if(instance == null) {
+
             instance = this;
-        }
+
         //System.out.println(fixedDeltaTime);
         //Dimensions
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -115,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
-        GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
+        //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
 
         player.setDamagedSound(SoundEffects.DAMAGE);
@@ -207,7 +206,7 @@ public class GameView extends SurfaceView implements Runnable {
             long physicsTime = System.currentTimeMillis();
             //System.out.println( "physics " + (physicsTime - started));
 
-            //Apply ame logic to game objects
+            //Apply game logic to game objects
 
             update();
             long updateTime = System.currentTimeMillis();
@@ -253,8 +252,8 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = holder.lockCanvas(null);
             if (canvas != null) {
                 //90
-                canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
-                //scene.drawBackground(canvas);//40
+                //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
+                scene.drawBackground(canvas);//40
                 //lair.draw(canvas);//80
                 fortress.draw(canvas);//90
                 projectilePool.draw(canvas);//80
@@ -266,9 +265,6 @@ public class GameView extends SurfaceView implements Runnable {
                 hud.draw(canvas);
                 holder.unlockCanvasAndPost(canvas);
             }
-
-
-
     }
 
     //-----------------------------------------------------------------------------------------------------------

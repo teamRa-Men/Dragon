@@ -7,16 +7,16 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 public class GoldPool {
-    int maxGold = 300;
+    int maxGold = 100;
     ArrayList<Gold> goldPool = new ArrayList<Gold>();
     ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
     public static GoldPool instance;
 
     public GoldPool(){
-        if(instance == null){
+
             instance = this;
-        }
+
         goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
         for (int i = 0; i < maxGold; i++) {
             Gold newGold = new Gold(goldSprite,0.5f,0.5f);
