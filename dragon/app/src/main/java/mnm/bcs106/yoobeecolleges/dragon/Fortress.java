@@ -3,6 +3,7 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -27,6 +28,8 @@ public class Fortress extends Foundation {
     int currentTilesLeft;
     int currentTilesRight;
     int maxTiles = 8;
+
+    public Point creationPoint = new Point();
 
     ArrayList<Foundation> currentBuildingsRight = new ArrayList<Foundation>();
     ArrayList<Foundation> currentBuildingsLeft = new ArrayList<Foundation>();
@@ -143,8 +146,33 @@ public class Fortress extends Foundation {
         for(int i = 0; i < currentBuildingsLeft.size(); i++){
             currentBuildingsLeft.get(i).update(deltaTime);
         }
+
+
+        //
+
+        if(inRange()) {
+            if(Math.random() < 0.01){
+                Attack();}
+        }
     }
 
+    public boolean inRange(){
+        System.out.println("calling inRange");
+        if (Math.abs(GameView.instance.player.position.y-y)<500){
+            return true;}
+        return false;
+    }
+
+    //shooting an arrow at target
+    public void Attack(){
+        System.out.println("calling Attack");
+        float randomx = (float)(Math.random()-0.5)*15;
+        float randomy = (float)(Math.random()-0.5)*15;
+
+        float dx = GameView.instance.player.position.x-x;
+        float dy =GameView.instance.player.position.y-y;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
+    }
 
 
     @Override

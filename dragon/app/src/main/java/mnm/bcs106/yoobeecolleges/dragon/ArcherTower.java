@@ -32,9 +32,7 @@ public class ArcherTower extends Foundation {
 
     // calculates if the dragon is in range
     public boolean inRange(){
-        System.out.println("something went off");
         if (Math.abs(GameView.instance.player.position.y-y)<500){
-            System.out.println("in range");
             return true;}
         return false;
     }
@@ -42,8 +40,8 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = (float)(Math.random()-0.5)/5;
-        float randomy = (float)(Math.random()-0.5)/5;
+        float randomx = (float)(Math.random()-0.5)*15;
+        float randomy = (float)(Math.random()-0.5)*15;
 
         float dx = GameView.instance.player.position.x-x;
         float dy =GameView.instance.player.position.y-y;
