@@ -16,6 +16,7 @@ public class House extends Foundation{
 
 
         health = maxHealth;
+        buildingType = 2;
 
         double rh = (Math.random()*3);
         double flipp = (Math.random() - 0.5f);
