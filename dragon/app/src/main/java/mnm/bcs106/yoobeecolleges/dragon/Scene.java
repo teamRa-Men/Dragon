@@ -88,12 +88,12 @@ public class Scene {
 
         //backPaint.setColor(Color.rgb(timeOfDay-10,timeOfDay-10,timeOfDay));
         int c =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.2));
-        System.out.println(c);
+        //System.out.println(c);
         backPaint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
 
 
         timeOfDay +=deltaTime;
-        System.out.println(timeOfDay/dayLength);
+        //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){
             timeOfDay = 0;
             day++;

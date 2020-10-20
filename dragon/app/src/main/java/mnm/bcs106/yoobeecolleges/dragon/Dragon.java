@@ -224,12 +224,12 @@ public class Dragon extends Character {
                     backLeg.walking=false;
                     frontLeg.walking=false;
                 }
-
+                /*
                 if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
                     direction.x = Math.signum(direction.x) * Math.max(direction.x, 0.8f);
                 }
-
+                */
 
                 friction = 1;
             }
