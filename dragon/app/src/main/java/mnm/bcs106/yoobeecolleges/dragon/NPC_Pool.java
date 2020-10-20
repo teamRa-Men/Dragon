@@ -11,7 +11,7 @@ public class NPC_Pool {
     Wizard[] npcWizard = new Wizard[size];
     public NPC_Pool(){
         for(int i = 0 ;i < size; i++){
-            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
+            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
             npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);
             npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);
         }

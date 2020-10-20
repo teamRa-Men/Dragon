@@ -180,14 +180,14 @@ public class GameView extends SurfaceView implements Runnable {
 
             update();
             long updateTime = System.currentTimeMillis();
-            System.out.println( "update " + (updateTime-physicsTime));
+            //System.out.println( "update " + (updateTime-physicsTime));
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average main " + totalFrame/numberFrame);
+            //System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
