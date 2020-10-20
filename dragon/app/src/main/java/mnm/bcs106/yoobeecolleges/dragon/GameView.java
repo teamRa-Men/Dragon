@@ -150,36 +150,6 @@ public class GameView extends SurfaceView implements Runnable {
         isRunning = true;
         gameThread = new Thread(this);
         gameThread.start();
-
-        drawThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(isRunning) {
-                    long started = System.currentTimeMillis();
-                    draw();
-                    deltaTime = (System.currentTimeMillis() - started);
-                    int lag = (int) (fixedDeltaTime - deltaTime);
-
-                    //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
-                    if (lag > 0) {
-                        try {
-                            gameThread.sleep(lag);
-                        } catch (Exception e) {
-                        }
-                    }
-                    while (lag < 0) {
-                        lag += fixedDeltaTime;
-                        //Apply physics calculations per frame
-                        for (int i = 0; i < physicsIterations; i++) {
-                            physics();
-                        }
-                        //Apply game logic to game objects
-                        update();
-                    }
-                }
-            }
-        });
-        //drawThread.start();
     }
 
     public void pause() {
@@ -210,14 +180,14 @@ public class GameView extends SurfaceView implements Runnable {
 
             update();
             long updateTime = System.currentTimeMillis();
-            //System.out.println( "update " + (updateTime-physicsTime));
+            System.out.println( "update " + (updateTime-physicsTime));
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            //System.out.println( "draw main " + drawTime);
+            System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            //System.out.println("average main " + totalFrame/numberFrame);
+            System.out.println("average main " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
