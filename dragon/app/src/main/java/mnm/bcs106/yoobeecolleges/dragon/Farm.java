@@ -69,10 +69,18 @@ public class Farm extends Foundation{
             beenEmptied = false;
         }
 
+        //===========================
+
+        // IS DEAD
+
+        //============================
+
         else{
             if(beenEmptied == false){
             GoldPool.instance.spawnGold(x, y-3,goldRate/4);
             beenEmptied = true;}
+
+            goldRate = 0;
         }
 
 

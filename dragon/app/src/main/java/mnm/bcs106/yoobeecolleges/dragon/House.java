@@ -15,6 +15,7 @@ public class House extends Foundation{
     int maxHealth = 100;
 
     boolean createdVillager = false;
+    boolean beenEmptied = false;
 
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,1, isStanding, activity );
@@ -48,21 +49,48 @@ public class House extends Foundation{
     @Override
     public void update(float deltaTime) {
 
-        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
-                && (currentInhabitants.size() < maxInhabitants)
-                && (createdVillager == false)){
+        //===================
+        // ALIVE
+        //=======================
 
-            Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+        if(isStanding == true){
 
-            if (newFarmer != null) {
-                currentInhabitants.add(newFarmer);
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
+                    && (currentInhabitants.size() < maxInhabitants)
+                    && (createdVillager == false)){
+
+                Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+
+                if (newFarmer != null) {
+                    currentInhabitants.add(newFarmer);
+                }
+
+                createdVillager = true;
             }
 
-            createdVillager = true;
+            if((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
+                createdVillager = false;
+            }
+
+            goldRate = currentInhabitants.size() * 3;
+
         }
 
-        if((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
-            createdVillager = false;
+        //===========================
+        // IS DEAD
+        //============================
+
+        else{
+
+            buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.houseruin);
+            buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
+
+            if(beenEmptied == false){
+                GoldPool.instance.spawnGold(x, y-3,goldRate/5);
+                beenEmptied = true;}
+
+            goldRate = 0;
+
         }
     }
 
@@ -77,9 +105,7 @@ public class House extends Foundation{
 
         if(health == 0 && isStanding){
             isStanding = false;
-            buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.houseruin);
-            buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
-            Log.i("ouch","damaged");
+            //Log.i("ouch","damaged");
         }
     }
 }

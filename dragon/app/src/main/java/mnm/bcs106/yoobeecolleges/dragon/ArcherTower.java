@@ -58,7 +58,6 @@ public class ArcherTower extends Foundation {
 
     public void update(float fixedDeltaTime){
         countdown+=fixedDeltaTime;
-        System.out.println(countdown);
 
         if(isStanding = true) {
 

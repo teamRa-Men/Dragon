@@ -186,7 +186,7 @@ public class Fortress extends Foundation {
 
         //===================================================================================//
 
-        if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+        /*if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                 && (currentGold >= (maxGold/10*9))
                 && lv == 0){
 
@@ -199,7 +199,7 @@ public class Fortress extends Foundation {
 
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
             currentTilesLeft+=2;
-        }
+        }*/
 
         for(int i = 0; i < currentBuildingsRight.size(); i++){
             currentBuildingsRight.get(i).update(deltaTime);
@@ -257,12 +257,8 @@ public class Fortress extends Foundation {
 
 
 
-//TODO: Building TileSize : done
-//      Conditional Building output : deleted
-//      Conditional LV-up mechanic : done
-//      Adding prio. to farms at start of Village : deleted
-//      Slightly offset BUILDINGS : done
+//TODO:
+//      Conditional Building output :
 //      Fortress size : 4 tiles: done
 //      Fortress Attacking :
-//      Corresponding Gold Rate increase depending on Inhabitants :
 
