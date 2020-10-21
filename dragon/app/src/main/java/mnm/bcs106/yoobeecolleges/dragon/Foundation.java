@@ -16,6 +16,7 @@ public class Foundation {
     public int tilesize;
     int tileNr = 1;
     int width, height;
+    int goldRate = 0;
 
     //current
     protected int health;
