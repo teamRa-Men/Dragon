@@ -83,6 +83,7 @@ public class Foundation {
 
     public void physics(float deltaTime){
         //Log.i("gmg","phy");
+
         if(isStanding) {
             if (GameView.instance.player.fireBreath.collision(collider)) {
                 Log.i("gmg", "hit fire");
@@ -104,7 +105,7 @@ public class Foundation {
                 health-=1;
                 health = Math.max(health,0);
                 //Log.i("gmg","dmg");
-                System.out.println("health "+ health);
+                //System.out.println("health "+ health);
                 damagePeriod.cooling=true;
             }
 

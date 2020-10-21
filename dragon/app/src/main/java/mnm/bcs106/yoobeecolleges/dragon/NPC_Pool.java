@@ -3,27 +3,31 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import java.util.ArrayList;
+
 public class NPC_Pool {
     int size = 20;
 
-    Wooloo[] npcWooloo = new Wooloo[size];
-    RangedNPC[] npcRangedNPC = new RangedNPC[size];
-    Wizard[] npcWizard = new Wizard[size];
+    ArrayList<Wooloo> npcWooloo = new ArrayList<Wooloo>();
+    ArrayList<RangedNPC>  npcRangedNPC = new ArrayList<RangedNPC>();
+    ArrayList<Wizard>  npcWizard = new ArrayList<Wizard>();
+    ArrayList<Farmers>  npcFarmers = new ArrayList<Farmers>();
     public NPC_Pool(){
         for(int i = 0 ;i < size; i++){
-            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
-            npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);
-            npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);
+            npcWooloo.add(new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
+            npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,3));
+            npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100));
+            npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.villager),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,0));
         }
     }
     public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
-            if (!npcWooloo[i].alive) {
-                npcWooloo[i].alive = true;
-                npcWooloo[i].npcX = spawnX;
-                npcWooloo[i].npcY = spawnY;
+            if (!npcWooloo.get(i).alive) {
+                npcWooloo.get(i).alive = true;
+                npcWooloo.get(i).npcX = spawnX;
+                npcWooloo.get(i).npcY = spawnY;
 
-                return npcWooloo[i];
+                return npcWooloo.get(i);
             }
         }
 
@@ -33,54 +37,72 @@ public class NPC_Pool {
     public void spawnArcher (int spawnX, int spawnY, int ammount){
         int d = 0;
         for (int i = 0;i<ammount;i++){
-            if (!npcRangedNPC[i].alive && d < ammount) {
-                npcRangedNPC[i].alive = true;
-                npcRangedNPC[i].npcX = spawnX;
-                npcRangedNPC[i].npcY = spawnY;
+            if (!npcRangedNPC.get(i).alive && d < ammount) {
+                npcRangedNPC.get(i).alive = true;
+                npcRangedNPC.get(i).npcX = spawnX;
+                npcRangedNPC.get(i).npcY = spawnY;
                 d++;
             }
         }
     }public void spawnWizard (int spawnX, int spawnY, int ammount){
         int d = 0;
         for (int i = 0;i<ammount;i++){
-            if (!npcWizard[i].alive && d < ammount) {
-                npcWizard[i].alive = true;
-                npcWizard[i].npcX = spawnX;
-                npcWizard[i].npcY = spawnY;
+            if (!npcWizard.get(i).alive && d < ammount) {
+                npcWizard.get(i).alive = true;
+                npcWizard.get(i).npcX = spawnX;
+                npcWizard.get(i).npcY = spawnY;
                 d++;
             }
         }
+    }public Farmers spawnFarmers (int spawnX, int spawnY){
+
+        for (int i = 0;i<size;i++){
+            if (!npcFarmers.get(i).alive) {
+                npcFarmers.get(i).alive = true;
+                npcFarmers.get(i).npcX = spawnX;
+                npcFarmers.get(i).npcY = spawnY;
+
+                return npcFarmers.get(i);}
+        }
+        return null;
     }
+
     public void draw (Canvas canvas){
         for (int i = 0; i<size;i++){
-            if (npcWooloo[i].alive){
-                npcWooloo[i].draw(canvas);
-            }if (npcRangedNPC[i].alive){
-                npcRangedNPC[i].draw(canvas);
-            }if (npcWizard[i].alive){
-                npcWizard[i].draw(canvas);
+            if (npcWooloo.get(i).alive){
+                npcWooloo.get(i).draw(canvas);
+            }if (npcRangedNPC.get(i).alive){
+                npcRangedNPC.get(i).draw(canvas);
+            }if (npcWizard.get(i).alive){
+                npcWizard.get(i).draw(canvas);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).draw(canvas);
             }
         }
     }
     public void update(float deltaTime){
         for (int i = 0; i<size;i++){
-            if (npcWooloo[i].alive){
-                npcWooloo[i].update(deltaTime);
-            }if (npcRangedNPC[i].alive){
-                npcRangedNPC[i].update(deltaTime);
-            }if (npcWizard[i].alive){
-                npcWizard[i].update(deltaTime);
+            if (npcWooloo.get(i).alive){
+                npcWooloo.get(i).update(deltaTime);
+            }if (npcRangedNPC.get(i).alive){
+                npcRangedNPC.get(i).update(deltaTime);
+            }if (npcWizard.get(i).alive){
+                npcWizard.get(i).update(deltaTime);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).update(deltaTime);
             }
         }
     }
     public void physics(float deltaTime){
         for (int i = 0; i<size;i++){
-            if (npcWooloo[i].alive){
-                npcWooloo[i].physics(deltaTime);
-            }if (npcRangedNPC[i].alive){
-                npcRangedNPC[i].physics(deltaTime);
-            }if (npcWizard[i].alive){
-                npcWizard[i].physics(deltaTime);
+            if (npcWooloo.get(i).alive){
+                npcWooloo.get(i).physics(deltaTime);
+            }if (npcRangedNPC.get(i).alive){
+                npcRangedNPC.get(i).physics(deltaTime);
+            }if (npcWizard.get(i).alive){
+                npcWizard.get(i).physics(deltaTime);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).physics(deltaTime);
             }
         }
     }

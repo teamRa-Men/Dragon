@@ -72,6 +72,8 @@ public class Fortress extends Foundation {
 
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
+
+        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
@@ -112,7 +114,8 @@ public class Fortress extends Foundation {
             if((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0.7) hasTaxed = false;
 
             if(currentGold != currentGold1){
-                System.out.println(currentGold);
+                System.out.println("Goldrate : " + goldRate);
+                System.out.println("Gold : " + currentGold);
             }
         }
 
@@ -133,11 +136,9 @@ public class Fortress extends Foundation {
 
             if(lr < 0){
                 direction = currentBuildingsLeft;
-                directionTiles = currentTilesLeft;
             }
             else{
                 direction = currentBuildingsRight;
-                directionTiles = currentTilesRight;
             }
 
             int position;
@@ -153,25 +154,30 @@ public class Fortress extends Foundation {
                 building = new House(position,y,true,activity);
                 directionTiles=1;
             }
+
             else{
                 building = new Farm(position,y,true,activity);
                 directionTiles=3;
             }
 
             if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
-               direction.add(building);
+               direction.add(new Farm(position,y,true,activity));
+               directionTiles=3;
             }
 
-            direction.add(building);
+            else direction.add(building);
 
+            //giving feedback to the Tiles right and Tiles left
             if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
             else currentTilesRight += directionTiles;
 
-            System.out.println("Left Buildings :" + currentBuildingsLeft.size());
-            System.out.println("Right Buildings :" + currentBuildingsRight.size());
+            //TODO: First Building faulty
 
-            System.out.println("Left Tiles :" +currentTilesLeft);
-            System.out.println("Right Tiles :" +currentTilesRight);
+            //System.out.println("Left Buildings :" + currentBuildingsLeft.size());
+            //System.out.println("Right Buildings :" + currentBuildingsRight.size());
+
+            //System.out.println("Left Tiles :" +currentTilesLeft);
+            //System.out.println("Right Tiles :" +currentTilesRight);
         }
 
         //===================================================================================//
@@ -180,7 +186,7 @@ public class Fortress extends Foundation {
 
         //===================================================================================//
 
-        if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+        /*if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                 && (currentGold >= (maxGold/10*9))
                 && lv == 0){
 
@@ -193,7 +199,7 @@ public class Fortress extends Foundation {
 
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
             currentTilesLeft+=2;
-        }
+        }*/
 
         for(int i = 0; i < currentBuildingsRight.size(); i++){
             currentBuildingsRight.get(i).update(deltaTime);
@@ -251,12 +257,8 @@ public class Fortress extends Foundation {
 
 
 
-//TODO: Building TileSize : done
-//      Conditional Building output : deleted
-//      Conditional LV-up mechanic : done
-//      Adding prio. to farms at start of Village : deleted
-//      Slightly offset BUILDINGS : done
+//TODO:
+//      Conditional Building output :
 //      Fortress size : 4 tiles: done
 //      Fortress Attacking :
-//      Corresponding Gold Rate increase depending on Inhabitants :
 
