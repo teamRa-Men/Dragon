@@ -98,7 +98,7 @@ public class NPC {
     }
     public  void  physics(float deltaTime){
         npcCollider = new Rect(npcX,npcY,npcX+npcRect.width(),npcY+npcRect.height());
-        System.out.println("npcphysics");
+        //System.out.println("npcphysics");
         if (GameView.instance.player.fireBreath.collision(npcCollider)&&!damagePeriod.performing){
             System.out.println(npcHp);
             OnDamage();
