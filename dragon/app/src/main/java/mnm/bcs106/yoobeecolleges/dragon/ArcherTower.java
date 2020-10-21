@@ -6,7 +6,7 @@ import android.graphics.Point;
 
 public class ArcherTower extends Foundation {
 
-    float attackRange = (1/3);
+    float attackRange = (1f/2);
     public Projectile[] Arrows = new Projectile[15];
 
     public boolean lockTarget = false;
@@ -16,10 +16,13 @@ public class ArcherTower extends Foundation {
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
         super( x, y, 1, isStanding, activity );
 
+        height = width*2;
+
         this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
+        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
         creationPoint.x = x+(width/2);
-        creationPoint.y = (int)GameView.instance.groundLevel - buildingImage.getHeight();
+        creationPoint.y = (int)GameView.instance.groundLevel - height;
+
 
         System.out.println("Tower spawned");
     }
@@ -32,7 +35,7 @@ public class ArcherTower extends Foundation {
 
     // calculates if the dragon is in range
     public boolean inRange(){
-        if (Math.abs(GameView.instance.player.position.y-y)<500){
+        if (Math.abs(GameView.instance.player.position.y-y)<GameView.instance.cameraSize*attackRange){
             return true;}
         return false;
     }
@@ -40,11 +43,12 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = (float)(Math.random()-0.5)*15;
-        float randomy = (float)(Math.random()-0.5)*15;
+        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/5;
+        float randomy = -(float)(Math.random())*attackRange*GameView.instance.cameraSize/5;
 
-        float dx = GameView.instance.player.position.x-x;
-        float dy =GameView.instance.player.position.y-y;
+        Vector2 target = GameView.instance.player.aimFor();
+        float dx = target.x-creationPoint.x;
+        float dy =target.y-creationPoint.y;
         ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
     }
 
@@ -52,7 +56,7 @@ public class ArcherTower extends Foundation {
     //
     public void update(float fixedDeltaTime){
         if(inRange()) {
-            if(Math.random() < 0.01){
+            if(Math.random() < 0.03){
             Attack();}
         }
     }

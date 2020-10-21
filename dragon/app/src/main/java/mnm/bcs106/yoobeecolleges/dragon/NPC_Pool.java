@@ -16,17 +16,20 @@ public class NPC_Pool {
             npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);
         }
     }
-    public void spawnWooloo (int spawnX, int spawnY, int ammount){
-        int d = 0;
+    public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
-            if (!npcWooloo[i].alive && d < ammount) {
+            if (!npcWooloo[i].alive) {
                 npcWooloo[i].alive = true;
                 npcWooloo[i].npcX = spawnX;
                 npcWooloo[i].npcY = spawnY;
-                d++;
+
+                return npcWooloo[i];
             }
         }
+
+        return null;
     }
+
     public void spawnArcher (int spawnX, int spawnY, int ammount){
         int d = 0;
         for (int i = 0;i<ammount;i++){

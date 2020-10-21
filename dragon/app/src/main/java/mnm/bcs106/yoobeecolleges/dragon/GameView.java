@@ -278,6 +278,7 @@ public class GameView extends SurfaceView implements Runnable {
             goldPool.update(fixedDeltaTime);
             fortress.update(fixedDeltaTime);
             hud.update(deltaTime);
+
         }
         else{
             if(!Game.instance.gameOver) {

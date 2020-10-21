@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Farm extends Foundation{
 
-    int currentCattle;
+    ArrayList<Object> currentCattle = new ArrayList<Object>();
     int maxCattle;
 
     Bitmap cattle;
@@ -38,13 +38,6 @@ public class Farm extends Foundation{
            buildingType = 3;
 
            maxCattle = 4;
-           GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel,1);
-
-
-
-
-
-
 
 
            //randomised spriteposition for farmobjects, currently on Hold
@@ -109,7 +102,21 @@ public class Farm extends Foundation{
 
             }
 
+    public void update(float fixedDeltaTime) {
 
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
+                && (currentCattle.size() < maxCattle)) {
+
+            Wooloo newWooloo = GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel);
+
+            if (newWooloo != null) {
+                currentCattle.add(newWooloo);
+            }
+
+        }
+
+        goldRate = currentCattle.size() * 10;
+    }
 
 //    @Override
 //    public void draw(Canvas c) {
