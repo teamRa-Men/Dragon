@@ -54,17 +54,19 @@ public class NPC_Pool {
                 d++;
             }
         }
-    }public void spawnFarmers (int spawnX, int spawnY, int ammount){
-        int d = 0;
-        for (int i = 0;i<ammount;i++){
-            if (!npcFarmers.get(i).alive && d < ammount) {
+    }public Farmers spawnFarmers (int spawnX, int spawnY){
+
+        for (int i = 0;i<size;i++){
+            if (!npcFarmers.get(i).alive) {
                 npcFarmers.get(i).alive = true;
                 npcFarmers.get(i).npcX = spawnX;
                 npcFarmers.get(i).npcY = spawnY;
-                d++;
-            }
+
+                return npcFarmers.get(i);}
         }
+        return null;
     }
+
     public void draw (Canvas canvas){
         for (int i = 0; i<size;i++){
             if (npcWooloo.get(i).alive){
