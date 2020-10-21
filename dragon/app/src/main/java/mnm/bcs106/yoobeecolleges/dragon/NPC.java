@@ -15,7 +15,7 @@ import java.util.Vector;
 public class NPC {
     public Bitmap npcBitmap;
     public int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
-    public Rect npcRect;
+    public Rect npcRect, npcCollider;
     public float npcSpeed;
     public Boolean alive = false;
     public Point movement;
@@ -39,6 +39,7 @@ public class NPC {
         creationPoint.x = 0;
         creationPoint.y = 0;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
+        npcCollider = new Rect(npcX,npcY,width+npcX,height+npcY);
         damagePeriod = new ActionController(0,5000,5000);
     }
     public void spawn (){
@@ -92,9 +93,14 @@ public class NPC {
         moveToTarget(deltaTime);
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
+
+
     }
     public  void  physics(float deltaTime){
-        if (GameView.instance.player.fireBreath.collision(npcRect)&&!damagePeriod.performing){
+        npcCollider = new Rect(npcX,npcY,npcX+npcRect.width(),npcY+npcRect.height());
+        //System.out.println("npcphysics");
+        if (GameView.instance.player.fireBreath.collision(npcCollider)&&!damagePeriod.performing){
+            System.out.println(npcHp);
             OnDamage();
         }
     }
