@@ -72,6 +72,8 @@ public class Fortress extends Foundation {
 
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
+
+        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
@@ -169,11 +171,13 @@ public class Fortress extends Foundation {
             if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
             else currentTilesRight += directionTiles;
 
-            System.out.println("Left Buildings :" + currentBuildingsLeft.size());
-            System.out.println("Right Buildings :" + currentBuildingsRight.size());
+            //TODO: First Building faulty
 
-            System.out.println("Left Tiles :" +currentTilesLeft);
-            System.out.println("Right Tiles :" +currentTilesRight);
+            //System.out.println("Left Buildings :" + currentBuildingsLeft.size());
+            //System.out.println("Right Buildings :" + currentBuildingsRight.size());
+
+            //System.out.println("Left Tiles :" +currentTilesLeft);
+            //System.out.println("Right Tiles :" +currentTilesRight);
         }
 
         //===================================================================================//

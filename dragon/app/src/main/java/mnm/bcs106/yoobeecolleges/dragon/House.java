@@ -6,17 +6,23 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class House extends Foundation{
 
-    int currentInhabitants;
+    ArrayList<Object> currentInhabitants = new ArrayList<Object>();
     int maxInhabitants;
     int maxHealth = 100;
+
+    boolean createdVillager = false;
+
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,1, isStanding, activity );
 
 
         health = maxHealth;
         buildingType = 2;
+        maxInhabitants = 5;
 
         double rh = (Math.random()*3);
         double flipp = (Math.random() - 0.5f);
@@ -39,10 +45,24 @@ public class House extends Foundation{
 
     }
 
-    public void spawnVillager(){
-        // some other requirements
-        if(currentInhabitants < maxInhabitants){
+    @Override
+    public void update(float deltaTime) {
 
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
+                && (currentInhabitants.size() < maxInhabitants)
+                && (createdVillager == false)){
+
+            Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+
+            if (newFarmer != null) {
+                currentInhabitants.add(newFarmer);
+            }
+
+            createdVillager = true;
+        }
+
+        if((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
+            createdVillager = false;
         }
     }
 
