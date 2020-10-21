@@ -13,6 +13,9 @@ public class ArcherTower extends Foundation {
 
     public ActionController arrowRechargeTime;
 
+    float countdown = 0;
+    int attack = 0;
+
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
         super( x, y, 1, isStanding, activity );
 
@@ -23,7 +26,7 @@ public class ArcherTower extends Foundation {
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
 
-        arrowRechargeTime = new ActionController(500, 0,5000);
+        arrowRechargeTime = new ActionController(1000, 1f ,2000);
 
         System.out.println("Tower spawned");
     }
@@ -54,14 +57,34 @@ public class ArcherTower extends Foundation {
     }
 
     public void update(float fixedDeltaTime){
+        countdown+=fixedDeltaTime;
+        System.out.println(countdown);
 
         if(isStanding = true) {
 
             arrowRechargeTime.update(fixedDeltaTime);
-            if (inRange() && Math.random() < 0.08) {
+            if (inRange()) {
                 arrowRechargeTime.triggerAction();
-                if (arrowRechargeTime.charging) {
-                    Attack();
+                if (arrowRechargeTime.charging && (countdown > 40)) {
+
+                    if((int)countdown == 45 && attack == 0) {
+                        Attack();
+                        attack+=1;
+                    }
+
+                    if((int)countdown == 50 && attack == 1) {
+                        Attack();
+                        attack+=1;
+                    }
+
+                    if((int)countdown == 55 && attack == 2) {
+                        Attack();
+                        attack+=1;
+                    }
+
+                    if(countdown >= 60){
+                    countdown = 0;
+                    attack= 0;}
                 }
             }
         }

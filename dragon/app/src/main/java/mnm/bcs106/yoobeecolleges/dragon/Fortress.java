@@ -165,9 +165,6 @@ public class Fortress extends Foundation {
 
             else direction.add(building);
 
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize*3) +(currentTilesRight + 1) * tilesize, y, true, activity));
-            currentTilesRight+=2;
-
             //giving feedback to the Tiles right and Tiles left
             if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
             else currentTilesRight += directionTiles;
