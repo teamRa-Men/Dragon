@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     //Physics
     public float groundLevel, upperBound, gravity = 0.3f;
-    int physicsIterations = 3;
+    int physicsIterations = 5;
     Vector2 cameraDisp = Vector2.zero;
 
     //Projectile
@@ -62,6 +62,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Drawing
     SurfaceHolder holder;
     Paint back = new Paint();
+    SpriteManager spriteManager;
 
     public GameView(Context context) {
         super(context);
@@ -101,6 +102,8 @@ public class GameView extends SurfaceView implements Runnable {
         cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
         back.setColor(Color.WHITE);
+
+        spriteManager = new SpriteManager();
 
         holder = getHolder();
 
@@ -218,8 +221,13 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     private void draw() {
+            Canvas canvas = new Canvas();
+            try {
+                canvas = holder.lockCanvas(null);
+            }
+            catch (Exception e){
 
-            Canvas canvas = holder.lockCanvas(null);
+            }
             if (canvas != null) {
                 //90
                 //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);

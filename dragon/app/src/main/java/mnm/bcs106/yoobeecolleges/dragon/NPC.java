@@ -1,4 +1,4 @@
- package mnm.bcs106.yoobeecolleges.dragon;
+package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -96,12 +96,14 @@ public class NPC {
 
 
     }
-    public  void  physics(float deltaTime){
-        npcCollider = new Rect(npcX,npcY,npcX+npcRect.width(),npcY+npcRect.height());
+    public  void  physics(float deltaTime) {
+        npcCollider = new Rect(npcX, npcY, npcX + npcRect.width(), npcY + npcRect.height());
         //System.out.println("npcphysics");
         if (GameView.instance.player.fireBreath.collision(npcCollider)&&!damagePeriod.performing){
-            System.out.println(npcHp);
-            OnDamage();
+
+                //System.out.println(npcHp);
+                OnDamage();
+
         }
     }
 
@@ -109,7 +111,7 @@ public class NPC {
         if (countdown >= Math.random()*1000+1000){
             flee = false;
             double targetDistance = (Math.random()-0.5)*boundry;
-                target.x = (int) (creationPoint.x+targetDistance);
+            target.x = (int) (creationPoint.x+targetDistance);
             countdown = 0;
         }
     }

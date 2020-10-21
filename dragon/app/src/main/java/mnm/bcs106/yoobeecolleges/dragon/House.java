@@ -10,7 +10,7 @@ public class House extends Foundation{
 
     int currentInhabitants;
     int maxInhabitants;
-    int maxHealth = 100;
+    int maxHealth = 200;
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,1, isStanding, activity );
 
