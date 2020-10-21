@@ -17,7 +17,7 @@ public class NPC_Pool {
             npcWooloo.add(new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
             npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30));
             npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100));
-            npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.villager),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,0,0));
+            npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.villager),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,0));
         }
     }
     public Wooloo spawnWooloo (int spawnX, int spawnY){
@@ -54,6 +54,16 @@ public class NPC_Pool {
                 d++;
             }
         }
+    }public void spawnFarmers (int spawnX, int spawnY, int ammount){
+        int d = 0;
+        for (int i = 0;i<ammount;i++){
+            if (!npcFarmers.get(i).alive && d < ammount) {
+                npcFarmers.get(i).alive = true;
+                npcFarmers.get(i).npcX = spawnX;
+                npcFarmers.get(i).npcY = spawnY;
+                d++;
+            }
+        }
     }
     public void draw (Canvas canvas){
         for (int i = 0; i<size;i++){
@@ -63,6 +73,8 @@ public class NPC_Pool {
                 npcRangedNPC.get(i).draw(canvas);
             }if (npcWizard.get(i).alive){
                 npcWizard.get(i).draw(canvas);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).draw(canvas);
             }
         }
     }
@@ -74,6 +86,8 @@ public class NPC_Pool {
                 npcRangedNPC.get(i).update(deltaTime);
             }if (npcWizard.get(i).alive){
                 npcWizard.get(i).update(deltaTime);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).update(deltaTime);
             }
         }
     }
@@ -85,6 +99,8 @@ public class NPC_Pool {
                 npcRangedNPC.get(i).physics(deltaTime);
             }if (npcWizard.get(i).alive){
                 npcWizard.get(i).physics(deltaTime);
+            }if (npcFarmers.get(i).alive){
+                npcFarmers.get(i).physics(deltaTime);
             }
         }
     }
