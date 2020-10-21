@@ -10,12 +10,16 @@ public class Projectile extends GameObject {
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
     public boolean returnToPool = false;
+    public boolean ifMagic;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY) {
         super(sprite, offsetX, offsetY);
         bounce = 0;
         init();
 
+    }
+    public void itIsmagic(boolean isItMagic){
+        ifMagic = isItMagic;
     }
 
     @Override
@@ -42,7 +46,6 @@ public class Projectile extends GameObject {
                     returnToPool = true;
                 }
             }
-
         }
         super.draw(canvas);
     }
@@ -56,6 +59,9 @@ public class Projectile extends GameObject {
             if(GameView.instance.player.projectileCollision(this)){
                 GameView.instance.player.onDamage(damage);
                 timeSinceShot = coolDown*0.75f;
+            }
+            if (ifMagic){
+                setDir(GameView.instance.player.aimFor().add(position.multiply(-1)));
             }
         }
     }
