@@ -112,7 +112,8 @@ public class Fortress extends Foundation {
             if((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0.7) hasTaxed = false;
 
             if(currentGold != currentGold1){
-                System.out.println(currentGold);
+                System.out.println("Goldrate : " + goldRate);
+                System.out.println("Gold : " + currentGold);
             }
         }
 
@@ -133,11 +134,9 @@ public class Fortress extends Foundation {
 
             if(lr < 0){
                 direction = currentBuildingsLeft;
-                directionTiles = currentTilesLeft;
             }
             else{
                 direction = currentBuildingsRight;
-                directionTiles = currentTilesRight;
             }
 
             int position;
@@ -153,17 +152,23 @@ public class Fortress extends Foundation {
                 building = new House(position,y,true,activity);
                 directionTiles=1;
             }
+
             else{
                 building = new Farm(position,y,true,activity);
                 directionTiles=3;
             }
 
             if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
-               direction.add(building);
+               direction.add(new Farm(position,y,true,activity));
+               directionTiles=3;
             }
 
-            direction.add(building);
+            else direction.add(building);
 
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize*3) +(currentTilesRight + 1) * tilesize, y, true, activity));
+            currentTilesRight+=2;
+
+            //giving feedback to the Tiles right and Tiles left
             if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
             else currentTilesRight += directionTiles;
 

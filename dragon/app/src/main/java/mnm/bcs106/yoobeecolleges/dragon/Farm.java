@@ -24,6 +24,7 @@ public class Farm extends Foundation{
     int[] spritePosition = new int[3];
 
     boolean beenEmptied = false;
+    boolean createdWooloo = false;
 
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
@@ -31,113 +32,63 @@ public class Farm extends Foundation{
     public Farm(int x, int y, boolean isStanding, GameView activity){
         super( x, y,3, isStanding, activity);
 
-        //working simple farmimplementation, 3 tiles big, allways placed thw same.
-           this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-           this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,100,100,false);
+        height = tilesize;
+        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
+        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
 
-           buildingType = 3;
+        buildingType = 3;
+        health = maxHealth;
 
-           maxCattle = 4;
+        maxCattle = 4;
 
-
-           //randomised spriteposition for farmobjects, currently on Hold
-//            farmBuildings[0] = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-//            farmBuildings[0] = Bitmap.createScaledBitmap(farmBuildings[0],100,100,false);
-//
-//            farmBuildings[1] = BitmapFactory.decodeResource(activity.getResources(), R.drawable.filds);
-//            farmBuildings[1] = Bitmap.createScaledBitmap(farmBuildings[1],100,100,false);
-//
-//            farmBuildings[2] = BitmapFactory.decodeResource(activity.getResources(), R.drawable.filds);
-//            farmBuildings[2] = Bitmap.createScaledBitmap(farmBuildings[1],100,100,false);
-//
-//            //Placing a random sprite in a random position, then deleting that position from the array
-//
-//            Pos.add(1);
-//            Pos.add(2);
-//            Pos.add(0);
-//
-////           while (Pos.size() != 0 && beenEmptied == false){
-//        if(beenEmptied != true) {
-//
-//            for(int i = 0; i < 3; i++) {
-//                float random = (float) Math.random() * Pos.size();
-//                int random1 = (int) random;
-//                System.out.println("float :" + random);
-//
-//                System.out.println("int : " +random1);
-//
-//                spritePosition[i] = Pos.get(random1);
-//                System.out.println("spritePosition : " + spritePosition[i]);
-//
-//                Pos.remove(random1);
-//                System.out.println("leftover positions : " + Pos);
-//                System.out.println("\n \n \t \t");
-//            }
-//
-//            if(Pos.size() == 0) {
-//                beenEmptied = true;
-//            }
-//        }
-
-
-//                if(spritePosition.size() == 3){
-//                    farmBuildingImage[0] = random1;
-//                }
-//
-//                else {
-//                    farmBuildingImage[1] = random1;
-// //                   farmBuildingImage[2] = random1;
-//                }
-
-
-
-//                if(Pos.size() == 0){
-//                    beenEmptied = true;
-//
-//                    spritePosition.add(1);
-//                    spritePosition.add(2);
-//                    spritePosition.add(3);
-//                    System.out.println(spritePosition);
-//                }
-
-            }
+    }
 
     public void update(float fixedDeltaTime) {
 
-        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
-                && (currentCattle.size() < maxCattle)) {
+        //===================
+        // ALIVE
+        //=======================
 
-            Wooloo newWooloo = GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel);
+        if(isStanding == true){
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
+                    && (currentCattle.size() < maxCattle)
+                    && (createdWooloo == false)) {
 
-            if (newWooloo != null) {
-                currentCattle.add(newWooloo);
+                Wooloo newWooloo = GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel);
+
+                if (newWooloo != null) {
+                    currentCattle.add(newWooloo);
+                }
+
+                createdWooloo = true;
             }
 
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) createdWooloo = false;
+
+            goldRate = currentCattle.size() * 10;
+            beenEmptied = false;
         }
 
-        goldRate = currentCattle.size() * 10;
+        else{
+            if(beenEmptied == false){
+            GoldPool.instance.spawnGold(x, y-3,goldRate/4);
+            beenEmptied = true;}
+        }
+
+
     }
 
-//    @Override
-//    public void draw(Canvas c) {
+    @Override
+    public void OnDamage() {
+        super.OnDamage();
 
-//        for(int i= 0; i < farmBuildingImage.length ; i++) {
-//
-//            c.drawBitmap(farmBuildings[farmBuildingImage[i]], spritePosition[i]*100 + x, y, null);
-//            //needs to know where X is, so needs to have partial access to the fortress position data
-//        }
-//        c.drawBitmap(buildingImage, x, y, null);
+        if(health == 0 && isStanding){
+            isStanding = false;
+        }
+    }
 
-//    }
 
-//    class Field{
-//
-//
-//    }
-//
-//    class Farmhouse{
-//
-//    }
+
     @Override
     public void draw(Canvas c) {
         super.draw(c);

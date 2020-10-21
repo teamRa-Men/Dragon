@@ -7,11 +7,11 @@ import android.graphics.Point;
 public class ArcherTower extends Foundation {
 
     float attackRange = (1f/2);
-    public Projectile[] Arrows = new Projectile[15];
 
-    public boolean lockTarget = false;
-    public Point target = new Point();
+    boolean hasAttacked = false;
     public Point creationPoint = new Point();
+
+    public ActionController arrowRechargeTime;
 
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
         super( x, y, 1, isStanding, activity );
@@ -23,6 +23,7 @@ public class ArcherTower extends Foundation {
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
 
+        arrowRechargeTime = new ActionController(500, 0,5000);
 
         System.out.println("Tower spawned");
     }
@@ -35,11 +36,10 @@ public class ArcherTower extends Foundation {
 
     // calculates if the dragon is in range
     public boolean inRange(){
-        if (Math.abs(GameView.instance.player.position.y-y)<GameView.instance.cameraSize*attackRange){
+        if (Math.abs(GameView.instance.player.position.x-creationPoint.x)<GameView.instance.cameraSize*attackRange){
             return true;}
         return false;
     }
-
 
     //shooting an arrow at target
     public void Attack(){
@@ -49,15 +49,31 @@ public class ArcherTower extends Foundation {
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
+
         ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
     }
 
-
-    //
     public void update(float fixedDeltaTime){
-        if(inRange()) {
-            if(Math.random() < 0.03){
-            Attack();}
+
+        if(isStanding = true) {
+
+            arrowRechargeTime.update(fixedDeltaTime);
+            if (inRange() && Math.random() < 0.08) {
+                arrowRechargeTime.triggerAction();
+                if (arrowRechargeTime.charging) {
+                    Attack();
+                }
+            }
+        }
+
+
+    }
+
+    public void OnDamage() {
+        super.OnDamage();
+
+        if(health == 0 && isStanding){
+            isStanding = false;
         }
     }
 
