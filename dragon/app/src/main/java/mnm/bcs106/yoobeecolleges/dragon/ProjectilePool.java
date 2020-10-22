@@ -36,6 +36,7 @@ public class ProjectilePool {
 
         for (int i = 0; i < maxMagic; i++) {
             Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f);
+            newMagic.itIsmagic(true);
             magicPool.add(newMagic);
         }
     }
