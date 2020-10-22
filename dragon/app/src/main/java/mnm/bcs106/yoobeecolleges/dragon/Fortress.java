@@ -85,7 +85,6 @@ public class Fortress extends Foundation {
         if(currentGold < maxGold){
 
             //Money income
-            deltaTime = deltaTime/200;
 
             if((Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2
                     && (!hasTaxed)){

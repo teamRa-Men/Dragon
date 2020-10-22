@@ -55,7 +55,7 @@ public class House extends Foundation{
         //=======================
 
         if(isStanding == true){
-
+            System.out.println("gmg"+ health);
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
                     && (currentInhabitants.size() < maxInhabitants)
                     && (createdVillager == false)){
@@ -106,7 +106,7 @@ public class House extends Foundation{
 
         if(health == 0 && isStanding){
             isStanding = false;
-            //Log.i("ouch","damaged");
+            Log.i("ouch","damaged");
         }
     }
 }
