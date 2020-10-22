@@ -25,9 +25,7 @@ public class Wooloo extends NPC{
             flee = true;
             target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
             creationPoint.x= target.x;
-        }else if (Math.abs(npcX-target.x) < 5){
-            idle(boundry);
-        }
+        }else idle(boundry,Math.abs(npcX-target.x) < 10);
         super.update(deltaTime);
     }
 }
