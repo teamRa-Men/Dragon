@@ -10,6 +10,7 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
+    int depositedGold = 0;
     public Lair() {
         width = (int) (Game.instance.screenWidth*2);
         height = width/2;
@@ -20,6 +21,21 @@ public class Lair {
 
         position = new Vector2(0, GameView.instance.getGroundLevel());
 
+    }
+
+
+    public void update(float deltaTime){
+        if(Math.abs(GameView.instance.player.position.x)<300){
+            for(int i = 0; i < GameView.instance.player.goldHolding; i++){
+                depositedGold++;
+
+                //making images
+                if(depositedGold/1000<10)
+                GoldPool.instance.spawnGold(0, (int)(GameView.instance.groundLevel-4),1);
+            }
+
+            GameView.instance.player.goldHolding = 0;
+        }
     }
 
     public void draw(Canvas canvas){
