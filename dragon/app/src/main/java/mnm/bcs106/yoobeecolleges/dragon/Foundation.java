@@ -63,7 +63,7 @@ public class Foundation {
 
 
         collider = new Rect(x,y-height,x+width,y);
-        damagePeriod = new ActionController(10,0,2000);
+        damagePeriod = new ActionController(100,0,2000);
 
     }
 
@@ -81,14 +81,13 @@ public class Foundation {
     public void physics(float deltaTime){
          // Log.i("gmg","phy");
         if (GameView.instance.player.fireBreath.collision(collider)){
-           // Log.i("gmg","hit fire");
             OnDamage();
             //System.out.println(health);
         }
     }
 
     public void update(float deltaTime){
-        System.out.println(deltaTime);
+        //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
         repair(deltaTime);
     }
@@ -97,9 +96,13 @@ public class Foundation {
         if(isStanding){
             damagePeriod.triggerAction();
 
-            Log.i("gmg",damagePeriod.time+"");
+            if(buildingType == 2)
+            Log.i("istanding",damagePeriod.time+"");
 
             if(damagePeriod.charging){
+                if(buildingType == 2)
+                Log.i("dmg",health+"");
+
                 health-=3;
                 health = Math.max(health,0);
 
@@ -109,19 +112,24 @@ public class Foundation {
         }
     }
 
-    public void repair(float fixedDeltaTime){
+    public void repair(float deltaTime){
 
         if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=(fixedDeltaTime);
+            rebuildTime+=(deltaTime);
 
-            if( rebuildTime > 4){
+            if( rebuildTime > 1000){
                 health+=5;
                 rebuildTime = 0;
             }
+            if(buildingType == 2)
+            System.out.println("repair" + health);
+
             if(health == maxHealth) {
                 isStanding = true;
+
+                if(buildingType == 2)
                 System.out.println(isStanding);
-                System.out.println(health);
+
 
                 if(buildingType == 1){
                     buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
