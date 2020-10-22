@@ -94,6 +94,7 @@ public class Foundation {
     }
 
     public void update(float deltaTime){
+        System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
     }
 
@@ -106,7 +107,7 @@ public class Foundation {
                 health-=1;
                 health = Math.max(health,0);
                 //Log.i("gmg","dmg");
-                //System.out.println("health "+ health);
+                System.out.println("health "+ health);
                 damagePeriod.cooling=true;
             }
 
