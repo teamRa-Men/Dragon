@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class Wizard extends RangedNPC {
     public Wizard(Bitmap bitmap, float speed, int maxHP, int width, int height, int damage) {
         super(bitmap, speed, maxHP, width, height, damage);
-        arrowRechargeTime = new ActionController(1000, (float) 0.01,5000);
+        arrowRechargeTime = new ActionController(1000, (float) 10,1000);
     }
 
     @Override
