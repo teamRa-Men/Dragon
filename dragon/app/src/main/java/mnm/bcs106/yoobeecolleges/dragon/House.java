@@ -49,7 +49,7 @@ public class House extends Foundation{
 
     @Override
     public void update(float deltaTime) {
-
+        super.update(deltaTime);
         //===================
         // ALIVE
         //=======================
@@ -74,6 +74,7 @@ public class House extends Foundation{
             }
 
             goldRate = currentInhabitants.size() * 3;
+            beenEmptied = false;
 
         }
 
@@ -91,7 +92,6 @@ public class House extends Foundation{
                 beenEmptied = true;}
 
             goldRate = 0;
-
         }
     }
 

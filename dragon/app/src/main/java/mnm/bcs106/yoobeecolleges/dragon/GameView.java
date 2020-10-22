@@ -114,8 +114,8 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-        npc_pool.spawnWizard(0, (int) groundLevel,1);
-        npc_pool.spawnArcher(0, (int) groundLevel,1);
+        //npc_pool.spawnWizard(0, (int) groundLevel,1);
+        //npc_pool.spawnArcher(0, (int) groundLevel,1);
         //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
@@ -287,7 +287,8 @@ public class GameView extends SurfaceView implements Runnable {
             //System.out.println(fixedDeltaTime +" "+ deltaTime);
             goldPool.update(fixedDeltaTime);
             fortress.update(fixedDeltaTime);
-            hud.update(deltaTime);
+            hud.update(fixedDeltaTime);
+            lair.update(fixedDeltaTime);
 
         }
         else{

@@ -46,6 +46,7 @@ public class Farm extends Foundation{
     }
 
     public void update(float fixedDeltaTime) {
+        super.update(fixedDeltaTime);
 
         //===================
         // ALIVE
