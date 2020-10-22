@@ -867,24 +867,23 @@ class FireBreath{
         timeSinceShoot+=deltaTime;
     }
     public void physics(float deltaTime){
-        if (dragon.breathingFire && dragon.mana > 0) {
 
-            for (int i = 0; i < flames.size(); i++) {
-                Flame f = flames.get(i);
-                f.physics(deltaTime);
-                f = backFlames.get(i);
-                f.physics(deltaTime);
-            }
-            direction = dragon.direction.add(direction).multiply(0.5f);
 
-            boolean hit = false;
+        for (int i = 0; i < flames.size(); i++) {
+            Flame f = flames.get(i);
+            f.physics(deltaTime);
+            f = backFlames.get(i);
+            f.physics(deltaTime);
+        }
+        direction = dragon.direction.add(direction).multiply(0.5f);
 
-            Flame c = backFlames.get(colliderIndex);
-            if (!c.active) {
-                colliderIndex++;
-                if (colliderIndex >= breathSize) {
-                    colliderIndex = 0;
-                }
+        boolean hit = false;
+
+        Flame c = backFlames.get(colliderIndex);
+        if(!c.active){
+            colliderIndex++;
+            if(colliderIndex >= breathSize){
+                colliderIndex = 0;
             }
         }
     }
@@ -922,23 +921,23 @@ class FireBreath{
 
 
     public void draw(Canvas canvas){
-        if (dragon.breathingFire && dragon.mana > 0) {
-            for (int i = backFlames.size() - 1; i >= 0; i--) {
-                Flame f = backFlames.get(i);
-                f.draw(canvas);
-            }
-            for (int i = flames.size() - 1; i >= 0; i--) {
-                Flame f = flames.get(i);
-                f.draw(canvas);
-            }
+        //Paint paint = new Paint();
+        for (int i = backFlames.size() - 1; i >= 0; i--) {
+            Flame f = backFlames.get(i);
+            f.draw(canvas);
         }
+        for (int i = flames.size() - 1; i >= 0; i--) {
+            Flame f = flames.get(i);
+            f.draw(canvas);
+        }
+
     }
 }
 class Flame {
     RectF dst, collider;
     RectF src;
     Vector2 direction;
-    Vector2 position;
+    Vector2 position, shootFrom;
     float speed;
     float size, maxSize;
     boolean active = false;
@@ -964,7 +963,7 @@ class Flame {
     public void physics(float deltaTime){
 
         if(active) {
-            distanceTravelled = Vector2.distance(breath.dragon.position,position);
+            distanceTravelled = Vector2.distance(shootFrom,position);
             if (distanceTravelled < breath.range) {
                 position = position.add(direction.multiply(speed * deltaTime));
                 size = Math.min(distanceTravelled/(6*breath.dragon.radius)*0.7f+0.3f,1)*maxSize;
@@ -1005,6 +1004,7 @@ class Flame {
     public void shoot(Vector2 position, Vector2 direction, float speed){
         this.speed = speed;
         this.position = position;
+        shootFrom = position;
         this.direction = direction;//.add(Vector2.down.multiply(0.1f*Math.abs(direction.x)));
         active = true;
         distanceTravelled = 0;
