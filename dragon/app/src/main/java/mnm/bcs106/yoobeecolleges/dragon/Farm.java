@@ -37,10 +37,12 @@ public class Farm extends Foundation{
         this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
 
         buildingType = 3;
+
+        maxHealth = 200;
         health = maxHealth;
 
         maxCattle = 4;
-
+        collider = new Rect(x,y-height/4,x+width,y);
     }
 
     public void update(float fixedDeltaTime) {
@@ -77,7 +79,7 @@ public class Farm extends Foundation{
 
         else{
             if(beenEmptied == false){
-            GoldPool.instance.spawnGold(x, y-3,goldRate/4);
+            GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/4);
             beenEmptied = true;}
 
             goldRate = 0;

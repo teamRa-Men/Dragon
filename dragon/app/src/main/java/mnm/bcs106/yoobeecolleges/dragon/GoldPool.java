@@ -24,6 +24,7 @@ public class GoldPool {
         }
     }
     public void spawnGold(int x, int y, int amount){
+        amount*=10;
         for (int i = 0; i < amount; i++) {
             if(goldPool.size()>0) {
                 Gold goldSpawned = goldPool.get(0);

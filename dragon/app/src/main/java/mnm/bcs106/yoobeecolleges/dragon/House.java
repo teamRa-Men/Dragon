@@ -13,14 +13,14 @@ public class House extends Foundation{
     ArrayList<Object> currentInhabitants = new ArrayList<Object>();
     int maxInhabitants;
 
-    int maxHealth = 200;
+
 
     boolean createdVillager = false;
     boolean beenEmptied = false;
-    
+
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,1, isStanding, activity );
-
+        maxHealth = 200;
 
         health = maxHealth;
         buildingType = 2;

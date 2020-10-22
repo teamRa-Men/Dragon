@@ -19,7 +19,7 @@ public class Fortress extends Foundation {
 
     int lv;
 
-    int maxHealth = 500;
+
 
     int currentGold;
     int maxGold;
@@ -54,15 +54,16 @@ public class Fortress extends Foundation {
 
     //this specific Fortress
     public Fortress(int x, int y, boolean isStanding, GameView activity) {
-        super(x, y,4, isStanding, activity);
+        super(x, y,4, true, activity);
+        maxHealth = 500;
+        health = maxHealth;
 
         new ArcherTower(x,y,true,activity);
         new ArcherTower(x+tilesize*3,y,true, activity);
 
         buildingImage = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fortress);
         buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
-        Random r = new Random();
-        x = r.nextInt();
+
         buildingType = 1;
         currentGold = 150;
 
@@ -73,7 +74,9 @@ public class Fortress extends Foundation {
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
 
-        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+        Random r = new Random();
+        int farmerX = r.nextInt();
+        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(farmerX, (int) GameView.instance.groundLevel);
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other

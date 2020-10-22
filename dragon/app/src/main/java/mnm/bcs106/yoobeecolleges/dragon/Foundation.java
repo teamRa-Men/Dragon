@@ -60,7 +60,7 @@ public class Foundation {
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
 
-        width = (tilesize-(tilesize/10))*tileNr;
+        width = (tilesize)*tileNr-(tilesize/10);
         height = width;
 
 
@@ -83,13 +83,14 @@ public class Foundation {
 
     public void physics(float deltaTime){
         //Log.i("gmg","phy");
-
-        if(isStanding) {
+        if (isStanding) {
+            Log.i("standing", collider.left+" "+x);
             if (GameView.instance.player.fireBreath.collision(collider)) {
                 Log.i("gmg", "hit fire");
                 OnDamage();
             }
         }
+
     }
 
     public void update(float deltaTime){

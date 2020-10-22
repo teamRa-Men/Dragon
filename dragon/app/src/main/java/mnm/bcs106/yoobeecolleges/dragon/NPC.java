@@ -25,6 +25,7 @@ public class NPC {
     public ActionController damagePeriod;
     public int direction;
     public int countdown;
+    double random;
     public Point creationPoint = new Point();
     public NPC (Bitmap bitmap, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
@@ -41,6 +42,7 @@ public class NPC {
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
         npcCollider = new Rect(npcX,npcY,width+npcX,height+npcY);
         damagePeriod = new ActionController(0,5000,5000);
+        random = Math.random();
     }
     public void spawn (){
         alive = true;
@@ -61,7 +63,8 @@ public class NPC {
     public void draw(Canvas canvas){
         if (alive){
             RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
-            int top  = (int) (npcRect.top+Math.cos(distTravel/10)*10);
+            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*5);
+
             int left  = npcRect.left;
             int right  = left+npcRect.width();
             int bottom  = top+npcRect.height();
@@ -79,10 +82,15 @@ public class NPC {
             if (!flee){
                 npcX+=direction*npcSpeed*deltaTime;
                 distTravel+=npcSpeed*deltaTime;
+
             } else {
+
                 npcX+=direction*npcFleeSpeed*deltaTime;
                 distTravel+=npcFleeSpeed*deltaTime;
             }
+        }
+        else {
+            distTravel = 0;
         }
     }
     public void update(float deltaTime){
