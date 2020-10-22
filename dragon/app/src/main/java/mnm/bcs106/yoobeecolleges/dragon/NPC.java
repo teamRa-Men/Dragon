@@ -78,13 +78,11 @@ public class NPC {
 
     public  boolean there = false;
     public void moveToTarget(float deltaTime){
-        if (Math.abs(target.x-npcX) > 0.1){
+        if (Math.abs(target.x-npcX) > 5){
             if (!flee){
                 npcX+=direction*npcSpeed*deltaTime;
                 distTravel+=npcSpeed*deltaTime;
-
             } else {
-
                 npcX+=direction*npcFleeSpeed*deltaTime;
                 distTravel+=npcFleeSpeed*deltaTime;
             }
@@ -115,12 +113,14 @@ public class NPC {
         }
     }
 
-    public void idle(int boundry){
+    public void idle(int boundry,boolean lessTen){
         if (countdown >= Math.random()*1000+1000){
-            flee = false;
-            double targetDistance = (Math.random()-0.5)*boundry;
-            target.x = (int) (creationPoint.x+targetDistance);
-            countdown = 0;
+            if (lessTen) {
+                flee = false;
+                double targetDistance = (Math.random() - 0.5) * boundry;
+                target.x = (int) (creationPoint.x + (Math.random() - 0.5) * boundry);
+                countdown = 0;
+            }
         }
     }
 }

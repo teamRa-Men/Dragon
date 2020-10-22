@@ -20,6 +20,7 @@ public class Projectile extends GameObject {
     }
     public void itIsmagic(boolean isItMagic){
         ifMagic = isItMagic;
+        coolDown = 2000;
     }
 
     @Override

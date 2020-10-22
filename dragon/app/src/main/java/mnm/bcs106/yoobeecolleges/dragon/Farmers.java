@@ -20,6 +20,12 @@ public class Farmers extends NPC {
     @Override
     public void update(float deltaTime) {
         if (!wasAttacked){
+            if (Math.abs(GameView.instance.player.position.x-npcX)<300){
+                flee = true;
+                target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
+                creationPoint.x= target.x;
+                wasAttacked = true;
+            }
             if (atFarm && target.x == npcX){
                 if (countdown>=2000) {
                     doStuff();
@@ -33,7 +39,11 @@ public class Farmers extends NPC {
                 atFarm = true;
             }
         }else {
-
+            if (Math.abs(GameView.instance.player.position.x-npcX)<300){
+                flee = true;
+                target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
+                creationPoint.x= target.x;
+            }else idle(500,Math.abs(npcX-target.x) < 10);
         }
         super.update(deltaTime);
     }

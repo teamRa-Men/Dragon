@@ -26,18 +26,21 @@ public class RangedNPC extends NPC {
         if (!lockTarget){
             if (Math.abs(GameView.instance.player.position.x-npcX)<500){
                 lockTarget = true;
-                target.x = (int) GameView.instance.player.position.x;
+                target.x = (int) GameView.instance.player.position.x+direction*200;
                 flee = true;
             }else {
-                idle(500);
+                idle(500,Math.abs(npcX-target.x) < 10);
             }
         }else if (lockTarget){
-            target.x = (int) GameView.instance.player.position.x;
+            if (Math.abs(GameView.instance.player.position.x-npcX) > 1000 ){
+                target.x = (int) GameView.instance.player.position.x-direction*200;
+            }
+            idle(500,Math.abs(npcX-target.x) < 10);
             arrowRechargeTime.triggerAction();
             if (arrowRechargeTime.performing){
                shoot();
             }
-            if (Math.abs(GameView.instance.player.position.x-npcX)>2000){
+            if (Math.abs(GameView.instance.player.position.x-npcX)>3000){
                 creationPoint.x = npcX;
                 target.x = npcX;
                 flee = false;
