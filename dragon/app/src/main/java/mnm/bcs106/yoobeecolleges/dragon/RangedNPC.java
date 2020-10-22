@@ -37,7 +37,7 @@ public class RangedNPC extends NPC {
             if (arrowRechargeTime.performing){
                shoot();
             }
-            if (Math.abs(GameView.instance.player.position.x-npcX)>1000){
+            if (Math.abs(GameView.instance.player.position.x-npcX)>2000){
                 creationPoint.x = npcX;
                 target.x = npcX;
                 flee = false;

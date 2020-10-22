@@ -115,6 +115,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         npc_pool = new NPC_Pool();
         npc_pool.spawnWizard(0, (int) groundLevel,1);
+        npc_pool.spawnArcher(0, (int) groundLevel,1);
         //npc_pool.spawnWizard(500,500,3);
 
         goldPool = new GoldPool();
