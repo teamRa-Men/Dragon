@@ -11,6 +11,8 @@ public class Farmers extends NPC {
 
     public Farmers(Bitmap bitmap, float speed, int maxHP, int width, int height,int FX) {
         super(bitmap, speed, maxHP, width, height);
+        creationPoint.x = 0;
+        creationPoint.y = 0;
         farmX = creationPoint.x+500;
     }
     public void doStuff(){
