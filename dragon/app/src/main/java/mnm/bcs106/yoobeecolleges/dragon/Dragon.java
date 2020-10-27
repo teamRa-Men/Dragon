@@ -1000,8 +1000,8 @@ class Flame {
         float width = 1;//(float)Math.cos(4*(distanceTravelled/range)*Math.PI*2)/8+1;
         float left = position.x - size/2*width;
         float right = left + size*width;//*(((float)Math.sin(distanceTravelled/range*Math.PI*4+maxSize*Math.PI)+7)/8);//+Math.abs(direction.y)/2);;
-        float bottom = position.y+size/2*3/2 + breath.dragon.radius/8;
-        float top = bottom-size*3/2+ breath.dragon.radius/8;
+        float bottom = position.y+size/2*3/2 + breath.dragon.radius/10;
+        float top = bottom-size*3/2+ breath.dragon.radius/10;
 
         collider = new RectF(left,top,right,bottom);
         dst = new RectF(left + GameView.instance.cameraDisp.x,top+GameView.instance.cameraDisp.y, right + GameView.instance.cameraDisp.x, bottom + GameView.instance.cameraDisp.y

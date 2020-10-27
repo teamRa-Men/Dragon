@@ -261,16 +261,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
-    //If gameobject is above ground level, apply gravity
-    public void gravity(GameObject g) {
-        if (g.position.y  < groundLevel) {
-            g.setVelocity(g.getVelocity().x, g.getVelocity().y + gravity * fixedDeltaTime / 1000 / physicsIterations);
-        } else {
-            g.onGrounded(groundLevel);
-        }
-    }
-
     //-----------------------------------------------------------------------------------------------------------
     //Game logic
     //-----------------------------------------------------------------------------------------------------------
@@ -289,6 +279,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
         else{
             if(!Game.instance.gameOver) {
+                pause();
                 Game.instance.showGameOver = true;
             }
         }
