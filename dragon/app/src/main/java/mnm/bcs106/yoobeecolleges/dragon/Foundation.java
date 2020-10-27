@@ -39,7 +39,7 @@ public class Foundation {
     public int x,y;
     Rect collider;
 
-    Bitmap buildingImage;
+    Rect buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
@@ -70,7 +70,12 @@ public class Foundation {
     public void draw(Canvas c){
         Paint p = new Paint();
         //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
-        c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),p);
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        Rect dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
+        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,p);
 
     }
 
@@ -132,33 +137,30 @@ public class Foundation {
 
 
                 if(buildingType == 1){
-                    buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+
                 }
                 else if(buildingType == 2){
                     double rh = (Math.random()*3);
 
                     if(rh < 1){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House1");
                     }
                     if(rh >= 1 && rh < 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House2");
                     }
                     if(rh >= 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House3");
                     }
 
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
                 }
 
                 else if(buildingType == 3){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm1");
                 }
 
                 else if(buildingType == 4){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height*2,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
                 }
             }
         }

@@ -14,9 +14,7 @@ public class GoldPool {
     public static GoldPool instance;
 
     public GoldPool(){
-
-            instance = this;
-
+        instance = this;
         goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
         for (int i = 0; i < maxGold; i++) {
             Gold newGold = new Gold(goldSprite,0.5f,0.5f);

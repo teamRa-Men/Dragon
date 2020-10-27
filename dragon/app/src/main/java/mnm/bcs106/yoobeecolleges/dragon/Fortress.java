@@ -48,19 +48,21 @@ public class Fortress extends Foundation {
 
     boolean hasFarm = false;
     // attack function
-
+    public static int tileNr = 3;
 
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
     public Fortress(int x, int y, boolean isStanding, GameView activity) {
-        super(x, y,4, isStanding, activity);
+        super(x, y,tileNr, isStanding, activity);
+        buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+        height = width*buildingImage.height()/buildingImage.width();
 
         new ArcherTower(x,y,true,activity);
         new ArcherTower(x+tilesize*3,y,true, activity);
 
-        buildingImage = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fortress);
-        buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
+
+
         Random r = new Random();
         x = r.nextInt();
         buildingType = 1;
@@ -128,7 +130,7 @@ public class Fortress extends Foundation {
 
             double lr = (Math.random() - 0.5f);
             double rh = (Math.random() - 0.5f);
-            int offset = tilesize;
+            int offset = tilesize/2;
 
             ArrayList<Foundation> direction;
             int directionTiles;
@@ -142,33 +144,37 @@ public class Fortress extends Foundation {
 
             int position;
             if(direction ==  currentBuildingsLeft){
-               position = x-(currentTilesLeft+1)*offset;
+               position = x-(currentTilesLeft*tilesize+offset);
             }
-            else position = x + (tilesize*3) +(currentTilesRight + 1)*offset;
+            else position = x + (tilesize*Fortress.tileNr) +currentTilesRight*tilesize + offset;
 
             //deciding Building
 
             Foundation building;
-            if(rh < 0){
-                building = new House(position,y,true,activity);
-                directionTiles=1;
-            }
 
-            else{
-                building = new Farm(position,y,true,activity);
-                directionTiles=3;
-            }
 
             if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
-               direction.add(new Farm(position,y,true,activity));
-               directionTiles=3;
+                building = new Farm(position,y,true,activity);
+            }
+            else{
+                if(rh < 0){
+                    building = new House(position,y,true,activity);
+                }
+                else{
+                    building = new Farm(position,y,true,activity);
+                }
             }
 
-            else direction.add(building);
+            direction.add(building);
 
             //giving feedback to the Tiles right and Tiles left
-            if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
-            else currentTilesRight += directionTiles;
+            if(direction == currentBuildingsLeft) {
+                currentTilesLeft += building.tileNr;
+                building.x -= building.tileNr*tilesize;
+            }
+            else {
+                currentTilesRight += building.tileNr;
+            }
 
             //TODO: First Building faulty
 
