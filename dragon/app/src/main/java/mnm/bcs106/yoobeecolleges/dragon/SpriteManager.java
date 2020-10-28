@@ -26,7 +26,7 @@ public class SpriteManager {
         NPCSheet = Bitmap.createScaledBitmap(NPCSheet,768,768,true);
 
         dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
-        dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
+        dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
     }
@@ -124,25 +124,25 @@ public class SpriteManager {
     }};
 
     private final HashMap<String,Rect> dragonSprites = new HashMap<String,Rect>() {{
-        put("Head",spriteRect(0,0,64,64));
+        put("Head",spriteRect(0,0,64*2,64*2));
         put("Eye",spriteRect(0,0,0,0));
-        put("Jaw",spriteRect(64,32,32,32));
-        put("Segment",spriteRect(96,0,16,16));
-        put("SpikedSegment",spriteRect(64,0,32,32));
-        put("Arm",spriteRect(0,128,32,32));
-        put("BackArm",spriteRect(32,128,32,32));
-        put("Leg",spriteRect(64,64,32,32));
-        put("BackLeg",spriteRect(64,96,32,32));
-        put("LegFlying",spriteRect(96,64,32,32));
-        put("BackLegFlying",spriteRect(96,96,32,32));
-        put("Wing",spriteRect(0,64,32,64));
-        put("BackWing",spriteRect(32,64,32,64));
-        put("Fire0",spriteRect(64,128,32,32));
-        put("Fire1",spriteRect(96,128,32,32));
-        put("Fire2",spriteRect(0,160,32,32));
-        put("Fire3",spriteRect(32,160,32,32));
-        put("Fire4",spriteRect(64,160,32,32));
-        put("Fire5",spriteRect(96,160,32,32));
+        put("Jaw",spriteRect(64*2,32*2,32*2,32*2));
+        put("Segment",spriteRect(96*2,0,16*2,16*2));
+        put("SpikedSegment",spriteRect(64*2,0,32*2,32*2));
+        put("Arm",spriteRect(0,128*2,32*2,32*2));
+        put("BackArm",spriteRect(32*2,128*2,32*2,32*2));
+        put("Leg",spriteRect(64*2,64*2,32*2,32*2));
+        put("BackLeg",spriteRect(64*2,96*2,32*2,32*2));
+        put("LegFlying",spriteRect(96*2,64*2,32*2,32*2));
+        put("BackLegFlying",spriteRect(96*2,96*2,32*2,32*2));
+        put("Wing",spriteRect(0,64*2,32*2,64*2));
+        put("BackWing",spriteRect(32*2,64*2,32*2,64*2));
+        put("Fire0",spriteRect(64*2,128*2,32*2,32*2));
+        put("Fire1",spriteRect(96*2,128*2,32*2,32*2));
+        put("Fire2",spriteRect(0,160*2,32*2,32*2));
+        put("Fire3",spriteRect(32*2,160*2,32*2,32*2));
+        put("Fire4",spriteRect(64*2,160*2,32*2,32*2));
+        put("Fire5",spriteRect(96*2,160*2,32*2,32*2));
     }};
 
     private Rect spriteRect(int left, int top, int width, int height) {

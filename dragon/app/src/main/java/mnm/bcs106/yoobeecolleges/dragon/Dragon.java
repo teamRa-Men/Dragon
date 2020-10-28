@@ -115,7 +115,7 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), true);
         backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
-        head = new Head(this, radius);
+        head = new Head(this, radius*1.1f);
         fireBreath = new FireBreath(this);
 
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
@@ -198,7 +198,7 @@ public class Dragon extends Character {
                         frontLeg.walking = true;
                     }
 
-                    setDir(moveBy.add(direction.multiply(0.3f)));
+                    setDir(moveBy.add(direction.multiply(0.1f)));
                     if(Math.abs(direction.x) > 0.3f) {
 
                         speed = (speed + Math.min(magnitude, maxMoveSpeed * walkSpeed)) / 2 * Math.abs(direction.x);
@@ -219,7 +219,7 @@ public class Dragon extends Character {
 
                     if(breathingFire) {
 
-                        setDir(moveBy.multiply(1f / 15).add(direction));
+                        setDir(moveBy.multiply(0.5f).add(direction));
 
                         if(mana <= 0){
                             direction.y = 0.5f;
@@ -231,7 +231,7 @@ public class Dragon extends Character {
 
                     }
                     else {
-                        setDir(moveBy.add(direction.multiply(0.3f)));
+                        setDir(moveBy.add(direction.multiply(0.1f)));
 
                         if(mana <= 0){
                             direction.y = 0.5f;
@@ -574,9 +574,10 @@ class Segment extends GameObject{
 
         this.sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), false);
         src = new RectF(0, 0, radius * 2, radius * 2);
-        paint.setAntiAlias(true);
+
         dst = src;
         matrix = new Matrix();
+        paint.setAntiAlias(true);
         centerPivot = true;
     }
     @Override

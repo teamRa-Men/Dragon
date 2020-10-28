@@ -99,6 +99,7 @@ public class GameView extends SurfaceView implements Runnable {
         cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
         back.setColor(Color.WHITE);
+        this.setZOrderOnTop(false);
 
         spriteManager = new SpriteManager();
 
@@ -111,8 +112,7 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-        npc_pool.spawnWizard(0, (int) groundLevel,1);
-        npc_pool.spawnArcher(0, (int) groundLevel,1);
+
 
         goldPool = new GoldPool();
         //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
@@ -175,27 +175,27 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            System.out.println( "physics " + (physicsTime - started));
+            //System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
             update();
             long updateTime = System.currentTimeMillis();
-            System.out.println( "update " + (updateTime-physicsTime));
+            //System.out.println( "update " + (updateTime-physicsTime));
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
             System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average draw " + totalFrame/numberFrame);
+            //System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
