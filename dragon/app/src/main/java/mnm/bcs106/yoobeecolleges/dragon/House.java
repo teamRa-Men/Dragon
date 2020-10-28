@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class House extends Foundation{
 
-    ArrayList<Object> currentInhabitants = new ArrayList<Object>();
+
     int maxInhabitants;
 
     public static int tileNr = 1;
@@ -74,6 +74,7 @@ public class House extends Foundation{
 
             goldRate = currentInhabitants.size() * 3;
             beenEmptied = false;
+            fearCooldown();
 
         }
 

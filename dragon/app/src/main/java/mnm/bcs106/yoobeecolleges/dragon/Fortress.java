@@ -50,6 +50,8 @@ public class Fortress extends Foundation {
     // attack function
     public static int tileNr = 3;
 
+    float townFear;
+
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
@@ -126,10 +128,10 @@ public class Fortress extends Foundation {
 
         //=======================================================================================//
 
-        if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings) && (currentGold > 100)) {
+        if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)
+                && (currentGold > 240)) {
 
             double lr = (Math.random() - 0.5f);
-            double rh = (Math.random() - 0.5f);
             int offset = tilesize/2;
 
             ArrayList<Foundation> direction;
@@ -152,16 +154,30 @@ public class Fortress extends Foundation {
 
             Foundation building;
 
-
             if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
                 building = new Farm(position,y,true,activity);
             }
-            else{
+
+            else if(townFear > 30){
+                double rh = (Math.random() - 0.5f);
                 if(rh < 0){
                     building = new House(position,y,true,activity);
+                    currentGold -= 240;
+                }
+                else {
+                    building = new ArcherTower(position,y,true,activity);
+                    currentGold -= 240;}
+            }
+
+            else{
+                double rh = (Math.random() - 0.5f);
+                if(rh < 0 ){
+                    building = new House(position,y,true,activity);
+                    currentGold -= 240;
                 }
                 else{
                     building = new Farm(position,y,true,activity);
+                    currentGold -= 240;
                 }
             }
 
@@ -191,7 +207,7 @@ public class Fortress extends Foundation {
 
         //===================================================================================//
 
-        /*if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+        if((((currentBuildingsRight.size()+currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                 && (currentGold >= (maxGold/10*9))
                 && lv == 0){
 
@@ -204,14 +220,42 @@ public class Fortress extends Foundation {
 
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
             currentTilesLeft+=2;
-        }*/
-
-        for(int i = 0; i < currentBuildingsRight.size(); i++){
-            currentBuildingsRight.get(i).update(deltaTime);
         }
 
-        for(int i = 0; i < currentBuildingsLeft.size(); i++){
-            currentBuildingsLeft.get(i).update(deltaTime);
+        float tempfear;
+        if(!isStanding){
+            repair((int)(currentTownInhabitants/5)+1, deltaTime);
+        }
+
+        else {
+            boolean repairingRight = false, repairingLeft = false;
+            tempfear = 0;
+
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                currentBuildingsRight.get(i).update(deltaTime);
+
+                //repairing
+                if (!repairingRight && !currentBuildingsRight.get(i).isStanding) {
+                    currentBuildingsRight.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    repairingRight = true;
+
+                }
+
+                //gathering fear
+                tempfear += currentBuildingsRight.get(i).fear;
+            }
+
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                currentBuildingsLeft.get(i).update(deltaTime);
+                if (!repairingLeft && !currentBuildingsLeft.get(i).isStanding) {
+                    currentBuildingsLeft.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    repairingLeft = true;
+                }
+                tempfear += currentBuildingsLeft.get(i).fear;
+            }
+
+            townFear = (tempfear/(currentBuildingsLeft.size()+currentBuildingsRight.size()));
+
         }
     }
 

@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.net.PasswordAuthentication;
+import java.util.ArrayList;
 
 public class Foundation {
     public int tilesize;
@@ -32,7 +33,7 @@ public class Foundation {
     // 2 = Farm
     // 3 = tower
 
-    int currentInhabitants;
+    ArrayList <NPC> currentInhabitants = new ArrayList<NPC>();
 
     // if health 0 = false;
     boolean isStanding;
@@ -44,6 +45,11 @@ public class Foundation {
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
+    float fear = 0;
+    boolean beenAttacked;
+    int fearTime = 0;
+    boolean noAttackDay = false;
+    boolean fearRemoved = false;
 
     public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
         tilesize =GameView.instance.cameraSize/9;
@@ -95,36 +101,69 @@ public class Foundation {
     public void update(float deltaTime){
         //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
-        repair(deltaTime);
     }
 
     public void OnDamage () {
         if(isStanding){
             damagePeriod.triggerAction();
-
-            if(buildingType == 2)
-            Log.i("istanding",damagePeriod.time+"");
+            System.out.println("damaging");
+            beenAttacked = true;
+            fearTime = 0;
 
             if(damagePeriod.charging){
-                if(buildingType == 2)
-                Log.i("dmg",health+"");
 
                 health-=3;
                 health = Math.max(health,0);
 
+                fear+=0.5f;
+
                 damagePeriod.cooling=true;
             }
-
         }
     }
 
-    public void repair(float deltaTime){
+    public void fearCooldown(){
+        if(beenAttacked
+                && !noAttackDay
+                && (Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2){
+
+            fearTime+=1;
+            noAttackDay = true;
+        }
+
+        if(beenAttacked
+                &&(Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.7){
+
+            noAttackDay = false;
+        }
+
+        if(fearTime > 2
+                && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2)
+                && !fearRemoved
+                && fear >= 0){
+
+            fear-=5;
+            fearRemoved = true;
+        }
+
+        if((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.7){
+            fearRemoved = false;
+        }
+
+        if(fear <= 0){
+            fear = 0;
+            beenAttacked = false;
+        }
+    }
+
+
+    public void repair(int repairRate, float deltaTime){
 
         if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=(deltaTime);
+            rebuildTime+=deltaTime;
 
             if( rebuildTime > 1000){
-                health+=5;
+                health+=repairRate;
                 rebuildTime = 0;
             }
             if(buildingType == 2)

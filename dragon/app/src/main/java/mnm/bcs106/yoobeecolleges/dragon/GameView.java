@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
 
 //-----------------------------------------------------------------------------------------------------------
 //Game engine
@@ -101,6 +102,7 @@ public class GameView extends SurfaceView implements Runnable {
         back.setColor(Color.WHITE);
         this.setZOrderOnTop(false);
 
+
         spriteManager = new SpriteManager();
 
         holder = getHolder();
@@ -185,7 +187,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
             //System.out.println("average draw " + totalFrame/numberFrame);
@@ -275,7 +277,6 @@ public class GameView extends SurfaceView implements Runnable {
             fortress.update(fixedDeltaTime);
             hud.update(fixedDeltaTime);
             lair.update(fixedDeltaTime);
-
         }
         else{
             if(!Game.instance.gameOver) {

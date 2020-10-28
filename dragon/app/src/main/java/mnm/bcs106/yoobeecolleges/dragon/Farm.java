@@ -28,13 +28,12 @@ public class Farm extends Foundation{
     public static int tileNr = 3;
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
-
     public Farm(int x, int y, boolean isStanding, GameView activity){
         super( x, y,tileNr, isStanding, activity);
         int buildingSprite = (int) (Math.random()*2.9+1);
         spriteAnim = new SpriteAnimation(new Rect[] {SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"1"),
                 SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"2"),
-                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"3")}, 3000);
+                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"3")}, 1000);
         buildingImage = spriteAnim.getFrame(0);
         height = width*buildingImage.height()/buildingImage.width();
 
@@ -73,7 +72,7 @@ public class Farm extends Foundation{
             goldRate = currentCattle.size() * 10;
             beenEmptied = false;
             buildingImage = spriteAnim.getFrame(fixedDeltaTime,1);
-
+            fearCooldown();
         }
 
         //===========================
@@ -89,7 +88,6 @@ public class Farm extends Foundation{
             this.buildingImage = SpriteManager.instance.getBuildingSprite("FarmRuin");
             goldRate = 0;
         }
-
 
     }
 

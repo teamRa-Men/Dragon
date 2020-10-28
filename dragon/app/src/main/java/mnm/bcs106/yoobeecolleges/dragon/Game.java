@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MotionEventCompat;
 
@@ -30,7 +31,14 @@ public class Game extends AppCompatActivity {
     //UI
     Vector2 fireButton;
 
-    //float progress;
+
+    Button stopButton;
+    Button pauseContinue;
+    Button pauseRestart;
+    Button pauseCredits;
+    Button pauseExit;
+    boolean visibleCredits;
+    CardView creditCard;
 
     //state variables
     boolean paused = false, showGameOver = false, gameOver = false, waveStart = false, waveEnd = false;
@@ -43,6 +51,7 @@ public class Game extends AppCompatActivity {
     MediaPlayer pointsPlayer;
     SoundEffects soundEffects;
     AlertDialog.Builder dialogBuilder;
+    AlertDialog.Builder pauseDialogBuilder;
     SharedPreferences.Editor highScoreEdit;
 
     //Threads
@@ -104,9 +113,8 @@ public class Game extends AppCompatActivity {
             updateUI();
 
 
+        }
 
-
-    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -138,8 +146,61 @@ public class Game extends AppCompatActivity {
         highScoreEdit = pref.edit();
 
 
+        pauseDialogBuilder = new AlertDialog.Builder(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         //Game over dialog box
         dialogBuilder = new AlertDialog.Builder(this);
+
+        final ViewGroup pauseMenu = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_pause_menu,null,false);
+        pauseDialogBuilder.setView(pauseMenu);
+        final AlertDialog dialog = pauseDialogBuilder.create();
+        stopButton = findViewById(R.id.buttonOfStop);
+        pauseContinue = pauseMenu.findViewById(R.id.pauseContinue);
+        pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
+        pauseCredits = pauseMenu.findViewById(R.id.pauseCredits);
+        pauseExit = pauseMenu.findViewById(R.id.pauseExit);
+        creditCard = pauseMenu.findViewById(R.id.creditsCard);
+        visibleCredits = false;
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameView.instance.pause();
+                dialog.show();
+            }
+        });
+        pauseContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameView.instance.resume();
+                dialog.dismiss();
+            }
+        });
+        pauseCredits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!visibleCredits){
+                    creditCard.setVisibility(View.VISIBLE);
+                    visibleCredits = true;
+                } else {
+                    creditCard.setVisibility(View.INVISIBLE);
+                    visibleCredits = false;
+                }
+            }
+        });
+        pauseRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameView.instance.init();
+                dialog.dismiss();
+            }
+        });
+        pauseExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
     }
 
 

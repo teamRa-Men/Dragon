@@ -31,42 +31,42 @@ public class Lair {
         if (Math.abs(GameView.instance.player.position.x) < 300) {
            if(GameView.instance.player.goldHolding > 0){
                 depositedGold+=GameView.instance.player.goldHolding;
-                System.out.println(depositedGold);
+                System.out.println(depositedGold);}
 
-                //making images
+            //making images
                 if (depositedGold > 1000) {
                     int tempGold = depositedGold;
                     tempGold = (int)(tempGold / 1000);
                     for (int t = 0; t < tempGold; t++) {
-                        goldPile = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.house);
-                    }
-
-                    if (depositedGold > 100) {
-                        int tempGold1 = depositedGold;
-                        tempGold1 = (int)(tempGold1 / 100);
-                        for (int t = 0; t < tempGold1; t++) {
-                            goldPile = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.houseruin);
-                        }
-                    }
-
-                    if (depositedGold > 10) {
-                        int tempGold2 = depositedGold;
-                        System.out.println("before processing :" + tempGold2);
-                        tempGold2 = (int)(tempGold2 / 10);
-                        System.out.println("after processing :" + tempGold2);
-                        for (int t = 0; t < tempGold2; t++) {
-                            goldPile = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.barn);
-                        }
-                    }
-
-
-                    GoldPool.instance.spawnGold(0, (int) (GameView.instance.groundLevel - 4), 1);
+                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.house);
                 }
 
-                GameView.instance.player.goldHolding = 0;
+                if (depositedGold > 100) {
+                    int tempGold1 = depositedGold;
+                    tempGold1 = (int)(tempGold1 / 100);
+                    for (int t = 0; t < tempGold1; t++) {
+                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.houseruin);
+                    }
+                }
+
+                if (depositedGold > 10) {
+                    int tempGold2 = depositedGold;
+                    System.out.println("before processing :" + tempGold2);
+                    tempGold2 = (int)(tempGold2 / 10);
+                    System.out.println("after processing :" + tempGold2);
+                    for (int t = 0; t < tempGold2; t++) {
+                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.barn);
+                    }
+                }
+
+
+                GoldPool.instance.spawnGold(0, (int) (GameView.instance.groundLevel - 4), 1);
             }
+
+            GameView.instance.player.goldHolding = 0;
         }
     }
+
 
     public void draw (Canvas canvas){
         canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);

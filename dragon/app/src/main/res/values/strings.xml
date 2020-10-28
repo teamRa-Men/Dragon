@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">dragon</string>
+    <string name="title_activity_pause_menu">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_main_menu">FullscreenActivity</string>
+    <string name="title_activity_credits">FullscreenActivity</string>
 </resources>
