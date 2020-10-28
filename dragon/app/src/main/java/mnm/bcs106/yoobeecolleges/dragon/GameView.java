@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
 
 //-----------------------------------------------------------------------------------------------------------
 //Game engine
@@ -99,6 +100,7 @@ public class GameView extends SurfaceView implements Runnable {
         cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
         back.setColor(Color.WHITE);
+
 
         spriteManager = new SpriteManager();
 
@@ -275,7 +277,6 @@ public class GameView extends SurfaceView implements Runnable {
             fortress.update(fixedDeltaTime);
             hud.update(fixedDeltaTime);
             lair.update(fixedDeltaTime);
-
         }
         else{
             if(!Game.instance.gameOver) {
