@@ -15,26 +15,28 @@ public class Farm extends Foundation{
 
     Bitmap cattle;
     Rect cattleBorder;
-
     Bitmap[] farmBuildings = new Bitmap[3];
-
     int[] farmBuildingImage = new int[3];
-
     ArrayList<Integer> Pos = new ArrayList<Integer>();
     int[] spritePosition = new int[3];
 
     boolean beenEmptied = false;
     boolean createdWooloo = false;
 
+    SpriteAnimation spriteAnim;
+
+    public static int tileNr = 3;
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
 
     public Farm(int x, int y, boolean isStanding, GameView activity){
-        super( x, y,3, isStanding, activity);
-
-        height = tilesize;
-        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
+        super( x, y,tileNr, isStanding, activity);
+        int buildingSprite = (int) (Math.random()*2.9+1);
+        spriteAnim = new SpriteAnimation(new Rect[] {SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"1"),
+                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"2"),
+                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"3")}, 3000);
+        buildingImage = spriteAnim.getFrame(0);
+        height = width*buildingImage.height()/buildingImage.width();
 
         buildingType = 3;
 
@@ -70,6 +72,8 @@ public class Farm extends Foundation{
 
             goldRate = currentCattle.size() * 10;
             beenEmptied = false;
+            buildingImage = spriteAnim.getFrame(fixedDeltaTime,1);
+
         }
 
         //===========================
@@ -82,7 +86,7 @@ public class Farm extends Foundation{
             if(beenEmptied == false){
             GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/4);
             beenEmptied = true;}
-
+            this.buildingImage = SpriteManager.instance.getBuildingSprite("FarmRuin");
             goldRate = 0;
         }
 

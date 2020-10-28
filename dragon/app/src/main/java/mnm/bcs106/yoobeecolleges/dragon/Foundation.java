@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.net.PasswordAuthentication;
+import java.util.ArrayList;
 
 public class Foundation {
     public int tilesize;
@@ -26,12 +27,13 @@ public class Foundation {
     protected GameView activity;
 
     int buildingType;
+
     // 0 = fortress
     // 1 = house
     // 2 = Farm
     // 3 = tower
 
-    int currentInhabitants;
+    ArrayList <NPC> currentInhabitants = new ArrayList<NPC>();
 
     // if health 0 = false;
     boolean isStanding;
@@ -39,7 +41,7 @@ public class Foundation {
     public int x,y;
     Rect collider;
 
-    Bitmap buildingImage;
+    Rect buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
@@ -70,7 +72,12 @@ public class Foundation {
     public void draw(Canvas c){
         Paint p = new Paint();
         //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
-        c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),p);
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        Rect dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
+        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,p);
 
     }
 
@@ -89,7 +96,6 @@ public class Foundation {
     public void update(float deltaTime){
         //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
-        repair(deltaTime);
     }
 
     public void OnDamage () {
@@ -112,13 +118,13 @@ public class Foundation {
         }
     }
 
-    public void repair(float deltaTime){
+    public void repair(int repairRate, float deltaTime){
 
         if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=(deltaTime);
+            rebuildTime+=deltaTime;
 
             if( rebuildTime > 1000){
-                health+=5;
+                health+=repairRate;
                 rebuildTime = 0;
             }
             if(buildingType == 2)
@@ -132,33 +138,30 @@ public class Foundation {
 
 
                 if(buildingType == 1){
-                    buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+
                 }
                 else if(buildingType == 2){
                     double rh = (Math.random()*3);
 
                     if(rh < 1){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House1");
                     }
                     if(rh >= 1 && rh < 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House2");
                     }
                     if(rh >= 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House3");
                     }
 
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
                 }
 
                 else if(buildingType == 3){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm1");
                 }
 
                 else if(buildingType == 4){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height*2,false);
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
                 }
             }
         }

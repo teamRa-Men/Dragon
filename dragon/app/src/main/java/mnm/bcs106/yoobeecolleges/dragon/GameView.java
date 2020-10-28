@@ -89,12 +89,9 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     void init(){
-        //Singleton
 
-            instance = this;
 
-        //System.out.println(fixedDeltaTime);
-        //Dimensions
+        instance = this;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
@@ -191,7 +188,7 @@ public class GameView extends SurfaceView implements Runnable {
             //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            //System.out.println("average main " + totalFrame/numberFrame);
+            //System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
@@ -264,16 +261,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
-    //If gameobject is above ground level, apply gravity
-    public void gravity(GameObject g) {
-        if (g.position.y  < groundLevel) {
-            g.setVelocity(g.getVelocity().x, g.getVelocity().y + gravity * fixedDeltaTime / 1000 / physicsIterations);
-        } else {
-            g.onGrounded(groundLevel);
-        }
-    }
-
     //-----------------------------------------------------------------------------------------------------------
     //Game logic
     //-----------------------------------------------------------------------------------------------------------
@@ -292,6 +279,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
         else{
             if(!Game.instance.gameOver) {
+                pause();
                 Game.instance.showGameOver = true;
             }
         }

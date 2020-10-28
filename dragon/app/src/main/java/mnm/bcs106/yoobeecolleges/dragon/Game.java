@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.MotionEventCompat;
 
 //-----------------------------------------------------------------------------------------------------------
 //Game Controller
@@ -287,35 +288,49 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Accessor / Mutator methods
 
-
+    int moveActionIndex = -1;
+    int fireActionIndex = -1;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Vector2 p = new Vector2(event.getX(),event.getY());
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            dragFrom = p;
-            dragging = true;
             if(Vector2.distance(p,fireButton) < controlRadius){
                 breathFire = true;
+                fireActionIndex = event.getActionIndex();
             }
+            else {
+                dragFrom = p;
+                dragging = true;
+                moveActionIndex = event.getActionIndex();
+            }
+
         }
+        if(event.getActionIndex() == moveActionIndex) {
+            if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                dragging = false;
+                dragTo = null;
+                moveActionIndex = -1;
+            }
+            if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                if (dragging) {
+                    Vector2 disp = p.sub(dragFrom);
 
-        if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() ==  MotionEvent.ACTION_OUTSIDE) {
-            dragging = false;
-            dragTo = null;
-            breathFire = false;
-        }
-        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (dragging) {
-                Vector2 disp = p.sub(dragFrom);
+                    if(disp.getLength()>controlRadius*2){
 
-                if(disp.getLength()>controlRadius*2){
-
-                    p = disp.getNormal().multiply(Math.min(disp.getLength(),controlRadius*2)).add(dragFrom);
+                        p = disp.getNormal().multiply(Math.min(disp.getLength(),controlRadius*2)).add(dragFrom);
+                    }
+                    dragTo = p;
                 }
-                dragTo = p;
             }
         }
+        if(event.getActionIndex() == fireActionIndex) {
+            if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                breathFire = false;
+                fireActionIndex = -1;
+            }
+        }
+
 
         return super.onTouchEvent(event);
 

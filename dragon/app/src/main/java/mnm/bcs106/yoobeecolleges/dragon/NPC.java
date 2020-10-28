@@ -65,7 +65,7 @@ public class NPC {
     public void draw(Canvas canvas){
         if (alive){
             RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
-            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*5);
+            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*3);
 
             int left  = npcRect.left;
             int right  = left+npcRect.width();
