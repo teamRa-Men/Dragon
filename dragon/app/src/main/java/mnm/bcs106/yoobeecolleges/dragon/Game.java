@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.MotionEventCompat;
 
@@ -83,37 +84,37 @@ public class Game extends AppCompatActivity {
 
         //Singleton
 
-            instance = this;
-            context = this;
+        instance = this;
+        context = this;
 
-            //Get screen dimensions
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            screenHeight = displayMetrics.heightPixels;
-            screenWidth = displayMetrics.widthPixels;
-            //Hide navigation
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-
+        //Get screen dimensions
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
+        //Hide navigation
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 
 
-            //initialize
-            initUI();
-            initSound(this);
-
-            waveStart();
-            handler = new Handler();
 
 
-            //start game loop
-            gameView = new GameView(this);
-            ConstraintLayout gameLayout = findViewById(R.id.game);
-            gameLayout.addView(gameView);
-            updateUI();
+        //initialize
+        initUI();
+        initSound(this);
+
+        waveStart();
+        handler = new Handler();
 
 
-        }
+        //start game loop
+        gameView = new GameView(this);
+        ConstraintLayout gameLayout = findViewById(R.id.game);
+        gameLayout.addView(gameView);
+        updateUI();
+
+
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -158,7 +159,7 @@ public class Game extends AppCompatActivity {
         pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
         pauseCredits = pauseMenu.findViewById(R.id.pauseCredits);
         pauseExit = pauseMenu.findViewById(R.id.pauseExit);
-        creditCard = pauseMenu.findViewById(R.id.creditsCard);
+        //creditCard = pauseMenu.findViewById(R.id.creditsCard);
         visibleCredits = false;
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,7 +201,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
-    }
+
     }
 
 
@@ -361,17 +362,17 @@ public class Game extends AppCompatActivity {
 
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN ) {
                 //System.out.println("dow");
-                    if(Vector2.distance(fireButton, p)> controlRadius) {
-                        if(!dragging) {
-                            dragFrom = p;
-                            dragging = true;
-                        }
+                if(Vector2.distance(fireButton, p)> controlRadius) {
+                    if(!dragging) {
+                        dragFrom = p;
+                        dragging = true;
+                    }
 
 
-                    }
-                    else {
-                        breathFire = true;
-                    }
+                }
+                else {
+                    breathFire = true;
+                }
 
 
             }
@@ -380,13 +381,13 @@ public class Game extends AppCompatActivity {
                 //System.out.println("move");
                 if (Vector2.distance(fireButton, p)> controlRadius) {
                     dragging = true;
-                        Vector2 disp = p.sub(dragFrom);
+                    Vector2 disp = p.sub(dragFrom);
 
-                        if (disp.getLength() > controlRadius * 2) {
+                    if (disp.getLength() > controlRadius * 2) {
 
-                            p = disp.getNormal().multiply(Math.min(disp.getLength(), controlRadius * 2)).add(dragFrom);
-                        }
-                        dragTo = p;
+                        p = disp.getNormal().multiply(Math.min(disp.getLength(), controlRadius * 2)).add(dragFrom);
+                    }
+                    dragTo = p;
 
                 }
                 else {
@@ -394,23 +395,23 @@ public class Game extends AppCompatActivity {
                 }
             }
 
-                if (action== MotionEvent.ACTION_UP || action == MotionEvent.ACTION_OUTSIDE|| action == MotionEvent.ACTION_POINTER_UP|| action == MotionEvent.ACTION_POINTER_2_UP|| action == MotionEvent.ACTION_POINTER_3_UP) {
-                    //System.out.println("up");
-                    if(Vector2.distance(fireButton, p)> controlRadius) {
-                        dragging = false;
-                        dragTo = null;
-                    }
-                    else {
-                        breathFire = false;
-                    }
-                    if(!dragging){
-                        breathFire = false;
-                    }
-                    if(!breathFire){
-                        dragging = false;
-                    }
-
+            if (action== MotionEvent.ACTION_UP || action == MotionEvent.ACTION_OUTSIDE|| action == MotionEvent.ACTION_POINTER_UP|| action == MotionEvent.ACTION_POINTER_2_UP|| action == MotionEvent.ACTION_POINTER_3_UP) {
+                //System.out.println("up");
+                if(Vector2.distance(fireButton, p)> controlRadius) {
+                    dragging = false;
+                    dragTo = null;
                 }
+                else {
+                    breathFire = false;
+                }
+                if(!dragging){
+                    breathFire = false;
+                }
+                if(!breathFire){
+                    dragging = false;
+                }
+
+            }
 
 
             System.out.println();
