@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Pause_menu"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_pause_menu"
+            android:theme="@style/AppTheme.Fullscreen"></activity>
+        <activity
             android:name=".Game"
             android:screenOrientation="landscape">
             <intent-filter>
