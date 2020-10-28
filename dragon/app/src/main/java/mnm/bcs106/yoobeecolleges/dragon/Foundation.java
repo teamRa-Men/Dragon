@@ -26,6 +26,7 @@ public class Foundation {
     protected GameView activity;
 
     int buildingType;
+
     // 0 = fortress
     // 1 = house
     // 2 = Farm

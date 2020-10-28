@@ -43,7 +43,7 @@ public class SpriteManager {
 
         put("Farm11",spriteRect(0,128,128*3,128));
         put("Farm12",spriteRect(128*3,128,128*3,128));
-        put("Farm23",spriteRect(128*6,128,128*3,128));
+        put("Farm13",spriteRect(128*6,128,128*3,128));
 
         put("Farm21",spriteRect(0,128*2,128*3,128));
         put("Farm22",spriteRect(128*3,128*2,128*3,128));
@@ -57,7 +57,7 @@ public class SpriteManager {
 
         put("Fortress1",spriteRect(128*3,128*4,128*3,128*2));
         put("Fortress2",spriteRect(128*6,128*4,128*3,128*2));
-        put("Fortress3",spriteRect(128*3,128*6,128*3,128*2));
+        put("Fortress3",spriteRect(128*3,128*6,128* 3,128*2));
         put("FortressRuin",spriteRect(128*6,128*6,128*3,128*2));
 
         put("Flag",spriteRect(0,128*5,128,128));
