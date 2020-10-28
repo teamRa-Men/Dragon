@@ -89,12 +89,9 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     void init(){
-        //Singleton
 
-            instance = this;
 
-        //System.out.println(fixedDeltaTime);
-        //Dimensions
+        instance = this;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
@@ -178,27 +175,27 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            //System.out.println( "physics " + (physicsTime - started));
+            System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
             update();
             long updateTime = System.currentTimeMillis();
-            //System.out.println( "update " + (updateTime-physicsTime));
+            System.out.println( "update " + (updateTime-physicsTime));
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            //System.out.println( "draw main " + drawTime);
+            System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            //System.out.println("average main " + totalFrame/numberFrame);
+            System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
@@ -264,16 +261,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
-    //If gameobject is above ground level, apply gravity
-    public void gravity(GameObject g) {
-        if (g.position.y  < groundLevel) {
-            g.setVelocity(g.getVelocity().x, g.getVelocity().y + gravity * fixedDeltaTime / 1000 / physicsIterations);
-        } else {
-            g.onGrounded(groundLevel);
-        }
-    }
-
     //-----------------------------------------------------------------------------------------------------------
     //Game logic
     //-----------------------------------------------------------------------------------------------------------
@@ -292,6 +279,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
         else{
             if(!Game.instance.gameOver) {
+                pause();
                 Game.instance.showGameOver = true;
             }
         }

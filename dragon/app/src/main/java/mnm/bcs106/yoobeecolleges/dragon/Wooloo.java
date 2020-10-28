@@ -12,11 +12,6 @@ public class Wooloo extends NPC{
     public Wooloo(Bitmap bitmap,float speed, int maxHP, int width, int height, int SBoundry) {
         super(bitmap,speed, maxHP, width, height);
         boundry = SBoundry;
-        target.x = npcX;
-    }
-
-    public void setBoundry(int Boundry){
-        boundry = Boundry;
     }
 
     @Override
@@ -25,7 +20,7 @@ public class Wooloo extends NPC{
             flee = true;
             target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
             creationPoint.x= target.x;
-        }else idle(boundry,Math.abs(npcX-target.x) < 10);
+        }else idle(500,Math.abs(npcX-target.x) < 10);
         super.update(deltaTime);
     }
 }

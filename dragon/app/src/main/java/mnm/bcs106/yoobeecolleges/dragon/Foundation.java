@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.net.PasswordAuthentication;
-import java.util.ArrayList;
 
 public class Foundation {
     public int tilesize;
@@ -32,8 +31,7 @@ public class Foundation {
     // 2 = Farm
     // 3 = tower
 
-    ArrayList<Object> currentInhabitants = new ArrayList<Object>();
-    int maxInhabitants;
+    int currentInhabitants;
 
     // if health 0 = false;
     boolean isStanding;
@@ -41,11 +39,9 @@ public class Foundation {
     public int x,y;
     Rect collider;
 
-    Bitmap buildingImage;
+    Rect buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
-
-    int fear = 0;
 
 
     public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
@@ -74,7 +70,12 @@ public class Foundation {
     public void draw(Canvas c){
         Paint p = new Paint();
         //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
-        c.drawBitmap(buildingImage,x+GameView.instance.cameraDisp.x,y-buildingImage.getHeight(),p);
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        Rect dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
+        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,p);
 
     }
 
@@ -92,8 +93,8 @@ public class Foundation {
 
     public void update(float deltaTime){
         //System.out.println(deltaTime);
-
         damagePeriod.update(deltaTime);
+        repair(deltaTime);
     }
 
     public void OnDamage () {
@@ -118,58 +119,52 @@ public class Foundation {
 
     public void repair(float deltaTime){
 
-        if(!isStanding){
+        if(!isStanding){    // && currentInhabitants > 1
+            rebuildTime+=(deltaTime);
 
-        rebuildTime+=(deltaTime);
-
-        if( rebuildTime > 1000){
-            health+=5;
-            rebuildTime = 0;
-        }
-
-        if(buildingType == 2)
-        System.out.println("repair" + health);
-
-        if(health == maxHealth) {
-            isStanding = true;
-
+            if( rebuildTime > 1000){
+                health+=5;
+                rebuildTime = 0;
+            }
             if(buildingType == 2)
-            System.out.println(isStanding);
+            System.out.println("repair" + health);
+
+            if(health == maxHealth) {
+                isStanding = true;
+
+                if(buildingType == 2)
+                System.out.println(isStanding);
 
 
-            if(buildingType == 1){
-                buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
-                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
-            }
-            else if(buildingType == 2){
-                double rh = (Math.random()*3);
+                if(buildingType == 1){
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
 
-                if(rh < 1){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
                 }
-                if(rh >= 1 && rh < 2){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
+                else if(buildingType == 2){
+                    double rh = (Math.random()*3);
+
+                    if(rh < 1){
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House1");
+                    }
+                    if(rh >= 1 && rh < 2){
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House2");
+                    }
+                    if(rh >= 2){
+                        buildingImage = SpriteManager.instance.getBuildingSprite("House3");
+                    }
+
                 }
-                if(rh >= 2){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
+
+                else if(buildingType == 3){
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm1");
                 }
 
-                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
-            }
-
-            else if(buildingType == 3){
-                this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
-            }
-
-            else if(buildingType == 4){
-                this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height*2,false);
+                else if(buildingType == 4){
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
+                }
             }
         }
     }
-    }
-
 }
 
 

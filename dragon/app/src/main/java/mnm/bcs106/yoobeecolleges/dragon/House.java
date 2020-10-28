@@ -13,13 +13,13 @@ public class House extends Foundation{
 
     int maxInhabitants;
 
-
+    public static int tileNr = 1;
 
     boolean createdVillager = false;
     boolean beenEmptied = false;
 
     public House(int x, int y, boolean isStanding, GameView activity){
-        super(x, y,1, isStanding, activity );
+        super(x, y,tileNr, isStanding, activity );
         maxHealth = 200;
 
         health = maxHealth;
@@ -30,16 +30,15 @@ public class House extends Foundation{
         double flipp = (Math.random() - 0.5f);
 
         if(rh < 1){
-            this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
+            buildingImage = SpriteManager.instance.getBuildingSprite("House1");
         }
         if(rh >= 1 && rh < 2){
-            this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
+            buildingImage = SpriteManager.instance.getBuildingSprite("House2");
         }
         if(rh >= 2){
-            this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
+            buildingImage = SpriteManager.instance.getBuildingSprite("House3");
         }
-
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
+        height = width*buildingImage.height()/buildingImage.width();
 
         if(flipp < 0){
 
@@ -84,8 +83,7 @@ public class House extends Foundation{
 
         else{
 
-            buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.houseruin);
-            buildingImage = Bitmap.createScaledBitmap(buildingImage,width,height,false);
+            buildingImage = SpriteManager.instance.getBuildingSprite("HouseRuin");
 
             if(beenEmptied == false){
                 GoldPool.instance.spawnGold(x, y-3,goldRate/5);

@@ -16,18 +16,15 @@ public class ArcherTower extends Foundation {
     float countdown = 0;
     int attack = 0;
 
+    public static int tileNr = 1;
+
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
-        super( x, y, 1, isStanding, activity );
-
-        height = width*2;
-
-        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-        this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
+        super( x, y, tileNr, isStanding, activity );
+        this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
+        height = width*buildingImage.height()/buildingImage.width();
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
-
         arrowRechargeTime = new ActionController(1000, 1f ,2000);
-
         System.out.println("Tower spawned");
     }
 
@@ -48,11 +45,9 @@ public class ArcherTower extends Foundation {
     public void Attack(){
         float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/5;
         float randomy = -(float)(Math.random())*attackRange*GameView.instance.cameraSize/5;
-
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
-
         ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
     }
 

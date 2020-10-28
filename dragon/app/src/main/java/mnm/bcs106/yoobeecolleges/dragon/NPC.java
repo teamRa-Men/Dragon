@@ -37,14 +37,16 @@ public class NPC {
         npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*3));
         npcWidth = width;
         npcHeight = height;
-        creationPoint.x = 0;
-        creationPoint.y = 0;
         npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
         npcCollider = new Rect(npcX,npcY,width+npcX,height+npcY);
         damagePeriod = new ActionController(0,5000,5000);
         random = Math.random();
     }
-    public void spawn (){
+    public void spawn (int spawnX, int spawnY){
+        npcX = spawnX;
+        npcY = spawnY;
+        creationPoint.x = spawnX;
+        creationPoint.y = spawnY;
         alive = true;
     }
     public  void OnDamage () {
@@ -63,7 +65,7 @@ public class NPC {
     public void draw(Canvas canvas){
         if (alive){
             RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
-            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*5);
+            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*3);
 
             int left  = npcRect.left;
             int right  = left+npcRect.width();
@@ -118,7 +120,7 @@ public class NPC {
             if (lessTen) {
                 flee = false;
                 double targetDistance = (Math.random() - 0.5) * boundry;
-                target.x = (int) (creationPoint.x + (Math.random() - 0.5) * boundry);
+                target.x = (int) (creationPoint.x + targetDistance);
                 countdown = 0;
             }
         }

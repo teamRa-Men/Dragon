@@ -18,21 +18,18 @@ public class NPC_Pool {
             npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,1));
             npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/65000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,25));
 
-            if(i%2==0) {
-                npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.villager), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
-            }
-            else {
+//            if(i%2==0) {
+  //              npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.villager), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
+    //        }
+      //      else {
                 npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.farmer), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 40, GameView.instance.cameraSize / 20, 0));
-            }
+        //    }
         }
     }
     public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
             if (!npcWooloo.get(i).alive) {
-                npcWooloo.get(i).alive = true;
-                npcWooloo.get(i).npcX = spawnX;
-                npcWooloo.get(i).npcY = spawnY;
-
+                npcWooloo.get(i).spawn(spawnX,spawnY);
                 return npcWooloo.get(i);
             }
         }
@@ -44,9 +41,7 @@ public class NPC_Pool {
         int d = 0;
         for (int i = 0;i<ammount;i++){
             if (!npcRangedNPC.get(i).alive && d < ammount) {
-                npcRangedNPC.get(i).alive = true;
-                npcRangedNPC.get(i).npcX = spawnX;
-                npcRangedNPC.get(i).npcY = spawnY;
+                npcRangedNPC.get(i).spawn(spawnX,spawnY);
                 d++;
             }
         }
@@ -54,9 +49,7 @@ public class NPC_Pool {
         int d = 0;
         for (int i = 0;i<ammount;i++){
             if (!npcWizard.get(i).alive && d < ammount) {
-                npcWizard.get(i).alive = true;
-                npcWizard.get(i).npcX = spawnX;
-                npcWizard.get(i).npcY = spawnY;
+                npcWizard.get(i).spawn(spawnX,spawnY);
                 d++;
             }
         }
@@ -64,10 +57,7 @@ public class NPC_Pool {
 
         for (int i = 0;i<size;i++){
             if (!npcFarmers.get(i).alive) {
-                npcFarmers.get(i).alive = true;
-                npcFarmers.get(i).npcX = spawnX;
-                npcFarmers.get(i).npcY = spawnY;
-
+                npcFarmers.get(i).spawn(spawnX,spawnY);
                 return npcFarmers.get(i);}
         }
         return null;
