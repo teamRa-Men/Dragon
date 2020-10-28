@@ -45,6 +45,11 @@ public class Foundation {
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
+    float fear = 0;
+    boolean beenAttacked;
+    int fearTime = 0;
+    boolean noAttackDay = false;
+    boolean fearRemoved = false;
 
     public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
         tilesize =GameView.instance.cameraSize/9;
@@ -101,22 +106,56 @@ public class Foundation {
     public void OnDamage () {
         if(isStanding){
             damagePeriod.triggerAction();
-
-            if(buildingType == 2)
-            Log.i("istanding",damagePeriod.time+"");
+            System.out.println("damaging");
+            beenAttacked = true;
+            fearTime = 0;
 
             if(damagePeriod.charging){
-                if(buildingType == 2)
-                Log.i("dmg",health+"");
 
                 health-=3;
                 health = Math.max(health,0);
 
+                fear+=0.5f;
+
                 damagePeriod.cooling=true;
             }
-
         }
     }
+
+    public void fearCooldown(){
+        if(beenAttacked
+                && !noAttackDay
+                && (Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2){
+
+            fearTime+=1;
+            noAttackDay = true;
+        }
+
+        if(beenAttacked
+                &&(Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.7){
+
+            noAttackDay = false;
+        }
+
+        if(fearTime > 2
+                && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2)
+                && !fearRemoved
+                && fear >= 0){
+
+            fear-=5;
+            fearRemoved = true;
+        }
+
+        if((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.7){
+            fearRemoved = false;
+        }
+
+        if(fear <= 0){
+            fear = 0;
+            beenAttacked = false;
+        }
+    }
+
 
     public void repair(int repairRate, float deltaTime){
 

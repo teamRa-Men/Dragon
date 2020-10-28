@@ -74,6 +74,7 @@ public class House extends Foundation{
 
             goldRate = currentInhabitants.size() * 3;
             beenEmptied = false;
+            fearCooldown();
 
         }
 
