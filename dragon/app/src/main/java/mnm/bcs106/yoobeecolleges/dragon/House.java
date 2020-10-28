@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class House extends Foundation{
 
-    ArrayList<Object> currentInhabitants = new ArrayList<Object>();
+
     int maxInhabitants;
 
 
@@ -55,7 +55,7 @@ public class House extends Foundation{
         //=======================
 
         if(isStanding == true){
-            System.out.println("gmg"+ health);
+            //System.out.println("gmg"+ health);
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
                     && (currentInhabitants.size() < maxInhabitants)
                     && (createdVillager == false)){

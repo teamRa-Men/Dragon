@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.net.PasswordAuthentication;
+import java.util.ArrayList;
 
 public class Foundation {
     public int tilesize;
@@ -31,7 +32,8 @@ public class Foundation {
     // 2 = Farm
     // 3 = tower
 
-    int currentInhabitants;
+    ArrayList<Object> currentInhabitants = new ArrayList<Object>();
+    int maxInhabitants;
 
     // if health 0 = false;
     boolean isStanding;
@@ -42,6 +44,8 @@ public class Foundation {
     Bitmap buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
+
+    int fear = 0;
 
 
     public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
@@ -88,8 +92,8 @@ public class Foundation {
 
     public void update(float deltaTime){
         //System.out.println(deltaTime);
+
         damagePeriod.update(deltaTime);
-        repair(deltaTime);
     }
 
     public void OnDamage () {
@@ -114,55 +118,58 @@ public class Foundation {
 
     public void repair(float deltaTime){
 
-        if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=(deltaTime);
+        if(!isStanding){
 
-            if( rebuildTime > 1000){
-                health+=5;
-                rebuildTime = 0;
-            }
+        rebuildTime+=(deltaTime);
+
+        if( rebuildTime > 1000){
+            health+=5;
+            rebuildTime = 0;
+        }
+
+        if(buildingType == 2)
+        System.out.println("repair" + health);
+
+        if(health == maxHealth) {
+            isStanding = true;
+
             if(buildingType == 2)
-            System.out.println("repair" + health);
-
-            if(health == maxHealth) {
-                isStanding = true;
-
-                if(buildingType == 2)
-                System.out.println(isStanding);
+            System.out.println(isStanding);
 
 
-                if(buildingType == 1){
-                    buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
+            if(buildingType == 1){
+                buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.fortress);
+                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height,false);
+            }
+            else if(buildingType == 2){
+                double rh = (Math.random()*3);
+
+                if(rh < 1){
+                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
                 }
-                else if(buildingType == 2){
-                    double rh = (Math.random()*3);
-
-                    if(rh < 1){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house1);
-                    }
-                    if(rh >= 1 && rh < 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
-                    }
-                    if(rh >= 2){
-                        this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
-                    }
-
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
+                if(rh >= 1 && rh < 2){
+                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house2);
+                }
+                if(rh >= 2){
+                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house3);
                 }
 
-                else if(buildingType == 3){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
-                }
+                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width, height,false);
+            }
 
-                else if(buildingType == 4){
-                    this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
-                    this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height*2,false);
-                }
+            else if(buildingType == 3){
+                this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.barn);
+                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width/3,height,false);
+            }
+
+            else if(buildingType == 4){
+                this.buildingImage = BitmapFactory.decodeResource(activity.getResources(), R.drawable.house);
+                this.buildingImage = Bitmap.createScaledBitmap(this.buildingImage,width,height*2,false);
             }
         }
     }
+    }
+
 }
 
 

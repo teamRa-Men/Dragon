@@ -49,6 +49,8 @@ public class Fortress extends Foundation {
     boolean hasFarm = false;
     // attack function
 
+    boolean checkedForInhabitants = false;
+
 
     //Fortress constructor, used when calling Fortress();
 
@@ -82,37 +84,37 @@ public class Fortress extends Foundation {
 
         int currentGold1 = currentGold;
 
-        if(currentGold < maxGold){
+        if (currentGold < maxGold) {
 
             //Money income
 
-            if((Scene.instance.timeOfDay)/(Scene.instance.dayLength)<0.2
-                    && (!hasTaxed)){
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
+                    && (!hasTaxed)) {
 
                 goldRate = 15;
 
-                for(int i = 0; i < currentBuildingsRight.size(); i++){
+                for (int i = 0; i < currentBuildingsRight.size(); i++) {
                     goldRate = currentBuildingsRight.get(i).goldRate + goldRate;
                 }
 
-                for(int i = 0; i < currentBuildingsLeft.size(); i++){
+                for (int i = 0; i < currentBuildingsLeft.size(); i++) {
                     goldRate = currentBuildingsLeft.get(i).goldRate + goldRate;
                 }
 
 
-                currentGold = currentGold + (int)(goldRate*1.2);
+                currentGold = currentGold + (int) (goldRate * 1.2);
 
 
-                if(currentGold > maxGold){
-                    currentGold = currentGold - (currentGold-maxGold);
+                if (currentGold > maxGold) {
+                    currentGold = currentGold - (currentGold - maxGold);
                 }
 
                 hasTaxed = true;
             }
 
-            if((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0.7) hasTaxed = false;
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) hasTaxed = false;
 
-            if(currentGold != currentGold1){
+            if (currentGold != currentGold1) {
                 System.out.println("Goldrate : " + goldRate);
                 System.out.println("Gold : " + currentGold);
             }
@@ -133,41 +135,35 @@ public class Fortress extends Foundation {
             ArrayList<Foundation> direction;
             int directionTiles;
 
-            if(lr < 0){
+            if (lr < 0) {
                 direction = currentBuildingsLeft;
-            }
-            else{
+            } else {
                 direction = currentBuildingsRight;
             }
 
             int position;
-            if(direction ==  currentBuildingsLeft){
-               position = x-(currentTilesLeft+1)*offset;
-            }
-            else position = x + (tilesize*3) +(currentTilesRight + 1)*offset;
+            if (direction == currentBuildingsLeft) {
+                position = x - (currentTilesLeft + 1) * offset;
+            } else position = x + (tilesize * 3) + (currentTilesRight + 1) * offset;
 
             //deciding Building
 
             Foundation building;
-            if(rh < 0){
-                building = new House(position,y,true,activity);
-                directionTiles=1;
+            if (rh < 0) {
+                building = new House(position, y, true, activity);
+                directionTiles = 1;
+            } else {
+                building = new Farm(position, y, true, activity);
+                directionTiles = 3;
             }
 
-            else{
-                building = new Farm(position,y,true,activity);
-                directionTiles=3;
-            }
-
-            if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
-               direction.add(new Farm(position,y,true,activity));
-               directionTiles=3;
-            }
-
-            else direction.add(building);
+            if (currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0) {
+                direction.add(new Farm(position, y, true, activity));
+                directionTiles = 3;
+            } else direction.add(building);
 
             //giving feedback to the Tiles right and Tiles left
-            if(direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
+            if (direction == currentBuildingsLeft) currentTilesLeft += directionTiles;
             else currentTilesRight += directionTiles;
 
             //TODO: First Building faulty
@@ -200,14 +196,58 @@ public class Fortress extends Foundation {
             currentTilesLeft+=2;
         }*/
 
-        for(int i = 0; i < currentBuildingsRight.size(); i++){
+        for (int i = 0; i < currentBuildingsRight.size(); i++) {
             currentBuildingsRight.get(i).update(deltaTime);
         }
 
-        for(int i = 0; i < currentBuildingsLeft.size(); i++){
+        for (int i = 0; i < currentBuildingsLeft.size(); i++) {
             currentBuildingsLeft.get(i).update(deltaTime);
         }
+
+        //CurrentTownInhabitants
+
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.2
+                && (Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.5
+                && !checkedForInhabitants){
+
+                currentTownInhabitants = 0;
+
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                currentTownInhabitants += currentBuildingsRight.get(i).currentInhabitants.size();
+            }
+
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                currentTownInhabitants += currentBuildingsLeft.get(i).currentInhabitants.size();
+            }
+
+            System.out.println(currentTownInhabitants);
+            checkedForInhabitants = true;
+        }
+
+        if((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7){
+            checkedForInhabitants = false;
+        }
+
+
+
+       /*for(int i = 0; i < currentBuildingsLeft.size();){
+
+           if(!currentBuildingsLeft.get(i).isStanding){
+               currentBuildingsLeft.get(i).repair(deltaTime);
+               System.out.println("repairing");
+               i++;
+           }
+       }
+
+       for(int i = 0; i < currentBuildingsRight.size();){
+           if(!currentBuildingsRight.get(i).isStanding){
+               currentBuildingsLeft.get(i).repair(deltaTime);
+               System.out.println("repairing");
+               i++;
+           }
+       }*/
     }
+
 
     @Override
     public void draw(Canvas c) {
