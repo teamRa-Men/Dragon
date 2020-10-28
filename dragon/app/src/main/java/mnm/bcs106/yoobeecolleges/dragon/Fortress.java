@@ -205,14 +205,33 @@ public class Fortress extends Foundation {
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
             currentTilesLeft+=2;
         }*/
+        if(!isStanding){
+            repair((int)(currentTownInhabitants/5)+1, deltaTime);
+        }
+        else {
+            boolean repairingRight = false, repairingLeft = false;
 
-        for(int i = 0; i < currentBuildingsRight.size(); i++){
-            currentBuildingsRight.get(i).update(deltaTime);
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                currentBuildingsRight.get(i).update(deltaTime);
+                if (!repairingRight && !currentBuildingsRight.get(i).isStanding) {
+                    currentBuildingsRight.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    repairingRight = true;
+                    System.out.println("repair right :" + i + "  repairrate : "+((currentTownInhabitants / 5) + 1));
+                    System.out.println("repair" + currentBuildingsRight.get(i).health);
+                }
+            }
+
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                currentBuildingsLeft.get(i).update(deltaTime);
+                if (!repairingLeft && !currentBuildingsLeft.get(i).isStanding) {
+                    currentBuildingsLeft.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    repairingLeft = true;
+                    System.out.println("repair left : " + i + "  repairrate : "+((currentTownInhabitants / 5) + 1));
+                    System.out.println("repair" + currentBuildingsLeft.get(i).health);
+                }
+            }
         }
 
-        for(int i = 0; i < currentBuildingsLeft.size(); i++){
-            currentBuildingsLeft.get(i).update(deltaTime);
-        }
     }
 
     @Override

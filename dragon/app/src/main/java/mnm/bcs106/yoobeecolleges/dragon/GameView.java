@@ -175,27 +175,27 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            System.out.println( "physics " + (physicsTime - started));
+            //System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
             update();
             long updateTime = System.currentTimeMillis();
-            System.out.println( "update " + (updateTime-physicsTime));
+            //System.out.println( "update " + (updateTime-physicsTime));
 
             draw();
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average draw " + totalFrame/numberFrame);
+            //System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);

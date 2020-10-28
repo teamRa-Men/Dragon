@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 import java.net.PasswordAuthentication;
+import java.util.ArrayList;
 
 public class Foundation {
     public int tilesize;
@@ -31,7 +32,7 @@ public class Foundation {
     // 2 = Farm
     // 3 = tower
 
-    int currentInhabitants;
+    ArrayList <NPC> currentInhabitants = new ArrayList<NPC>();
 
     // if health 0 = false;
     boolean isStanding;
@@ -94,7 +95,6 @@ public class Foundation {
     public void update(float deltaTime){
         //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
-        repair(deltaTime);
     }
 
     public void OnDamage () {
@@ -117,13 +117,13 @@ public class Foundation {
         }
     }
 
-    public void repair(float deltaTime){
+    public void repair(int repairRate, float deltaTime){
 
         if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=(deltaTime);
+            rebuildTime+=deltaTime;
 
             if( rebuildTime > 1000){
-                health+=5;
+                health+=repairRate;
                 rebuildTime = 0;
             }
             if(buildingType == 2)
