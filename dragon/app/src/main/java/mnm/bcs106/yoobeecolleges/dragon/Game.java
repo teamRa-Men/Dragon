@@ -159,7 +159,7 @@ public class Game extends AppCompatActivity {
         pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
         pauseCredits = pauseMenu.findViewById(R.id.pauseCredits);
         pauseExit = pauseMenu.findViewById(R.id.pauseExit);
-        //creditCard = pauseMenu.findViewById(R.id.creditsCard);
+        creditCard = pauseMenu.findViewById(R.id.creditsCard);
         visibleCredits = false;
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override

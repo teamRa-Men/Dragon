@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Upgrade"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_upgrade"
+            android:theme="@style/AppTheme.Fullscreen"></activity>
+        <activity
             android:name=".Main_menu"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_main_menu"
