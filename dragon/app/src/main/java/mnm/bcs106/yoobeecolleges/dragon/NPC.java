@@ -74,7 +74,7 @@ public class NPC {
             Matrix matrix = new Matrix();
             matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
             matrix.postScale(direction,1,destTempRect.centerX(),destTempRect.centerY());
-            canvas.drawBitmap(npcBitmap,matrix,null);
+            canvas.drawBitmap(npcBitmap,matrix,Scene.instance.frontPaint);
         }
     }
 

@@ -47,7 +47,7 @@ public class Farm extends Foundation{
         health = maxHealth;
 
         maxCattle = 4;
-        collider = new Rect(x,y-height/4,x+width,y);
+        collider = new Rect(x,y-height/2,x+width,y);
     }
 
     public void update(float fixedDeltaTime) {

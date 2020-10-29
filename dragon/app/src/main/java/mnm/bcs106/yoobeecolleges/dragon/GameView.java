@@ -109,6 +109,10 @@ public class GameView extends SurfaceView implements Runnable {
 
         groundLevel = screenHeight*7/10;
 
+        //Init scene
+        scene = new Scene();
+        lair = new Lair();
+
         //Player gameobject
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
@@ -125,9 +129,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         hud = new Hud();
 
-        //Init scene
-        scene = new Scene();
-        lair = new Lair();
+
 
 
         fortress = new Fortress( screenWidth*2, (int)groundLevel, true, this);

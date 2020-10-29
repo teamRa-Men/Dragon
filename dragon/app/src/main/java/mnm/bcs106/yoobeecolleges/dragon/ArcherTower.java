@@ -26,7 +26,7 @@ public class ArcherTower extends Foundation {
         }
         height = width*buildingImage.height()/buildingImage.width();
         creationPoint.x = x+(width/2);
-        creationPoint.y = (int)GameView.instance.groundLevel - height;
+        creationPoint.y = (int)(GameView.instance.groundLevel - height*3/4);
         System.out.println("Tower spawned");
     }
 
@@ -65,24 +65,25 @@ public class ArcherTower extends Foundation {
 
                 if (countdown > 40) {
 
-                    if((int)countdown == 45 && attack == 0) {
+                    if((int)countdown > 45 && attack == 0) {
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown == 50 && attack == 1) {
+                    if((int)countdown > 50 && attack == 1) {
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown == 55 && attack == 2) {
+                    if((int)countdown > 55 && attack == 2) {
                         Attack();
                         attack+=1;
                     }
 
                     if(countdown >= 60){
-                    countdown = 0;
-                    attack= 0;}
+                        countdown = 0;
+                        attack= 0;
+                    }
                 }
             }
         }

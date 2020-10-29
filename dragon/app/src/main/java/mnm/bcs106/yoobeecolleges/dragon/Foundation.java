@@ -65,7 +65,7 @@ public class Foundation {
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
 
-        width = (tilesize-(tilesize/10))*tileNr;
+        width = tilesize*tileNr+tilesize/10*tileNr;//(tilesize-(tilesize/10))*tileNr;
         height = width;
 
 
@@ -76,7 +76,7 @@ public class Foundation {
     }
 
     public void draw(Canvas c){
-        Paint p = new Paint();
+        Paint p = Scene.instance.frontPaint;
         //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
         float left = x+GameView.instance.cameraDisp.x;
         float top = y-height;

@@ -417,7 +417,7 @@ class Head{
     Bitmap head, jaw, eye;
     RectF src;
 
-    Paint paint = new Paint();
+    Paint paint;
     public float wave;
 
     public Head(Dragon dragon, float radius) {
@@ -437,6 +437,8 @@ class Head{
         r = SpriteManager.instance.getDragonSprite("Jaw");
         jaw = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
         jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),false);
+
+        paint = Scene.instance.frontPaint;
     }
     public void draw(Canvas canvas){
 
@@ -485,73 +487,6 @@ class Head{
     }
 }
 
-/*
-class Head{
-    public Vector2 position;
-    public Vector2 direction;
-    double rotation;
-    float open;
-    public float radius, time;
-    Dragon dragon;
-    RectF src;
-    Bitmap spriteTop, spriteLower, spriteEye;
-    Paint paint = new Paint();
-    public float wave;
-
-    public Head(Dragon dragon, float radius) {
-        this.radius = radius;
-        this.dragon = dragon;
-        position = dragon.position;
-        spriteLower = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_upper_minimalism);
-        spriteTop = Bitmap.createScaledBitmap(spriteTop, (int) (radius * 2), (int) (radius * 2), false);
-        spriteLower = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.head_lower_minimalism);
-        spriteLower = Bitmap.createScaledBitmap(spriteLower, (int) (radius * 2), (int) (radius * 2), false);
-        spriteEye = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.dragon_eye);
-        spriteEye = Bitmap.createScaledBitmap(spriteEye, (int) (radius * 2), (int) (radius * 2), false);
-
-        src = new RectF(0, 0, radius * 2, radius * 2);
-
-    }
-    public void draw(Canvas canvas){
-
-        float left = position.x- src.width()/2 + GameView.instance.cameraDisp.x+wave*direction.y;;
-        float top = position.y - src.height()*0.4f+wave*direction.x;;
-        float right = left + src.width();
-        float bottom = top + src.height();
-
-        Matrix matrix = new Matrix();
-        RectF dst = new RectF(left, top, right, bottom);
-        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
-        matrix.postRotate((float) rotation + Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
-        canvas.drawBitmap(spriteLower, matrix,paint);
-
-        matrix = new Matrix();
-        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
-        matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
-        canvas.drawBitmap(spriteTop, matrix,paint);
-        canvas.drawBitmap(spriteEye, matrix,null);
-
-    }
-    public void update(float deltaTime){
-        direction = dragon.direction;
-        rotation = Math.toDegrees(Math.atan2(direction.y,direction.x));
-        position = dragon.position;
-        time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
-        // wave = (float)Math.cos((-time/1000)*Math.PI)*dragon.radius*0.2f;
-
-        wave = 0;
-        if(dragon.breathingFire && dragon.mana > 0){
-            wave+=(Math.random()-0.5f)*radius/4;
-            open = (45+open)/2 + (float)Math.random()*10;
-        }
-        else{
-            open = open/2;
-        }
-    }
-}
-*/
 class Segment extends GameObject{
     public Vector2 target;
     public float radius, time;
@@ -559,7 +494,7 @@ class Segment extends GameObject{
     Bitmap sprite,tailSprite;
     RectF src, dst,collider,tailSrc;
     Matrix matrix;
-    Paint paint = new Paint();
+    Paint paint;
     float index;
     public float wave;
 
@@ -577,7 +512,8 @@ class Segment extends GameObject{
 
         dst = src;
         matrix = new Matrix();
-        paint.setAntiAlias(true);
+        paint = Scene.instance.frontPaint;
+        //paint.setAntiAlias(true);
         centerPivot = true;
     }
     @Override
@@ -624,7 +560,7 @@ class Leg{
     Dragon dragon;
     Bitmap sprite, spriteFlying;
     RectF src, dst;
-    Paint paint = new Paint();
+    Paint paint;
     Segment segment;
     boolean front,walking;
     Matrix matrix = new Matrix();
@@ -651,7 +587,7 @@ class Leg{
         spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f -GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f , dragon.radius *3/2f-GameView.instance.screenWidth/200);
 
-
+        paint = Scene.instance.frontPaint;
     }
 
     public void update(float deltaTime){
@@ -697,7 +633,7 @@ class Arm{
     RectF src;
     RectF dst;
     public RectF collider;
-    Paint paint = new Paint();
+    Paint paint;
     Segment segment;
     public boolean walking;
     boolean front;
@@ -720,6 +656,7 @@ class Arm{
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f-GameView.instance.screenWidth/200 , dragon.radius *3/2f-GameView.instance.screenWidth/200);
         dst = src;
+        paint = Scene.instance.frontPaint;
     }
     public void draw(Canvas canvas){
 
@@ -758,7 +695,7 @@ class Wing{
     RectF dst;
     float time, flap,scaleX;
     boolean front;
-    Paint paint = new Paint();
+    Paint paint;
     Dragon dragon;
     public boolean walking;
 
@@ -779,6 +716,7 @@ class Wing{
         src = new RectF(0, 0, sprite.getWidth(),sprite.getHeight());
         position = segment.position;
         rotation = segment.rotation;
+        paint = Scene.instance.frontPaint;
     }
     public void draw(Canvas canvas){
 
@@ -982,7 +920,7 @@ class Flame {
             distanceTravelled = Vector2.distance(shootFrom,position);
             if (distanceTravelled < breath.range) {
                 position = position.add(direction.multiply(speed * deltaTime));
-                size = Math.min(distanceTravelled/(6*breath.dragon.radius)*0.75f+0.25f,1)*maxSize;
+                size = Math.min(distanceTravelled/(6*breath.dragon.radius)*0.8f+0.2f,1)*maxSize;
                 //paint.setAlpha((int)(Math.min(distanceTravelled/range*2+0.1f,1)*255));
 
 

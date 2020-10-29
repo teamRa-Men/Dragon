@@ -14,15 +14,15 @@ public class NPC_Pool {
     ArrayList<Farmers>  npcFarmers = new ArrayList<Farmers>();
     public NPC_Pool(){
         for(int i = 0 ;i < size; i++){
-            npcWooloo.add(new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
-            npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,1));
-            npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/65000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,25));
+            npcWooloo.add(new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,500));
+            npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,1));
+            npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/65000,500,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,25));
 
 //            if(i%2==0) {
   //              npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.villager), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
     //        }
       //      else {
-                npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.farmer_paper), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 40, GameView.instance.cameraSize / 20, 0));
+                npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.farmer_paper), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 60, GameView.instance.cameraSize / 30, 0));
         //    }
         }
     }

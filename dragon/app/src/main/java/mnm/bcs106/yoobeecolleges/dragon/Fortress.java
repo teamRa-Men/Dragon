@@ -155,16 +155,25 @@ public class Fortress extends Foundation {
             Foundation building;
 
             if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
+                if(direction == currentBuildingsLeft) {
+                    position -= Farm.tileNr*tilesize;
+                }
                 building = new Farm(position,y,true,activity);
             }
 
             else if(townFear > 30){
                 double rh = (Math.random() - 0.5f);
                 if(rh < 0){
+                    if(direction == currentBuildingsLeft) {
+                        position -= House.tileNr*tilesize;
+                    }
                     building = new House(position,y,true,activity);
                     currentGold -= 240;
                 }
                 else {
+                    if(direction == currentBuildingsLeft) {
+                        position -= ArcherTower.tileNr*tilesize;
+                    }
                     building = new ArcherTower(position,y,true,activity);
                     currentGold -= 240;}
             }
@@ -172,26 +181,31 @@ public class Fortress extends Foundation {
             else{
                 double rh = (Math.random() - 0.5f);
                 if(rh < 0 ){
+                    if(direction == currentBuildingsLeft) {
+                        position -= House.tileNr*tilesize;
+                    }
                     building = new House(position,y,true,activity);
                     currentGold -= 240;
                 }
                 else{
+                    if(direction == currentBuildingsLeft) {
+                        position -= Farm.tileNr*tilesize;
+                    }
                     building = new Farm(position,y,true,activity);
                     currentGold -= 240;
                 }
             }
 
-            direction.add(building);
+
 
             //giving feedback to the Tiles right and Tiles left
             if(direction == currentBuildingsLeft) {
                 currentTilesLeft += building.tileNr;
-                building.x -= building.tileNr*tilesize;
             }
             else {
                 currentTilesRight += building.tileNr;
             }
-
+            direction.add(building);
             //TODO: First Building faulty
 
             //System.out.println("Left Buildings :" + currentBuildingsLeft.size());
@@ -215,11 +229,12 @@ public class Fortress extends Foundation {
             maxGold = maxGold * 4 + 300;
             maxBuildings = 12;
 
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize*3) +(currentTilesRight + 1) * tilesize, y, true, activity));
-            currentTilesRight+=2;
 
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft + 1) * tilesize, y, true, activity));
-            currentTilesLeft+=2;
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize*tileNr) +(currentTilesRight) * tilesize, y, true, activity));
+            currentTilesRight+=1;
+
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize, y, true, activity));
+            currentTilesLeft+=1;
         }
 
         float tempfear;
