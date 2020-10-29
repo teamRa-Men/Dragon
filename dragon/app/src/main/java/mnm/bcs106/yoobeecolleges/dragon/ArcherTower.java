@@ -67,15 +67,21 @@ public class ArcherTower extends Foundation {
 
                     if((int)countdown > 1250 && attack == 0) {
                         Attack();
+                        Attack();
+                        Attack();
                         attack+=1;
                     }
 
                     if((int)countdown > 1500 && attack == 1) {
                         Attack();
+                        Attack();
+                        Attack();
                         attack+=1;
                     }
 
                     if((int)countdown > 1750 && attack == 2) {
+                        Attack();
+                        Attack();
                         Attack();
                         attack+=1;
                     }
