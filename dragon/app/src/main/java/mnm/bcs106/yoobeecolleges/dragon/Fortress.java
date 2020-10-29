@@ -129,7 +129,7 @@ public class Fortress extends Foundation {
         //=======================================================================================//
 
         if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)
-                && (currentGold > 240)) {
+                && (currentGold > 5)) {
             spawnRandomBuilding();
         }
 

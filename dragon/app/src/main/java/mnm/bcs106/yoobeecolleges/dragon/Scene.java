@@ -97,7 +97,7 @@ public class Scene {
 
         skyPaint.setColor(Color.rgb((int)(bc*0.95f),(int)(bc*0.95f),bc));
 
-        timeOfDay +=deltaTime*4;
+        timeOfDay +=deltaTime;
         //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){
             timeOfDay = 0;

@@ -100,15 +100,11 @@ public class GameView extends SurfaceView implements Runnable {
         cameraSize = (int) (screenWidth);
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
         back.setColor(Color.WHITE);
-        this.setZOrderOnTop(false);
-
-
-        spriteManager = new SpriteManager();
-
         holder = getHolder();
 
         groundLevel = screenHeight*7/10;
 
+        spriteManager = new SpriteManager();
         //Init scene
         scene = new Scene();
         lair = new Lair();
@@ -118,8 +114,6 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
 
         npc_pool = new NPC_Pool();
-
-
         goldPool = new GoldPool();
         //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
@@ -282,7 +276,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
         else{
             if(!Game.instance.gameOver) {
-                pause();
                 Game.instance.showGameOver = true;
             }
         }

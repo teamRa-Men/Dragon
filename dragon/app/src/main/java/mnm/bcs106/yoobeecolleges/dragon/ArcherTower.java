@@ -45,8 +45,8 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/5;
-        float randomy = -(float)(Math.random())*attackRange*GameView.instance.cameraSize/5;
+        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/20;
+        float randomy = -(float)(Math.random())*attackRange*GameView.instance.cameraSize/20;
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
@@ -63,24 +63,30 @@ public class ArcherTower extends Foundation {
             System.out.println(countdown);
             if (inRange()) {
 
-                if (countdown > 3000) {
+                if (countdown > 1000) {
 
-                    if((int)countdown > 3500 && attack == 0) {
+                    if((int)countdown > 1250 && attack == 0) {
+                        Attack();
+                        Attack();
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown > 4500 && attack == 1) {
+                    if((int)countdown > 1500 && attack == 1) {
+                        Attack();
+                        Attack();
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown > 5500 && attack == 2) {
+                    if((int)countdown > 1750 && attack == 2) {
+                        Attack();
+                        Attack();
                         Attack();
                         attack+=1;
                     }
 
-                    if(countdown >= 6000){
+                    if(countdown >= 2000){
                         countdown = 0;
                         attack= 0;
                     }
