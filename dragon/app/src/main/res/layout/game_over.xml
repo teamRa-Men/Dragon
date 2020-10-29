@@ -54,29 +54,9 @@
         tools:layout_editor_absoluteY="0dp">
 
         <Button
-            android:id="@+id/mainMenu"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:shadowColor="@color/colorPrimary"
-            android:shadowDy="10"
-            android:shadowRadius="10"
-            android:text="Main Menu"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/tryAgain"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
             android:layout_weight="1"
             android:background="@color/colorPrimaryDark"
             android:fontFamily="sans-serif-condensed-medium"
@@ -88,7 +68,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

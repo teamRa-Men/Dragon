@@ -42,7 +42,7 @@ public class Game extends AppCompatActivity {
     CardView creditCard;
 
     //state variables
-    boolean paused = false, showGameOver = false, gameOver = false, waveStart = false, waveEnd = false;
+    boolean showGameOver = false, gameOver = false, waveStart = false, waveEnd = false;
 
     int screenHeight, screenWidth;
     public int score = 0, highScore;
@@ -232,7 +232,6 @@ public class Game extends AppCompatActivity {
                 gameView.movePlayerBy(null);
             }
             gameView.breathFire(breathFire);
-            pointsAndLevels();
 
         }
 
@@ -242,52 +241,20 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    //Calculate points scored and level
-    void pointsAndLevels(){
-
-
-    }
-
-
 
     //On game over show dialog box with results and give the player the options of quiting to main menu or trying again
     void gameOver(){
         //Apply only once
         showGameOver = false;
         gameOver = true;
+        gameView.pause();
 
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
 
-        //Handle messages for dialog box
-        ((TextView)showGameOver.findViewById(R.id.gameOverText)).setText("GAME OVER");
-        String plural = "S";
-        if(score == 1){
-            plural = "";
-        }
-        if(score > highScore){
-            highScore = score;
-
-            //Save high score
-            highScoreEdit.putInt("HighScore", highScore);
-            highScoreEdit.commit();
-
-            ((TextView)showGameOver.findViewById(R.id.newHighScore)).setText("NEW RECORD \n"+highScore +" MONSTER"+plural+" DEFEATED");
-        }
-        else{
-            ((TextView)showGameOver.findViewById(R.id.newHighScore)).setText("YOU DEFEATED \n "+score + " MONSTER"+plural);
-        }
-
         dialogBuilder.setView(showGameOver);
         final AlertDialog dialog = dialogBuilder.create();
 
-        //Dialog box negative button, return to main menu
-        showGameOver.findViewById(R.id.mainMenu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         //Dialog box positive button, start new game
         showGameOver.findViewById(R.id.tryAgain).setOnClickListener(new View.OnClickListener() {
@@ -295,7 +262,6 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 //reset states and restart game loop
                 score = 0;
-                paused = false;
                 gameView.init();
 
                 //Close dialog box
@@ -305,7 +271,7 @@ public class Game extends AppCompatActivity {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
-        gameOverAnim(score==highScore && score>0);
+
     }
 
     //Show score and play rooster sound effect at beginning of wave
