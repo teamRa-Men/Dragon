@@ -56,31 +56,31 @@ public class ArcherTower extends Foundation {
     public void update(float fixedDeltaTime){
         super.update(fixedDeltaTime);
 
-        countdown+=fixedDeltaTime;
+
 
         if(isStanding = true) {
-
-
+            countdown+=fixedDeltaTime;
+            System.out.println(countdown);
             if (inRange()) {
 
-                if (countdown > 40) {
+                if (countdown > 3000) {
 
-                    if((int)countdown > 45 && attack == 0) {
+                    if((int)countdown > 3500 && attack == 0) {
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown > 50 && attack == 1) {
+                    if((int)countdown > 4500 && attack == 1) {
                         Attack();
                         attack+=1;
                     }
 
-                    if((int)countdown > 55 && attack == 2) {
+                    if((int)countdown > 5500 && attack == 2) {
                         Attack();
                         attack+=1;
                     }
 
-                    if(countdown >= 60){
+                    if(countdown >= 6000){
                         countdown = 0;
                         attack= 0;
                     }

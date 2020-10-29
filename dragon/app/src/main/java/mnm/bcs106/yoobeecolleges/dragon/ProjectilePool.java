@@ -44,7 +44,7 @@ public class ProjectilePool {
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
-            arrow.shoot(x,y,speed,dx,dy,1f/8);
+            arrow.shoot(x,y,speed,dx,dy,1f/2);
             arrowPool.remove(0);
 
             arrow.damage = damage;

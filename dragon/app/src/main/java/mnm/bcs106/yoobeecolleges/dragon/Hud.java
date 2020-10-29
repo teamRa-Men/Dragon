@@ -17,7 +17,7 @@ public class Hud {
     Bitmap fireButtonSprite;
 
 
-    int barLeft, manaTop, barWidth, manaBottom, healthTop, healthBottom;
+    int barLeft, manaTop, manaMaxWidth, manaBottom, healthTop, healthMaxWidth, healthBottom;
     int manaWidth, healthWidth;
 
     int screenWidth, screenHeight;
@@ -51,7 +51,8 @@ public class Hud {
             health.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
             mana.setColor(Game.instance.getResources().getColor(R.color.colorMana));
             barLeft = screenWidth/10;
-            barWidth = screenWidth/4;
+            manaMaxWidth = (int)(screenWidth/4*player.maxMana/100);
+            healthMaxWidth = (int)(screenWidth/4*player.maxHealth/100);
             manaTop = screenWidth/40+20;
             manaBottom = manaTop+10;
             healthTop = screenWidth/40;
@@ -70,8 +71,8 @@ public class Hud {
             fire.setAlpha(155);
         }
 
-        healthWidth = (int)(barWidth*player.health/player.maxHealth);
-        manaWidth = (int)(barWidth*player.mana/player.maxMana);
+        healthWidth = (int)(healthMaxWidth*player.health/player.maxHealth);
+        manaWidth = (int)(manaMaxWidth*player.mana/player.maxMana);
     }
     public  void draw(Canvas canvas){
         if(dragFrom !=null && dragTo!=null) {
@@ -86,8 +87,8 @@ public class Hud {
 
         canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, GameView.instance.screenHeight/15,gold);
 
-        canvas.drawRect(barLeft, manaTop, barLeft + barWidth, manaBottom, bar);
-        canvas.drawRect(barLeft, healthTop, barLeft + barWidth, healthBottom, bar);
+        canvas.drawRect(barLeft, manaTop, barLeft + manaMaxWidth, manaBottom, bar);
+        canvas.drawRect(barLeft, healthTop, barLeft + healthMaxWidth, healthBottom, bar);
         canvas.drawRect(barLeft, manaTop,barLeft + manaWidth, manaBottom, mana);
         canvas.drawRect(barLeft, healthTop,barLeft+ healthWidth, healthBottom, health);
 

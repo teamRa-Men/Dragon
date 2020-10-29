@@ -130,89 +130,7 @@ public class Fortress extends Foundation {
 
         if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)
                 && (currentGold > 240)) {
-
-            double lr = (Math.random() - 0.5f);
-            int offset = 0;//tilesize/2;
-
-            ArrayList<Foundation> direction;
-            int directionTiles;
-
-            if(lr < 0){
-                direction = currentBuildingsLeft;
-            }
-            else{
-                direction = currentBuildingsRight;
-            }
-
-            int position;
-            if(direction ==  currentBuildingsLeft){
-               position = x-(currentTilesLeft*tilesize+offset);
-            }
-            else position = x + (tilesize*Fortress.tileNr) +currentTilesRight*tilesize + offset;
-
-            //deciding Building
-
-            Foundation building;
-
-            if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
-                if(direction == currentBuildingsLeft) {
-                    position -= Farm.tileNr*tilesize;
-                }
-                building = new Farm(position,y,true,activity);
-            }
-
-            else if(townFear > 30){
-                double rh = (Math.random() - 0.5f);
-                if(rh < 0){
-                    if(direction == currentBuildingsLeft) {
-                        position -= House.tileNr*tilesize;
-                    }
-                    building = new House(position,y,true,activity);
-                    currentGold -= 240;
-                }
-                else {
-                    if(direction == currentBuildingsLeft) {
-                        position -= ArcherTower.tileNr*tilesize;
-                    }
-                    building = new ArcherTower(position,y,true,activity);
-                    currentGold -= 240;}
-            }
-
-            else{
-                double rh = (Math.random() - 0.5f);
-                if(rh < 0 ){
-                    if(direction == currentBuildingsLeft) {
-                        position -= House.tileNr*tilesize;
-                    }
-                    building = new House(position,y,true,activity);
-                    currentGold -= 240;
-                }
-                else{
-                    if(direction == currentBuildingsLeft) {
-                        position -= Farm.tileNr*tilesize;
-                    }
-                    building = new Farm(position,y,true,activity);
-                    currentGold -= 240;
-                }
-            }
-
-
-
-            //giving feedback to the Tiles right and Tiles left
-            if(direction == currentBuildingsLeft) {
-                currentTilesLeft += building.tileNr;
-            }
-            else {
-                currentTilesRight += building.tileNr;
-            }
-            direction.add(building);
-            //TODO: First Building faulty
-
-            //System.out.println("Left Buildings :" + currentBuildingsLeft.size());
-            //System.out.println("Right Buildings :" + currentBuildingsRight.size());
-
-            //System.out.println("Left Tiles :" +currentTilesLeft);
-            //System.out.println("Right Tiles :" +currentTilesRight);
+            spawnRandomBuilding();
         }
 
         //===================================================================================//
@@ -233,7 +151,7 @@ public class Fortress extends Foundation {
             currentBuildingsRight.add(new ArcherTower(x + (tilesize*tileNr) +(currentTilesRight) * tilesize, y, true, activity));
             currentTilesRight+=1;
 
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize, y, true, activity));
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize-ArcherTower.tileNr*tilesize, y, true, activity));
             currentTilesLeft+=1;
         }
 
@@ -272,6 +190,84 @@ public class Fortress extends Foundation {
             townFear = (tempfear/(currentBuildingsLeft.size()+currentBuildingsRight.size()));
 
         }
+    }
+
+    public void spawnRandomBuilding(){
+        double lr = (Math.random() - 0.5f);
+        int offset = 0;//tilesize/2;
+
+        ArrayList<Foundation> direction;
+        int directionTiles;
+
+        if(lr < 0){
+            direction = currentBuildingsLeft;
+        }
+        else{
+            direction = currentBuildingsRight;
+        }
+
+        int position;
+        if(direction ==  currentBuildingsLeft){
+            position = x-(currentTilesLeft*tilesize+offset);
+        }
+        else position = x + (tilesize*Fortress.tileNr) +currentTilesRight*tilesize + offset;
+
+        //deciding Building
+
+        Foundation building;
+
+        if(currentBuildingsRight.size() == 0 && currentBuildingsLeft.size() == 0){
+            if(direction == currentBuildingsLeft) {
+                position -= Farm.tileNr*tilesize;
+            }
+            building = new Farm(position,y,true,activity);
+        }
+
+        else if(townFear > 30){
+            double rh = (Math.random() - 0.5f);
+            if(rh < 0){
+                if(direction == currentBuildingsLeft) {
+                    position -= House.tileNr*tilesize;
+                }
+                building = new House(position,y,true,activity);
+                currentGold -= 240;
+            }
+            else {
+                if(direction == currentBuildingsLeft) {
+                    position -= ArcherTower.tileNr*tilesize;
+                }
+                building = new ArcherTower(position,y,true,activity);
+                currentGold -= 240;}
+        }
+
+        else{
+            double rh = (Math.random() - 0.5f);
+            if(rh < 0 ){
+                if(direction == currentBuildingsLeft) {
+                    position -= House.tileNr*tilesize;
+                }
+                building = new House(position,y,true,activity);
+                currentGold -= 240;
+            }
+            else{
+                if(direction == currentBuildingsLeft) {
+                    position -= Farm.tileNr*tilesize;
+                }
+                building = new Farm(position,y,true,activity);
+                currentGold -= 240;
+            }
+        }
+
+
+
+        //giving feedback to the Tiles right and Tiles left
+        if(direction == currentBuildingsLeft) {
+            currentTilesLeft += building.tileNr;
+        }
+        else {
+            currentTilesRight += building.tileNr;
+        }
+        direction.add(building);
     }
 
     @Override

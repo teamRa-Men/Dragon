@@ -92,6 +92,8 @@ public class Projectile extends GameObject {
         matrix = new Matrix();
         paint.setAlpha(255);
         parent = null;
+        width = GameView.instance.screenWidth/40;
+        height = GameView.instance.screenWidth/160;
     }
 
 

@@ -87,7 +87,7 @@ public class House extends Foundation{
             buildingImage = SpriteManager.instance.getBuildingSprite("HouseRuin");
 
             if(beenEmptied == false){
-                GoldPool.instance.spawnGold(x, y-3,goldRate/5);
+                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/5);
                 beenEmptied = true;}
 
             goldRate = 0;

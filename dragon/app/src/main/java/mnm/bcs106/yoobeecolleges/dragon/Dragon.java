@@ -28,16 +28,15 @@ public class Dragon extends Character {
     FireBreath fireBreath;
     int bodyStart;
     int bodyEnd;
-    public boolean breathingFire, flying;
+    public boolean breathingFire, flying, isSleeping;
     float distanceTravelled = 0, upperBound, groundLevel, walkSpeed = 1f/2;
     Segment[] colliders;
 
 
     int goldHolding = 0;
-    int attack, maxMana = 100;
+    float attack, maxMana = 50;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 0, manaRegen=5;
-    int attackLevel, healthLevel, manaLevel, speedLevel;
+    float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -51,7 +50,7 @@ public class Dragon extends Character {
         upperBound = GameView.instance.screenHeight/10;
 
 
-        initBody(65);
+        initBody(35);
 
 
         setAttackController(0,100,100);
@@ -72,7 +71,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel-1.2f*radius;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        init(position.x, position.y,radius*2, radius,3f/4, 100);
+        init(position.x, position.y,radius*2, radius,1f/2, 50);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
