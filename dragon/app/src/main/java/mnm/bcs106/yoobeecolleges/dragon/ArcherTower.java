@@ -18,7 +18,12 @@ public class ArcherTower extends Foundation {
 
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
         super( x, y, tileNr, isStanding, activity );
-        this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
+        if(Math.random()<0.5f) {
+            this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
+        }
+        else{
+            this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
+        }
         height = width*buildingImage.height()/buildingImage.width();
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)GameView.instance.groundLevel - height;
@@ -81,7 +86,16 @@ public class ArcherTower extends Foundation {
                 }
             }
         }
+        else{
 
+            buildingImage = SpriteManager.instance.getBuildingSprite("TowerRuin");
+
+            if(beenEmptied == false){
+                GoldPool.instance.spawnGold(x, y-3,goldRate/5);
+                beenEmptied = true;}
+
+            goldRate = 0;
+        }
 
     }
 

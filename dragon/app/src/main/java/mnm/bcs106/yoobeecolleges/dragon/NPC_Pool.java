@@ -22,7 +22,7 @@ public class NPC_Pool {
   //              npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.villager), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
     //        }
       //      else {
-                npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.farmer), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 40, GameView.instance.cameraSize / 20, 0));
+                npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.farmer_paper), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 40, GameView.instance.cameraSize / 20, 0));
         //    }
         }
     }

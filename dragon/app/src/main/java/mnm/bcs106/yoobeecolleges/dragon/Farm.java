@@ -20,7 +20,6 @@ public class Farm extends Foundation{
     ArrayList<Integer> Pos = new ArrayList<Integer>();
     int[] spritePosition = new int[3];
 
-    boolean beenEmptied = false;
     boolean createdWooloo = false;
 
     SpriteAnimation spriteAnim;
@@ -31,9 +30,14 @@ public class Farm extends Foundation{
     public Farm(int x, int y, boolean isStanding, GameView activity){
         super( x, y,tileNr, isStanding, activity);
         int buildingSprite = (int) (Math.random()*2.9+1);
-        spriteAnim = new SpriteAnimation(new Rect[] {SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"1"),
-                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"2"),
-                SpriteManager.instance.getBuildingSprite("Farm"+buildingSprite+"3")}, 1000);
+        if(buildingSprite == 3) {
+            spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
+                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),
+                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "3")}, 1000);
+        }
+        else{
+            spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
+        }
         buildingImage = spriteAnim.getFrame(0);
         height = width*buildingImage.height()/buildingImage.width();
 

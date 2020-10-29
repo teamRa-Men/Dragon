@@ -58,7 +58,7 @@
             android:elevation="10dp"
             android:onClick="onShrink"
             android:text="younger"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,7 +69,7 @@
             android:elevation="10dp"
             android:onClick="onGrow"
             android:text="older"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/shrink"
             app:layout_constraintStart_toStartOf="parent" />
 

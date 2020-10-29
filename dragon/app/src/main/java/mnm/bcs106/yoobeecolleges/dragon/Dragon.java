@@ -115,7 +115,7 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), true);
         backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
-        head = new Head(this, radius*1.1f);
+        head = new Head(this, radius);
         fireBreath = new FireBreath(this);
 
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));

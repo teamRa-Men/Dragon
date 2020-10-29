@@ -24,8 +24,8 @@ public class SpriteManager {
 
         NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
         NPCSheet = Bitmap.createScaledBitmap(NPCSheet,768,768,true);
-
         dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
+        //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
@@ -64,7 +64,7 @@ public class SpriteManager {
 
         put("Tower1",spriteRect(0,128*6,128,256));
         put("Tower2",spriteRect(128,128*6,128,256));
-        put("Tower2",spriteRect(128*2,128*6,128,128));
+        put("TowerRuin",spriteRect(128*2,128*6,128,256));
 
 
     }};

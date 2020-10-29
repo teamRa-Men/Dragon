@@ -38,14 +38,14 @@ public class Lair {
                     int tempGold = depositedGold;
                     tempGold = (int)(tempGold / 1000);
                     for (int t = 0; t < tempGold; t++) {
-                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.house);
+                        //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.house);
                 }
 
                 if (depositedGold > 100) {
                     int tempGold1 = depositedGold;
                     tempGold1 = (int)(tempGold1 / 100);
                     for (int t = 0; t < tempGold1; t++) {
-                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.houseruin);
+                        //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.houseruin);
                     }
                 }
 
@@ -55,7 +55,7 @@ public class Lair {
                     tempGold2 = (int)(tempGold2 / 10);
                     System.out.println("after processing :" + tempGold2);
                     for (int t = 0; t < tempGold2; t++) {
-                        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.barn);
+                        //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.barn);
                     }
                 }
 

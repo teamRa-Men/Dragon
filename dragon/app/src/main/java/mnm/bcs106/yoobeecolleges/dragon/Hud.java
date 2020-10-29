@@ -16,7 +16,7 @@ public class Hud {
 
     Bitmap fireButtonSprite;
 
-    int fireButtonRadius;
+
     int barLeft, manaTop, barWidth, manaBottom, healthTop, healthBottom;
     int manaWidth, healthWidth;
 
@@ -50,7 +50,7 @@ public class Hud {
             bar.setShadowLayer(3,1,1,Color.DKGRAY);
             health.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
             mana.setColor(Game.instance.getResources().getColor(R.color.colorMana));
-            barLeft = screenWidth/15;
+            barLeft = screenWidth/10;
             barWidth = screenWidth/4;
             manaTop = screenWidth/40+20;
             manaBottom = manaTop+10;

@@ -47,6 +47,7 @@ public class Foundation {
 
     float fear = 0;
     boolean beenAttacked;
+    boolean beenEmptied = false;
     int fearTime = 0;
     boolean noAttackDay = false;
     boolean fearRemoved = false;

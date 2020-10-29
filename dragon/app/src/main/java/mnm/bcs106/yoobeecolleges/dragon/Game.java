@@ -140,7 +140,7 @@ public class Game extends AppCompatActivity {
     void initUI(){
 
         controlRadius = screenWidth/20;
-        fireButton = new Vector2(screenWidth*9/10,screenHeight*9/10);
+        fireButton = new Vector2(screenWidth*0.95f,screenHeight*0.85f);
 
         //Load high score
         SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);

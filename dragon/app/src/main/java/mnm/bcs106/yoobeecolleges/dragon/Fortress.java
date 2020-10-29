@@ -132,7 +132,7 @@ public class Fortress extends Foundation {
                 && (currentGold > 240)) {
 
             double lr = (Math.random() - 0.5f);
-            int offset = tilesize/2;
+            int offset = 0;//tilesize/2;
 
             ArrayList<Foundation> direction;
             int directionTiles;

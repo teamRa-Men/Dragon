@@ -34,15 +34,15 @@ public class Scene {
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
         sky = Bitmap.createScaledBitmap(sky, width, sky.getHeight()*width/sky.getWidth(),false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)),false);
+        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.02),false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
         mountainBackground = Bitmap.createScaledBitmap(mountainBackground, width,height,false);
         hillsBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.hills_background);
-        hillsBackground = Bitmap.createScaledBitmap(hillsBackground, width,(int)(height/16),false);
+        hillsBackground = Bitmap.createScaledBitmap(hillsBackground, width,(int)(height/10),false);
         backPaint = new Paint();
         frontPaint = new Paint();
         frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
-        backPaint.setColor(Color.rgb(253,253,255));
+        backPaint.setColor(Color.rgb(240,240,255));
     }
 
     public void drawBackground(Canvas canvas){
@@ -89,7 +89,7 @@ public class Scene {
         //backPaint.setColor(Color.rgb(timeOfDay-10,timeOfDay-10,timeOfDay));
         int c =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.2));
         //System.out.println(c);
-        backPaint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
+        backPaint.setColorFilter(new LightingColorFilter(Color.rgb((int)(c*0.98f),(int)(c*0.98f),c),0));
 
 
         timeOfDay +=deltaTime;

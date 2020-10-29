@@ -16,7 +16,7 @@ public class House extends Foundation{
     public static int tileNr = 1;
 
     boolean createdVillager = false;
-    boolean beenEmptied = false;
+
 
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,tileNr, isStanding, activity );
