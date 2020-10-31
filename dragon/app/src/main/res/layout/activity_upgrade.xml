@@ -223,7 +223,7 @@
                             app:cardElevation="7dp">
 
                             <ProgressBar
-                                android:id="@+id/progressAbility1"
+                                android:id="@+id/progressSpeed"
                                 style="@android:style/Widget.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -240,14 +240,14 @@
                             app:cardCornerRadius="100dp"
                             app:cardElevation="7dp">
 
-                            <TextView
-                                android:id="@+id/abilityCost1"
+                            <Button
+                                android:id="@+id/upgradeSpeed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="1 P"
+                                android:text="+"
                                 android:textAlignment="center"
                                 android:textColor="#D8B64E"
                                 android:textSize="18sp"
@@ -288,7 +288,7 @@
                             app:cardElevation="7dp">
 
                             <ProgressBar
-                                android:id="@+id/progressAbility2"
+                                android:id="@+id/progressMana"
                                 style="@android:style/Widget.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -305,14 +305,14 @@
                             app:cardCornerRadius="100dp"
                             app:cardElevation="7dp">
 
-                            <TextView
-                                android:id="@+id/abilityCost2"
+                            <Button
+                                android:id="@+id/upgradeMana"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="2 P"
+                                android:text="+"
                                 android:textAlignment="center"
                                 android:textColor="#D8B64E"
                                 android:textSize="18sp"
@@ -353,7 +353,7 @@
                             app:cardElevation="7dp">
 
                             <ProgressBar
-                                android:id="@+id/progressAbility3"
+                                android:id="@+id/progressHealth"
                                 style="@android:style/Widget.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -370,14 +370,14 @@
                             app:cardCornerRadius="100dp"
                             app:cardElevation="7dp">
 
-                            <TextView
-                                android:id="@+id/abilityCost3"
+                            <Button
+                                android:id="@+id/upgradeHealth"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="4 P"
+                                android:text="+"
                                 android:textAlignment="center"
                                 android:textColor="#D8B64E"
                                 android:textSize="18sp"
@@ -418,7 +418,7 @@
                             app:cardElevation="7dp">
 
                             <ProgressBar
-                                android:id="@+id/progressAbility4"
+                                android:id="@+id/progressAttack"
                                 style="@android:style/Widget.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -435,14 +435,14 @@
                             app:cardCornerRadius="100dp"
                             app:cardElevation="7dp">
 
-                            <TextView
-                                android:id="@+id/abilityCost4"
+                            <Button
+                                android:id="@+id/upgradeAttack"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:padding="10dp"
-                                android:text="6 P"
+                                android:text="+"
                                 android:textAlignment="center"
                                 android:textColor="#D8B64E"
                                 android:textSize="18sp"

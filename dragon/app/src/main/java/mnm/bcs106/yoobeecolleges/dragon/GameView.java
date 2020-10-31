@@ -105,21 +105,25 @@ public class GameView extends SurfaceView implements Runnable {
         groundLevel = screenHeight*7/10;
 
         spriteManager = new SpriteManager();
-        //Init scene
         scene = new Scene();
-        lair = new Lair();
 
         //Player gameobject
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
+        player.setDamagedSound(SoundEffects.DAMAGE);
+        player.setDestroyedSound(SoundEffects.DEATH);
+
+        //Init scene
+        lair = new Lair();
+
+
 
         npc_pool = new NPC_Pool();
         goldPool = new GoldPool();
         //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();
 
-        player.setDamagedSound(SoundEffects.DAMAGE);
-        player.setDestroyedSound(SoundEffects.DEATH);
+
 
         hud = new Hud();
 
@@ -228,7 +232,7 @@ public class GameView extends SurfaceView implements Runnable {
                 //90
                 //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
                 scene.drawBackground(canvas);//40
-                //lair.draw(canvas);//80
+                lair.draw(canvas);//80
                 fortress.draw(canvas);//90
                 projectilePool.draw(canvas);//80
                 player.draw(canvas);//80

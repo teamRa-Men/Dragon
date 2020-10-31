@@ -160,95 +160,97 @@ public class Dragon extends Character {
         backLeg.update(deltaTime);
         frontLeg.update(deltaTime);
         distanceTravelled+=speed*deltaTime;
+        if(isSleeping){
+
+                position.y = (position.y+groundLevel+0.6f*radius)/2;
+
+
+        }
 
 
     }
     public void moveBy(Vector2 moveBy){
-        if(moveBy == null){
-            //setDir(Math.signum(direction.x),direction.y/2);
-            friction = 0.97f;
-            if(!breathingFire) {
-                if (!flying ){
-                    mana += manaRegen * 2 * fixedDeltaTime / 1000;
-                    mana = Math.min(mana, maxMana);
+        if(!isSleeping) {
+
+            if (moveBy == null) {
+                //setDir(Math.signum(direction.x),direction.y/2);
+                friction = 0.97f;
+                if (!breathingFire) {
+                    if (!flying) {
+                        mana += manaRegen * 2 * fixedDeltaTime / 1000;
+                        mana = Math.min(mana, maxMana);
+                    } else {
+                        mana -= flyingManaCost / 3 * fixedDeltaTime / 1000 * (GameView.instance.screenHeight - position.y) / GameView.instance.screenHeight;
+                        mana = Math.max(0, mana);
+                    }
                 }
-                else{
-                    mana -= flyingManaCost/3*fixedDeltaTime/1000*(GameView.instance.screenHeight - position.y)/ GameView.instance.screenHeight;
-                    mana = Math.max(0,mana);
-                }
+                return;
             }
-            return;
-        }
-        if(!stunController.performing) {
-            float magnitude = moveBy.getLength();
-            if(magnitude > 0.01){
-                if(!flying) {
+            if (!stunController.performing) {
+                float magnitude = moveBy.getLength();
+                if (magnitude > 0.01) {
+                    if (!flying) {
 
-                    backWing.walking = true;
-                    frontWing.walking = true;
+                        backWing.walking = true;
+                        frontWing.walking = true;
 
-                    if(backArm.segment.position.y >= groundLevel-radius/10) {
-                        backArm.walking = true;
-                        frontArm.walking = true;
-                    }
-
-                    if(backLeg.segment.position.y >= groundLevel-radius/10) {
-                        backLeg.walking = true;
-                        frontLeg.walking = true;
-                    }
-
-                    setDir(moveBy.add(direction.multiply(0.1f)));
-                    if(Math.abs(direction.x) > 0.3f) {
-
-                        speed = (speed + Math.min(magnitude, maxMoveSpeed * walkSpeed)) / 2 * Math.abs(direction.x);
-
-                    }
-                    else {
-                        speed = speed*0.99f;
-                    }
-                    if(mana <= 0) {
-                        direction.y = Math.max(direction.y, 0);
-                    }
-                    direction.y = Math.min(direction.y,0);
-
-                }
-                else {
-                    mana -= flyingManaCost*fixedDeltaTime/1000*(GameView.instance.screenHeight - position.y)/ GameView.instance.screenHeight;
-                    mana = Math.max(0,mana);
-
-                    if(breathingFire) {
-
-                        setDir(moveBy.multiply(0.5f).add(direction));
-
-                        if(mana <= 0){
-                            direction.y = 0.5f;
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
-                        }
-                        else {
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2;
+                        if (backArm.segment.position.y >= groundLevel - radius / 10) {
+                            backArm.walking = true;
+                            frontArm.walking = true;
                         }
 
-                    }
-                    else {
+                        if (backLeg.segment.position.y >= groundLevel - radius / 10) {
+                            backLeg.walking = true;
+                            frontLeg.walking = true;
+                        }
+
                         setDir(moveBy.add(direction.multiply(0.1f)));
+                        if (Math.abs(direction.x) > 0.3f) {
 
-                        if(mana <= 0){
-                            direction.y = 0.5f;
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed/2))/2 ;
+                            speed = (speed + Math.min(magnitude, maxMoveSpeed * walkSpeed)) / 2 * Math.abs(direction.x);
+
+                        } else {
+                            speed = speed * 0.99f;
                         }
-                        else {
-                            speed = (speed + Math.min(magnitude, maxMoveSpeed))/2 ;
+                        if (mana <= 0) {
+                            direction.y = Math.max(direction.y, 0);
                         }
+                        direction.y = Math.min(direction.y, 0);
+
+                    } else {
+                        mana -= flyingManaCost * fixedDeltaTime / 1000 * (GameView.instance.screenHeight - position.y) / GameView.instance.screenHeight;
+                        mana = Math.max(0, mana);
+
+                        if (breathingFire) {
+
+                            setDir(moveBy.multiply(0.5f).add(direction));
+
+                            if (mana <= 0) {
+                                direction.y = 0.5f;
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
+                            } else {
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
+                            }
+
+                        } else {
+                            setDir(moveBy.add(direction.multiply(0.1f)));
+
+                            if (mana <= 0) {
+                                direction.y = 0.5f;
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
+                            } else {
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed)) / 2;
+                            }
+                        }
+
+
+                        backWing.walking = false;
+                        frontWing.walking = false;
+                        backArm.walking = false;
+                        frontArm.walking = false;
+                        backLeg.walking = false;
+                        frontLeg.walking = false;
                     }
-
-
-                    backWing.walking=false;
-                    frontWing.walking=false;
-                    backArm.walking=false;
-                    frontArm.walking=false;
-                    backLeg.walking=false;
-                    frontLeg.walking=false;
-                }
                 /*
                 if(position.y > groundLevel-GameView.instance.screenHeight/10) {
                     direction.y = Math.min(direction.y, 0.2f);
@@ -256,11 +258,11 @@ public class Dragon extends Character {
                 }
                 */
 
-                friction = 1;
+                    friction = 1;
+                }
+
             }
-
         }
-
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
@@ -300,39 +302,40 @@ public class Dragon extends Character {
 
     @Override
     public void physics(float deltaTime) {
-        if(position.y < upperBound){
-            direction.y = 0;
-            position.y = upperBound;
-        }
-        if(position.y > groundLevel){
-            direction.y = 0;
-            position.y = groundLevel;
-        }
+        if(!isSleeping) {
+            if (position.y < upperBound) {
+                direction.y = 0;
+                position.y = upperBound;
+            }
+            if (position.y > groundLevel) {
+                direction.y = 0;
+                position.y = groundLevel;
+            }
 
-        if(position.y >= groundLevel){
-            flying = false;
-        }
-        else{
-            flying = true;
-        }
+            if (position.y >= groundLevel) {
+                flying = false;
+            } else {
+                flying = true;
+            }
 
-        if(!destroyed)
+            if (breathingFire && mana > 0) {
+
+                //if(Math.random()<0.05)
+                //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+
+
+                fireBreath.breath(deltaTime);
+                mana -= fireManaCost * deltaTime / 1000;
+                mana = Math.max(0, mana);
+
+
+            }
+            fireBreath.physics(deltaTime);
+        }
+        if (!destroyed)
             super.physics(deltaTime);
-        speed*=friction;
-        if(breathingFire && mana > 0){
+        speed *= friction;
 
-            //if(Math.random()<0.05)
-            //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
-
-
-
-            fireBreath.breath(deltaTime);
-            mana -= fireManaCost*deltaTime/1000;
-            mana = Math.max(0,mana);
-
-
-        }
-        fireBreath.physics(deltaTime);
 
     }
 
@@ -341,7 +344,6 @@ public class Dragon extends Character {
         super.draw(canvas);
 
         for(int i =  segments.size()-1; i >= 0; i--) {
-
             if(i==bodyEnd+segments.size()/15){
                 backLeg.draw(canvas);
             }

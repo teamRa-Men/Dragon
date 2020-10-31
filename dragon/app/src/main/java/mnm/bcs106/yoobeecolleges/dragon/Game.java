@@ -32,17 +32,33 @@ public class Game extends AppCompatActivity {
     //UI
     Vector2 fireButton;
 
-
+    Button sleepButton;
+    Button wakeButton;
+    Button upgradeButton;
     Button stopButton;
     Button pauseContinue;
     Button pauseRestart;
     Button pauseCredits;
     Button pauseExit;
+
+    Button backButton;
+    Button upgradeAttackButton;
+    Button upgradeHealthButton;
+    Button upgradeManaButton;
+    Button upgradeSpeedButton;
+
+    TextView xpText;
+    ProgressBar xpBar;
+    ProgressBar progressHealth;
+    ProgressBar progressAttack;
+    ProgressBar progressMana;
+    ProgressBar progressSpeed;
+
     boolean visibleCredits;
     CardView creditCard;
 
     //state variables
-    boolean showGameOver = false, gameOver = false, waveStart = false, waveEnd = false;
+    boolean showGameOver = false, gameOver = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false;
 
     int screenHeight, screenWidth;
     public int score = 0, highScore;
@@ -51,8 +67,9 @@ public class Game extends AppCompatActivity {
     //misc
     MediaPlayer pointsPlayer;
     SoundEffects soundEffects;
-    AlertDialog.Builder dialogBuilder;
+    AlertDialog.Builder gameOverDialogBuilder;
     AlertDialog.Builder pauseDialogBuilder;
+    AlertDialog.Builder upgradeDialogBuilder;
     SharedPreferences.Editor highScoreEdit;
 
     //Threads
@@ -103,7 +120,6 @@ public class Game extends AppCompatActivity {
         initUI();
         initSound(this);
 
-        waveStart();
         handler = new Handler();
 
 
@@ -146,14 +162,15 @@ public class Game extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
         highScoreEdit = pref.edit();
 
+        gameOverDialogBuilder = new AlertDialog.Builder(this);
 
         pauseDialogBuilder = new AlertDialog.Builder(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-        //Game over dialog box
-        dialogBuilder = new AlertDialog.Builder(this);
-
         final ViewGroup pauseMenu = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_pause_menu,null,false);
         pauseDialogBuilder.setView(pauseMenu);
         final AlertDialog dialog = pauseDialogBuilder.create();
+
+
+
         stopButton = findViewById(R.id.buttonOfStop);
         pauseContinue = pauseMenu.findViewById(R.id.pauseContinue);
         pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
@@ -202,6 +219,74 @@ public class Game extends AppCompatActivity {
         });
 
 
+
+
+        upgradeDialogBuilder = new AlertDialog.Builder(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+        final ViewGroup upgradeMenu = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_upgrade,null,false);
+        upgradeDialogBuilder.setView(upgradeMenu);
+        final AlertDialog upgradeDialog = upgradeDialogBuilder.create();
+
+        upgradeAttackButton = upgradeMenu.findViewById(R.id.upgradeAttack);
+        upgradeSpeedButton = upgradeMenu.findViewById(R.id.upgradeSpeed);
+        upgradeManaButton = upgradeMenu.findViewById(R.id.upgradeMana);
+        upgradeHealthButton = upgradeMenu.findViewById(R.id.upgradeHealth);
+
+
+
+        upgradeAttackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GameView.instance.lair.upgradeAttack()){
+                    //play upgrade sound, show graphic
+                }
+            }
+        });
+        upgradeSpeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GameView.instance.lair.upgradeSpeed()){
+
+                }
+            }
+        });
+        upgradeManaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GameView.instance.lair.upgradeMana()){
+
+                }
+            }
+        });
+        upgradeHealthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GameView.instance.lair.upgradeHealth()){
+
+                }
+            }
+        });
+        backButton = upgradeMenu.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                upgradeDialog.dismiss();
+                GameView.instance.resume();
+            }
+        });
+
+
+        sleepButton = findViewById(R.id.sleepButton);
+        wakeButton = findViewById(R.id.wakeButton);
+        upgradeButton = findViewById(R.id.upgradeButton);
+        upgradeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GameView.instance.pause();
+                upgradeDialog.show();
+            }
+        });
+
+
     }
 
 
@@ -233,6 +318,9 @@ public class Game extends AppCompatActivity {
             }
             gameView.breathFire(breathFire);
 
+            fadeButton(showSleepButton, sleepButton);
+            fadeButton(showWakeButton, wakeButton);
+            fadeButton(showUpgradeButton, upgradeButton);
         }
 
         //Show game over pop up if told by game engine
@@ -241,6 +329,25 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    void fadeButton(boolean condition, Button button){
+        if(condition){
+            button.setVisibility(View.VISIBLE);
+            if(button.getAlpha() <1) {
+                button.setAlpha(button.getAlpha() + 0.1f);
+            }
+            else{
+                button.setAlpha(1);
+            }
+        }
+        else {
+            if(button.getAlpha() >0) {
+                button.setAlpha(button.getAlpha() - 0.1f);
+            }
+            else{
+                button.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
 
     //On game over show dialog box with results and give the player the options of quiting to main menu or trying again
     void gameOver(){
@@ -252,8 +359,8 @@ public class Game extends AppCompatActivity {
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
 
-        dialogBuilder.setView(showGameOver);
-        final AlertDialog dialog = dialogBuilder.create();
+        gameOverDialogBuilder.setView(showGameOver);
+        final AlertDialog dialog = gameOverDialogBuilder.create();
 
 
         //Dialog box positive button, start new game
@@ -270,44 +377,6 @@ public class Game extends AppCompatActivity {
         });
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
-
-    }
-
-    //Show score and play rooster sound effect at beginning of wave
-    private void waveStart(){
-
-        //soundEffects.play(SoundEffects.ROOSTER);
-        waveStart = false;
-    }
-
-    //Move on to the next score
-    private void waveEnd(){
-        score++;
-        waveEnd = false;
-    }
-
-    //*********************************************************************************************************************************************************//
-    // On click methods
-
-
-
-
-    //*********************************************************************************************************************************************************//
-    // Animations
-
-
-    //Show points scored, rise up and fade away
-    void pointsScoredAnim(int pointsScored, int x, int y){
-    }
-
-    void deathAnim(){
-
-    }
-
-
-    //Shape animation on game over
-    void gameOverAnim(boolean hiScore){
 
 
     }
@@ -390,6 +459,16 @@ public class Game extends AppCompatActivity {
         return super.onTouchEvent(event);
 
     }
+
+    public void onSleep(View view){
+        GameView.instance.lair.sleep(view);
+    }
+
+    public void onWake(View view){
+        GameView.instance.lair.wake(view);
+    }
+
+
 
     public void onGrow(View view){
         gameView.pause();
