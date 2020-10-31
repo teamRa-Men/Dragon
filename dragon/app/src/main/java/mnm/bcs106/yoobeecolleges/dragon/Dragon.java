@@ -93,7 +93,7 @@ public class Dragon extends Character {
             }
 
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.55f,2) * radius,sprite));
+                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.5f,2) * radius,sprite));
             }
             else if(i < (bodyEnd+bodyStart)/2) {
                 segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2,sprite));
@@ -114,7 +114,7 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), true);
         backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
-        head = new Head(this, radius);
+        head = new Head(this, radius*9/10);
         fireBreath = new FireBreath(this);
 /*
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
