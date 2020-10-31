@@ -50,7 +50,7 @@ public class Dragon extends Character {
         upperBound = GameView.instance.screenHeight/10;
 
 
-        initBody(35);
+        initBody(55);
 
 
         setAttackController(0,100,100);
@@ -66,7 +66,7 @@ public class Dragon extends Character {
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
 
-        bodyStart = size/8;
+        bodyStart = size/7;
         bodyEnd = size/4;
         groundLevel = GameView.instance.groundLevel-1.2f*radius;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
@@ -116,14 +116,14 @@ public class Dragon extends Character {
         backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
         head = new Head(this, radius);
         fireBreath = new FireBreath(this);
-
+/*
         backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
         frontWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
         backArm.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
         frontArm.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
         backLeg.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
         frontLeg.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        head.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
+        head.paint.setColorFilter(new LightingColorFilter(dragonColor,0));*/
 
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = segments.get(i*(bodyEnd+size)/2/colliders.length);
@@ -263,6 +263,8 @@ public class Dragon extends Character {
 
             }
         }
+        direction.y =  Math.signum(direction.y)*Math.min(Math.abs(direction.y), 0.5f);
+        direction.x = Math.signum(direction.x)*Math.max(Math.abs(direction.x), 0.5f);
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
@@ -344,13 +346,13 @@ public class Dragon extends Character {
         super.draw(canvas);
 
         for(int i =  segments.size()-1; i >= 0; i--) {
-            if(i==bodyEnd+segments.size()/15){
+            if(i==bodyEnd+segments.size()/10){
                 backLeg.draw(canvas);
             }
             if(i==bodyEnd-segments.size()/15){
                 frontLeg.draw(canvas);
             }
-            if(i==bodyStart+segments.size()/15){
+            if(i==bodyStart+segments.size()/10){
                 backArm.draw(canvas);
                 backWing.draw(canvas);
             }
@@ -418,7 +420,7 @@ class Head{
     Bitmap head, jaw, eye;
     RectF src;
 
-    Paint paint;
+    Paint paint = new Paint();
     public float wave;
 
     public Head(Dragon dragon, float radius) {
@@ -439,7 +441,7 @@ class Head{
         jaw = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
         jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),false);
 
-        paint = Scene.instance.frontPaint;
+
     }
     public void draw(Canvas canvas){
 
@@ -495,7 +497,7 @@ class Segment extends GameObject{
     Bitmap sprite,tailSprite;
     RectF src, dst,collider,tailSrc;
     Matrix matrix;
-    Paint paint;
+    Paint paint = new Paint();
     float index;
     public float wave;
 
@@ -513,8 +515,8 @@ class Segment extends GameObject{
 
         dst = src;
         matrix = new Matrix();
-        paint = Scene.instance.frontPaint;
-        //paint.setAntiAlias(true);
+
+        paint.setAntiAlias(true);
         centerPivot = true;
     }
     @Override
@@ -525,7 +527,9 @@ class Segment extends GameObject{
         this.target = target;
         Vector2 disp = target.sub(position);
         direction = disp.getNormal();
-        rotation = (float)Math.toDegrees(Math.atan2(direction.y,direction.x));
+
+            rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
+
 
         if(disp.getLength() > Math.min(radius/2,dragon.radius/4)){
             position = target.sub(direction.multiply(Math.min(radius/2,dragon.radius/4)));
@@ -543,8 +547,11 @@ class Segment extends GameObject{
         dst = new RectF(left + GameView.instance.cameraDisp.x, top+ GameView.instance.cameraDisp.y, right+ GameView.instance.cameraDisp.x, bottom+ GameView.instance.cameraDisp.y);
 
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
-        matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
-        matrix.postRotate((float) rotation, dst.centerX(),dst.centerY());
+
+        matrix.postScale(1, Math.signum(direction.x), dst.centerX(), dst.centerY());
+
+
+            matrix.postRotate((float) (rotation), dst.centerX(), dst.centerY());
 
     }
 
@@ -561,7 +568,7 @@ class Leg{
     Dragon dragon;
     Bitmap sprite, spriteFlying;
     RectF src, dst;
-    Paint paint;
+    Paint paint = new Paint();
     Segment segment;
     boolean front,walking;
     Matrix matrix = new Matrix();
@@ -588,7 +595,6 @@ class Leg{
         spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f -GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f , dragon.radius *3/2f-GameView.instance.screenWidth/200);
 
-        paint = Scene.instance.frontPaint;
     }
 
     public void update(float deltaTime){
@@ -634,7 +640,7 @@ class Arm{
     RectF src;
     RectF dst;
     public RectF collider;
-    Paint paint;
+    Paint paint=new Paint();
     Segment segment;
     public boolean walking;
     boolean front;
@@ -657,7 +663,7 @@ class Arm{
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f-GameView.instance.screenWidth/200 , dragon.radius *3/2f-GameView.instance.screenWidth/200);
         dst = src;
-        paint = Scene.instance.frontPaint;
+
     }
     public void draw(Canvas canvas){
 
@@ -696,7 +702,7 @@ class Wing{
     RectF dst;
     float time, flap,scaleX;
     boolean front;
-    Paint paint;
+    Paint paint=new Paint();
     Dragon dragon;
     public boolean walking;
 
@@ -717,7 +723,7 @@ class Wing{
         src = new RectF(0, 0, sprite.getWidth(),sprite.getHeight());
         position = segment.position;
         rotation = segment.rotation;
-        paint = Scene.instance.frontPaint;
+
     }
     public void draw(Canvas canvas){
 
