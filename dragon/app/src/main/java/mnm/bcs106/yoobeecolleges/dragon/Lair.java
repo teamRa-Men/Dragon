@@ -114,11 +114,11 @@ public class Lair {
 
             if(Math.abs(player.position.x - position.x)<GameView.instance.cameraSize/20 && !player.flying){
                 Game.instance.showSleepButton = true;
-                System.out.println("sleep button on");
+//                System.out.println("sleep button on");
             }
             else{
                 Game.instance.showSleepButton = false;
-                System.out.println("sleep button off");
+//                System.out.println("sleep button off");
             }
         }
 
