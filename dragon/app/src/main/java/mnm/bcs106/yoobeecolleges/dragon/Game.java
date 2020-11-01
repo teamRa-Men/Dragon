@@ -461,11 +461,12 @@ public class Game extends AppCompatActivity {
     }
 
     public void onSleep(View view){
-        GameView.instance.lair.sleep(view);
+        GameView.instance.lair.sleep();
     }
 
     public void onWake(View view){
-        GameView.instance.lair.wake(view);
+        GameView.instance.lair.wake();
+        //System.out.println("wake");
     }
 
 

@@ -49,12 +49,13 @@ public class Dragon extends Character {
         facing = true;
         upperBound = GameView.instance.screenHeight/10;
 
+        direction = Vector2.right;
 
-        initBody(55);
-
+        groundLevel = GameView.instance.groundLevel;
+        position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
+        initBody(25);
 
         setAttackController(0,100,100);
-
 
     }
 
@@ -67,11 +68,15 @@ public class Dragon extends Character {
         radius = (float)cameraSize*size/3000;
 
         bodyStart = size/7;
-        bodyEnd = size/4;
-        groundLevel = GameView.instance.groundLevel-1.2f*radius;
-        position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
+        bodyEnd = size/3;
+        maxMoveSpeed = 1f/2;
+        maxHealth = 50;
+        destroyed = false;
+        centerPivot = true;
+        simulated = true;
+        visible = true;
 
-        init(position.x, position.y,radius*2, radius,1f/2, 50);
+        head = new Head(this, radius);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
@@ -83,6 +88,10 @@ public class Dragon extends Character {
         r = SpriteManager.instance.getDragonSprite("SpikedSegment");
         Bitmap spikedSegmentSprite =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
 
+
+
+
+
         for (int i = 0; i < size; i++) {
             Bitmap sprite;
             if (i% 2 != 0){
@@ -91,21 +100,35 @@ public class Dragon extends Character {
             else{
                 sprite = spikedSegmentSprite;
             }
-
+            Segment s;
             if(i < bodyStart) {
-                segments.add(new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.5f,2) * radius,sprite));
+                s = new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.5f,2) * radius,sprite);
+                segments.add(s);
             }
             else if(i < (bodyEnd+bodyStart)/2) {
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2,sprite));
+                s = new Segment(this, i, (segments.get(i-1).radius+radius*0.75f)/2,sprite);
+                segments.add(s);
             }
             else{
-                segments.add(new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1,sprite));
+                s = new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1,sprite);
+                segments.add(s);
             }
             float c = Math.min((float)(size-i)/size/5,0.15f)+0.85f;
 
-            segments.get(i).paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
+            s.paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
                     (int)(Color.green(dragonColor)*c),
                     (int)(Color.blue(dragonColor)*c)),0));
+
+            if(i>0) {
+
+                s.position = segments.get(i - 1).position.add(direction.multiply(-radius));
+                s.update(fixedDeltaTime, segments.get(i - 1).position);
+            }
+            else{
+                s.position = position.add(direction.multiply(-radius));
+                s.update(fixedDeltaTime,position);
+            }
+
         }
 
         frontLeg = new Leg(this, segments.get(bodyEnd+2), true);
@@ -114,23 +137,14 @@ public class Dragon extends Character {
         backArm = new Arm(this, segments.get(bodyStart), false);
         frontWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), true);
         backWing = new Wing(this,segments.get(bodyStart),(int)(radius*3), false);
-        head = new Head(this, radius*9/10);
-        fireBreath = new FireBreath(this);
-/*
-        backWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        frontWing.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        backArm.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        frontArm.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        backLeg.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        frontLeg.paint.setColorFilter(new LightingColorFilter(dragonColor,0));
-        head.paint.setColorFilter(new LightingColorFilter(dragonColor,0));*/
 
+        fireBreath = new FireBreath(this);
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = segments.get(i*(bodyEnd+size)/2/colliders.length);
             colliders[i] = segment;
         }
-        direction = Vector2.right;
-        moveBy(Vector2.right);
+
+
     }
 
 
@@ -149,6 +163,7 @@ public class Dragon extends Character {
     @Override
     public void update(float deltaTime) {
         stunController.update(deltaTime);
+
         segments.get(0).update(deltaTime, position);
         for(int i = 1; i < segments.size();i++) {
             segments.get(i).update(deltaTime, segments.get(i-1).position);
@@ -162,7 +177,7 @@ public class Dragon extends Character {
         distanceTravelled+=speed*deltaTime;
         if(isSleeping){
 
-                position.y = (position.y+groundLevel+0.6f*radius)/2;
+            position.y = (position.y+groundLevel+0.6f*radius)/2;
 
 
         }
@@ -170,6 +185,7 @@ public class Dragon extends Character {
 
     }
     public void moveBy(Vector2 moveBy){
+        //System.out.println(isSleeping);
         if(!isSleeping) {
 
             if (moveBy == null) {
@@ -194,15 +210,15 @@ public class Dragon extends Character {
                         backWing.walking = true;
                         frontWing.walking = true;
 
-                        if (backArm.segment.position.y >= groundLevel - radius / 10) {
-                            backArm.walking = true;
-                            frontArm.walking = true;
-                        }
+                        //if (backArm.segment.position.y >= groundLevel - radius) {
+                        backArm.walking = true;
+                        frontArm.walking = true;
+                        //}
 
-                        if (backLeg.segment.position.y >= groundLevel - radius / 10) {
-                            backLeg.walking = true;
-                            frontLeg.walking = true;
-                        }
+                        //if (backLeg.segment.position.y >= groundLevel - radius) {
+                        backLeg.walking = true;
+                        frontLeg.walking = true;
+                        // }
 
                         setDir(moveBy.add(direction.multiply(0.1f)));
                         if (Math.abs(direction.x) > 0.3f) {
@@ -346,13 +362,13 @@ public class Dragon extends Character {
         super.draw(canvas);
 
         for(int i =  segments.size()-1; i >= 0; i--) {
-            if(i==bodyEnd+segments.size()/10){
+            if(i==bodyEnd+segments.size()/10 && !isSleeping){
                 backLeg.draw(canvas);
             }
             if(i==bodyEnd-segments.size()/15){
                 frontLeg.draw(canvas);
             }
-            if(i==bodyStart+segments.size()/10){
+            if(i==bodyStart+segments.size()/10 && !isSleeping){
                 backArm.draw(canvas);
                 backWing.draw(canvas);
             }
@@ -417,7 +433,7 @@ class Head{
     public float radius, time;
     Dragon dragon;
     Bitmap dragonSheet;
-    Bitmap head, jaw, eye;
+    Bitmap head, jaw, sleeping;
     RectF src;
 
     Paint paint = new Paint();
@@ -427,19 +443,24 @@ class Head{
         this.radius = radius;
         this.dragon = dragon;
         position = dragon.position;
-        direction = dragon.direction;
+
+        direction = new Vector2(dragon.direction.x,dragon.direction.y);
 
         dragonSheet = SpriteManager.instance.dragonSheet;
         src = new RectF(0,0,radius * 2, radius * 2);
 
+
         Rect r = SpriteManager.instance.getDragonSprite("Head");
-        head = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
-        head = Bitmap.createScaledBitmap(head,(int)src.width(),(int)src.height(),false);
+        head = Bitmap.createBitmap(dragonSheet, r.left, r.top, r.width(), r.height());
+        head = Bitmap.createScaledBitmap(head, (int) src.width(), (int) src.height(), false);
 
 
         r = SpriteManager.instance.getDragonSprite("Jaw");
         jaw = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
         jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),false);
+        r = SpriteManager.instance.getDragonSprite("HeadSleeping");
+        sleeping = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
+        sleeping = Bitmap.createScaledBitmap(sleeping,(int)src.width(),(int)src.height(),false);
 
 
     }
@@ -459,21 +480,30 @@ class Head{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation + Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
 
-
-        canvas.drawBitmap(jaw, matrix,paint);
+        if(!dragon.isSleeping){
+            canvas.drawBitmap(jaw, matrix,paint);
+        }
 
         matrix = new Matrix();
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
 
-        canvas.drawBitmap(head, matrix,paint);
+        if(!dragon.isSleeping) {
+            canvas.drawBitmap(head, matrix, paint);
+        }
+        else{
+            canvas.drawBitmap(sleeping, matrix, paint);
+        }
 
         //canvas.drawBitmap(spriteEye, matrix,null);
         //canvas.drawBitmap(dragonSheet, matrix,paint);
     }
     public void update(float deltaTime){
-        direction = dragon.direction;
+        if(!dragon.isSleeping) {
+            direction = dragon.direction;
+
+        }
         rotation = Math.toDegrees(Math.atan2(direction.y,direction.x));
         position = dragon.position;
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
@@ -524,34 +554,35 @@ class Segment extends GameObject{
         canvas.drawBitmap(sprite, matrix,paint);
     }
     public void update(float deltaTime, Vector2 target){
+
         this.target = target;
         Vector2 disp = target.sub(position);
         direction = disp.getNormal();
 
-            rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
+        rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
 
 
-        if(disp.getLength() > Math.min(radius/2,dragon.radius/4)){
-            position = target.sub(direction.multiply(Math.min(radius/2,dragon.radius/4)));
+        if (disp.getLength() > Math.min(radius / 2, dragon.radius / 4)) {
+            position = target.sub(direction.multiply(Math.min(radius / 2, dragon.radius / 4)));
         }
-        time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
-
-        wave = (float)Math.cos((-time/1000+index/dragon.segments.size()*2)*Math.PI)*dragon.radius*index/dragon.segments.size()*0.2f;
-
-        float left = position.x- src.width()/2+wave*direction.y;
-        float top = position.y - src.height()/4+wave*direction.x;
+        time += deltaTime * (dragon.speed / dragon.maxMoveSpeed * 4 + 1) * 0.75f;
+        if(!dragon.isSleeping) {
+            wave = (float) Math.cos((-time / 1000 + index / dragon.segments.size() * 2) * Math.PI) * dragon.radius * index / dragon.segments.size() * 0.2f;
+        }
+        float left = position.x - src.width() / 2 + wave * direction.y;
+        float top = position.y - src.height() / 4 + wave * direction.x;
         float right = left + src.width();
         float bottom = top + src.height();
 
         collider = new RectF(left, top, right, bottom);
-        dst = new RectF(left + GameView.instance.cameraDisp.x, top+ GameView.instance.cameraDisp.y, right+ GameView.instance.cameraDisp.x, bottom+ GameView.instance.cameraDisp.y);
+        dst = new RectF(left + GameView.instance.cameraDisp.x, top + GameView.instance.cameraDisp.y, right + GameView.instance.cameraDisp.x, bottom + GameView.instance.cameraDisp.y);
 
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
 
         matrix.postScale(1, Math.signum(direction.x), dst.centerX(), dst.centerY());
 
 
-            matrix.postRotate((float) (rotation), dst.centerX(), dst.centerY());
+        matrix.postRotate((float) (rotation), dst.centerX(), dst.centerY());
 
     }
 
@@ -594,7 +625,7 @@ class Leg{
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
         spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f -GameView.instance.screenWidth/200), false);
         src = new RectF(0, 0, dragon.radius*3/2f , dragon.radius *3/2f-GameView.instance.screenWidth/200);
-
+        dst = src;
     }
 
     public void update(float deltaTime){
@@ -620,15 +651,15 @@ class Leg{
 
 
 
-        if(!walking) {
-            matrix.postRotate( Math.signum(segment.direction.x)*dragon.speed/dragon.maxMoveSpeed*40, dst.centerX(),dst.top);
+        if (!walking) {
+            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 20, dst.centerX(), dst.top);
             canvas.drawBitmap(spriteFlying, matrix, paint);
-        }
-        else{
+        } else {
             canvas.drawBitmap(sprite, matrix, paint);
         }
-
     }
+
+
 }
 
 class Arm{
@@ -686,7 +717,7 @@ class Arm{
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
         if(!walking) {
-            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 30, dst.centerX(), dst.top);
+            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 20, dst.centerX(), dst.top);
         }
         canvas.drawBitmap(sprite, matrix,paint);
 
@@ -747,11 +778,11 @@ class Wing{
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
         position = new Vector2(segment.position.x,segment.position.y);
         //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
-        if(walking){
+        if(walking || dragon.isSleeping){
             flap = (Math.signum(segment.direction.x)*1f/4+flap)/2;
             rotation = segment.rotation+Math.signum(segment.direction.x)*10;
-            scaleX=(2.5f+scaleX)/2;
-            position.x -= Math.signum(segment.direction.x)*sprite.getWidth()/3;
+            scaleX=(2f+scaleX)/2;
+            //position.x -= Math.signum(segment.direction.x)*sprite.getWidth()/3;
         }
         else {
             flap = ((float) Math.sin(time / 1000 * Math.PI)+flap)/2;

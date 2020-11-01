@@ -23,7 +23,6 @@ public class GameView extends SurfaceView implements Runnable {
     public static GameView instance;
     int screenWidth, screenHeight, cameraSize;
     Vector2 screenCenter;
-    float zoom;
 
 
     //final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
@@ -51,6 +50,7 @@ public class GameView extends SurfaceView implements Runnable {
     Scene scene;
 
     //Game objects
+    //Game objects
     public Dragon player;
     GameObject ground;
     NPC_Pool npc_pool;
@@ -64,6 +64,7 @@ public class GameView extends SurfaceView implements Runnable {
     SurfaceHolder holder;
     Paint back = new Paint();
     SpriteManager spriteManager;
+    boolean isDrawing = true;
 
     public GameView(Context context) {
         super(context);
@@ -90,8 +91,6 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     void init(){
-
-
         instance = this;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -105,6 +104,8 @@ public class GameView extends SurfaceView implements Runnable {
         groundLevel = screenHeight*7/10;
 
         spriteManager = new SpriteManager();
+        //Init scene
+
         scene = new Scene();
 
         //Player gameobject
@@ -113,9 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
 
-        //Init scene
         lair = new Lair();
-
 
 
         npc_pool = new NPC_Pool();
@@ -184,8 +183,9 @@ public class GameView extends SurfaceView implements Runnable {
             update();
             long updateTime = System.currentTimeMillis();
             //System.out.println( "update " + (updateTime-physicsTime));
-
-            draw();
+            if(isDrawing) {
+                draw();
+            }
             long drawTime = System.currentTimeMillis() - updateTime;
             //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
@@ -221,28 +221,29 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     private void draw() {
-            Canvas canvas = new Canvas();
-            try {
-                canvas = holder.lockCanvas(null);
-            }
-            catch (Exception e){
+        Canvas canvas = new Canvas();
+        try {
+            canvas = holder.lockCanvas(null);
+        }
+        catch (Exception e){
 
-            }
-            if (canvas != null) {
-                //90
-                //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
-                scene.drawBackground(canvas);//40
-                lair.draw(canvas);//80
-                fortress.draw(canvas);//90
-                projectilePool.draw(canvas);//80
-                player.draw(canvas);//80
-                npc_pool.draw(canvas);//90
-                scene.drawForeground(canvas);//
-                goldPool.draw(canvas);//
+        }
+        if (canvas != null) {
+            //90
+            //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
+            scene.drawBackground(canvas);//40
+            lair.draw(canvas);//80
+            fortress.draw(canvas);//90
+            projectilePool.draw(canvas);//80
+            player.draw(canvas);//80
+            npc_pool.draw(canvas);//90
+            goldPool.draw(canvas);//
+            scene.drawForeground(canvas);//
 
-                hud.draw(canvas);
-                holder.unlockCanvasAndPost(canvas);
-            }
+
+            hud.draw(canvas);
+            holder.unlockCanvasAndPost(canvas);
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------

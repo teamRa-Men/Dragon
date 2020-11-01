@@ -45,8 +45,8 @@ public class ArcherTower extends Foundation {
 
     //shooting an arrow at target
     public void Attack(){
-        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/20;
-        float randomy = -(float)(Math.random())*attackRange*GameView.instance.cameraSize/20;
+        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/10;
+        float randomy = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/5;
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;

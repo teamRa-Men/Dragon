@@ -12,12 +12,15 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 0;
+    int depositedGold = 500;
     Bitmap goldPile;
+    float goldPileHeight;
+
     Dragon player;
-    int experience, upgradePoints, level;
+    int experience, upgradePoints, level = 1;
     boolean isSleeping = false;
     Button sleepButton;
+
 
     public Lair() {
         width = (int) (Game.instance.screenWidth*2);
@@ -30,14 +33,38 @@ public class Lair {
         position = new Vector2(GameView.instance.screenWidth/2, GameView.instance.getGroundLevel());
         player = GameView.instance.player;
         sleepButton = Game.instance.sleepButton;
+        goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_pile);
+        goldPile = Bitmap.createScaledBitmap(goldPile,Game.instance.screenWidth/4, Game.instance.screenWidth/4,false);
+        goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/1000,1));
 
+        lieDown();
     }
 
-    public void sleep(View view){
+    public void sleep(){
         isSleeping = true;
         player.isSleeping = true;
+
+
+        lieDown();
     }
-    public void wake(View view){
+
+    public void lieDown(){
+        if(level%2 == 0) {
+            player.head.direction = new Vector2(-player.direction.x, player.direction.y);
+        }
+
+        player.position.y = getGroundLevel(player.position, player.radius);
+
+        for(int i = 0; i < player.segments.size();i++) {
+
+            player.segments.get(i).position.y = getGroundLevel(player.segments.get(i).position, player.segments.get(i).radius);
+
+        }
+        player.physics(player.fixedDeltaTime);
+        player.update(player.fixedDeltaTime);
+    }
+
+    public void wake(){
         isSleeping = false;
         player.isSleeping = false;
     }
@@ -74,87 +101,70 @@ public class Lair {
         }
         return false;
     }
-
+ public float getGroundLevel(Vector2 p, float r){
+        float groundLevel = GameView.instance.groundLevel -r*1.2f;
+        if(Math.abs(p.x - position.x) < goldPile.getWidth()/2) {
+            float goldSurface = goldPileHeight + goldPile.getHeight() / 2 - (float) Math.sqrt(Math.pow(goldPile.getHeight() / 2, 2) - Math.pow(p.x - position.x, 2));
+            groundLevel = Math.min(GameView.instance.groundLevel - r * 1.2f, goldSurface - r);
+        }
+        return  groundLevel;
+ }
 
     public void update(float deltaTime) {
 
 
-        if(isSleeping){
+        if (isSleeping) {
             Game.instance.showSleepButton = false;
 
             Game.instance.showWakeButton = true;
             Game.instance.showUpgradeButton = true;
 
-            experience+=deltaTime*depositedGold/1000;
-            if(experience > level*1000){
+            experience += deltaTime * depositedGold / 1000;
+            System.out.println(experience);
+            if (experience > level * 1000) {
                 experience = 0;
                 level++;
-                upgradePoints+=3;
+                upgradePoints += 3;
 
                 //Grow
-                GameView.instance.pause();
-                int size = player.size+3;
-                if(size <70) {
+                GameView.instance.isDrawing = false;
+                int size = player.size + 3;
+                if (size < 70) {
                     player.initBody(size);
+                    lieDown();
                 }
-                GameView.instance.resume();
+                GameView.instance.isDrawing = true;
+
             }
-            if(player.mana<player.maxMana) {
+            if (player.mana < player.maxMana) {
                 player.mana += player.manaRegen * 3 * deltaTime / 1000;
                 player.mana = Math.min(player.mana, player.maxMana);
             }
-            if(player.health<player.maxHealth) {
+            if (player.health < player.maxHealth) {
                 player.health += player.manaRegen * 3 * deltaTime / 1000;
                 player.health = Math.min(player.health, player.maxHealth);
             }
-        }
-        else{
+        } else {
             Game.instance.showWakeButton = false;
             Game.instance.showUpgradeButton = false;
 
-            if(Math.abs(player.position.x - position.x)<GameView.instance.cameraSize/20 && !player.flying){
+            if (Math.abs(player.position.x - position.x) < goldPile.getWidth()/2 && player.position.y > goldPileHeight-player.radius*2) {
                 Game.instance.showSleepButton = true;
-                System.out.println("sleep button on");
-            }
-            else{
+                //System.out.println("sleep button on");
+                if (GameView.instance.player.goldHolding > 0) {
+                    depositedGold += 1;
+                    //System.out.println(depositedGold);}
+                    goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/100,1));
+                    GameView.instance.player.goldHolding -=1;
+                }
+
+                player.groundLevel = getGroundLevel(player.position,player.radius);
+
+            } else {
+                player.groundLevel = GameView.instance.groundLevel - player.radius*1.2f;
                 Game.instance.showSleepButton = false;
-                System.out.println("sleep button off");
+                //System.out.println("sleep button off");
             }
-        }
-
-        if (Math.abs(GameView.instance.player.position.x) < 300) {
-            if(GameView.instance.player.goldHolding > 0){
-                depositedGold+=GameView.instance.player.goldHolding;
-                System.out.println(depositedGold);}
-
-            //making images
-            if (depositedGold > 1000) {
-                int tempGold = depositedGold;
-                tempGold = (int) (tempGold / 1000);
-                for (int t = 0; t < tempGold; t++) {
-                    //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.house);
-                }
-            }
-            else if (depositedGold > 100) {
-                int tempGold1 = depositedGold;
-                tempGold1 = (int)(tempGold1 / 100);
-                for (int t = 0; t < tempGold1; t++) {
-                    //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.houseruin);
-                }
-            }
-            else if (depositedGold > 10) {
-                int tempGold2 = depositedGold;
-                tempGold2 = (int)(tempGold2 / 10);
-                for (int t = 0; t < tempGold2; t++) {
-                    //goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.barn);
-                }
-            }
-
-
-            //GoldPool.instance.spawnGold(0, (int) (GameView.instance.groundLevel - 4), 1);
-
-
-            GameView.instance.player.goldHolding = 0;
         }
     }
 
@@ -162,7 +172,8 @@ public class Lair {
     public void draw (Canvas canvas){
         canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
-        //canvas.drawBitmap(goldPile, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+        canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
+        //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
     }
 }
 
