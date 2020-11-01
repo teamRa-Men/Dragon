@@ -36,6 +36,12 @@ public class Thief extends NPC {
         if (npcHp<=0 && howManySteal>0){
             GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
         }
+        if (Math.abs(GameView.instance.player.position.x-npcX) < 500 ){
+            flee = true;
+        }else {
+            flee = false;
+        }
+
     }
 
 }
