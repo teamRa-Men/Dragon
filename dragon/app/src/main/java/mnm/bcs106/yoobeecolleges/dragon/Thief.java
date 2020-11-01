@@ -23,15 +23,19 @@ public class Thief extends NPC {
         }
         if (Math.abs(npcX - GameView.instance.lair.position.x) < 7){
             if (GameView.instance.lair.depositedGold>100){
-                GameView.instance.lair.depositedGold-=100;
+                GameView.instance.lair.stealGold(100);
                 howManySteal = 100;
             }else {
                 howManySteal = GameView.instance.lair.depositedGold;
-                GameView.instance.lair.depositedGold=0;
+                GameView.instance.lair.stealGold(GameView.instance.lair.depositedGold);
             }
 
             stole = true;
             target.x = creationPoint.x;
         }
+        if (npcHp<=0 && howManySteal>0){
+            GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
+        }
     }
+
 }

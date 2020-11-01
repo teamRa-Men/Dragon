@@ -43,9 +43,14 @@ public class Lair {
     public void sleep(){
         isSleeping = true;
         player.isSleeping = true;
-
-
         lieDown();
+    }
+
+    public  void stealGold(int steal){
+        depositedGold -= steal;
+        goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/1000,1));
+        lieDown();
+        wake();
     }
 
     public void lieDown(){
@@ -53,8 +58,8 @@ public class Lair {
             player.head.direction = new Vector2(-player.direction.x, player.direction.y);
         }
 
-        player.position.y = getGroundLevel(player.position, player.radius);
-
+        player.position.y = getGroundLevel(player.position, player.radius/2);
+        player.head.position.y =getGroundLevel( player.head.position,  player.head.radius/2);
         for(int i = 0; i < player.segments.size();i++) {
 
             player.segments.get(i).position.y = getGroundLevel(player.segments.get(i).position, player.segments.get(i).radius);
@@ -114,6 +119,7 @@ public class Lair {
 
 
         if (isSleeping) {
+
             Game.instance.showSleepButton = false;
 
             Game.instance.showWakeButton = true;
