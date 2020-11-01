@@ -118,6 +118,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
         npc_pool = new NPC_Pool();
+        npc_pool.spawnThiefs((int)lair.position.x + 1000,(int)groundLevel,1);
         goldPool = new GoldPool();
         //GoldPool.instance.spawnGold(screenHeight/2, screenWidth/4,100);
         projectilePool = new ProjectilePool();

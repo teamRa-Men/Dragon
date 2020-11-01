@@ -45,8 +45,9 @@ public class NPC {
     public void spawn (int spawnX, int spawnY){
         npcX = spawnX;
         npcY = spawnY;
-        creationPoint.x = spawnX;
-        creationPoint.y = spawnY;
+        creationPoint.x = npcX;
+        creationPoint.y = npcY;
+        target.x = npcX;
         alive = true;
     }
     public  void OnDamage () {
@@ -101,8 +102,6 @@ public class NPC {
         moveToTarget(deltaTime);
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
-
-
     }
     public  void  physics(float deltaTime) {
         npcCollider = new Rect(npcX, npcY, npcX + npcRect.width(), npcY + npcRect.height());
