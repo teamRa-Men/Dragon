@@ -53,7 +53,6 @@ public class Farmers extends NPC {
                 }
             }
             if (farmX != npcX){
-                System.out.println("Farm at: "+ farmX);
                 whereFarm = true;
             }
         }
