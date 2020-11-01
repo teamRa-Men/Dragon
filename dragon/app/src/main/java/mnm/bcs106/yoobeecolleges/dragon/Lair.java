@@ -35,8 +35,7 @@ public class Lair {
         sleepButton = Game.instance.sleepButton;
         goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_pile);
         goldPile = Bitmap.createScaledBitmap(goldPile,Game.instance.screenWidth/4, Game.instance.screenWidth/4,false);
-        goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/1000,1));
-
+        goldPileHeight = getGoldPileHeight();
         lieDown();
     }
 
@@ -48,9 +47,11 @@ public class Lair {
 
     public  void stealGold(int steal){
         depositedGold -= steal;
-        goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/1000,1));
-        lieDown();
-        wake();
+        goldPileHeight = getGoldPileHeight();
+        if(isSleeping) {
+            lieDown();
+            wake();
+        }
     }
 
     public void lieDown(){
@@ -160,7 +161,7 @@ public class Lair {
                 if (GameView.instance.player.goldHolding > 0) {
                     depositedGold += 1;
                     //System.out.println(depositedGold);}
-                    goldPileHeight = GameView.instance.groundLevel-goldPile.getHeight()/2*(Math.min((float)depositedGold/100,1));
+                    goldPileHeight = getGoldPileHeight();
                     GameView.instance.player.goldHolding -=1;
                 }
 
@@ -173,7 +174,9 @@ public class Lair {
             }
         }
     }
-
+    public float getGoldPileHeight(){
+        return GameView.instance.groundLevel-goldPile.getHeight()/3*(Math.min((float)depositedGold/1000,1));
+    }
 
     public void draw (Canvas canvas){
         canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
