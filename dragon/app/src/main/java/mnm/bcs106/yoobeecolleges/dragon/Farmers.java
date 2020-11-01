@@ -14,7 +14,7 @@ public class Farmers extends NPC {
 
     public Farmers(Bitmap bitmap, float speed, int maxHP, int width, int height,int FX) {
         super(bitmap, speed, maxHP, width, height);
-        farmX = npcX + 500;
+        farmX = npcX ;
     }
 
     @Override
@@ -41,6 +41,8 @@ public class Farmers extends NPC {
                         closestFarm.y = Math.abs(npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x);
                     }
                 }
+            }
+            for (int j = 0; j < GameView.instance.fortress.currentBuildingsLeft.size(); j++) {
                 if (GameView.instance.fortress.currentBuildingsLeft.size() > j) {
                     if (GameView.instance.fortress.currentBuildingsLeft.get(j).buildingType == 3) {
                         if (Math.abs(npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
@@ -50,8 +52,11 @@ public class Farmers extends NPC {
                     }
                 }
             }
+            if (farmX != npcX){
+                System.out.println("Farm at: "+ farmX);
+                whereFarm = true;
+            }
         }
-        whereFarm = true;
         if (!wasAttacked){
             if (Math.abs(GameView.instance.player.position.x-npcX)<300){
                 flee = true;
