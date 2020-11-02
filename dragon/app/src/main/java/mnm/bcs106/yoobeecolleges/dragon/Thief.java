@@ -13,7 +13,16 @@ public class Thief extends NPC {
     }
 
     @Override
+    public void death() {
+        GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
+        super.death();
+
+    }
+
+    @Override
     public void update(float deltaTime) {
+
+        //System.out.println("gold" + howManySteal);
         super.update(deltaTime);
         if (Math.abs(npcX - creationPoint.x) < 7){
             target.x = (int) GameView.instance.lair.position.x;
@@ -33,9 +42,7 @@ public class Thief extends NPC {
             stole = true;
             target.x = creationPoint.x;
         }
-        if (npcHp<=0 && howManySteal>0){
-            GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
-        }
+
         if (Math.abs(GameView.instance.player.position.x-npcX) < 500 ){
             flee = true;
         }else {

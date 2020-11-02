@@ -34,7 +34,7 @@ public class Dragon extends Character {
 
 
     int goldHolding = 0;
-    float attack, maxMana = 50;
+    float attack = 1, maxMana = 60;
     float mana = maxMana;
     float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;
 
@@ -53,7 +53,7 @@ public class Dragon extends Character {
 
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
-        initBody(25);
+        initBody(30);
 
         setAttackController(0,100,100);
 
@@ -70,13 +70,15 @@ public class Dragon extends Character {
         bodyStart = size/7;
         bodyEnd = size/3;
         maxMoveSpeed = 1f/2;
-        maxHealth = 50;
+        maxHealth = 60;
+        health = maxHealth;
+
         destroyed = false;
         centerPivot = true;
         simulated = true;
         visible = true;
 
-        head = new Head(this, radius);
+        head = new Head(this, radius*1.2f);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
@@ -102,7 +104,7 @@ public class Dragon extends Character {
             }
             Segment s;
             if(i < bodyStart) {
-                s = new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.5f,2) * radius,sprite);
+                s = new Segment(this, i, (float)Math.pow((float)i / bodyStart*0.2f+0.55f,2) * radius,sprite);
                 segments.add(s);
             }
             else if(i < (bodyEnd+bodyStart)/2) {
@@ -210,15 +212,15 @@ public class Dragon extends Character {
                         backWing.walking = true;
                         frontWing.walking = true;
 
-                        //if (backArm.segment.position.y >= groundLevel - radius) {
+                        if (backArm.segment.position.y >= groundLevel - radius) {
                         backArm.walking = true;
                         frontArm.walking = true;
-                        //}
+                        }
 
-                        //if (backLeg.segment.position.y >= groundLevel - radius) {
+                        if (backLeg.segment.position.y >= groundLevel - radius) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
-                        // }
+                        }
 
                         setDir(moveBy.add(direction.multiply(0.1f)));
                         if (Math.abs(direction.x) > 0.3f) {
@@ -284,7 +286,10 @@ public class Dragon extends Character {
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
-        return frontArm.collider.contains(p.x,p.y);
+        if(frontArm.collider!=null) {
+            return frontArm.collider.contains(p.x, p.y);
+        }
+        return false;
     }
 
 

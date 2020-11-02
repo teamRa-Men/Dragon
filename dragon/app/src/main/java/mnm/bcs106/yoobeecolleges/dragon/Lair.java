@@ -17,7 +17,12 @@ public class Lair {
     float goldPileHeight;
 
     Dragon player;
-    int experience, upgradePoints, level = 1;
+    float maximumMana = 200;
+    float maximumHealth = 200;
+    float maximumSpeed = 2;
+    float maximumAttack= 3;
+
+    float experience, upgradePoints, level = 1;
     boolean isSleeping = false;
     Button sleepButton;
 
@@ -77,7 +82,7 @@ public class Lair {
 
     public boolean upgradeAttack(){
         if(upgradePoints > 0) {
-            player.attack+=1f/2;
+            player.attack+=maximumAttack/10;
             upgradePoints--;
             return true;
         }
@@ -93,7 +98,7 @@ public class Lair {
     }
     public boolean upgradeSpeed(){
         if(upgradePoints > 0) {
-            player.maxMoveSpeed+=1f/8;
+            player.maxMoveSpeed+=maximumSpeed/10;
             upgradePoints--;
             return true;
         }
@@ -101,7 +106,7 @@ public class Lair {
     }
     public boolean upgradeHealth(){
         if(upgradePoints > 0) {
-            player.maxHealth+=20;
+            player.maxHealth+=maximumHealth/10;
             upgradePoints--;
             return true;
         }
@@ -155,22 +160,26 @@ public class Lair {
             Game.instance.showWakeButton = false;
             Game.instance.showUpgradeButton = false;
 
-            if (Math.abs(player.position.x - position.x) < goldPile.getWidth()/2 && player.position.y > goldPileHeight-player.radius*2) {
+            if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
                 Game.instance.showSleepButton = true;
                 //System.out.println("sleep button on");
-                if (GameView.instance.player.goldHolding > 0) {
-                    depositedGold += 1;
-                    //System.out.println(depositedGold);}
-                    goldPileHeight = getGoldPileHeight();
-                    GameView.instance.player.goldHolding -=1;
-                }
 
-                player.groundLevel = getGroundLevel(player.position,player.radius);
+
+                player.groundLevel = getGroundLevel(player.position, player.radius);
 
             } else {
-                player.groundLevel = GameView.instance.groundLevel - player.radius*1.2f;
+                player.groundLevel = GameView.instance.groundLevel - player.radius * 1.2f;
                 Game.instance.showSleepButton = false;
                 //System.out.println("sleep button off");
+            }
+
+        }
+        if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
+            if (GameView.instance.player.goldHolding > 0) {
+                depositedGold += 1;
+                //System.out.println(depositedGold);}
+                goldPileHeight = getGoldPileHeight();
+                GameView.instance.player.goldHolding -= 1;
             }
         }
     }
