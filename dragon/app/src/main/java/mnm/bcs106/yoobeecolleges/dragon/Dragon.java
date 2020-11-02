@@ -53,7 +53,7 @@ public class Dragon extends Character {
 
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
-        initBody(25);
+        initBody(65);
 
         setAttackController(0,100,100);
 

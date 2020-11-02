@@ -24,7 +24,7 @@ public class SpriteManager {
 
         NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
         NPCSheet = Bitmap.createScaledBitmap(NPCSheet,768,768,true);
-        dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
+        dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
         //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
@@ -125,17 +125,16 @@ public class SpriteManager {
 
     private final HashMap<String,Rect> dragonSprites = new HashMap<String,Rect>() {{
         put("Head",spriteRect(0,0,64*2,64*2));
-        put("Eye",spriteRect(0,0,0,0));
-        put("Jaw",spriteRect(64*2,32*2,32*2,32*2));
-        put("HeadSleeping",spriteRect(64*3,32*2,32*2,32*2));
-        put("Segment",spriteRect(96*2,0,16*2,16*2));
-        put("SpikedSegment",spriteRect(64*2,0,32*2,32*2));
-        put("Arm",spriteRect(0,128*2,32*2,32*2));
-        put("BackArm",spriteRect(32*2,128*2,32*2,32*2));
-        put("Leg",spriteRect(64*2,64*2,32*2,32*2));
-        put("BackLeg",spriteRect(64*2,96*2,32*2,32*2));
-        put("LegFlying",spriteRect(96*2,64*2,32*2,32*2));
-        put("BackLegFlying",spriteRect(96*2,96*2,32*2,32*2));
+        put("Jaw",spriteRect(64*2,0,64*2,64*2));
+        put("HeadSleeping",spriteRect(64*2,64*2,64*2,64*2));
+        put("Segment",spriteRect(64,64*5,32,32));
+        put("SpikedSegment",spriteRect(0,64*5,64,64));
+        put("Arm",spriteRect(0,64*4,64,64));
+        put("BackArm",spriteRect(64, 64*4,64,64));
+        put("Leg",spriteRect(64*2,64*4,64,64));
+        put("BackLeg",spriteRect(64*2,64*5,64,64));
+        put("LegFlying",spriteRect(64*3,64*4,64,64));
+        put("BackLegFlying",spriteRect(64*3,64*5,64,64));
         put("Wing",spriteRect(0,64*2,32*2,64*2));
         put("BackWing",spriteRect(32*2,64*2,32*2,64*2));
         put("Fire0",spriteRect(64*2,128*2,32*2,32*2));
