@@ -16,11 +16,12 @@ public class House extends Foundation{
     public static int tileNr = 1;
 
     boolean createdVillager = false;
-
+    static int cost;
 
     public House(int x, int y, boolean isStanding, GameView activity){
         super(x, y,tileNr, isStanding, activity );
         maxHealth = 200;
+        cost = 120;
 
         health = maxHealth;
         buildingType = 2;
@@ -105,7 +106,7 @@ public class House extends Foundation{
 
         if(health == 0 && isStanding){
             isStanding = false;
-            Log.i("ouch","damaged");
+            //Log.i("ouch","damaged");
         }
     }
 }
