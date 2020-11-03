@@ -127,7 +127,7 @@ public class SpriteManager {
         put("Head",spriteRect(0,0,64*2,64*2));
         put("Jaw",spriteRect(64*2,0,64*2,64*2));
         put("HeadSleeping",spriteRect(64*2,64*2,64*2,64*2));
-        put("Segment",spriteRect(64,64*5,32,32));
+        put("Segment",spriteRect(64,64*5,64,64));
         put("SpikedSegment",spriteRect(0,64*5,64,64));
         put("Arm",spriteRect(0,64*4,64,64));
         put("BackArm",spriteRect(64, 64*4,64,64));

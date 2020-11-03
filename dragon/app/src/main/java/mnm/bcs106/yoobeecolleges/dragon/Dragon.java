@@ -80,7 +80,7 @@ public class Dragon extends Character {
         simulated = true;
         visible = true;
 
-        head = new Head(this, radius*1.2f);
+        head = new Head(this, radius);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);

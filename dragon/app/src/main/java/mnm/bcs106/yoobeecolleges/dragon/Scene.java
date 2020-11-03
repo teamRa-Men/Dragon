@@ -34,7 +34,7 @@ public class Scene {
         sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
         sky = Bitmap.createScaledBitmap(sky, width, sky.getHeight()*width/sky.getWidth(),false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.02),false);
+        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
         mountainBackground = Bitmap.createScaledBitmap(mountainBackground, width,height,false);
         hillsBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.hills_background);
@@ -48,10 +48,10 @@ public class Scene {
     }
 
     public void drawBackground(Canvas canvas){
-        canvas.drawRect(0, 0, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, skyPaint);
-        //canvas.drawBitmap(sky, gameView.cameraDisp.x + groundX0-width/4,0,backPaint);
-        //canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX1-width/4,0,backPaint);
-        //canvas.drawBitmap(sky, gameView.cameraDisp.x+ groundX2-width/4,0,backPaint);
+
+        canvas.drawBitmap(sky, mountainX+ mountainX0,0,backPaint);
+        canvas.drawBitmap(sky, mountainX+ mountainX1,0,backPaint);
+        canvas.drawBitmap(sky, mountainX+ mountainX2,0,backPaint);
 
 
         //canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,0,backPaint);
@@ -66,9 +66,9 @@ public class Scene {
     }
     public void drawForeground(Canvas canvas){
 
-        canvas.drawBitmap(ground, groundX+ groundX0,gameView.screenHeight-ground.getHeight(),backPaint);
-        canvas.drawBitmap(ground, groundX+ groundX1,gameView.screenHeight-ground.getHeight(),backPaint);
-        canvas.drawBitmap(ground, groundX+ groundX2,gameView.screenHeight-ground.getHeight(),backPaint);
+        canvas.drawBitmap(ground, groundX+ groundX0,GameView.instance.groundLevel*.985f,backPaint);
+        canvas.drawBitmap(ground, groundX+ groundX1,GameView.instance.groundLevel*.985f,backPaint);
+        canvas.drawBitmap(ground, groundX+ groundX2,GameView.instance.groundLevel*.985f,backPaint);
         //canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, frontPaint);
     }
 
