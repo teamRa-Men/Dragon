@@ -11,7 +11,6 @@ public class Thief extends NPC {
         holdCapacity = stealGold;
         target.x = (int) GameView.instance.lair.position.x;
     }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -29,7 +28,6 @@ public class Thief extends NPC {
                 howManySteal = GameView.instance.lair.depositedGold;
                 GameView.instance.lair.stealGold(GameView.instance.lair.depositedGold);
             }
-
             stole = true;
             target.x = creationPoint.x;
         }
