@@ -53,6 +53,8 @@ public class Game extends AppCompatActivity {
     ProgressBar progressAttack;
     ProgressBar progressMana;
     ProgressBar progressSpeed;
+    TextView upgradePoints;
+    TextView level;
 
     boolean visibleCredits;
     CardView creditCard;
@@ -231,6 +233,14 @@ public class Game extends AppCompatActivity {
         upgradeManaButton = upgradeMenu.findViewById(R.id.upgradeMana);
         upgradeHealthButton = upgradeMenu.findViewById(R.id.upgradeHealth);
 
+        level = upgradeMenu.findViewById(R.id.level);
+        upgradePoints = upgradeMenu.findViewById(R.id.upgradePoints);
+        xpText = upgradeMenu.findViewById(R.id.xpTextAmount);
+        xpBar = upgradeMenu.findViewById(R.id.xpBar);
+        progressHealth = upgradeMenu.findViewById(R.id.progressHealth);
+        progressAttack = upgradeMenu.findViewById(R.id.progressAttack);
+        progressMana = upgradeMenu.findViewById(R.id.progressMana);
+        progressSpeed = upgradeMenu.findViewById(R.id.progressSpeed);
 
 
         upgradeAttackButton.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +248,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeAttack()){
                     //play upgrade sound, show graphic
+                    updateUpgradeMenu();
                 }
             }
         });
@@ -245,7 +256,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeSpeed()){
-
+                    updateUpgradeMenu();
                 }
             }
         });
@@ -253,7 +264,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeMana()){
-
+                    updateUpgradeMenu();
                 }
             }
         });
@@ -261,7 +272,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeHealth()){
-
+                    updateUpgradeMenu();
                 }
             }
         });
@@ -282,6 +293,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GameView.instance.pause();
+                updateUpgradeMenu();
                 upgradeDialog.show();
             }
         });
@@ -289,9 +301,21 @@ public class Game extends AppCompatActivity {
 
     }
 
+    public void updateUpgradeMenu(){
+        Lair lair = GameView.instance.lair;
+        Dragon player = GameView.instance.player;
+        level.setText("LV "+ (int)lair.level);
+        upgradePoints.setText((int)lair.upgradePoints + "AP");
+        xpBar.setProgress((int)(lair.experience/(1000f*lair.level)*100));
+        xpText.setText((int)lair.experience + " XP");
+        progressAttack.setProgress((int)(player.attack/lair.maximumAttack*100));
+        progressMana.setProgress((int)(player.maxMana/lair.maximumMana*100));
+        progressHealth.setProgress((int)(player.maxHealth/lair.maximumHealth*100));
+        progressSpeed.setProgress((int)(player.maxMoveSpeed/lair.maximumSpeed*100));
+    }
+
 
     void initSound(Context context){
-
         soundEffects = new SoundEffects(context);
     }
 

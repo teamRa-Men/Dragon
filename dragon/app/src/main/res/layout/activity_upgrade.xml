@@ -59,6 +59,7 @@
                             app:cardCornerRadius="1000dp">
 
                             <TextView
+                                android:id="@+id/level"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -80,6 +81,7 @@
                             app:cardCornerRadius="1000dp">
 
                             <TextView
+                                android:id="@+id/upgradePoints"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
