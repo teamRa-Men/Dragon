@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 import java.util.HashMap;
 
 public class SpriteManager {
-    Bitmap buildingSheet, NPCSheet, dragonSheet, environmentSheet;
+    Bitmap buildingSheet, NPCSheet, fireSheet, dragonSheet, environmentSheet;
     GameView gameView;
     public static SpriteManager instance;
 
@@ -24,6 +24,10 @@ public class SpriteManager {
 
         NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
         NPCSheet = Bitmap.createScaledBitmap(NPCSheet,768,768,true);
+
+        fireSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire_sheet);
+        fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
+
         dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
         //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
@@ -123,6 +127,15 @@ public class SpriteManager {
         put("Carpet A",spriteRect(0,0,0,0));
     }};
 
+    private final HashMap<String,Rect> fireSprites = new HashMap<String,Rect>() {{
+        put("Fire0",spriteRect(0,0,32,32));
+        put("Fire1",spriteRect(0,32,32,32));
+        put("Fire2",spriteRect(0,32*2,32,32));
+        put("Fire3",spriteRect(32,0,32,32));
+        put("Fire4",spriteRect(32,32,32,32));
+        put("Fire5",spriteRect(32,32*2,32,32));
+    }};
+
     private final HashMap<String,Rect> dragonSprites = new HashMap<String,Rect>() {{
         put("Head",spriteRect(0,0,64*2,64*2));
         put("Jaw",spriteRect(64*2,0,64*2,64*2));
@@ -137,12 +150,6 @@ public class SpriteManager {
         put("BackLegFlying",spriteRect(64*3,64*5,64,64));
         put("Wing",spriteRect(0,64*2,32*2,64*2));
         put("BackWing",spriteRect(32*2,64*2,32*2,64*2));
-        put("Fire0",spriteRect(64*2,128*2,32*2,32*2));
-        put("Fire1",spriteRect(96*2,128*2,32*2,32*2));
-        put("Fire2",spriteRect(0,160*2,32*2,32*2));
-        put("Fire3",spriteRect(32*2,160*2,32*2,32*2));
-        put("Fire4",spriteRect(64*2,160*2,32*2,32*2));
-        put("Fire5",spriteRect(96*2,160*2,32*2,32*2));
     }};
 
     private Rect spriteRect(int left, int top, int width, int height) {
@@ -155,6 +162,9 @@ public class SpriteManager {
     }
     public Rect getNPCSprite( String spriteName) {
         return NPCSprites.get(spriteName);
+    }
+    public Rect getFireSprite( String spriteName) {
+        return fireSprites.get(spriteName);
     }
     public Rect getDragonSprite( String spriteName) {
         return dragonSprites.get(spriteName);
