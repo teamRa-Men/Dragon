@@ -132,7 +132,7 @@ public class Lair {
             Game.instance.showUpgradeButton = true;
 
             experience += deltaTime * depositedGold / 1000;
-            System.out.println(experience);
+            //System.out.println(experience);
             if (experience > level * 1000) {
                 experience = 0;
                 level++;

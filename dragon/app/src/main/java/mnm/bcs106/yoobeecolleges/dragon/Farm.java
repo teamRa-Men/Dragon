@@ -12,6 +12,7 @@ public class Farm extends Foundation{
 
     ArrayList<Object> currentCattle = new ArrayList<Object>();
     int maxCattle;
+    static int cost;
 
     Bitmap cattle;
     Rect cattleBorder;
@@ -30,6 +31,8 @@ public class Farm extends Foundation{
     public Farm(int x, int y, boolean isStanding, GameView activity){
         super( x, y,tileNr, isStanding, activity);
         int buildingSprite = (int) (Math.random()*2.9+1);
+        cost = 110;
+
         if(buildingSprite == 3) {
             spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
                     SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),

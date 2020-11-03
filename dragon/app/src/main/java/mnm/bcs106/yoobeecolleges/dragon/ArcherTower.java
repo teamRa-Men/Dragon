@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 
 public class ArcherTower extends Foundation {
-
+    static int cost;
     float attackRange = (1f/2);
 
     boolean hasAttacked = false;
@@ -18,6 +18,11 @@ public class ArcherTower extends Foundation {
 
     public ArcherTower( int x, int y, boolean isStanding, GameView activity){
         super( x, y, tileNr, isStanding, activity );
+
+        cost = 160;
+        buildingType = 4;
+        maxHealth = 400;
+
         if(Math.random()<0.5f) {
             this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
         }
@@ -56,11 +61,9 @@ public class ArcherTower extends Foundation {
     public void update(float fixedDeltaTime){
         super.update(fixedDeltaTime);
 
-
-
         if(isStanding = true) {
             countdown+=fixedDeltaTime;
-            System.out.println(countdown);
+            //System.out.println(countdown);
             if (inRange()) {
 
                 if (countdown > 1000) {

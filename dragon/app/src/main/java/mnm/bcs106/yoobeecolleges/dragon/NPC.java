@@ -2,7 +2,11 @@ package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -18,6 +22,7 @@ public class NPC {
     public Rect npcRect, npcCollider;
     public float npcSpeed;
     public Boolean alive = false;
+    public Boolean active = false;
     public Point movement;
     public Point target = new Point();
     public float npcFleeSpeed;
@@ -25,8 +30,11 @@ public class NPC {
     public ActionController damagePeriod;
     public int direction;
     public int countdown;
+    public int afterLife;
     double random;
     public Point creationPoint = new Point();
+    public Paint NpcPain = new Paint();
+    ColorFilter colorFilter = new LightingColorFilter(Color.parseColor("#40000000"),0);
     public NPC (Bitmap bitmap, float speed, int maxHP, int width,int height) {
         npcBitmap = bitmap;
         npcX = 0;
@@ -49,6 +57,7 @@ public class NPC {
         creationPoint.y = npcY;
         target.x = npcX;
         alive = true;
+        active = true;
     }
     public  void OnDamage () {
         damagePeriod.triggerAction();
@@ -59,23 +68,24 @@ public class NPC {
     }
     public void death(){
         alive = false;
-        npcX = 0;
-        npcY = 0;
     }
     float distTravel = 0;
     public void draw(Canvas canvas){
+        Matrix matrix = new Matrix();
+        int top = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*3);
+        int left = npcRect.left;
+        int right = left+npcRect.width();
+        int bottom = top+npcRect.height();
+        RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
+        RectF destTempRect;
+        destTempRect = new RectF(left,top,right,bottom);
+        matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
         if (alive){
-            RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
-            int top  = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*3);
-
-            int left  = npcRect.left;
-            int right  = left+npcRect.width();
-            int bottom  = top+npcRect.height();
-            RectF destTempRect = new RectF(left,top,right,bottom);
-            Matrix matrix = new Matrix();
-            matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
             matrix.postScale(direction,1,destTempRect.centerX(),destTempRect.centerY());
             canvas.drawBitmap(npcBitmap,matrix,Scene.instance.frontPaint);
+        }else {
+            matrix.postRotate(90,destTempRect.centerX(),destTempRect.centerY());
+            canvas.drawBitmap(npcBitmap,matrix,NpcPain);
         }
     }
 
@@ -95,22 +105,30 @@ public class NPC {
         }
     }
     public void update(float deltaTime){
+        if (!alive){
+            afterLife+=deltaTime;
+            if (afterLife >= 10000){
+                active = false;
+            }
+            npcY = (int) GameView.instance.groundLevel-npcRect.width()+npcRect.width()/2;
+            NpcPain.setColorFilter(colorFilter);
+        }else {
+            NpcPain.setColorFilter(null);
         countdown+=deltaTime;
-        if (Math.abs(target.x-npcX)>1){
-            direction = (int) Math.signum(target.x-npcX);
+            if (Math.abs(target.x-npcX)>1){
+                direction = (int) Math.signum(target.x-npcX);
+            }
+            moveToTarget(deltaTime);
+            npcY = (int) GameView.instance.groundLevel-npcRect.height();
         }
-        moveToTarget(deltaTime);
-        npcY = (int) GameView.instance.groundLevel-npcRect.height();
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
     }
     public  void  physics(float deltaTime) {
         npcCollider = new Rect(npcX, npcY, npcX + npcRect.width(), npcY + npcRect.height());
         //System.out.println("npcphysics");
         if (GameView.instance.player.fireBreath.collision(npcCollider)&&!damagePeriod.performing){
-
-                //System.out.println(npcHp);
-                OnDamage();
-
+            //System.out.println(npcHp);
+            OnDamage();
         }
     }
 
