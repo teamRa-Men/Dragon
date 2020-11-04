@@ -110,6 +110,17 @@ public class NPC {
             if (afterLife >= 10000){
                 active = false;
                 afterLife = 0;
+            }else {
+                if (Math.abs(GameView.instance.player.position.x-npcX) < 100 && Math.abs(GameView.instance.player.position.y-npcY) < 100) {
+                    if (GameView.instance.player.health < GameView.instance.player.maxHealth){
+                        GameView.instance.player.health+=npcMaxHP/20;
+                        active = false;
+                        afterLife = 0;
+                        if (GameView.instance.player.health > GameView.instance.player.maxHealth){
+                            GameView.instance.player.health = GameView.instance.player.maxHealth;
+                        }
+                    }
+                }
             }
             npcY = (int) GameView.instance.groundLevel-npcRect.height()+npcRect.height()/3;
             NpcPain.setColorFilter(colorFilter);
