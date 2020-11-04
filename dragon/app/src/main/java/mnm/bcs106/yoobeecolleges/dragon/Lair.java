@@ -103,6 +103,8 @@ public class Lair {
         if(upgradePoints > 0 && player.maxMana < maximumMana) {
             player.maxMana+=20;
             upgradePoints--;
+            Hud.instance.manaMaxWidth = (int)(GameView.instance.screenWidth/4*player.maxMana/100);
+
             return true;
         }
         return false;
@@ -119,6 +121,7 @@ public class Lair {
         if(upgradePoints > 0 && player.maxHealth< maximumHealth) {
             player.maxHealth+=maximumHealth/10;
             upgradePoints--;
+            Hud.instance.healthMaxWidth = (int)(GameView.instance.screenWidth/4*player.maxHealth/100);
             return true;
         }
         return false;

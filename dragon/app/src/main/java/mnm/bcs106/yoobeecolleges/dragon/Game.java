@@ -315,7 +315,7 @@ public class Game extends AppCompatActivity {
         xpText.setText((int)lair.experience + " XP");
         progressAttack.setProgress((int)((player.attack-lair.minimumAttack)/(lair.maximumAttack-lair.minimumAttack)*100));
         progressMana.setProgress((int)((player.maxMana-lair.minimumMana)/(lair.maximumMana-lair.minimumMana)*100));
-        progressHealth.setProgress((int)((player.maxHealth-lair.minimumHealth)/(lair.maximumHealth*100-lair.minimumHealth)));
+        progressHealth.setProgress((int)((player.maxHealth-lair.minimumHealth)/(lair.maximumHealth-lair.minimumHealth)*100));
         progressSpeed.setProgress((int)((player.maxMoveSpeed-lair.minimumSpeed)/(lair.maximumSpeed-lair.minimumSpeed)*100));
     }
 
