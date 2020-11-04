@@ -33,7 +33,7 @@ public class Dragon extends Character {
     Segment[] colliders;
 
 
-    int goldHolding = 0;
+    int goldHolding = 50;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
     float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;

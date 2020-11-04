@@ -22,6 +22,11 @@ public class Lair {
     float maximumSpeed = 2;
     float maximumAttack= 3;
 
+    float minimumMana;
+    float minimumHealth;
+    float minimumSpeed;
+    float minimumAttack;
+
     float experience, upgradePoints, level = 1;
     boolean isSleeping = false;
     Button sleepButton;
@@ -42,6 +47,12 @@ public class Lair {
         goldPile = Bitmap.createScaledBitmap(goldPile,Game.instance.screenWidth/4, Game.instance.screenWidth/4,false);
         goldPileHeight = getGoldPileHeight();
         lieDown();
+
+        minimumAttack = player.attack;
+        minimumMana = player.maxMana;
+        minimumHealth = player.maxHealth;
+        minimumSpeed = player.maxMoveSpeed;
+
     }
 
     public void sleep(){
@@ -81,7 +92,7 @@ public class Lair {
     }
 
     public boolean upgradeAttack(){
-        if(upgradePoints > 0) {
+        if(upgradePoints > 0 && player.attack < maximumAttack) {
             player.attack+=maximumAttack/10;
             upgradePoints--;
             return true;
@@ -89,7 +100,7 @@ public class Lair {
         return false;
     }
     public boolean upgradeMana(){
-        if(upgradePoints > 0) {
+        if(upgradePoints > 0 && player.maxMana < maximumMana) {
             player.maxMana+=20;
             upgradePoints--;
             return true;
@@ -97,7 +108,7 @@ public class Lair {
         return false;
     }
     public boolean upgradeSpeed(){
-        if(upgradePoints > 0) {
+        if(upgradePoints > 0 && player.maxMoveSpeed < maximumSpeed) {
             player.maxMoveSpeed+=maximumSpeed/10;
             upgradePoints--;
             return true;
@@ -105,7 +116,7 @@ public class Lair {
         return false;
     }
     public boolean upgradeHealth(){
-        if(upgradePoints > 0) {
+        if(upgradePoints > 0 && player.maxHealth< maximumHealth) {
             player.maxHealth+=maximumHealth/10;
             upgradePoints--;
             return true;
@@ -174,12 +185,17 @@ public class Lair {
             }
 
         }
-        if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
-            if (GameView.instance.player.goldHolding > 0) {
-                depositedGold += 1;
+
+        if (GameView.instance.player.goldHolding > 0) {
+            if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 4 ) {
+                //depositedGold += 1;
                 //System.out.println(depositedGold);}
-                goldPileHeight = getGoldPileHeight();
-                GameView.instance.player.goldHolding -= 1;
+                //goldPileHeight = getGoldPileHeight();
+                //GameView.instance.player.goldHolding -= 1;]
+                Vector2 p = GameView.instance.player.position;
+
+                GoldPool.instance.spawnGold((int)p.x, (int)p.y, GameView.instance.player.goldHolding,true);
+                GameView.instance.player.goldHolding = 0;
             }
         }
     }
@@ -192,6 +208,22 @@ public class Lair {
         //canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
+    }
+
+    public void attractGold(Gold g){
+        if(Math.abs(g.position.x - position.x) < goldPile.getWidth() / 2){
+            Vector2 disp = position.add(g.position.multiply(-1));
+            if(g.position.y < getGroundLevel(g.position,g.width/2)){
+                if(g.velocity.y>0){
+                    g.setDir(disp.getNormal().multiply(0.1f).add(g.direction));
+                }
+            }
+            else{
+                GoldPool.instance.collectedGold(g);
+                depositedGold++;
+                goldPileHeight = getGoldPileHeight();
+            }
+        }
     }
 }
 

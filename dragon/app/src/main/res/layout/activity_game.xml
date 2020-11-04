@@ -34,6 +34,16 @@
         app:layout_constraintVertical_bias="1.0">
 
 
+        <TextView
+            android:id="@+id/goldDeposited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="gold"
+            android:textColor="@color/colorDragon"
+            app:layout_constraintBottom_toTopOf="@+id/sleepButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Button
             android:id="@+id/wakeButton"
             android:layout_width="wrap_content"
@@ -43,6 +53,7 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
             app:layout_constraintEnd_toStartOf="@+id/sleepButton"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/sleepButton" />
 
         <Button
@@ -52,6 +63,7 @@
             android:text="Upgrade"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/sleepButton"
             app:layout_constraintTop_toTopOf="@+id/sleepButton" />
 
@@ -61,6 +73,7 @@
             android:layout_height="wrap_content"
             android:onClick="onSleep"
             android:text="Sleep"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,6 +96,27 @@
             app:layout_constraintHorizontal_bias="0.58"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/xpBarLair"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/wakeButton"
+            app:layout_constraintEnd_toStartOf="@+id/upgradeButton"
+            app:layout_constraintStart_toEndOf="@+id/wakeButton"
+            app:layout_constraintTop_toTopOf="@+id/wakeButton" />
+
+        <TextView
+            android:id="@+id/xpTextLair"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:text="XP"
+            app:layout_constraintBottom_toBottomOf="@+id/xpBarLair"
+            app:layout_constraintEnd_toEndOf="@+id/xpBarLair"
+            app:layout_constraintStart_toStartOf="@+id/xpBarLair"
+            app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

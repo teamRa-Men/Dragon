@@ -21,14 +21,17 @@ public class GoldPool {
             goldPool.add(newGold);
         }
     }
-    public void spawnGold(int x, int y, int amount){
+    public void spawnGold(int x, int y, int amount) {
+        spawnGold(x, y, amount, false);
+    }
+    public void spawnGold(int x, int y, int amount, boolean fromDragon){
         amount*=10;
         for (int i = 0; i < amount; i++) {
             if(goldPool.size()>0) {
                 Gold goldSpawned = goldPool.get(0);
                 goldPool.remove(0);
                 activeGold.add(goldSpawned);
-                goldSpawned.spawn(new Vector2(x,y));
+                goldSpawned.spawn(new Vector2(x,y), fromDragon);
 
             }
         }

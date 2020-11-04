@@ -1,7 +1,6 @@
 
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.MotionEventCompat;
 
 //-----------------------------------------------------------------------------------------------------------
 //Game Controller
@@ -35,6 +33,10 @@ public class Game extends AppCompatActivity {
     Button sleepButton;
     Button wakeButton;
     Button upgradeButton;
+    ProgressBar xpBarLair;
+    TextView xpTextLair;
+    TextView goldDeposited;
+
     Button stopButton;
     Button pauseContinue;
     Button pauseRestart;
@@ -297,6 +299,9 @@ public class Game extends AppCompatActivity {
                 upgradeDialog.show();
             }
         });
+        xpBarLair= findViewById(R.id.xpBarLair);
+        xpTextLair = findViewById(R.id.xpTextLair);
+        goldDeposited = findViewById(R.id.goldDeposited);
 
 
     }
@@ -308,10 +313,10 @@ public class Game extends AppCompatActivity {
         upgradePoints.setText((int)lair.upgradePoints + "AP");
         xpBar.setProgress((int)(lair.experience/(1000f*lair.level)*100));
         xpText.setText((int)lair.experience + " XP");
-        progressAttack.setProgress((int)(player.attack/lair.maximumAttack*100));
-        progressMana.setProgress((int)(player.maxMana/lair.maximumMana*100));
-        progressHealth.setProgress((int)(player.maxHealth/lair.maximumHealth*100));
-        progressSpeed.setProgress((int)(player.maxMoveSpeed/lair.maximumSpeed*100));
+        progressAttack.setProgress((int)((player.attack-lair.minimumAttack)/(lair.maximumAttack-lair.minimumAttack)*100));
+        progressMana.setProgress((int)((player.maxMana-lair.minimumMana)/(lair.maximumMana-lair.minimumMana)*100));
+        progressHealth.setProgress((int)((player.maxHealth-lair.minimumHealth)/(lair.maximumHealth*100-lair.minimumHealth)));
+        progressSpeed.setProgress((int)((player.maxMoveSpeed-lair.minimumSpeed)/(lair.maximumSpeed-lair.minimumSpeed)*100));
     }
 
 
@@ -330,7 +335,7 @@ public class Game extends AppCompatActivity {
             }
         };
         //30 frames per second
-        handler.postDelayed(runnable, 1000/30);
+        handler.postDelayed(runnable, 1000/15);
 
         if(!gameOver) {
             //gameView.setPlayerMovement(dragTo);
@@ -342,9 +347,20 @@ public class Game extends AppCompatActivity {
             }
             gameView.breathFire(breathFire);
 
-            fadeButton(showSleepButton, sleepButton);
-            fadeButton(showWakeButton, wakeButton);
-            fadeButton(showUpgradeButton, upgradeButton);
+            fadeView(showSleepButton, sleepButton);
+            fadeView(showWakeButton, wakeButton);
+            fadeView(showUpgradeButton, upgradeButton);
+            fadeView(showWakeButton, xpBarLair);
+            fadeView(showSleepButton||showWakeButton,goldDeposited);
+            fadeView(showWakeButton,  xpTextLair);
+
+
+            Lair lair = GameView.instance.lair;
+            if(showSleepButton || showWakeButton) {
+                goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
+                xpBarLair.setProgress((int) (lair.experience / (1000f * lair.level) * 100));
+                xpTextLair.setText((int) lair.experience + " XP");
+            }
         }
 
         //Show game over pop up if told by game engine
@@ -353,22 +369,22 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    void fadeButton(boolean condition, Button button){
+    void fadeView(boolean condition, View v){
         if(condition){
-            button.setVisibility(View.VISIBLE);
-            if(button.getAlpha() <1) {
-                button.setAlpha(button.getAlpha() + 0.1f);
+            v.setVisibility(View.VISIBLE);
+            if(v.getAlpha() <1) {
+                v.setAlpha(v.getAlpha() + 0.1f);
             }
             else{
-                button.setAlpha(1);
+                v.setAlpha(1);
             }
         }
         else {
-            if(button.getAlpha() >0) {
-                button.setAlpha(button.getAlpha() - 0.1f);
+            if(v.getAlpha() >0) {
+                v.setAlpha(v.getAlpha() - 0.1f);
             }
             else{
-                button.setVisibility(View.INVISIBLE);
+                v.setVisibility(View.INVISIBLE);
             }
         }
     }

@@ -8,10 +8,9 @@ import android.graphics.Paint;
 import java.util.Collection;
 
 public class Gold extends GameObject{
-    float spawnSpeed = 1f/2;
+    float spawnSpeed = 1f/4;
     float time;
-    double random;
-    Vector2 target;
+    boolean fromDragon = false;
 
     double phase;
     public Gold(Bitmap sprite, float offsetX, float offsetY) {
@@ -25,10 +24,13 @@ public class Gold extends GameObject{
         gravity = 1f/2;
     }
 
-
-    public  void spawn(Vector2 p){
+    public  void spawn(Vector2 p) {
+        spawn(p,false);
+    }
+    public  void spawn(Vector2 p, boolean fromDragon){
+        this.fromDragon = fromDragon;
         position = p;
-        direction = new Vector2((float) (Math.random()-0.5f), (float) (Math.random()-0.5f)).getNormal();
+        direction = new Vector2((float) (Math.random()-0.5f)/10, (float) (Math.random()-0.5f)).getNormal();
         speed = spawnSpeed*((float)Math.random());
     }
 
@@ -46,11 +48,14 @@ public class Gold extends GameObject{
     @Override
     public void physics(float deltaTime) {
         super.physics(deltaTime);
-        if (GameView.instance.player.inReach(position)) {
+        if (GameView.instance.player.inReach(position) && !fromDragon) {
             GoldPool.instance.collectedGold(this);
             GameView.instance.player.collectedGold();
             System.out.println("collected");
+
         }
+        GameView.instance.lair.attractGold(this);
+
     }
 
 
