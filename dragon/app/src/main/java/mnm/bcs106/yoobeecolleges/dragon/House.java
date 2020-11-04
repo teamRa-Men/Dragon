@@ -22,6 +22,7 @@ public class House extends Foundation{
         super(x, y,tileNr, isStanding, activity );
         maxHealth = 200;
         cost = 120;
+        height = tilesize;
 
         health = maxHealth;
         buildingType = 2;

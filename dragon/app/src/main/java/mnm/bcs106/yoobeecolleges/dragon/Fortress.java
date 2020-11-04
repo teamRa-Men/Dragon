@@ -30,7 +30,10 @@ public class Fortress extends Foundation {
     int maxTiles = 8;
 
     public Point creationPoint = new Point();
-    float attackRange = (1f / 2);
+    float attackRange = (1f/2);
+
+    float countdown = 0;
+    int attack = 0;
 
     ArrayList<Foundation> currentBuildingsRight = new ArrayList<Foundation>();
     ArrayList<Foundation> currentBuildingsLeft = new ArrayList<Foundation>();
@@ -84,8 +87,9 @@ public class Fortress extends Foundation {
         maxGold = 400;
         lv = 0;
 
-        creationPoint.x = x + (width / 2);
-        creationPoint.y = (int) GameView.instance.groundLevel - height;
+        System.out.println(x);
+        creationPoint.x = x+(width/2);
+        creationPoint.y = (int)(GameView.instance.groundLevel - height*3/4);
 
         Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
     }
@@ -93,6 +97,11 @@ public class Fortress extends Foundation {
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
 
     public void update(float deltaTime) {
+
+        /*System.out.println(creationPoint.x);
+        System.out.println(GameView.instance.player.position.x);
+        System.out.println(GameView.instance.player.position.x-creationPoint.x);
+        System.out.println(GameView.instance.cameraSize*attackRange);*/
 
         int currentGold1 = currentGold;
 
@@ -229,6 +238,8 @@ public class Fortress extends Foundation {
                             System.out.println("converting house -> tower R");
                             int bx = currentBuildingsRight.get(i).x;
                             currentBuildingsRight.set(i, new ArcherTower(bx, y, true, activity));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsRight.get(i).health = 0;
                         }
                     }
 
@@ -263,7 +274,8 @@ public class Fortress extends Foundation {
                         if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
                             System.out.println("converting house -> tower L");
                             int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, true, activity));
+                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsLeft.get(i).health = 0;
                         }
                     }
 
@@ -286,6 +298,35 @@ public class Fortress extends Foundation {
             townFear = (tempfear / (currentBuildingsLeft.size() + currentBuildingsRight.size()));
         }
 
+    if (inRange()) {
+        countdown+=GameView.instance.fixedDeltaTime;
+        System.out.println(countdown);
+        if (countdown > 1000) {
+
+            if (countdown > 1200 && attack == 0) {
+                Attack();
+
+                attack += 1;
+                 }
+
+            if (countdown > 1400 && attack == 1) {
+                Attack();
+
+                attack += 1;
+                }
+
+            if (countdown > 1600 && attack == 2) {
+                Attack();
+
+                attack += 1;
+                }
+
+            if (countdown >= 1800) {
+                countdown = 0;
+                attack = 0;
+                }
+            }
+        }
     }
 
 
@@ -426,6 +467,24 @@ public class Fortress extends Foundation {
         for(int i = 0; i < currentBuildingsRight.size(); i++){
             currentBuildingsRight.get(i).physics(deltaTime);
         }
+    }
+
+    // calculates if the dragon is in range
+    public boolean inRange(){
+        //System.out.println("inRange");
+        if (Math.abs(GameView.instance.player.position.x-creationPoint.x)<GameView.instance.cameraSize*attackRange){
+            return true;}
+        return false;
+    }
+
+    //shooting an arrow at target
+    public void Attack(){
+        float randomx = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/10;
+        float randomy = (float)(Math.random()-0.5)*attackRange*GameView.instance.cameraSize/5;
+        Vector2 target = GameView.instance.player.aimFor();
+        float dx = target.x-creationPoint.x;
+        float dy =target.y-creationPoint.y;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
     }
 }
 
