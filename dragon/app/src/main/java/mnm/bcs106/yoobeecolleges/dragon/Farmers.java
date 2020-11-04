@@ -30,7 +30,7 @@ public class Farmers extends NPC {
     @Override
     public void update(float deltaTime) {
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
-            System.out.println(workTime);
+//            System.out.println(workTime);
             if (atHome){
                 npcY = CreationPoint.y;
                 atHome = false;
@@ -96,7 +96,7 @@ public class Farmers extends NPC {
         }else{
             if (alive){
                 if (Math.abs(npcX-CreationPoint.x) < 7 && !atHome){
-                    System.out.println("CP = " + CreationPoint.x + " Target = " + target.x + " TempCP = " + tempCreationPoint.x);
+//                    System.out.println("CP = " + CreationPoint.x + " Target = " + target.x + " TempCP = " + tempCreationPoint.x);
                     atHome = true;
                     tempCreationPoint.x = CreationPoint.x;
                     tempCreationPoint.y = CreationPoint.y;

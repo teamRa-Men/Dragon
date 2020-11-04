@@ -87,17 +87,16 @@ public class Fortress extends Foundation {
         maxGold = 400;
         lv = 0;
 
-        System.out.println(x);
-        creationPoint.x = x+(width/2);
-        creationPoint.y = (int)(GameView.instance.groundLevel - height*3/4);
-
         Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
 
     public void update(float deltaTime) {
-
+        if (creationPoint.y != (int)(GameView.instance.groundLevel - height*3/4) || creationPoint.x != x+width/2){
+            creationPoint.x = x+width/2;
+            creationPoint.y = (int)(GameView.instance.groundLevel - height/2);
+        }
         /*System.out.println(creationPoint.x);
         System.out.println(GameView.instance.player.position.x);
         System.out.println(GameView.instance.player.position.x-creationPoint.x);
@@ -473,7 +472,8 @@ public class Fortress extends Foundation {
     public boolean inRange(){
         //System.out.println("inRange");
         if (Math.abs(GameView.instance.player.position.x-creationPoint.x)<GameView.instance.cameraSize*attackRange){
-            return true;}
+            return true;
+        }
         return false;
     }
 
@@ -484,7 +484,7 @@ public class Fortress extends Foundation {
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
+        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
     }
 }
 
