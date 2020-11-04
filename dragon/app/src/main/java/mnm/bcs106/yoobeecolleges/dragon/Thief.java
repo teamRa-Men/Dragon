@@ -23,7 +23,7 @@ public class Thief extends NPC {
 
         //System.out.println("gold" + howManySteal);
         super.update(deltaTime);
-        if (Math.abs(npcX - creationPoint.x) < 7){
+        if (Math.abs(npcX - tempCreationPoint.x) < 7){
             target.x = (int) GameView.instance.lair.position.x;
             GameView.instance.fortress.currentGold+=howManySteal;
             howManySteal = 0;
@@ -38,7 +38,7 @@ public class Thief extends NPC {
                 GameView.instance.lair.stealGold(GameView.instance.lair.depositedGold);
             }
             stole = true;
-            target.x = creationPoint.x;
+            target.x = tempCreationPoint.x;
         }
 
         if (Math.abs(GameView.instance.player.position.x-npcX) < 500 ){

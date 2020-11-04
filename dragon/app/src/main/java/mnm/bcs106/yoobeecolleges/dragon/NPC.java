@@ -10,11 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.text.BoringLayout;
-
-import java.sql.Time;
-import java.util.Timer;
-import java.util.Vector;
 
 public class NPC {
     public Bitmap npcBitmap;
@@ -32,7 +27,8 @@ public class NPC {
     public int countdown;
     public int afterLife;
     double random;
-    public Point creationPoint = new Point();
+    public Point tempCreationPoint = new Point();
+    public Point CreationPoint = new Point();
     public Paint NpcPain = new Paint();
     ColorFilter colorFilter = new LightingColorFilter(Color.parseColor("#40000000"),0);
     public NPC (Bitmap bitmap, float speed, int maxHP, int width,int height) {
@@ -51,13 +47,17 @@ public class NPC {
         random = Math.random();
     }
     public void spawn (int spawnX, int spawnY){
+        npcHp = npcMaxHP;
         npcX = spawnX;
         npcY = spawnY;
-        creationPoint.x = npcX;
-        creationPoint.y = npcY;
+        tempCreationPoint.x = npcX;
+        tempCreationPoint.y = npcY;
+        CreationPoint.x = spawnX;
+        CreationPoint.y = spawnY;
         target.x = npcX;
         alive = true;
         active = true;
+        flee = false;
     }
     public  void OnDamage () {
         damagePeriod.triggerAction();
@@ -109,8 +109,9 @@ public class NPC {
             afterLife+=deltaTime;
             if (afterLife >= 10000){
                 active = false;
+                afterLife = 0;
             }
-            npcY = (int) GameView.instance.groundLevel-npcRect.width()+npcRect.width()/2;
+            npcY = (int) GameView.instance.groundLevel-npcRect.height()+npcRect.height()/3;
             NpcPain.setColorFilter(colorFilter);
         }else {
             NpcPain.setColorFilter(null);
@@ -137,7 +138,7 @@ public class NPC {
             if (lessTen) {
                 flee = false;
                 double targetDistance = (Math.random() - 0.5) * boundry;
-                target.x = (int) (creationPoint.x + targetDistance);
+                target.x = (int) (tempCreationPoint.x + targetDistance);
                 countdown = 0;
             }
         }

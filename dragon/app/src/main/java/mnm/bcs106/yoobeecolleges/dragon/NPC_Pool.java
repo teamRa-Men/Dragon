@@ -35,7 +35,7 @@ public class NPC_Pool {
     public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
             if (!npcWooloo.get(i).alive) {
-                npcWooloo.get(i).spawn(spawnX,spawnY);
+                npcWooloo.get(i).spawn((int) (spawnX+GameView.instance.fortress.tilesize*1.5),spawnY);
                 return npcWooloo.get(i);
             }
         }

@@ -1,7 +1,6 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 public class RangedNPC extends NPC {
@@ -41,7 +40,7 @@ public class RangedNPC extends NPC {
                shoot();
             }
             if (Math.abs(GameView.instance.player.position.x-npcX)>3000){
-                creationPoint.x = npcX;
+                tempCreationPoint.x = npcX;
                 target.x = npcX;
                 flee = false;
                 lockTarget = false;
