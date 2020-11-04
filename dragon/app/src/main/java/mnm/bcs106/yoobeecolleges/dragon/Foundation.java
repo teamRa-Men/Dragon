@@ -42,6 +42,8 @@ public class Foundation {
     public int x,y;
     Rect collider;
 
+    int fixedx;
+
     Rect buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
@@ -65,6 +67,8 @@ public class Foundation {
 
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
+
+        fixedx = x;
 
         width = tilesize*tileNr+tilesize/10*tileNr;//(tilesize-(tilesize/10))*tileNr;
         height = width;
@@ -103,6 +107,23 @@ public class Foundation {
     public void update(float deltaTime){
         //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
+
+        if(!isStanding)
+            y = (int)GameView.instance.groundLevel-3;
+        else {
+            if (health == maxHealth) {
+                y = (int) GameView.instance.groundLevel - 3;
+
+            } else if (health < (maxHealth / 4 * 3) && health > (maxHealth / 2)) {
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 4)/2;
+
+            } else if (health < (maxHealth / 2) && health > maxHealth / 4) {
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 2)/2;
+
+            } else if (health < (maxHealth / 4) && health != 0){
+                y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2;
+            }
+        }
     }
 
     public void OnDamage () {

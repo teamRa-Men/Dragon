@@ -42,7 +42,7 @@ public class Farm extends Foundation{
             spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
         }
         buildingImage = spriteAnim.getFrame(0);
-        height = width*buildingImage.height()/buildingImage.width();
+        height = tilesize;
 
         buildingType = 3;
 

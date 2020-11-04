@@ -1,9 +1,6 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Point;
-import android.graphics.Rect;
 
 public class Wooloo extends NPC{
 
@@ -13,13 +10,12 @@ public class Wooloo extends NPC{
         super(bitmap,speed, maxHP, width, height);
         boundry = SBoundry;
     }
-
     @Override
     public void update(float deltaTime) {
         if (Math.abs(GameView.instance.player.position.x-npcX)<300){
             flee = true;
             target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
-            creationPoint.x= target.x;
+            tempCreationPoint.x= target.x;
         }else idle(500,Math.abs(npcX-target.x) < 10);
         super.update(deltaTime);
     }

@@ -22,6 +22,7 @@ public class ArcherTower extends Foundation {
         cost = 160;
         buildingType = 4;
         maxHealth = 400;
+        health = maxHealth;
 
         if(Math.random()<0.5f) {
             this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
@@ -31,7 +32,7 @@ public class ArcherTower extends Foundation {
         }
         height = width*buildingImage.height()/buildingImage.width();
         creationPoint.x = x+(width/2);
-        creationPoint.y = (int)(GameView.instance.groundLevel - height*3/4);
+        creationPoint.y = (int)((y - height*3/4));
         System.out.println("Tower spawned");
     }
 
@@ -60,8 +61,12 @@ public class ArcherTower extends Foundation {
 
     public void update(float fixedDeltaTime){
         super.update(fixedDeltaTime);
+        creationPoint.y = (int)((y - height*3/4));
 
-        if(isStanding = true) {
+        System.out.println(health);
+        System.out.println(isStanding);
+
+        if(isStanding) {
             countdown+=fixedDeltaTime;
             //System.out.println(countdown);
             if (inRange()) {
@@ -93,8 +98,8 @@ public class ArcherTower extends Foundation {
                 }
             }
         }
-        else{
 
+        else{
             buildingImage = SpriteManager.instance.getBuildingSprite("TowerRuin");
 
             if(beenEmptied == false){
@@ -103,9 +108,9 @@ public class ArcherTower extends Foundation {
 
             goldRate = 0;
         }
-
     }
 
+    @Override
     public void OnDamage() {
         super.OnDamage();
 
