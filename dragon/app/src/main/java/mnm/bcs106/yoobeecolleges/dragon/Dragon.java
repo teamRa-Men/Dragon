@@ -235,7 +235,7 @@ public class Dragon extends Character {
                         if (mana <= 0) {
                             direction.y = Math.max(direction.y, 0);
                         }
-                        direction.y = Math.min(direction.y, 0);
+                        direction.y = Math.min(direction.y, 0); 
 
                     } else {
                         mana -= flyingManaCost * fixedDeltaTime / 1000 * (GameView.instance.screenHeight - position.y) / GameView.instance.screenHeight;
