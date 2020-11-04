@@ -27,7 +27,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 //    final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
     final float fixedDeltaTime = (int) (1000 / 30); // in milliseconds
-
+    public float timeScale = 1;
     float deltaTime = fixedDeltaTime;
 
     //Physics
@@ -188,7 +188,7 @@ public class GameView extends SurfaceView implements Runnable {
                 draw();
             }
             long drawTime = System.currentTimeMillis() - updateTime;
-            //System.out.println( "draw main " + drawTime);
+            System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
             //System.out.println("average draw " + totalFrame/numberFrame);
@@ -196,7 +196,7 @@ public class GameView extends SurfaceView implements Runnable {
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
-            int lag = (int) (fixedDeltaTime - deltaTime);
+            int lag = (int) (fixedDeltaTime/timeScale - deltaTime);
 
             //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
@@ -206,7 +206,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
             while (lag < 0) {
-                lag += fixedDeltaTime;
+                lag += fixedDeltaTime/timeScale;
                 //Apply physics calculations per frame
                 for (int i = 0; i < physicsIterations; i++) {
                     physics();

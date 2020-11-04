@@ -187,6 +187,8 @@ public class Dragon extends Character {
         }
 
 
+
+
     }
     public void moveBy(Vector2 moveBy){
         //System.out.println(isSleeping);
@@ -328,6 +330,17 @@ public class Dragon extends Character {
     @Override
     public void physics(float deltaTime) {
         if(!isSleeping) {
+            if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
+                direction.x = (0.1f + direction.x)/2;
+                position.x =  -Scene.instance.islandSize+Scene.instance.width;
+                System.out.println("wall right");
+            }
+            if(position.x  > Scene.instance.islandSize && velocity!=null) {
+                direction.x = (-0.1f + direction.x)/2f;
+                position.x =  Scene.instance.islandSize;
+                System.out.println("wall left");
+            }
+
             if (position.y < upperBound) {
                 direction.y = 0;
                 position.y = upperBound;

@@ -15,6 +15,7 @@ public class Lair {
     int depositedGold = 500;
     Bitmap goldPile;
     float goldPileHeight;
+    float sleepTimeSpeed = 8;
 
     Dragon player;
     float maximumMana = 200;
@@ -59,6 +60,7 @@ public class Lair {
         isSleeping = true;
         player.isSleeping = true;
         lieDown();
+        GameView.instance.timeScale = sleepTimeSpeed;
     }
 
     public  void stealGold(int steal){
@@ -89,6 +91,7 @@ public class Lair {
     public void wake(){
         isSleeping = false;
         player.isSleeping = false;
+        GameView.instance.timeScale = 1;
     }
 
     public boolean upgradeAttack(){
@@ -173,6 +176,7 @@ public class Lair {
         } else {
             Game.instance.showWakeButton = false;
             Game.instance.showUpgradeButton = false;
+
 
             if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
                 Game.instance.showSleepButton = true;
