@@ -29,10 +29,10 @@ public class Lair {
 
     public Lair() {
         width = (int) (Game.instance.screenWidth*2);
-        height = width/2;
-        lairBackSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_background);
+        height =(int)GameView.instance.groundLevel/2;
+        lairBackSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_back);
         lairBackSprite = Bitmap.createScaledBitmap(lairBackSprite, width, height, false);
-        lairFrontSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_foreground);
+        lairFrontSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_front);
         lairFrontSprite = Bitmap.createScaledBitmap(lairFrontSprite, width, height, false);
 
         position = new Vector2(GameView.instance.screenWidth/2, GameView.instance.getGroundLevel());
@@ -189,7 +189,7 @@ public class Lair {
 
     public void draw (Canvas canvas){
         canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
-        canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+        //canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
     }
