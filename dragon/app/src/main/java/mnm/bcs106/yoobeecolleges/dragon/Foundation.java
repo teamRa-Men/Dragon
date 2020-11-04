@@ -28,6 +28,7 @@ public class Foundation {
 
     int buildingType;
 
+
     // 0 = fortress
     // 1 = house
     // 2 = Farm
@@ -40,6 +41,8 @@ public class Foundation {
 
     public int x,y;
     Rect collider;
+
+    int fixedx;
 
     Rect buildingImage;
     public ActionController damagePeriod;
@@ -64,6 +67,8 @@ public class Foundation {
 
         this.x = x;
         this.y = (int)GameView.instance.groundLevel-3;
+
+        fixedx = x;
 
         width = tilesize*tileNr+tilesize/10*tileNr;//(tilesize-(tilesize/10))*tileNr;
         height = width;
@@ -102,12 +107,29 @@ public class Foundation {
     public void update(float deltaTime){
         //System.out.println(deltaTime);
         damagePeriod.update(deltaTime);
+
+        if(!isStanding)
+            y = (int)GameView.instance.groundLevel-3;
+        else {
+            if (health == maxHealth) {
+                y = (int) GameView.instance.groundLevel - 3;
+
+            } else if (health < (maxHealth / 4 * 3) && health > (maxHealth / 2)) {
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 4)/2;
+
+            } else if (health < (maxHealth / 2) && health > maxHealth / 4) {
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 2)/2;
+
+            } else if (health < (maxHealth / 4) && health != 0){
+                y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2;
+            }
+        }
     }
 
     public void OnDamage () {
         if(isStanding){
             damagePeriod.triggerAction();
-            System.out.println("damaging");
+            //System.out.println("damaging");
             beenAttacked = true;
             fearTime = 0;
 
@@ -167,23 +189,17 @@ public class Foundation {
                 health+=repairRate;
                 rebuildTime = 0;
             }
-            if(buildingType == 2)
-            System.out.println("repair" + health);
 
             if(health == maxHealth) {
                 isStanding = true;
 
-                if(buildingType == 2)
-                System.out.println(isStanding);
-
 
                 if(buildingType == 1){
                     buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
-
                 }
+
                 else if(buildingType == 2){
                     double rh = (Math.random()*3);
-
                     if(rh < 1){
                         buildingImage = SpriteManager.instance.getBuildingSprite("House1");
                     }
@@ -207,5 +223,6 @@ public class Foundation {
         }
     }
 }
+
 
 

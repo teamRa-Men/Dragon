@@ -35,7 +35,7 @@ public class NPC_Pool {
     public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
             if (!npcWooloo.get(i).alive) {
-                npcWooloo.get(i).spawn(spawnX,spawnY);
+                npcWooloo.get(i).spawn((int) (spawnX+GameView.instance.fortress.tilesize*1.5),spawnY);
                 return npcWooloo.get(i);
             }
         }
@@ -85,51 +85,51 @@ public class NPC_Pool {
 
     public void draw (Canvas canvas){
         for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).alive){
+            if (npcWooloo.get(i).active){
                 npcWooloo.get(i).draw(canvas);
-            }if (npcRangedNPC.get(i).alive){
+            }if (npcRangedNPC.get(i).active){
                 npcRangedNPC.get(i).draw(canvas);
-            }if (npcWizard.get(i).alive){
+            }if (npcWizard.get(i).active){
                 npcWizard.get(i).draw(canvas);
-            }if (npcFarmers.get(i).alive){
+            }if (npcFarmers.get(i).active){
                 npcFarmers.get(i).draw(canvas);
-            }if (npcThiefs.get(i).alive){
+            }if (npcThiefs.get(i).active){
                 npcThiefs.get(i).draw(canvas);
-            }if (npcDragonLayers.get(i).alive){
+            }if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).draw(canvas);
             }
         }
     }
     public void update(float deltaTime){
         for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).alive){
+            if (npcWooloo.get(i).active){
                 npcWooloo.get(i).update(deltaTime);
-            }if (npcRangedNPC.get(i).alive){
+            }if (npcRangedNPC.get(i).active){
                 npcRangedNPC.get(i).update(deltaTime);
-            }if (npcWizard.get(i).alive){
+            }if (npcWizard.get(i).active){
                 npcWizard.get(i).update(deltaTime);
-            }if (npcFarmers.get(i).alive){
+            }if (npcFarmers.get(i).active){
                 npcFarmers.get(i).update(deltaTime);
-            }if (npcThiefs.get(i).alive){
+            }if (npcThiefs.get(i).active){
                 npcThiefs.get(i).update(deltaTime);
-            }if (npcDragonLayers.get(i).alive){
+            }if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).update(deltaTime);
             }
         }
     }
     public void physics(float deltaTime){
         for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).alive){
+            if (npcWooloo.get(i).active){
                 npcWooloo.get(i).physics(deltaTime);
-            }if (npcRangedNPC.get(i).alive){
+            }if (npcRangedNPC.get(i).active){
                 npcRangedNPC.get(i).physics(deltaTime);
-            }if (npcWizard.get(i).alive){
+            }if (npcWizard.get(i).active){
                 npcWizard.get(i).physics(deltaTime);
-            }if (npcFarmers.get(i).alive){
+            }if (npcFarmers.get(i).active){
                 npcFarmers.get(i).physics(deltaTime);
-            }if (npcThiefs.get(i).alive){
+            }if (npcThiefs.get(i).active){
                 npcThiefs.get(i).physics(deltaTime);
-            }if (npcDragonLayers.get(i).alive){
+            }if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).physics(deltaTime);
             }
         }

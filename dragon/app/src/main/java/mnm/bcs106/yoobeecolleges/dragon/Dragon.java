@@ -53,7 +53,9 @@ public class Dragon extends Character {
 
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
-        initBody(30);
+
+        initBody(65);
+
 
         setAttackController(0,100,100);
 
@@ -78,7 +80,7 @@ public class Dragon extends Character {
         simulated = true;
         visible = true;
 
-        head = new Head(this, radius*1.2f);
+        head = new Head(this, radius);
 
 
         int dragonColor = Game.instance.getResources().getColor(R.color.colorDragon);
@@ -821,19 +823,19 @@ class FireBreath{
         range = 6*dragon.radius;
         direction = dragon.direction;
 
-        Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
-        Rect r = SpriteManager.instance.getDragonSprite("Fire0");
-        sprites[0] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("Fire1");
-        sprites[1] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("Fire2");
-        sprites[2] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("Fire3");
-        sprites[3] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("Fire4");
-        sprites[4] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("Fire5");
-        sprites[5] =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
+        Bitmap fireSheet = SpriteManager.instance.fireSheet;
+        Rect r = SpriteManager.instance.getFireSprite("Fire0");
+        sprites[0] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
+        r = SpriteManager.instance.getFireSprite("Fire1");
+        sprites[1] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
+        r = SpriteManager.instance.getFireSprite("Fire2");
+        sprites[2] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
+        r = SpriteManager.instance.getFireSprite("Fire3");
+        sprites[3] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
+        r = SpriteManager.instance.getFireSprite("Fire4");
+        sprites[4] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
+        r = SpriteManager.instance.getFireSprite("Fire5");
+        sprites[5] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
 
         paint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
         backPaint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFireCold),0));

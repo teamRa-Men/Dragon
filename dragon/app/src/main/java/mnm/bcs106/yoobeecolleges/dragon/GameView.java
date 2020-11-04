@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements Runnable {
     Vector2 screenCenter;
 
 
-    //final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
+//    final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
     final float fixedDeltaTime = (int) (1000 / 30); // in milliseconds
 
     float deltaTime = fixedDeltaTime;
