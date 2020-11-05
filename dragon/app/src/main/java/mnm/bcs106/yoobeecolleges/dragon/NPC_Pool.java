@@ -22,7 +22,7 @@ public class NPC_Pool {
             npcRangedNPC.add(new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.ottwizard2),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,1));
             npcDragonLayers.add(new DragonLayers(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.ottwizard2),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,10));
             npcWizard.add(new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.ottwizard2),(float)GameView.instance.cameraSize/65000,250,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,25));
-            npcThiefs.add(new Thief(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.ottwizard2),(float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,100));
+            npcThiefs.add(new Thief(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.ottwizard2),(float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/40,GameView.instance.cameraSize/40,30));
 
 //            if(i%2==0) {
   //              npcFarmers.add(new Farmers(BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.villager), (float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));

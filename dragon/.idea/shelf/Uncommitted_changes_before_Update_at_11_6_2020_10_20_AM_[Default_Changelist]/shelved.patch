@@ -1,0 +1,383 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM__Default_Changelist_.xml
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM__Default_Changelist_.xml	(revision 77fddfb3876cb6e310f86679ea80e7dfa93f6c7f)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM__Default_Changelist_.xml	(revision 77fddfb3876cb6e310f86679ea80e7dfa93f6c7f)
+@@ -1,14 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM_[Default_Changelist]" date="1604001502569" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 10/30/2020 8:58 AM [Default Changelist]" />
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/villager.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-  <binary>
+-    <option name="BEFORE_PATH" value=".idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/villager.png" />
+-    <option name="AFTER_PATH" />
+-    <option name="SHELVED_PATH" />
+-  </binary>
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM_[Default_Changelist]/shelved.patch
+===================================================================
+--- .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM_[Default_Changelist]/shelved.patch	(revision 77fddfb3876cb6e310f86679ea80e7dfa93f6c7f)
++++ .idea/shelf/Uncommitted_changes_before_Update_at_10_30_2020_8_58_AM_[Default_Changelist]/shelved.patch	(revision 77fddfb3876cb6e310f86679ea80e7dfa93f6c7f)
+@@ -1,356 +0,0 @@
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM__Default_Changelist_.xml	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM__Default_Changelist_.xml	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-@@ -1,9 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]" date="1603242417600" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 21/10/20 2:06 PM [Default Changelist]" />
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable/villager.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/villager.png" />
+--  </binary>
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/shelved.patch	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/shelved.patch	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-@@ -1,158 +0,0 @@
+--Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package mnm.bcs106.yoobeecolleges.dragon;\n\nimport android.graphics.BitmapFactory;\nimport android.graphics.Canvas;\n\npublic class NPC_Pool {\n    int size = 20;\n\n    Wooloo[] npcWooloo = new Wooloo[size];\n    RangedNPC[] npcRangedNPC = new RangedNPC[size];\n    Wizard[] npcWizard = new Wizard[size];\n    public NPC_Pool(){\n        for(int i = 0 ;i < size; i++){\n            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);\n            npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);\n            npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);\n        }\n    }\n    public void spawnWooloo (int spawnX, int spawnY, int ammount){\n        int d = 0;\n        for (int i = 0;i<size;i++){\n            if (!npcWooloo[i].alive && d < ammount) {\n                npcWooloo[i].alive = true;\n                npcWooloo[i].npcX = spawnX;\n                npcWooloo[i].npcY = spawnY;\n                d++;\n            }\n        }\n    }\n    public void spawnArcher (int spawnX, int spawnY, int ammount){\n        int d = 0;\n        for (int i = 0;i<ammount;i++){\n            if (!npcRangedNPC[i].alive && d < ammount) {\n                npcRangedNPC[i].alive = true;\n                npcRangedNPC[i].npcX = spawnX;\n                npcRangedNPC[i].npcY = spawnY;\n                d++;\n            }\n        }\n    }public void spawnWizard (int spawnX, int spawnY, int ammount){\n        int d = 0;\n        for (int i = 0;i<ammount;i++){\n            if (!npcWizard[i].alive && d < ammount) {\n                npcWizard[i].alive = true;\n                npcWizard[i].npcX = spawnX;\n                npcWizard[i].npcY = spawnY;\n                d++;\n            }\n        }\n    }\n    public void draw (Canvas canvas){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].draw(canvas);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].draw(canvas);\n            }if (npcWizard[i].alive){\n                npcWizard[i].draw(canvas);\n            }\n        }\n    }\n    public void update(float deltaTime){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].update(deltaTime);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].update(deltaTime);\n            }if (npcWizard[i].alive){\n                npcWizard[i].update(deltaTime);\n            }\n        }\n    }\n    public void physics(float deltaTime){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].physics(deltaTime);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].physics(deltaTime);\n            }if (npcWizard[i].alive){\n                npcWizard[i].physics(deltaTime);\n            }\n        }\n    }\n}\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java	(revision d45484900b54a9a194e4facfe6d499999fb9a02a)
+--+++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java	(date 1603242073000)
+--@@ -9,11 +9,13 @@
+--     Wooloo[] npcWooloo = new Wooloo[size];
+--     RangedNPC[] npcRangedNPC = new RangedNPC[size];
+--     Wizard[] npcWizard = new Wizard[size];
+--+    Villager[] npcVillager = new Villager[size];
+--     public NPC_Pool(){
+--         for(int i = 0 ;i < size; i++){
+--             npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
+--             npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);
+--             npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);
+--+            npcVillager[i] = new Villager(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.villager),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20);
+--         }
+--     }
+--     public void spawnWooloo (int spawnX, int spawnY, int ammount){
+--Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java	(date 1603242073000)
+--+++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java	(date 1603242073000)
+--@@ -0,0 +1,15 @@
+--+package mnm.bcs106.yoobeecolleges.dragon;
+--+
+--+import android.graphics.Bitmap;
+--+
+--+public class Villager extends NPC {
+--+    public Villager(Bitmap bitmap, float speed, int maxHP, int width, int height) {
+--+        super(bitmap, speed, maxHP, width, height);
+--+    }
+--+
+--+    @Override
+--+    public void update(float deltaTime) {
+--+
+--+        super.update(deltaTime);
+--+    }
+--+}
+--Index: ../.idea/workspace.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"2c456dbc-1908-40f2-80b2-0a9bff2325fc\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png\" afterDir=\"false\" />\n    </list>\n    <option name=\"EXCLUDED_CONVERTED_TO_IGNORED\" value=\"true\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"IgnoredFileRootStore\">\n    <option name=\"generatedRoots\">\n      <set>\n        <option value=\"D:\\Documents\\AndroidStudioProjects\\Dragon\\.idea\" />\n      </set>\n    </option>\n  </component>\n  <component name=\"ProjectFrameBounds\" extendedState=\"6\">\n    <option name=\"x\" value=\"24\" />\n    <option name=\"y\" value=\"255\" />\n    <option name=\"width\" value=\"1317\" />\n    <option name=\"height\" value=\"784\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1hyRBJqIinM8JAy5Yx7d3w5cJmI\" />\n  <component name=\"ProjectView\">\n    <navigator currentView=\"ProjectPane\" proportions=\"\" version=\"1\">\n      <foldersAlwaysOnTop value=\"true\" />\n    </navigator>\n    <panes>\n      <pane id=\"ProjectPane\" />\n      <pane id=\"Scope\" />\n      <pane id=\"PackagesPane\" />\n    </panes>\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showExcludedFiles\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"android.sdk.path\" value=\"$USER_HOME$/AppData/Local/Android/Sdk\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/dragon\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"settings.github\" />\n    <property name=\"show.migrate.to.gradle.popup\" value=\"false\" />\n  </component>\n  <component name=\"RunDashboard\">\n    <option name=\"ruleStates\">\n      <list>\n        <RuleState>\n          <option name=\"name\" value=\"ConfigurationTypeDashboardGroupingRule\" />\n        </RuleState>\n        <RuleState>\n          <option name=\"name\" value=\"StatusDashboardGroupingRule\" />\n        </RuleState>\n      </list>\n    </option>\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"2c456dbc-1908-40f2-80b2-0a9bff2325fc\" name=\"Default Changelist\" comment=\"\" />\n      <created>1600981208954</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1600981208954</updated>\n    </task>\n    <servers />\n  </component>\n  <component name=\"ToolWindowManager\">\n    <frame x=\"-8\" y=\"-8\" width=\"1382\" height=\"744\" extended-state=\"6\" />\n    <layout>\n      <window_info active=\"true\" content_ui=\"combo\" id=\"Project\" visible=\"true\" weight=\"0.3296131\" />\n      <window_info id=\"Structure\" side_tool=\"true\" />\n      <window_info id=\"Image Layers\" />\n      <window_info id=\"Designer\" />\n      <window_info id=\"Resources Explorer\" weight=\"0.3296131\" />\n      <window_info id=\"Capture Tool\" />\n      <window_info id=\"Favorites\" side_tool=\"true\" />\n      <window_info id=\"Captures\" order=\"0\" weight=\"0.25\" />\n      <window_info anchor=\"bottom\" id=\"Version Control\" />\n      <window_info anchor=\"bottom\" id=\"TODO\" />\n      <window_info anchor=\"bottom\" id=\"Terminal\" />\n      <window_info anchor=\"bottom\" id=\"Event Log\" side_tool=\"true\" />\n      <window_info anchor=\"right\" id=\"Capture Analysis\" />\n      <window_info anchor=\"right\" id=\"Theme Preview\" />\n      <window_info anchor=\"right\" id=\"Palette&#9;\" />\n    </layout>\n  </component>\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- ../.idea/workspace.xml	(revision d45484900b54a9a194e4facfe6d499999fb9a02a)
+--+++ ../.idea/workspace.xml	(date 1603162233000)
+--@@ -1,11 +1,10 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+--+  <component name="AutoImportSettings">
+--+    <option name="autoReloadType" value="NONE" />
+--+  </component>
+--   <component name="ChangeListManager">
+---    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="">
+---      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" afterDir="false" />
+---      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png" afterDir="false" />
+---    </list>
+---    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+--+    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="" />
+--     <option name="SHOW_DIALOG" value="false" />
+--     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+--     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+--@@ -13,13 +12,6 @@
+--   </component>
+--   <component name="Git.Settings">
+--     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+---  </component>
+---  <component name="IgnoredFileRootStore">
+---    <option name="generatedRoots">
+---      <set>
+---        <option value="D:\Documents\AndroidStudioProjects\Dragon\.idea" />
+---      </set>
+---    </option>
+--   </component>
+--   <component name="ProjectFrameBounds" extendedState="6">
+--     <option name="x" value="24" />
+--@@ -28,40 +20,18 @@
+--     <option name="height" value="784" />
+--   </component>
+--   <component name="ProjectId" id="1hyRBJqIinM8JAy5Yx7d3w5cJmI" />
+---  <component name="ProjectView">
+---    <navigator currentView="ProjectPane" proportions="" version="1">
+---      <foldersAlwaysOnTop value="true" />
+---    </navigator>
+---    <panes>
+---      <pane id="ProjectPane" />
+---      <pane id="Scope" />
+---      <pane id="PackagesPane" />
+---    </panes>
+---  </component>
+--   <component name="ProjectViewState">
+--     <option name="hideEmptyMiddlePackages" value="true" />
+---    <option name="showExcludedFiles" value="true" />
+--     <option name="showLibraryContents" value="true" />
+--   </component>
+--   <component name="PropertiesComponent">
+--+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+--     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+--     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+--     <property name="last_opened_file_path" value="$PROJECT_DIR$/dragon" />
+--     <property name="settings.editor.selected.configurable" value="settings.github" />
+--     <property name="show.migrate.to.gradle.popup" value="false" />
+--   </component>
+---  <component name="RunDashboard">
+---    <option name="ruleStates">
+---      <list>
+---        <RuleState>
+---          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+---        </RuleState>
+---        <RuleState>
+---          <option name="name" value="StatusDashboardGroupingRule" />
+---        </RuleState>
+---      </list>
+---    </option>
+---  </component>
+--   <component name="SvnConfiguration">
+--     <configuration />
+--   </component>
+--@@ -75,24 +45,10 @@
+--     </task>
+--     <servers />
+--   </component>
+---  <component name="ToolWindowManager">
+---    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+---    <layout>
+---      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3296131" />
+---      <window_info id="Structure" side_tool="true" />
+---      <window_info id="Image Layers" />
+---      <window_info id="Designer" />
+---      <window_info id="Resources Explorer" weight="0.3296131" />
+---      <window_info id="Capture Tool" />
+---      <window_info id="Favorites" side_tool="true" />
+---      <window_info id="Captures" order="0" weight="0.25" />
+---      <window_info anchor="bottom" id="Version Control" />
+---      <window_info anchor="bottom" id="TODO" />
+---      <window_info anchor="bottom" id="Terminal" />
+---      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+---      <window_info anchor="right" id="Capture Analysis" />
+---      <window_info anchor="right" id="Theme Preview" />
+---      <window_info anchor="right" id="Palette&#9;" />
+---    </layout>
+--+  <component name="WindowStateProjectService">
+--+    <state x="748" y="276" key="FileChooserDialogImpl" timestamp="1603162232134">
+--+      <screen x="0" y="0" width="1920" height="1035" />
+--+    </state>
+--+    <state x="748" y="276" key="FileChooserDialogImpl/0.0.1920.1035@0.0.1920.1035" timestamp="1603162232134" />
+--   </component>
+-- </project>
+--\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/shelved.patch
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/shelved.patch	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_06_PM_[Default_Changelist]/shelved.patch	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-@@ -1,158 +0,0 @@
+--Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>package mnm.bcs106.yoobeecolleges.dragon;\n\nimport android.graphics.BitmapFactory;\nimport android.graphics.Canvas;\n\npublic class NPC_Pool {\n    int size = 20;\n\n    Wooloo[] npcWooloo = new Wooloo[size];\n    RangedNPC[] npcRangedNPC = new RangedNPC[size];\n    Wizard[] npcWizard = new Wizard[size];\n    public NPC_Pool(){\n        for(int i = 0 ;i < size; i++){\n            npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);\n            npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);\n            npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);\n        }\n    }\n    public Wooloo spawnWooloo (int spawnX, int spawnY){\n        for (int i = 0;i<size;i++){\n            if (!npcWooloo[i].alive) {\n                npcWooloo[i].alive = true;\n                npcWooloo[i].npcX = spawnX;\n                npcWooloo[i].npcY = spawnY;\n\n                return npcWooloo[i];\n            }\n        }\n\n        return null;\n    }\n\n    public void spawnArcher (int spawnX, int spawnY, int ammount){\n        int d = 0;\n        for (int i = 0;i<ammount;i++){\n            if (!npcRangedNPC[i].alive && d < ammount) {\n                npcRangedNPC[i].alive = true;\n                npcRangedNPC[i].npcX = spawnX;\n                npcRangedNPC[i].npcY = spawnY;\n                d++;\n            }\n        }\n    }public void spawnWizard (int spawnX, int spawnY, int ammount){\n        int d = 0;\n        for (int i = 0;i<ammount;i++){\n            if (!npcWizard[i].alive && d < ammount) {\n                npcWizard[i].alive = true;\n                npcWizard[i].npcX = spawnX;\n                npcWizard[i].npcY = spawnY;\n                d++;\n            }\n        }\n    }\n    public void draw (Canvas canvas){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].draw(canvas);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].draw(canvas);\n            }if (npcWizard[i].alive){\n                npcWizard[i].draw(canvas);\n            }\n        }\n    }\n    public void update(float deltaTime){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].update(deltaTime);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].update(deltaTime);\n            }if (npcWizard[i].alive){\n                npcWizard[i].update(deltaTime);\n            }\n        }\n    }\n    public void physics(float deltaTime){\n        for (int i = 0; i<size;i++){\n            if (npcWooloo[i].alive){\n                npcWooloo[i].physics(deltaTime);\n            }if (npcRangedNPC[i].alive){\n                npcRangedNPC[i].physics(deltaTime);\n            }if (npcWizard[i].alive){\n                npcWizard[i].physics(deltaTime);\n            }\n        }\n    }\n}\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java	(revision b2f1d424610f58d467a324813465fda3f7369226)
+--+++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/NPC_Pool.java	(date 1603242100000)
+--@@ -9,11 +9,13 @@
+--     Wooloo[] npcWooloo = new Wooloo[size];
+--     RangedNPC[] npcRangedNPC = new RangedNPC[size];
+--     Wizard[] npcWizard = new Wizard[size];
+--+    Villager[] npcVillager = new Villager[size];
+--     public NPC_Pool(){
+--         for(int i = 0 ;i < size; i++){
+--             npcWooloo[i] = new Wooloo(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500);
+--             npcRangedNPC[i] = new RangedNPC(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,300,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30);
+--             npcWizard[i] = new Wizard(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.wooloo),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,100);
+--+            npcVillager[i] = new Villager(BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.villager),(float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20);
+--         }
+--     }
+--     public Wooloo spawnWooloo (int spawnX, int spawnY){
+--Index: app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java	(date 1603242100000)
+--+++ app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Villager.java	(date 1603242100000)
+--@@ -0,0 +1,15 @@
+--+package mnm.bcs106.yoobeecolleges.dragon;
+--+
+--+import android.graphics.Bitmap;
+--+
+--+public class Villager extends NPC {
+--+    public Villager(Bitmap bitmap, float speed, int maxHP, int width, int height) {
+--+        super(bitmap, speed, maxHP, width, height);
+--+    }
+--+
+--+    @Override
+--+    public void update(float deltaTime) {
+--+
+--+        super.update(deltaTime);
+--+    }
+--+}
+--Index: ../.idea/workspace.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"2c456dbc-1908-40f2-80b2-0a9bff2325fc\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png\" afterDir=\"false\" />\n    </list>\n    <option name=\"EXCLUDED_CONVERTED_TO_IGNORED\" value=\"true\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"IgnoredFileRootStore\">\n    <option name=\"generatedRoots\">\n      <set>\n        <option value=\"D:\\Documents\\AndroidStudioProjects\\Dragon\\.idea\" />\n      </set>\n    </option>\n  </component>\n  <component name=\"ProjectFrameBounds\" extendedState=\"6\">\n    <option name=\"x\" value=\"24\" />\n    <option name=\"y\" value=\"255\" />\n    <option name=\"width\" value=\"1317\" />\n    <option name=\"height\" value=\"784\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1hyRBJqIinM8JAy5Yx7d3w5cJmI\" />\n  <component name=\"ProjectView\">\n    <navigator currentView=\"ProjectPane\" proportions=\"\" version=\"1\">\n      <foldersAlwaysOnTop value=\"true\" />\n    </navigator>\n    <panes>\n      <pane id=\"ProjectPane\" />\n      <pane id=\"Scope\" />\n      <pane id=\"PackagesPane\" />\n    </panes>\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showExcludedFiles\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"android.sdk.path\" value=\"$USER_HOME$/AppData/Local/Android/Sdk\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/dragon\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"settings.github\" />\n    <property name=\"show.migrate.to.gradle.popup\" value=\"false\" />\n  </component>\n  <component name=\"RunDashboard\">\n    <option name=\"ruleStates\">\n      <list>\n        <RuleState>\n          <option name=\"name\" value=\"ConfigurationTypeDashboardGroupingRule\" />\n        </RuleState>\n        <RuleState>\n          <option name=\"name\" value=\"StatusDashboardGroupingRule\" />\n        </RuleState>\n      </list>\n    </option>\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"2c456dbc-1908-40f2-80b2-0a9bff2325fc\" name=\"Default Changelist\" comment=\"\" />\n      <created>1600981208954</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1600981208954</updated>\n    </task>\n    <servers />\n  </component>\n  <component name=\"ToolWindowManager\">\n    <frame x=\"-8\" y=\"-8\" width=\"1382\" height=\"744\" extended-state=\"6\" />\n    <layout>\n      <window_info active=\"true\" content_ui=\"combo\" id=\"Project\" visible=\"true\" weight=\"0.3296131\" />\n      <window_info id=\"Structure\" side_tool=\"true\" />\n      <window_info id=\"Image Layers\" />\n      <window_info id=\"Designer\" />\n      <window_info id=\"Resources Explorer\" weight=\"0.3296131\" />\n      <window_info id=\"Capture Tool\" />\n      <window_info id=\"Favorites\" side_tool=\"true\" />\n      <window_info id=\"Captures\" order=\"0\" weight=\"0.25\" />\n      <window_info anchor=\"bottom\" id=\"Version Control\" />\n      <window_info anchor=\"bottom\" id=\"TODO\" />\n      <window_info anchor=\"bottom\" id=\"Terminal\" />\n      <window_info anchor=\"bottom\" id=\"Event Log\" side_tool=\"true\" />\n      <window_info anchor=\"right\" id=\"Capture Analysis\" />\n      <window_info anchor=\"right\" id=\"Theme Preview\" />\n      <window_info anchor=\"right\" id=\"Palette&#9;\" />\n    </layout>\n  </component>\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+----- ../.idea/workspace.xml	(revision b2f1d424610f58d467a324813465fda3f7369226)
+--+++ ../.idea/workspace.xml	(date 1603242100000)
+--@@ -1,11 +1,10 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+--+  <component name="AutoImportSettings">
+--+    <option name="autoReloadType" value="NONE" />
+--+  </component>
+--   <component name="ChangeListManager">
+---    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="">
+---      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" afterDir="false" />
+---      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/back_leg_flying_minimalism.png" afterDir="false" />
+---    </list>
+---    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+--+    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="" />
+--     <option name="SHOW_DIALOG" value="false" />
+--     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+--     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+--@@ -13,13 +12,6 @@
+--   </component>
+--   <component name="Git.Settings">
+--     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+---  </component>
+---  <component name="IgnoredFileRootStore">
+---    <option name="generatedRoots">
+---      <set>
+---        <option value="D:\Documents\AndroidStudioProjects\Dragon\.idea" />
+---      </set>
+---    </option>
+--   </component>
+--   <component name="ProjectFrameBounds" extendedState="6">
+--     <option name="x" value="24" />
+--@@ -28,40 +20,18 @@
+--     <option name="height" value="784" />
+--   </component>
+--   <component name="ProjectId" id="1hyRBJqIinM8JAy5Yx7d3w5cJmI" />
+---  <component name="ProjectView">
+---    <navigator currentView="ProjectPane" proportions="" version="1">
+---      <foldersAlwaysOnTop value="true" />
+---    </navigator>
+---    <panes>
+---      <pane id="ProjectPane" />
+---      <pane id="Scope" />
+---      <pane id="PackagesPane" />
+---    </panes>
+---  </component>
+--   <component name="ProjectViewState">
+--     <option name="hideEmptyMiddlePackages" value="true" />
+---    <option name="showExcludedFiles" value="true" />
+--     <option name="showLibraryContents" value="true" />
+--   </component>
+--   <component name="PropertiesComponent">
+--+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+--     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+--     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+--     <property name="last_opened_file_path" value="$PROJECT_DIR$/dragon" />
+--     <property name="settings.editor.selected.configurable" value="settings.github" />
+--     <property name="show.migrate.to.gradle.popup" value="false" />
+--   </component>
+---  <component name="RunDashboard">
+---    <option name="ruleStates">
+---      <list>
+---        <RuleState>
+---          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+---        </RuleState>
+---        <RuleState>
+---          <option name="name" value="StatusDashboardGroupingRule" />
+---        </RuleState>
+---      </list>
+---    </option>
+---  </component>
+--   <component name="SvnConfiguration">
+--     <configuration />
+--   </component>
+--@@ -75,24 +45,10 @@
+--     </task>
+--     <servers />
+--   </component>
+---  <component name="ToolWindowManager">
+---    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+---    <layout>
+---      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.3296131" />
+---      <window_info id="Structure" side_tool="true" />
+---      <window_info id="Image Layers" />
+---      <window_info id="Designer" />
+---      <window_info id="Resources Explorer" weight="0.3296131" />
+---      <window_info id="Capture Tool" />
+---      <window_info id="Favorites" side_tool="true" />
+---      <window_info id="Captures" order="0" weight="0.25" />
+---      <window_info anchor="bottom" id="Version Control" />
+---      <window_info anchor="bottom" id="TODO" />
+---      <window_info anchor="bottom" id="Terminal" />
+---      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+---      <window_info anchor="right" id="Capture Analysis" />
+---      <window_info anchor="right" id="Theme Preview" />
+---      <window_info anchor="right" id="Palette&#9;" />
+---    </layout>
+--+  <component name="WindowStateProjectService">
+--+    <state x="748" y="276" key="FileChooserDialogImpl" timestamp="1603162232134">
+--+      <screen x="0" y="0" width="1920" height="1035" />
+--+    </state>
+--+    <state x="748" y="276" key="FileChooserDialogImpl/0.0.1920.1035@0.0.1920.1035" timestamp="1603162232134" />
+--   </component>
+-- </project>
+--\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM__Default_Changelist_.xml
+-===================================================================
+---- .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM__Default_Changelist_.xml	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-+++ .idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM__Default_Changelist_.xml	(revision 622a9edc36669108190403ed90deea7a5c9ee9d2)
+-@@ -1,9 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]" date="1603242100751" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 21/10/20 2:01 PM [Default Changelist]" />
+--  <binary>
+--    <option name="BEFORE_PATH" />
+--    <option name="AFTER_PATH" value="app/src/main/res/drawable/villager.png" />
+--    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_10_20_2_01_PM_[Default_Changelist]/villager.png" />
+--  </binary>
+--</changelist>
+-\ No newline at end of file
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_10_31_2020_6_17_PM__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_10_31_2020_6_17_PM__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Update_at_11_1_2020_3_50_PM__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Update_at_11_1_2020_3_50_PM__Default_Changelist_.xml
