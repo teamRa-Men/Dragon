@@ -376,7 +376,7 @@ public class Dragon extends Character {
         else {
             breathingFire = false;
         }
-        
+
         fireBreath.physics(deltaTime);
 
         if (!destroyed)
