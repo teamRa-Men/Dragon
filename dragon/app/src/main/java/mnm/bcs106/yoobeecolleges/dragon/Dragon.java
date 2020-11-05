@@ -371,11 +371,14 @@ public class Dragon extends Character {
 
 
             }
-            fireBreath.physics(deltaTime);
+
         }
         else {
             breathingFire = false;
         }
+        
+        fireBreath.physics(deltaTime);
+
         if (!destroyed)
             super.physics(deltaTime);
         speed *= friction;
