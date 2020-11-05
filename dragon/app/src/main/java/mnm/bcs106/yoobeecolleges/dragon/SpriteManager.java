@@ -19,7 +19,7 @@ public class SpriteManager {
     public SpriteManager() {
         instance = this;
         gameView = GameView.instance;
-        buildingSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.building_sheet);
+        buildingSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.building_sheet_2);
         buildingSheet = Bitmap.createScaledBitmap(buildingSheet,1152,1024,true);
 
         NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
