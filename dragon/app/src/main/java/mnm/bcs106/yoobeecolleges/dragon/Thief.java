@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class Thief extends NPC {
     public int howManySteal;
     public int maxSteal;
-    public boolean stole = false;
+    public boolean stole = true;
     public Thief(Bitmap bitmap, float speed, int maxHP, int width, int height, int stealGold) {
         super(bitmap, speed, maxHP, width, height);
         target.x = (int) GameView.instance.lair.position.x;
