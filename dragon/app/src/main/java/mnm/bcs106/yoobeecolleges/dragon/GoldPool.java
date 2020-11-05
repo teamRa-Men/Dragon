@@ -22,7 +22,7 @@ public class GoldPool {
         }
     }
     public void spawnGold(int x, int y, int amount) {
-        spawnGold(x, y, amount*3, false);
+        spawnGold(x, y, amount, false);
     }
     public void spawnGold(int x, int y, int amount, boolean fromDragon){
         //amount*=10;
