@@ -12,7 +12,7 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 0;//500;
+    int depositedGold = 100;//500;
     Bitmap goldPile;
     float goldPileHeight;
     float sleepTimeSpeed = 8;
@@ -212,8 +212,8 @@ public class Lair {
     }
 
     public void draw (Canvas canvas){
-        //canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
-        //canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+        canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+        canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
     }

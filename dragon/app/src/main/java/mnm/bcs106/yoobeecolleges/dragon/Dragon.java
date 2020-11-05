@@ -36,7 +36,7 @@ public class Dragon extends Character {
     int goldHolding = 0;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;
+    float flyingManaCost = 5, fireManaCost = 5, manaRegen=3;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -158,7 +158,7 @@ public class Dragon extends Character {
 
     @Override
     public void onDamage(float damage) {
-        isSleeping = false;
+        GameView.instance.lair.wake();
         if(!stunController.performing) {
             super.onDamage(damage);
         }
@@ -217,12 +217,12 @@ public class Dragon extends Character {
                         backWing.walking = true;
                         frontWing.walking = true;
 
-                        if (backArm.segment.position.y >= groundLevel - radius) {
+                        if (backArm.segment.position.y >= groundLevel - radius/4) {
                         backArm.walking = true;
                         frontArm.walking = true;
                         }
 
-                        if (backLeg.segment.position.y >= groundLevel - radius) {
+                        if (backLeg.segment.position.y >= groundLevel - radius/4) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
                         }
