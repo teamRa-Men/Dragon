@@ -12,7 +12,7 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 500;
+    int depositedGold = 0;//500;
     Bitmap goldPile;
     float goldPileHeight;
     float sleepTimeSpeed = 8;
@@ -201,8 +201,9 @@ public class Lair {
                 //GameView.instance.player.goldHolding -= 1;]
                 Vector2 p = GameView.instance.player.position;
 
-                GoldPool.instance.spawnGold((int)p.x, (int)p.y, GameView.instance.player.goldHolding,true);
-                GameView.instance.player.goldHolding = 0;
+                GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
+                GameView.instance.player.goldHolding--;
+                depositedGold++;
             }
         }
     }
@@ -227,7 +228,7 @@ public class Lair {
             }
             else{
                 GoldPool.instance.collectedGold(g);
-                depositedGold++;
+
                 goldPileHeight = getGoldPileHeight();
             }
         }

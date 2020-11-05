@@ -29,7 +29,7 @@ public class SpriteManager {
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
 
         dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
-        //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet);
+        //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_blurred);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
