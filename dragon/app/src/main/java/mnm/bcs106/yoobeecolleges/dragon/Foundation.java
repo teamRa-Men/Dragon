@@ -98,9 +98,13 @@ public class Foundation {
 
     public void physics(float deltaTime){
          // Log.i("gmg","phy");
-        if (GameView.instance.player.fireBreath.collision(collider)){
-            OnDamage();
-            //System.out.println(health);
+        try {
+            if (GameView.instance.player.fireBreath.collision(collider)) {
+                OnDamage();
+                //System.out.println(health);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
