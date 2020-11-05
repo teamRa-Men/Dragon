@@ -12,9 +12,10 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 500;
+    int depositedGold = 0;//500;
     Bitmap goldPile;
     float goldPileHeight;
+    float sleepTimeSpeed = 8;
 
     Dragon player;
     float maximumMana = 200;
@@ -59,6 +60,7 @@ public class Lair {
         isSleeping = true;
         player.isSleeping = true;
         lieDown();
+        GameView.instance.timeScale = sleepTimeSpeed;
     }
 
     public  void stealGold(int steal){
@@ -89,6 +91,7 @@ public class Lair {
     public void wake(){
         isSleeping = false;
         player.isSleeping = false;
+        GameView.instance.timeScale = 1;
     }
 
     public boolean upgradeAttack(){
@@ -174,6 +177,7 @@ public class Lair {
             Game.instance.showWakeButton = false;
             Game.instance.showUpgradeButton = false;
 
+
             if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
                 Game.instance.showSleepButton = true;
                 //System.out.println("sleep button on");
@@ -197,8 +201,9 @@ public class Lair {
                 //GameView.instance.player.goldHolding -= 1;]
                 Vector2 p = GameView.instance.player.position;
 
-                GoldPool.instance.spawnGold((int)p.x, (int)p.y, GameView.instance.player.goldHolding,true);
-                GameView.instance.player.goldHolding = 0;
+                GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
+                GameView.instance.player.goldHolding--;
+                depositedGold++;
             }
         }
     }
@@ -223,7 +228,7 @@ public class Lair {
             }
             else{
                 GoldPool.instance.collectedGold(g);
-                depositedGold++;
+
                 goldPileHeight = getGoldPileHeight();
             }
         }

@@ -68,26 +68,26 @@
                             android:orientation="vertical">
 
                             <Button
-                                android:id="@+id/pauseContinue"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
-                                android:layout_weight="1"
-                                android:text="Continue" />
-
-                            <Button
                                 android:id="@+id/pauseRestart"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
+                                android:layout_margin="0dp"
                                 android:layout_weight="1"
                                 android:text="Restart" />
+
+                            <Button
+                                android:id="@+id/pauseContinue"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="0dp"
+                                android:layout_weight="1"
+                                android:text="Continue" />
 
                             <Button
                                 android:id="@+id/pauseCredits"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
+                                android:layout_margin="0dp"
                                 android:layout_weight="1"
                                 android:text="Credits" />
 
@@ -95,7 +95,7 @@
                                 android:id="@+id/pauseExit"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
+                                android:layout_margin="0dp"
                                 android:layout_weight="1"
                                 android:text="Exit" />
                         </LinearLayout>

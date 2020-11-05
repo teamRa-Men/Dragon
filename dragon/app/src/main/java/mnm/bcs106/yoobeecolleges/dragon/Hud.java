@@ -50,7 +50,7 @@ public class Hud {
             bar.setShadowLayer(3,1,1,Color.DKGRAY);
             health.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
             mana.setColor(Game.instance.getResources().getColor(R.color.colorMana));
-            barLeft = screenWidth/10;
+            barLeft = screenWidth/8;
             manaMaxWidth = (int)(screenWidth/4*player.maxMana/100);
             healthMaxWidth = (int)(screenWidth/4*player.maxHealth/100);
             manaTop = screenWidth/40+20;

@@ -78,7 +78,7 @@ public class Farm extends Foundation{
 
             goldRate = currentCattle.size() * 10;
             beenEmptied = false;
-            buildingImage = spriteAnim.getFrame(fixedDeltaTime,1);
+            buildingImage = spriteAnim.getFrame(fixedDeltaTime,GameView.instance.timeScale);
             fearCooldown();
         }
 

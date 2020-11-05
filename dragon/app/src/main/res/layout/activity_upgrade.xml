@@ -50,113 +50,89 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
+                        <TextView
+                            android:id="@+id/level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
                             android:layout_weight="1"
-                            app:cardCornerRadius="1000dp">
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="LV 100"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/level"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="LV 100"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <TextView
+                            android:id="@+id/upgradePoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
                             android:layout_weight="1"
-                            app:cardCornerRadius="1000dp">
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="100 P"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/upgradePoints"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="100 P"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        app:cardCornerRadius="1000dp">
+                        android:orientation="horizontal">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent">
 
-                            <androidx.cardview.widget.CardView
+                            <ProgressBar
+                                android:id="@+id/xpBar"
+                                style="@android:style/Widget.ProgressBar.Horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:layout_weight="0.4"
-                                app:cardCornerRadius="100dp"
-                                app:cardElevation="7dp">
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                                <ProgressBar
-                                    android:id="@+id/xpBar"
-                                    style="@android:style/Widget.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center" />
+                            <TextView
+                                android:id="@+id/xpTextAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="1000000 XP"
+                                android:textColor="@color/colorDragon"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/xpBar"
+                                app:layout_constraintStart_toStartOf="@+id/xpBar"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-                                <TextView
-                                    android:id="@+id/xpTextAmount"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:text="1000000 XP" />
-                            </androidx.cardview.widget.CardView>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5">
 
-                        <androidx.cardview.widget.CardView
+                        <ImageView
+                            android:id="@+id/imageView2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            app:cardCornerRadius="20dp"
-                            app:cardElevation="7dp">
+                            android:adjustViewBounds="true"
+                            android:padding="20dp"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/dragon_portrait" />
 
-                            <ImageView
-                                android:id="@+id/imageView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:adjustViewBounds="true"
-                                android:scaleType="fitCenter"
-                                app:srcCompat="@drawable/dragon_portrait" />
-                        </androidx.cardview.widget.CardView>
                     </FrameLayout>
 
                     <FrameLayout
@@ -186,63 +162,37 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="4dp">
+                            android:layout_weight="0"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/wing" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:adjustViewBounds="true"
-                                app:srcCompat="@drawable/wing" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
+                        <ProgressBar
+                            android:id="@+id/progressSpeed"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.4"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="1" />
 
-                            <ProgressBar
-                                android:id="@+id/progressSpeed"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
+                        <Button
+                            android:id="@+id/upgradeSpeed"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.8"
-                            android:clickable="true"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <Button
-                                android:id="@+id/upgradeSpeed"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="+"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -251,63 +201,37 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="4dp">
+                            android:layout_weight="0"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/mana" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:adjustViewBounds="true"
-                                app:srcCompat="@drawable/mana" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <ProgressBar
+                            android:id="@+id/progressMana"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.4"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="1" />
 
-                            <ProgressBar
-                                android:id="@+id/progressMana"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
+                        <Button
+                            android:id="@+id/upgradeMana"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.8"
-                            android:clickable="true"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <Button
-                                android:id="@+id/upgradeMana"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="+"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -316,63 +240,37 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="4dp">
+                            android:layout_weight="0"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/heart" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:adjustViewBounds="true"
-                                app:srcCompat="@drawable/heart" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <ProgressBar
+                            android:id="@+id/progressHealth"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.4"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="1" />
 
-                            <ProgressBar
-                                android:id="@+id/progressHealth"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
+                        <Button
+                            android:id="@+id/upgradeHealth"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.8"
-                            android:clickable="true"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <Button
-                                android:id="@+id/upgradeHealth"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="+"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                     <LinearLayout
@@ -381,63 +279,36 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="4dp">
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/fire" />
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="10dp"
-                                android:adjustViewBounds="true"
-                                app:srcCompat="@drawable/fire" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <ProgressBar
+                            android:id="@+id/progressAttack"
+                            style="@android:style/Widget.ProgressBar.Horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.4"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="1" />
 
-                            <ProgressBar
-                                android:id="@+id/progressAttack"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
+                        <Button
+                            android:id="@+id/upgradeAttack"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
-                            android:layout_weight="0.8"
-                            android:clickable="true"
-                            app:cardCornerRadius="100dp"
-                            app:cardElevation="7dp">
+                            android:layout_weight="0"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="+"
+                            android:textAlignment="center"
+                            android:textColor="#D8B64E"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <Button
-                                android:id="@+id/upgradeAttack"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:padding="10dp"
-                                android:text="+"
-                                android:textAlignment="center"
-                                android:textColor="#D8B64E"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </LinearLayout>
 

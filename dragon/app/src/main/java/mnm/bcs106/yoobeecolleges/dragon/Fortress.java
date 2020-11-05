@@ -122,7 +122,7 @@ public class Fortress extends Foundation {
                 }
 
 
-                currentGold = currentGold + (int) (goldRate * 1.2);
+                currentGold = currentGold + (int) (goldRate * 1.2*GameView.instance.timeScale);
 
 
                 if (currentGold > maxGold) {

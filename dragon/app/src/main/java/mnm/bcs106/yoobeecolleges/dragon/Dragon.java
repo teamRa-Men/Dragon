@@ -33,7 +33,7 @@ public class Dragon extends Character {
     Segment[] colliders;
 
 
-    int goldHolding = 50;
+    int goldHolding = 0;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
     float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;
@@ -54,7 +54,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(65);
+        initBody(35);
 
 
         setAttackController(0,100,100);
@@ -71,7 +71,7 @@ public class Dragon extends Character {
 
         bodyStart = size/7;
         bodyEnd = size/3;
-        maxMoveSpeed = 1f/2;
+        maxMoveSpeed = 1f/3;
         maxHealth = 60;
         health = maxHealth;
 
@@ -185,6 +185,8 @@ public class Dragon extends Character {
 
 
         }
+
+
 
 
     }
@@ -328,6 +330,19 @@ public class Dragon extends Character {
     @Override
     public void physics(float deltaTime) {
         if(!isSleeping) {
+            if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
+                direction.x = (-0.1f + direction.x)/2;
+                direction.y = 0;
+                position.x =  -Scene.instance.islandSize+Scene.instance.width;
+                System.out.println("wall right");
+            }
+            if(position.x  > Scene.instance.islandSize && velocity!=null) {
+                direction.x = (0.1f + direction.x)/2f;
+                direction.y = 0;
+                position.x =  Scene.instance.islandSize;
+                System.out.println("wall left");
+            }
+
             if (position.y < upperBound) {
                 direction.y = 0;
                 position.y = upperBound;

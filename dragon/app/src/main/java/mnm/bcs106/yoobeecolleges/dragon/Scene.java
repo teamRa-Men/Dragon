@@ -17,9 +17,11 @@ public class Scene {
     public static Scene instance;
 
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
-    Dragon player;
+
 
     Paint skyPaint, backPaint,frontPaint;
+
+    float islandSize;
 
     GameView gameView;
     public Scene(){
@@ -28,11 +30,12 @@ public class Scene {
 
         dayLength = 1*60*1000;
 
-        player = gameView.player;
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
-        sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
-        sky = Bitmap.createScaledBitmap(sky, width, sky.getHeight()*width/sky.getWidth(),false);
+        islandSize =width*4;
+
+                sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
+        sky = Bitmap.createScaledBitmap(sky, width,height,false);
         ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
         ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
@@ -44,14 +47,16 @@ public class Scene {
         skyPaint = new Paint();
 ;        frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
         backPaint.setColor(Color.rgb(250,250,255));
-        skyPaint.setColor(Color.rgb(250,250,255));
+        //skyPaint.setColor(Color.rgb(250,250,255));
     }
 
     public void drawBackground(Canvas canvas){
-
-        canvas.drawBitmap(sky, mountainX+ mountainX0,0,backPaint);
-        canvas.drawBitmap(sky, mountainX+ mountainX1,0,backPaint);
-        canvas.drawBitmap(sky, mountainX+ mountainX2,0,backPaint);
+        canvas.drawRect(0,0,width,height,skyPaint);
+        //canvas.drawRect(0,0,width,height,backPaint);
+        //canvas.drawBitmap(sky, 0,0,backPaint);
+        //canvas.drawBitmap(sky, mountainX+ mountainX0,0,backPaint);
+        //canvas.drawBitmap(sky, mountainX+ mountainX1,0,backPaint);
+        //canvas.drawBitmap(sky, mountainX+ mountainX2,0,backPaint);
 
 
         //canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,0,backPaint);
@@ -65,15 +70,21 @@ public class Scene {
 
     }
     public void drawForeground(Canvas canvas){
-
-        canvas.drawBitmap(ground, groundX+ groundX0,GameView.instance.groundLevel*.985f,backPaint);
-        canvas.drawBitmap(ground, groundX+ groundX1,GameView.instance.groundLevel*.985f,backPaint);
-        canvas.drawBitmap(ground, groundX+ groundX2,GameView.instance.groundLevel*.985f,backPaint);
+        if(Math.abs(groundX) < islandSize) {
+            canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, backPaint);
+        }
+        if(Math.abs(groundX+ width) < islandSize) {
+            canvas.drawBitmap(ground, groundX + groundX1, GameView.instance.groundLevel * .985f, backPaint);
+        }
+        if(Math.abs(groundX- width) < islandSize) {
+               canvas.drawBitmap(ground, groundX + groundX2, GameView.instance.groundLevel * .985f, backPaint);
+        }
         //canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, frontPaint);
     }
 
 
     public void update(float deltaTime){
+
         mountainX = gameView.cameraDisp.x/4;
         hillsX = gameView.cameraDisp.x/2;
         groundX = gameView.cameraDisp.x;
@@ -95,8 +106,8 @@ public class Scene {
         backPaint.setColorFilter(new LightingColorFilter(Color.rgb(bc,bc,bc),0));
         frontPaint.setColorFilter(new LightingColorFilter(Color.rgb(fc,fc,fc),0));
 
-        skyPaint.setColor(Color.rgb((int)(bc*0.95f),(int)(bc*0.95f),bc));
-
+        skyPaint.setColor(Color.rgb((int)(bc*0.97f),(int)(bc*0.97f),bc));
+        //skyPaint.setAlpha(bc);
         timeOfDay +=deltaTime;
         //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){
