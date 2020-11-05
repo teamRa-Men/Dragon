@@ -3,12 +3,10 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 
 public class Thief extends NPC {
-    public int holdCapacity;
     public int howManySteal;
     public boolean stole = false;
     public Thief(Bitmap bitmap, float speed, int maxHP, int width, int height, int stealGold) {
         super(bitmap, speed, maxHP, width, height);
-        holdCapacity = stealGold;
         target.x = (int) GameView.instance.lair.position.x;
     }
     @Override
@@ -16,6 +14,12 @@ public class Thief extends NPC {
         GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
         howManySteal = 0;
         super.death();
+
+    }
+
+    @Override
+    public void spawn(int spawnX, int spawnY) {
+        super.spawn(spawnX, spawnY);
 
     }
 
