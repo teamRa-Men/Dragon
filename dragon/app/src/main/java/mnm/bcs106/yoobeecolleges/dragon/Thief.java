@@ -4,17 +4,18 @@ import android.graphics.Bitmap;
 
 public class Thief extends NPC {
     public int howManySteal;
+    public int maxSteal;
     public boolean stole = false;
     public Thief(Bitmap bitmap, float speed, int maxHP, int width, int height, int stealGold) {
         super(bitmap, speed, maxHP, width, height);
         target.x = (int) GameView.instance.lair.position.x;
+        maxSteal = stealGold;
     }
     @Override
     public void death() {
         GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
         howManySteal = 0;
         super.death();
-
     }
 
     @Override
@@ -35,9 +36,9 @@ public class Thief extends NPC {
             stole = false;
         }
         if (Math.abs(npcX - GameView.instance.lair.position.x) < 7){
-            if (GameView.instance.lair.depositedGold>100){
-                GameView.instance.lair.stealGold(100);
-                howManySteal = 100;
+            if (GameView.instance.lair.depositedGold>maxSteal){
+                GameView.instance.lair.stealGold(maxSteal);
+                howManySteal = maxSteal;
             }else {
                 howManySteal = GameView.instance.lair.depositedGold;
                 GameView.instance.lair.stealGold(GameView.instance.lair.depositedGold);
