@@ -158,6 +158,7 @@ public class Dragon extends Character {
 
     @Override
     public void onDamage(float damage) {
+        isSleeping = false;
         if(!stunController.performing) {
             super.onDamage(damage);
         }
@@ -891,7 +892,6 @@ class FireBreath{
         }
         direction = dragon.direction.add(direction).multiply(0.5f);
 
-        boolean hit = false;
 
         Flame c = backFlames.get(colliderIndex);
         if(!c.active){
