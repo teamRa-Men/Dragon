@@ -373,6 +373,9 @@ public class Dragon extends Character {
             }
             fireBreath.physics(deltaTime);
         }
+        else {
+            breathingFire = false;
+        }
         if (!destroyed)
             super.physics(deltaTime);
         speed *= friction;
@@ -399,7 +402,7 @@ public class Dragon extends Character {
                 frontArm.draw(canvas);
                 frontWing.draw(canvas);
             }
-            if(i == 0){
+            if(i == 0 && !isSleeping){
                 fireBreath.draw(canvas);
             }
             segments.get(i).draw(canvas);
