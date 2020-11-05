@@ -54,7 +54,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(35);
+        initBody(75);
 
 
         setAttackController(0,100,100);
@@ -71,7 +71,7 @@ public class Dragon extends Character {
 
         bodyStart = size/7;
         bodyEnd = size/3;
-        maxMoveSpeed = 1f/3;
+        maxMoveSpeed = 1f/2;
         maxHealth = 60;
         health = maxHealth;
 
