@@ -14,6 +14,7 @@ public class Thief extends NPC {
     @Override
     public void death() {
         GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
+        howManySteal = 0;
         super.death();
 
     }
