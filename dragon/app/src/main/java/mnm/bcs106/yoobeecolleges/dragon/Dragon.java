@@ -54,7 +54,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(75);
+        initBody(65);
 
 
         setAttackController(0,100,100);
@@ -286,8 +286,8 @@ public class Dragon extends Character {
 
             }
         }
-        direction.y =  Math.signum(direction.y)*Math.min(Math.abs(direction.y), 0.5f);
-        direction.x = Math.signum(direction.x)*Math.max(Math.abs(direction.x), 0.5f);
+        //direction.y =  Math.signum(direction.y)*Math.min(Math.abs(direction.y), 0.5f);
+        //direction.x = Math.signum(direction.x)*Math.max(Math.abs(direction.x), 0.5f);
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
@@ -315,7 +315,7 @@ public class Dragon extends Character {
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
             if(segment.getBounds().contains(other.position.x,other.position.y)){
-                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.8) {
+                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.6) {
                     collided = true;
                     other.setParent(segment);
                 }
