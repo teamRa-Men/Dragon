@@ -79,6 +79,8 @@ public class SpriteManager {
         put("Farmer1",spriteRect(0,128,128,128));
         put("Farmer2",spriteRect(128,128,128,128));
 
+        put("Tribute",spriteRect(128*2,64,128,256-64));
+
         put("Wizard1",spriteRect(0,128*2,128,128));
         put("Wizard2",spriteRect(128,128*2,128,128));
         put("Wizard3",spriteRect(128*2,128*2,128,128));
@@ -93,6 +95,7 @@ public class SpriteManager {
         put("Arrow",spriteRect(128,16,32,16));
         put("Magic",spriteRect(128,32,32,32));
         put("Spear",spriteRect(128,0,256,16));
+
     }};
 
     private final HashMap<String,Rect> environmentSprites = new HashMap<String,Rect>() {{

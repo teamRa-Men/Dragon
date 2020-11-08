@@ -37,25 +37,33 @@ public class DragonLayers extends NPC {
         if(alive) {
             arrowRechargeTime.update(deltaTime);
             direction = (int) Math.signum(GameView.instance.player.position.x - npcX);
-            if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4 ) {
-                target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
-                moveToTarget(deltaTime);
-                npcY = (int) GameView.instance.groundLevel - npcRect.height();
-                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
-            }
-            if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 2 ) {
-                arrowRechargeTime.triggerAction();
-                if (arrowRechargeTime.charging) {
-                    shot = false;
-                    npcBitmap = shootSprite;
-                } else if (arrowRechargeTime.performing) {
-                    if (!shot) {
-                        shoot();
-                        shot = true;
-                        npcBitmap = shootingSprite;
+            if(lockTarget) {
+                if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4) {
+                    target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
+                    moveToTarget(deltaTime);
+                    npcY = (int) GameView.instance.groundLevel - npcRect.height();
+                    npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
+                }
+                if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 2) {
+                    arrowRechargeTime.triggerAction();
+                    if (arrowRechargeTime.charging) {
+                        shot = false;
+                        npcBitmap = shootSprite;
+                    } else if (arrowRechargeTime.performing) {
+                        if (!shot) {
+                            shoot();
+                            shot = true;
+                            npcBitmap = shootingSprite;
+                        }
+                    } else {
+                        npcBitmap = idleSprite;
                     }
-                } else {
-                    npcBitmap = idleSprite;
+                }
+            }
+            else {
+                idle(GameView.instance.screenWidth/4,true);
+                if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 3){
+                    lockTarget = true;
                 }
             }
         }

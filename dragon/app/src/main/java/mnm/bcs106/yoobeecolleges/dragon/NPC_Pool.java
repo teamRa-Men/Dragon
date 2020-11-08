@@ -17,6 +17,7 @@ public class NPC_Pool {
     ArrayList<Wizard>  npcWizard = new ArrayList<Wizard>();
     ArrayList<Farmers>  npcFarmers = new ArrayList<Farmers>();
     ArrayList<Thief>  npcThiefs = new ArrayList<Thief>();
+    ArrayList<Tribute>  tributes = new ArrayList<Tribute>();
     public NPC_Pool(){
 
 
@@ -28,8 +29,22 @@ public class NPC_Pool {
             npcWizard.add(new Wizard((float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/30,GameView.instance.cameraSize/30,25));
             npcThiefs.add(new Thief((float)GameView.instance.cameraSize/25000,250,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30));
             npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
+
+        }
+        for(int i = 0; i < 3; i++) {
+            tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 12));
         }
     }
+    public Tribute spawnTribute(int spawnX, int spawnY, int tributeSize){
+        for (int i = 0;i<tributes.size();i++){
+            if (!tributes.get(i).active) {
+                tributes.get(i).spawn(spawnX,spawnY, tributeSize);
+                return tributes.get(i);
+            }
+        }
+        return null;
+    }
+
     public Wooloo spawnWooloo (int spawnX, int spawnY){
         for (int i = 0;i<size;i++){
             if (!npcWooloo.get(i).alive) {
@@ -89,6 +104,12 @@ public class NPC_Pool {
                 npcDragonLayers.get(i).draw(canvas);
             }
         }
+
+        for (int i = 0;i<tributes.size();i++){
+            if (tributes.get(i).active) {
+                tributes.get(i).draw(canvas);
+            }
+        }
     }
     public void update(float deltaTime){
         for (int i = 0; i<size;i++){
@@ -104,6 +125,11 @@ public class NPC_Pool {
                 npcDragonLayers.get(i).update(deltaTime);
             }
         }
+        for (int i = 0;i<tributes.size();i++){
+            if (tributes.get(i).active) {
+                tributes.get(i).update(deltaTime);
+            }
+        }
     }
     public void physics(float deltaTime){
         for (int i = 0; i<size;i++){
@@ -117,6 +143,11 @@ public class NPC_Pool {
                 npcThiefs.get(i).physics(deltaTime);
             }if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).physics(deltaTime);
+            }
+        }
+        for (int i = 0;i<tributes.size();i++){
+            if (tributes.get(i).active) {
+                tributes.get(i).physics(deltaTime);
             }
         }
     }
