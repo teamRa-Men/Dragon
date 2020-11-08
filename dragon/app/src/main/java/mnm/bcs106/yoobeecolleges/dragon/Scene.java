@@ -32,7 +32,7 @@ public class Scene {
 
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
-        islandSize =width*4;
+        islandSize =width*3;
 
         //ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
         //ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
@@ -85,7 +85,7 @@ public class Scene {
     public void update(float deltaTime){
 
         mountainX = gameView.cameraDisp.x/4;
-        hillsX = gameView.cameraDisp.x/2;
+        hillsX = gameView.cameraDisp.x*3/4;
         groundX = gameView.cameraDisp.x;
 
         groundX0 = (int)(-groundX/width)*width;

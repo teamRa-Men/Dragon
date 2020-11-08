@@ -332,15 +332,23 @@ public class Dragon extends Character {
     public void physics(float deltaTime) {
         if(!isSleeping) {
             if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
-                direction.x = (-0.1f + direction.x)/2;
-                direction.y = 0;
-                position.x =  -Scene.instance.islandSize+Scene.instance.width;
+                //direction.x = (-0.1f + direction.x)/2;
+                //direction.y = 0;
+                //position.x =  -Scene.instance.islandSize+Scene.instance.width;
+                position.x = Scene.instance.islandSize;
+                for(int i = 0; i < segments.size();i++){
+                    segments.get(i).position.x += Scene.instance.islandSize+Scene.instance.islandSize+Scene.instance.width;
+                }
                 System.out.println("wall right");
             }
             if(position.x  > Scene.instance.islandSize && velocity!=null) {
-                direction.x = (0.1f + direction.x)/2f;
-                direction.y = 0;
-                position.x =  Scene.instance.islandSize;
+                //direction.x = (0.1f + direction.x)/2f;
+                //direction.y = 0;
+                //position.x =  Scene.instance.islandSize;
+                position.x = -Scene.instance.islandSize+Scene.instance.width;
+                for(int i = 0; i < segments.size();i++){
+                    segments.get(i).position.x -= Scene.instance.islandSize+Scene.instance.islandSize+Scene.instance.width;
+                }
                 System.out.println("wall left");
             }
 
