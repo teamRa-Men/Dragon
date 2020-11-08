@@ -484,7 +484,10 @@ public class Fortress extends Foundation {
         Vector2 target = GameView.instance.player.aimFor();
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
-        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y, 1, dx+randomx, dy+randomy, 2);
+        float l= (float)Math.sqrt(dx*dx+dy*dy);
+        dx = dx/l-((float)Math.random()-0.5f)/4;
+        dy = dy/l-(float)Math.random()/4;
+        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
     }
 }
 

@@ -31,13 +31,12 @@ public class NPC {
     public Point CreationPoint = new Point();
     public Paint NpcPain = new Paint();
     ColorFilter colorFilter = new LightingColorFilter(Color.parseColor("#40000000"),0);
-    public NPC (Bitmap bitmap, float speed, int maxHP, int width,int height) {
-        npcBitmap = bitmap;
+    public NPC (float speed, int maxHP, int width,int height) {
         npcX = 0;
         npcY = 0;
         npcMaxHP = maxHP;
         npcHp = maxHP;
-        npcSpeed = speed;
+        npcSpeed = speed*(float)(Math.random()+4)/5;
         npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*3));
         npcWidth = width;
         npcHeight = height;
@@ -49,7 +48,7 @@ public class NPC {
     public void spawn (int spawnX, int spawnY){
         npcHp = npcMaxHP;
         npcX = spawnX;
-        npcY = spawnY;
+        npcY = (int) GameView.instance.groundLevel-npcRect.height();
         tempCreationPoint.x = npcX;
         tempCreationPoint.y = npcY;
         CreationPoint.x = spawnX;
@@ -70,23 +69,27 @@ public class NPC {
         alive = false;
     }
     float distTravel = 0;
+
     public void draw(Canvas canvas){
-        Matrix matrix = new Matrix();
-        int top = (int) (npcRect.top+Math.sin(distTravel/4+random*Math.PI*2)*3);
-        int left = npcRect.left;
-        int right = left+npcRect.width();
-        int bottom = top+npcRect.height();
-        RectF tempRect = new RectF(0,0,npcBitmap.getWidth(),npcBitmap.getHeight());
-        RectF destTempRect;
-        destTempRect = new RectF(left,top,right,bottom);
-        matrix.setRectToRect(tempRect,destTempRect, Matrix.ScaleToFit.FILL);
-        if (alive){
-            matrix.postScale(direction,1,destTempRect.centerX(),destTempRect.centerY());
-            canvas.drawBitmap(npcBitmap,matrix,Scene.instance.frontPaint);
-        }else {
-            matrix.postRotate(90,destTempRect.centerX(),destTempRect.centerY());
-            canvas.drawBitmap(npcBitmap,matrix,NpcPain);
+        if(npcBitmap!=null) {
+            Matrix matrix = new Matrix();
+            int top = (int) (npcRect.top + Math.sin(distTravel / 4 + random * Math.PI * 2) * 3);
+            int left = npcRect.left;
+            int right = left + npcRect.width();
+            int bottom = top + npcRect.height();
+            RectF tempRect = new RectF(0, 0, npcBitmap.getWidth(), npcBitmap.getHeight());
+            RectF destTempRect;
+            destTempRect = new RectF(left, top, right, bottom);
+            matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
+            if (alive) {
+                matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
+                canvas.drawBitmap(npcBitmap, matrix, Scene.instance.frontPaint);
+            } else {
+                matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
+                canvas.drawBitmap(npcBitmap, matrix, NpcPain);
+            }
         }
+
     }
 
     public  boolean there = false;
@@ -125,16 +128,19 @@ public class NPC {
             npcY = (int) GameView.instance.groundLevel-npcRect.height()+npcRect.height()/3;
             NpcPain.setColorFilter(colorFilter);
         }else {
+            npcY = (int) GameView.instance.groundLevel-npcRect.height();
             NpcPain.setColorFilter(null);
         countdown+=deltaTime;
             if (Math.abs(target.x-npcX)>1){
                 direction = (int) Math.signum(target.x-npcX);
             }
             moveToTarget(deltaTime);
-            npcY = (int) GameView.instance.groundLevel-npcRect.height();
+
         }
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
     }
+
+
     public  void  physics(float deltaTime) {
         npcCollider = new Rect(npcX, npcY, npcX + npcRect.width(), npcY + npcRect.height());
         //System.out.println("npcphysics");
@@ -150,7 +156,7 @@ public class NPC {
     }
 
     public void idle(int boundry,boolean lessTen){
-        if (countdown >= Math.random()*1000+1000){
+        if (countdown >= Math.random()*5000+10000){
             if (lessTen) {
                 flee = false;
                 double targetDistance = (Math.random() - 0.5) * boundry;

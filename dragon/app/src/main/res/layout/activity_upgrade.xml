@@ -169,7 +169,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="0"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/wing" />
+                            app:srcCompat="@drawable/circle" />
 
                         <ProgressBar
                             android:id="@+id/progressSpeed"

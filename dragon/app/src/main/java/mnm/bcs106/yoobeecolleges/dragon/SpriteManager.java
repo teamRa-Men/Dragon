@@ -23,7 +23,7 @@ public class SpriteManager {
         buildingSheet = Bitmap.createScaledBitmap(buildingSheet,1152,1024,true);
 
         NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
-        NPCSheet = Bitmap.createScaledBitmap(NPCSheet,768,768,true);
+        NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392,768,true);
 
         fireSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire_sheet);
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
@@ -32,6 +32,7 @@ public class SpriteManager {
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
+        environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1024,true);
     }
 
     private final HashMap<String,Rect> buildingSprites = new HashMap<String,Rect>() {{
@@ -88,6 +89,10 @@ public class SpriteManager {
 
         put("Thief1",spriteRect(0,128*5,128,128));
         put("Thief2",spriteRect(128,128*5,128,128));
+
+        put("Arrow",spriteRect(128,16,32,16));
+        put("Magic",spriteRect(128,32,32,32));
+        put("Spear",spriteRect(128,0,256,16));
     }};
 
     private final HashMap<String,Rect> environmentSprites = new HashMap<String,Rect>() {{

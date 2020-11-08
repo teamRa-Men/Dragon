@@ -3,6 +3,7 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,10 @@ public class GoldPool {
 
     public GoldPool(){
         instance = this;
-        goldSprite = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_coin);
+        Bitmap sheet = SpriteManager.instance.environmentSheet;
+        Rect r = SpriteManager.instance.getEnvironmentSprite("GoldCoin");
+        goldSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+
         for (int i = 0; i < maxGold; i++) {
             Gold newGold = new Gold(goldSprite,0.5f,0.5f);
             goldPool.add(newGold);

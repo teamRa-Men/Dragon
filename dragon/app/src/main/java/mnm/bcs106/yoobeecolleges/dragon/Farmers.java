@@ -2,42 +2,56 @@
 
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.Rect;
 
-public class Farmers extends NPC {
+ public class Farmers extends NPC {
 
     public int farmX;
     public int workTime = 0;
     public boolean wasAttacked = false;
-    public boolean atFarm = true;
+    public boolean atFarm = false;
     public boolean whereFarm = false;
     public boolean work = false;
+    Bitmap idleSprite, workingSprite;
 
-    public Farmers(Bitmap bitmap, float speed, int maxHP, int width, int height,int FX) {
-        super(bitmap, speed, maxHP, width, height);
+    public Farmers( float speed, int maxHP, int width, int height,int FX) {
+        super(speed, maxHP, width, height);
         farmX = npcX ;
+
+        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
+        Rect r = SpriteManager.instance.getNPCSprite("Farmer1");
+        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+
+        r = SpriteManager.instance.getNPCSprite("Farmer2");
+        workingSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+
+        npcBitmap = idleSprite;
     }
 
     @Override
     public void spawn(int spawnX, int spawnY) {
         super.spawn(spawnX, spawnY);
+        work = false;
     }
 
     public void doStuff() {
+        if (countdown >= Math.random()*5000+8000){
+                flee = false;
+                double targetDistance = (Math.random()-0.5f) * Farm.tileNr*GameView.instance.cameraSize/9;
+                target.x = (int) (farmX+ targetDistance);
+                countdown = 0;
+        }
 
     }
 
     public Boolean atHome = false;
     @Override
     public void update(float deltaTime) {
-        if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
-//            System.out.println(workTime);
+        if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.4) && alive) {
             if (atHome){
                 npcY = CreationPoint.y;
                 atHome = false;
                 flee = false;
-            }
-            if (work) {
-                workTime += deltaTime;
             }
             if (!whereFarm) {
                 Point closestFarm = new Point();
@@ -65,29 +79,30 @@ public class Farmers extends NPC {
                 }
             }
             if (!wasAttacked) {
-                if (Math.abs(GameView.instance.player.position.x - npcX) < 300) {
+                if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && Math.abs(GameView.instance.player.position.y - npcY)< GameView.instance.screenHeight/2) {
                     flee = true;
+                    work = false;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
                     wasAttacked = true;
                 }
-                if (atFarm && Math.abs(target.x - npcX) < 7) {
-                    work = true;
-                    if (workTime >= 3000) {
-                        target.x = tempCreationPoint.x;
-                        atFarm = false;
-                        workTime = 0;
+                if(whereFarm){
+                    if(!atFarm) {
+                        target.x = farmX;
                         work = false;
-                    } else {
+                    }
+                    else {
+                        work = true;
                         doStuff();
                     }
-                } else if (Math.abs(target.x - npcX) < 7 && !atFarm) {
-                    target.x = farmX;
-                    atFarm = true;
+                    if(Math.abs(target.x - npcX) < 7){
+                        atFarm = true;
+                    }
                 }
             } else {
                 if (Math.abs(GameView.instance.player.position.x - npcX) < 300) {
                     flee = true;
+                    work = false;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
                 } else idle(500, Math.abs(npcX - target.x) < 10);
@@ -102,7 +117,6 @@ public class Farmers extends NPC {
                     tempCreationPoint.y = CreationPoint.y;
                 }
                 if (!atHome){
-                    flee = true;
                     target.x = CreationPoint.x;
                     super.update(deltaTime);
                 }else {
@@ -114,6 +128,20 @@ public class Farmers extends NPC {
                 wasAttacked = false;
                 super.update(deltaTime);
             }
+        }
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4) {
+            target.x = tempCreationPoint.x;
+            atFarm = false;
+            workTime = 0;
+            work = false;
+            npcBitmap = idleSprite;
+        }
+        if (work) {
+            workTime += deltaTime;
+            npcBitmap = workingSprite;
+        }
+        else{
+            npcBitmap = idleSprite;
         }
     }
 }

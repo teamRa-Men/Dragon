@@ -10,18 +10,17 @@ public class Projectile extends GameObject {
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
     public boolean returnToPool = false;
-    public boolean ifMagic;
+    public int type;//0=arrow, 1 = magic, 2 = spear
+    public static int MAGIC=1, ARROW=0, SPEAR=2;
 
-    public Projectile(Bitmap sprite, float offsetX, float offsetY) {
+    public Projectile(Bitmap sprite, float offsetX, float offsetY,int type) {
         super(sprite, offsetX, offsetY);
         bounce = 0;
+        this.type = type;
         init();
 
     }
-    public void itIsmagic(boolean isItMagic){
-        ifMagic = isItMagic;
-        coolDown = 2000;
-    }
+
 
     @Override
     public void draw(Canvas canvas) {
@@ -47,6 +46,10 @@ public class Projectile extends GameObject {
                     returnToPool = true;
                 }
             }
+            if(type == MAGIC){
+                scaleY = (float)Math.cos(timeSinceShot/coolDown*50*Math.PI)/20+0.95f;
+                scaleX = (float)Math.sin(timeSinceShot/coolDown*50*Math.PI)/10+0.90f;
+            }
         }
         super.draw(canvas);
     }
@@ -61,8 +64,8 @@ public class Projectile extends GameObject {
                 GameView.instance.player.onDamage(damage);
                 timeSinceShot = coolDown*0.75f;
             }
-            if (ifMagic){
-                setDir(GameView.instance.player.aimFor().add(position.multiply(-1)));
+            if (type == MAGIC){
+                setDir(direction.add(GameView.instance.player.aimFor().add(position.multiply(-1f)).multiply(0.2f)));
             }
         }
     }
@@ -92,8 +95,22 @@ public class Projectile extends GameObject {
         matrix = new Matrix();
         paint.setAlpha(255);
         parent = null;
-        width = GameView.instance.screenWidth/40;
-        height = GameView.instance.screenWidth/160;
+        speed = 0;
+
+        switch (type){
+            case 0: coolDown = 5000;
+                width = GameView.instance.screenWidth/30;
+                height = GameView.instance.screenWidth/120;
+                break;
+            case 1: coolDown = 5000;
+                    width = GameView.instance.screenWidth/15;
+                    height = GameView.instance.screenWidth/15;
+                    break;
+            case 2: coolDown = 5000;
+                width = GameView.instance.screenWidth/10;
+                height = GameView.instance.screenWidth/120;
+                break;
+        }
     }
 
 

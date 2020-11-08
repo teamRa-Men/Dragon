@@ -28,16 +28,14 @@ public class Scene {
         gameView = GameView.instance;
         instance = this;
 
-        dayLength = 1*60*1000;
+        dayLength = 3*60*1000;
 
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
         islandSize =width*4;
 
-                sky = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.cloudy_sky);
-        sky = Bitmap.createScaledBitmap(sky, width,height,false);
-        ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
+        //ground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.ground);
+        //ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
         mountainBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.mountain_background);
         mountainBackground = Bitmap.createScaledBitmap(mountainBackground, width,height,false);
         hillsBackground = BitmapFactory.decodeResource(gameView.getResources(), R.drawable.hills_background);
@@ -70,6 +68,7 @@ public class Scene {
 
     }
     public void drawForeground(Canvas canvas){
+        /*
         if(Math.abs(groundX) < islandSize) {
             canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, backPaint);
         }
@@ -78,7 +77,7 @@ public class Scene {
         }
         if(Math.abs(groundX- width) < islandSize) {
                canvas.drawBitmap(ground, groundX + groundX2, GameView.instance.groundLevel * .985f, backPaint);
-        }
+        }*/
         //canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, frontPaint);
     }
 
@@ -108,7 +107,11 @@ public class Scene {
 
         skyPaint.setColor(Color.rgb((int)(bc*0.97f),(int)(bc*0.97f),bc));
         //skyPaint.setAlpha(bc);
+
         timeOfDay +=deltaTime;
+        if(timeOfDay > dayLength/2){
+            timeOfDay +=deltaTime;
+        }
         //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){
             timeOfDay = 0;

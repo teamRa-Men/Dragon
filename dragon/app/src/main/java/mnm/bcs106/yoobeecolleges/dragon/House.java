@@ -61,7 +61,7 @@ public class House extends Foundation{
                     && (currentInhabitants.size() < maxInhabitants)
                     && (createdVillager == false)){
 
-                Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+                Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x+width/4, (int) GameView.instance.groundLevel);
 
                 if (newFarmer != null) {
                     currentInhabitants.add(newFarmer);

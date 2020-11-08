@@ -3,6 +3,7 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 
@@ -18,33 +19,44 @@ public class ProjectilePool {
     ArrayList<Projectile> activeMagic = new ArrayList<Projectile>();
     Bitmap magicSprite;
 
+    int maxSpear= 5;
+    ArrayList<Projectile> spearPool = new ArrayList<Projectile>();
+    ArrayList<Projectile> activeSpear = new ArrayList<Projectile>();
+    Bitmap spearSprite;
+
     public static ProjectilePool instance;
 
     public ProjectilePool(){
 
-            instance = this;
+        instance = this;
+        Bitmap sheet = SpriteManager.instance.NPCSheet;
 
-        arrowSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
-
+        Rect r = SpriteManager.instance.getNPCSprite("Arrow");
+        arrowSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxArrows; i++) {
-            Projectile newArrow = new Projectile(arrowSprite,0.7f,0.5f);
-
+            Projectile newArrow = new Projectile(arrowSprite,0.7f,0.5f,Projectile.ARROW);
             arrowPool.add(newArrow);
         }
 
-        magicSprite =  BitmapFactory.decodeResource(GameView.instance.getResources(),R.drawable.projectile);
-
+        r = SpriteManager.instance.getNPCSprite("Magic");
+        magicSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxMagic; i++) {
-            Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f);
-            newMagic.itIsmagic(true);
+            Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f, Projectile.MAGIC);
             magicPool.add(newMagic);
+        }
+
+        r = SpriteManager.instance.getNPCSprite("Spear");
+        spearSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        for (int i = 0; i < maxSpear; i++) {
+            Projectile newSpear = new Projectile(spearSprite,0.7f,0.5f, Projectile.SPEAR);
+            spearPool.add(newSpear);
         }
     }
     public void shootArrow(int x, int y, float speed, float dx, float dy, int damage){
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
-            arrow.shoot(x,y,speed,dx,dy,1f/2);
+            arrow.shoot(x,y,speed,dx,dy,1f/4);
             arrowPool.remove(0);
 
             arrow.damage = damage;
@@ -66,12 +78,28 @@ public class ProjectilePool {
 
     }
 
+    public void shootSpear(int x, int y, float speed, float dx, float dy, int damage){
+
+        if(spearPool.size()>0) {
+            Projectile spear = spearPool.get(0);
+            spear.shoot(x,y,speed,dx,dy,1f/4);
+            spearPool.remove(0);
+
+            spear.damage = damage;
+            activeSpear.add(spear);
+        }
+
+    }
+
     public void update(float deltaTime){
         for (int i = 0; i < activeArrows.size(); i++) {
             activeArrows.get(i).update(deltaTime);
         }
         for (int i = 0; i < activeMagic.size(); i++) {
             activeMagic.get(i).update(deltaTime);
+        }
+        for (int i = 0; i < activeSpear.size(); i++) {
+            activeSpear.get(i).update(deltaTime);
         }
     }
 
@@ -100,6 +128,19 @@ public class ProjectilePool {
                 magic.physics(deltaTime);
             }
         }
+
+        for (int i = 0; i < activeSpear.size(); i++) {
+            Projectile spear = activeSpear.get(i);
+            if(spear.returnToPool){
+                activeSpear.remove(spear);
+                spearPool.add(spear);
+                spear.returnToPool=false;
+                spear.init();
+            }
+            else {
+                spear.physics(deltaTime);
+            }
+        }
     }
 
     public void draw(Canvas canvas){
@@ -108,6 +149,9 @@ public class ProjectilePool {
         }
         for (int i = 0; i < activeMagic.size(); i++) {
             activeMagic.get(i).draw(canvas);
+        }
+        for (int i = 0; i < activeSpear.size(); i++) {
+            activeSpear.get(i).draw(canvas);
         }
     }
 }

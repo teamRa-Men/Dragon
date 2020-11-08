@@ -1,20 +1,33 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 
 public class Thief extends NPC {
     public int howManySteal;
     public int maxSteal;
     public boolean stole = true;
-    public Thief(Bitmap bitmap, float speed, int maxHP, int width, int height, int stealGold) {
-        super(bitmap, speed, maxHP, width, height);
+    Bitmap idleSprite, stolenSprite;
+
+    public Thief(float speed, int maxHP, int width, int height, int stealGold) {
+        super(speed, maxHP, width, height);
         target.x = (int) GameView.instance.lair.position.x;
         maxSteal = stealGold;
+
+        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
+        Rect r = SpriteManager.instance.getNPCSprite("Thief1");
+        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+
+        r = SpriteManager.instance.getNPCSprite("Thief2");
+        stolenSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+
+        npcBitmap = idleSprite;
     }
     @Override
     public void death() {
         GoldPool.instance.spawnGold(npcX,npcY,howManySteal);
         howManySteal = 0;
+        npcBitmap = idleSprite;
         super.death();
     }
 
@@ -34,6 +47,7 @@ public class Thief extends NPC {
             GameView.instance.fortress.currentGold+=howManySteal;
             howManySteal = 0;
             stole = false;
+            npcBitmap = idleSprite;
         }
         if (Math.abs(npcX - GameView.instance.lair.position.x) < 7 && !stole){
             if (GameView.instance.lair.depositedGold>maxSteal){
@@ -43,6 +57,7 @@ public class Thief extends NPC {
                 howManySteal = GameView.instance.lair.depositedGold;
                 GameView.instance.lair.stealGold(GameView.instance.lair.depositedGold);
             }
+            npcBitmap = stolenSprite;
             stole = true;
             target.x = tempCreationPoint.x;
         }
