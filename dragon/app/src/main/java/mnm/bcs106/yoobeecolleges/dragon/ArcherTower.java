@@ -63,8 +63,8 @@ public class ArcherTower extends Foundation {
         super.update(fixedDeltaTime);
         creationPoint.y = (int)((y - height*3/4));
 
-        System.out.println(health);
-        System.out.println(isStanding);
+        /*System.out.println(health);
+        System.out.println(isStanding);*/
 
         if(isStanding) {
             countdown+=fixedDeltaTime;

@@ -90,7 +90,7 @@ public class Farm extends Foundation{
 
         else{
             if(beenEmptied == false){
-            GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/4);
+            GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/2);
             beenEmptied = true;}
             this.buildingImage = SpriteManager.instance.getBuildingSprite("FarmRuin");
             goldRate = 0;

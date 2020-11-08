@@ -58,8 +58,13 @@ public class Fortress extends Foundation {
     ArrayList<String> BD = new ArrayList<>();
     boolean muchFarms = true;
     boolean muchFear = false;
-
     int tower = 0;
+
+    boolean summonedWizard = false;
+    boolean surrender = false;
+
+    Bitmap flag;
+    int flagy;
 
     //Fortress constructor, used when calling Fortress();
 
@@ -97,6 +102,7 @@ public class Fortress extends Foundation {
             creationPoint.x = x+width/2;
             creationPoint.y = (int)(GameView.instance.groundLevel - height/2);
         }
+
         /*System.out.println(creationPoint.x);
         System.out.println(GameView.instance.player.position.x);
         System.out.println(GameView.instance.player.position.x-creationPoint.x);
@@ -106,7 +112,7 @@ public class Fortress extends Foundation {
 
         if (currentGold < maxGold) {
 
-            //Money income
+            // MONEY INCOME
 
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
                     && (!hasTaxed)) {
@@ -168,11 +174,12 @@ public class Fortress extends Foundation {
             if (currentBuildingsLeft.get(i).buildingType == 4)
                 tower++;
         }
-        //===================================================================================//
 
-        //Lv up conditions
-
-        //===================================================================================//
+        //  ==       =====   ====        ==           =====
+        //  ==        ==      =          ==           =============
+        //  ==         ==    =      =============         ==================
+        //  ==          ==  =            ==           ===============
+        //  ========     ===             ==           ===
 
         if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                 && (currentGold >= (maxGold / 10 * 9))
@@ -297,6 +304,11 @@ public class Fortress extends Foundation {
             townFear = (tempfear / (currentBuildingsLeft.size() + currentBuildingsRight.size()));
         }
 
+        //    =   ========  ==   ==
+        //   = =     ==     ==  ==
+        //  =====    ==     ====
+        // =     =   ==     ==  ===
+
     if (inRange()) {
         countdown+=GameView.instance.fixedDeltaTime;
         System.out.println(countdown);
@@ -326,8 +338,29 @@ public class Fortress extends Foundation {
                 }
             }
         }
-    }
 
+        //spawning thief
+        if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)){
+            GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1);
+        }
+
+        //spawning dragonslayer
+        if(townFear > 30 && lv != 0){
+            GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1);
+        }
+
+        //spawning wizard
+        if(townFear > 35 && lv ==2 && !summonedWizard){
+            GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+            summonedWizard = true;
+        }
+
+        if(townFear > 50 && !surrender){
+            surrender = true;
+        }
+
+        Flagposition(deltaTime);
+    }
 
 
     public void spawnRandomBuilding(){
@@ -418,9 +451,44 @@ public class Fortress extends Foundation {
         direction.add(building);
     }
 
+    public void Flagposition(float deltaTime){
+
+        countdown+=deltaTime;
+        int flagf = 0;
+
+
+        // replace with sprite animation class
+        if (countdown >= 0 && flagf == 0) {
+            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf1);
+            flagf += 1;
+        }
+
+        if (countdown >= 200 && flagf == 1) {
+            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf2);
+            flagf += 1;
+        }
+
+        if (countdown >= 400 && flagf == 2) {
+            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf3);
+            flagf = 0;
+        }
+
+        if(fear < 10){
+            flagy = (int)GameView.instance.groundLevel-((tilesize*3)/5*4);
+        }
+
+        if(fear > 10){
+            flagy = (int)GameView.instance.groundLevel-tilesize*2;
+        }
+    }
+
     @Override
     public void draw(Canvas c) {
         super.draw(c);
+
+        Bitmap flagpole = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagpole);
+        flagpole = Bitmap.createScaledBitmap(flagpole, tilesize, tilesize*2, false);
+
         for (int i = 0; i < currentBuildingsLeft.size(); i++) {
 
             if (currentBuildingsLeft.get(i) != null) {
@@ -437,6 +505,8 @@ public class Fortress extends Foundation {
                 currentBuildingsRight.get(i).draw(c);
             }
         }
+        c.drawBitmap(flagpole, x+GameView.instance.cameraDisp.x+tilesize*3,(int)(GameView.instance.groundLevel-flagpole.getHeight()),null);
+        c.drawBitmap(flag,x+GameView.instance.cameraDisp.x+tilesize*3,flagy,null);
     }
 
     public void position(Fortress f) {

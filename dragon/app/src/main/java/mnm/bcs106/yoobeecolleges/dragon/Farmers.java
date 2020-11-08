@@ -125,6 +125,9 @@ import android.graphics.Rect;
                     npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
             }
             }else {
+                if(wasAttacked = true){
+                    int r = (int)(Math.random()*3);
+                    GoldPool.instance.spawnGold(npcX, npcY,r);}
                 wasAttacked = false;
                 super.update(deltaTime);
             }
