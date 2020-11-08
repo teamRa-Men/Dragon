@@ -56,16 +56,23 @@ public class Projectile extends GameObject {
 
     @Override
     public void physics(float deltaTime) {
+        if(simulated) {
+            super.physics(deltaTime);
+            timeSinceShot += deltaTime;
+            if (parent == null) {
+                if(GameView.instance.player.fireBreath.projectileCollision(this)){
+                    timeSinceShot = Math.max(0.9f*coolDown,timeSinceShot);
+                }
+                if(timeSinceShot < coolDown * 0.75f){
+                    if (GameView.instance.player.projectileCollision(this)) {
+                        GameView.instance.player.onDamage(damage);
+                        timeSinceShot = coolDown * 0.75f;
+                    }
+                }
+                if (type == MAGIC) {
+                    setDir(direction.add(GameView.instance.player.aimFor().add(position.multiply(-1f)).multiply(0.2f)));
+                }
 
-        super.physics(deltaTime);
-        timeSinceShot+=deltaTime;
-        if(parent == null){
-            if(GameView.instance.player.projectileCollision(this)){
-                GameView.instance.player.onDamage(damage);
-                timeSinceShot = coolDown*0.75f;
-            }
-            if (type == MAGIC){
-                setDir(direction.add(GameView.instance.player.aimFor().add(position.multiply(-1f)).multiply(0.2f)));
             }
         }
     }
@@ -77,11 +84,11 @@ public class Projectile extends GameObject {
         this.speed = speed;
         timeSinceShot = 0;
         if(Scene.instance.timeOfDay/Scene.instance.dayLength > 0.5){
-            if(type != MAGIC) {
+            if(type == ARROW) {
                 dx += (Math.random() - 0.5f);
                 dy += (Math.random() - 0.5f);
             }
-            else{
+            else if (type == MAGIC){
                 this.speed*=2f;
             }
         }
@@ -112,9 +119,9 @@ public class Projectile extends GameObject {
                 height = GameView.instance.screenWidth/120;
                 break;
             case 1: coolDown = 5000;
-                    width = GameView.instance.screenWidth/15;
-                    height = GameView.instance.screenWidth/15;
-                    break;
+                width = GameView.instance.screenWidth/15;
+                height = GameView.instance.screenWidth/15;
+                break;
             case 2: coolDown = 5000;
                 width = GameView.instance.screenWidth/10;
                 height = GameView.instance.screenWidth/120;

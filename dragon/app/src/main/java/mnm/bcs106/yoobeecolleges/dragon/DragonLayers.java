@@ -34,15 +34,16 @@ public class DragonLayers extends NPC {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        arrowRechargeTime.update(deltaTime);
-        direction = (int) Math.signum(GameView.instance.player.position.x-npcX);
-            if (Math.abs(GameView.instance.player.position.x-npcX) > GameView.instance.cameraSize/4 ){
-                target.x = (int) GameView.instance.player.position.x-direction*GameView.instance.cameraSize/4;
+        if(alive) {
+            arrowRechargeTime.update(deltaTime);
+            direction = (int) Math.signum(GameView.instance.player.position.x - npcX);
+            if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4 ) {
+                target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
                 moveToTarget(deltaTime);
-                npcY = (int) GameView.instance.groundLevel-npcRect.height();
-                npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
+                npcY = (int) GameView.instance.groundLevel - npcRect.height();
+                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
             }
-            if (Math.abs(GameView.instance.player.position.x-npcX) < GameView.instance.cameraSize/2 ){
+            if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 2 ) {
                 arrowRechargeTime.triggerAction();
                 if (arrowRechargeTime.charging) {
                     shot = false;
@@ -57,6 +58,7 @@ public class DragonLayers extends NPC {
                     npcBitmap = idleSprite;
                 }
             }
+        }
     }
 
     public void shoot() {

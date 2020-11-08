@@ -59,6 +59,9 @@ public class NPC {
         flee = false;
     }
     public  void OnDamage () {
+        if(Math.random() < 0.1 && alive) {
+            FirePool.instance.spawnFire(npcX + ((float)Math.random()-0.5f)*npcWidth/2, npcY+npcHeight);
+        }
         damagePeriod.triggerAction();
         npcHp-=1;
         if (npcHp<=0){

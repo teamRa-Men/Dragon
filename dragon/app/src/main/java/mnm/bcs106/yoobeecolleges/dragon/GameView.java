@@ -56,6 +56,7 @@ public class GameView extends SurfaceView implements Runnable {
     NPC_Pool npc_pool;
     GoldPool goldPool;
     ProjectilePool projectilePool;
+    FirePool firePool;
     Lair lair;
     Fortress fortress;
     Hud hud;
@@ -121,7 +122,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         goldPool = new GoldPool();
         projectilePool = new ProjectilePool();
-
+        firePool = new FirePool();
 
 
         hud = new Hud();
@@ -189,7 +190,7 @@ public class GameView extends SurfaceView implements Runnable {
                 draw();
             }
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
             //System.out.println("average draw " + totalFrame/numberFrame);
@@ -241,7 +242,7 @@ public class GameView extends SurfaceView implements Runnable {
             npc_pool.draw(canvas);//90
             goldPool.draw(canvas);//
             scene.drawForeground(canvas);//
-
+            firePool.draw(canvas);
 
             hud.draw(canvas);
             holder.unlockCanvasAndPost(canvas);
@@ -280,6 +281,7 @@ public class GameView extends SurfaceView implements Runnable {
             fortress.update(fixedDeltaTime);
             hud.update(fixedDeltaTime);
             lair.update(fixedDeltaTime);
+            firePool.update(fixedDeltaTime);
         }
         else{
             if(!Game.instance.gameOver) {

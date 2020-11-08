@@ -12,6 +12,7 @@ import android.util.Log;
 
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Foundation {
     public int tilesize;
@@ -132,12 +133,19 @@ public class Foundation {
 
     public void OnDamage () {
         if(isStanding){
+
+            if(Math.random() < 0.1) {
+                FirePool.instance.spawnFire(x + (float) Math.random() * width, y - (float) Math.random() * height / 4);
+            }
+
             damagePeriod.triggerAction();
             //System.out.println("damaging");
             beenAttacked = true;
             fearTime = 0;
 
             if(damagePeriod.charging){
+                //
+
 
                 health-=3;
                 health = Math.max(health,0);

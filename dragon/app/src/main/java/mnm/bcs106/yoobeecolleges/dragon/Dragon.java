@@ -908,8 +908,13 @@ class FireBreath{
         }
     }
 
-    public boolean collision(GameObject other) {
-        return collision(other.getBounds());
+    public boolean projectileCollision(GameObject other) {
+        boolean collided = false;
+        Flame f = backFlames.get(colliderIndex);
+        if(f.active) {
+            collided = f.collider.contains(other.position.x,other.position.y);
+        }
+        return collided;
     }
 
     public boolean collision(Rect r) {
