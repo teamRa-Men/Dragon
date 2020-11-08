@@ -29,7 +29,6 @@ public class SpriteManager {
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
 
         dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
-        //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_blurred);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
@@ -74,57 +73,31 @@ public class SpriteManager {
     }};
 
     private final HashMap<String,Rect> NPCSprites = new HashMap<String,Rect>() {{
-        put("Wooloo1",spriteRect(0,0,128,128));
-        put("Wooloo2",spriteRect(128,0,128,128));
-        put("Wooloo3",spriteRect(128*2,0,128,128));
-
-        put("Cow1",spriteRect(128*3,0,128,128));
-        put("Cow2",spriteRect(128*4,0,128,128));
-        put("Cow3",spriteRect(128*5,0,128,128));
+        put("Wooloo",spriteRect(0,0,128,128));
 
         put("Farmer1",spriteRect(0,128,128,128));
         put("Farmer2",spriteRect(128,128,128,128));
-        put("Farmer3",spriteRect(128*2,128,128,128));
 
-        put("Farming1",spriteRect(128*3,0,128,128));
-        put("Farming2",spriteRect(128*4,0,128,128));
-        put("Farming3",spriteRect(128*5,0,128,128));
+        put("Wizard1",spriteRect(0,128*2,128,128));
+        put("Wizard2",spriteRect(128,128*2,128,128));
+        put("Wizard3",spriteRect(128*2,128*2,128,128));
 
-        put("Archer1",spriteRect(0,128*2,128,128));
-        put("Archer2",spriteRect(128,128*2,128,128));
-        put("Archer3",spriteRect(128*2,128*2,128,128));
-
-        put("Shooting1",spriteRect(128*3,128*2,128,128));
-        put("Shooting2",spriteRect(128*4,128*2,128,128));
-        put("Shooting3",spriteRect(128*5,128*2,128,128));
-
-        put("Wizard1",spriteRect(0,128*3,128,128));
-        put("Wizard2",spriteRect(128,128*3,128,128));
-        put("Wizard3",spriteRect(128*2,128*3,128,128));
-
-        put("Casting1",spriteRect(128*3,128*3,128,128));
-        put("Casting2",spriteRect(128*4,128*3,128,128));
-        put("Casting3",spriteRect(128*5,128*3,128,128));
-
-        put("Slayer1",spriteRect(0,128*4,128,128));
-        put("Slayer2",spriteRect(128,128*4,128,128));
-        put("Slayer3",spriteRect(128*2,128*4,128,128));
-
-        put("Attack1",spriteRect(128*3,128*4,128,128));
-        put("Attack2",spriteRect(128*4,128*4,128,128));
-        put("Attack3",spriteRect(128*5,128*4,128,128));
+        put("Slayer1",spriteRect(0,128*3,128,128*2));
+        put("Slayer2",spriteRect(128,128*3,128,128*2));
+        put("Slayer3",spriteRect(128*2,128*3,128,128*2));
 
         put("Thief1",spriteRect(0,128*5,128,128));
         put("Thief2",spriteRect(128,128*5,128,128));
-        put("Thief3",spriteRect(128*2,128*5,128,128));
-
-        put("Stealing1",spriteRect(128*3,128*5,128,128));
-        put("Stealing2",spriteRect(128*4,128*5,128,128));
-        put("Stealing3",spriteRect(128*5,128*5,128,128));
     }};
 
     private final HashMap<String,Rect> environmentSprites = new HashMap<String,Rect>() {{
-        put("Carpet A",spriteRect(0,0,0,0));
+        put("LairBack",spriteRect(0,0,1024,256));
+        put("LairMiddle",spriteRect(0,256,1024,256));
+        put("LairFront",spriteRect(0,256*2,1024,256));
+        put("Mum",spriteRect(0,256*3,256,64));
+        put("GoldCoin",spriteRect(256,256*3,8,8));
+        put("Mountains",spriteRect(0,832,1034,64));
+        put("Ground",spriteRect(0,896,1024,128));
     }};
 
     private final HashMap<String,Rect> fireSprites = new HashMap<String,Rect>() {{
