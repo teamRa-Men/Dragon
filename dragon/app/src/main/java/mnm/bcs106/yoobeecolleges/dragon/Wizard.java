@@ -72,6 +72,7 @@ public class Wizard extends NPC {
                 flee = false;
                 lockTarget = false;
                 arrowRechargeTime.ready = true;
+                npcBitmap = idleSprite;
             }
 
         }

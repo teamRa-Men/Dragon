@@ -76,6 +76,15 @@ public class Projectile extends GameObject {
         position = new Vector2(x,y);
         this.speed = speed;
         timeSinceShot = 0;
+        if(Scene.instance.timeOfDay/Scene.instance.dayLength > 0.5){
+            if(type != MAGIC) {
+                dx += (Math.random() - 0.5f);
+                dy += (Math.random() - 0.5f);
+            }
+            else{
+                this.speed*=2f;
+            }
+        }
         setDir(dx,dy);
         rotation = (float) Math.toDegrees(Math.atan2(direction.y, direction.x));
         simulated = true;

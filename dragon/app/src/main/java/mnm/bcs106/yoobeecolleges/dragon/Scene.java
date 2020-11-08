@@ -99,8 +99,8 @@ public class Scene {
         mountainX2 = (int)(-mountainX/width+1)*width;
 
         //backPaint.setColor(Color.rgb(timeOfDay-10,timeOfDay-10,timeOfDay));
-        int bc =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.4));
-        int fc =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.6));
+        int bc =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.2));
+        int fc =  (int)(255*Math.max(Math.min(Math.sin(timeOfDay/dayLength*Math.PI*2)*4,1),0.8));
         //System.out.println(c);
         backPaint.setColorFilter(new LightingColorFilter(Color.rgb(bc,bc,bc),0));
         frontPaint.setColorFilter(new LightingColorFilter(Color.rgb(fc,fc,fc),0));
