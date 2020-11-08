@@ -147,7 +147,7 @@ public class Foundation {
                 //
 
 
-                health-=3;
+                health-=3*GameView.instance.player.attack;
                 health = Math.max(health,0);
 
                 fear+=0.5f;

@@ -63,7 +63,7 @@ public class NPC {
             FirePool.instance.spawnFire(npcX + ((float)Math.random()-0.5f)*npcWidth/2, npcY+npcHeight);
         }
         damagePeriod.triggerAction();
-        npcHp-=1;
+        npcHp-=1*GameView.instance.player.attack;
         if (npcHp<=0){
             death();
         }
