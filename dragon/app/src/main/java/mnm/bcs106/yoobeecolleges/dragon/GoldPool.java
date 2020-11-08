@@ -7,7 +7,7 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 public class GoldPool {
-    int maxGold = 100;
+    int maxGold = 500;
     ArrayList<Gold> goldPool = new ArrayList<Gold>();
     ArrayList<Gold> activeGold = new ArrayList<Gold>();
     Bitmap goldSprite;
@@ -22,7 +22,7 @@ public class GoldPool {
         }
     }
     public void spawnGold(int x, int y, int amount) {
-        spawnGold(x, y, amount*3, false);
+        spawnGold(x, y, amount, false);
     }
     public void spawnGold(int x, int y, int amount, boolean fromDragon){
         //amount*=10;

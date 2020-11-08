@@ -12,7 +12,7 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 0;//500;
+    int depositedGold = 100;//500;
     Bitmap goldPile;
     float goldPileHeight;
     float sleepTimeSpeed = 8;
@@ -20,7 +20,7 @@ public class Lair {
     Dragon player;
     float maximumMana = 200;
     float maximumHealth = 200;
-    float maximumSpeed = 2;
+    float maximumSpeed = 3f/2;
     float maximumAttack= 3;
 
     float minimumMana;
@@ -34,9 +34,9 @@ public class Lair {
 
 
     public Lair() {
-        width = (int) (Game.instance.screenWidth*2);
+        width = (int) (Game.instance.screenWidth);
         height =(int)GameView.instance.groundLevel/2;
-        lairBackSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_back);
+        lairBackSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair);
         lairBackSprite = Bitmap.createScaledBitmap(lairBackSprite, width, height, false);
         lairFrontSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_front);
         lairFrontSprite = Bitmap.createScaledBitmap(lairFrontSprite, width, height, false);
@@ -68,7 +68,7 @@ public class Lair {
         goldPileHeight = getGoldPileHeight();
         if(isSleeping) {
             lieDown();
-            wake();
+            //wake();
         }
     }
 
@@ -194,12 +194,12 @@ public class Lair {
         }
 
         if (GameView.instance.player.goldHolding > 0) {
-            if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 4 ) {
+            if (Math.abs(player.aimFor().x - position.x) < goldPile.getWidth() / 4 ) {
                 //depositedGold += 1;
                 //System.out.println(depositedGold);}
                 //goldPileHeight = getGoldPileHeight();
                 //GameView.instance.player.goldHolding -= 1;]
-                Vector2 p = GameView.instance.player.position;
+                Vector2 p = GameView.instance.player.aimFor();
 
                 GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
                 GameView.instance.player.goldHolding--;
@@ -208,12 +208,12 @@ public class Lair {
         }
     }
     public float getGoldPileHeight(){
-        return GameView.instance.groundLevel-goldPile.getHeight()/3*(Math.min((float)depositedGold/1000,1));
+        return GameView.instance.groundLevel-goldPile.getHeight()/3*(Math.min((float)depositedGold/500,1));
     }
 
     public void draw (Canvas canvas){
-        //canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
-        //canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+        canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+       // canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
     }

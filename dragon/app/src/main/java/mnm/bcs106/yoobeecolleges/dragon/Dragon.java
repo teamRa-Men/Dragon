@@ -36,7 +36,7 @@ public class Dragon extends Character {
     int goldHolding = 0;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 5, manaRegen=5;
+    float flyingManaCost = 5, fireManaCost = 5, manaRegen=3;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -54,7 +54,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(75);
+        initBody(65);
 
 
         setAttackController(0,100,100);
@@ -158,6 +158,7 @@ public class Dragon extends Character {
 
     @Override
     public void onDamage(float damage) {
+        GameView.instance.lair.wake();
         if(!stunController.performing) {
             super.onDamage(damage);
         }
@@ -216,12 +217,12 @@ public class Dragon extends Character {
                         backWing.walking = true;
                         frontWing.walking = true;
 
-                        if (backArm.segment.position.y >= groundLevel - radius) {
+                        if (backArm.segment.position.y >= groundLevel - radius/4) {
                         backArm.walking = true;
                         frontArm.walking = true;
                         }
 
-                        if (backLeg.segment.position.y >= groundLevel - radius) {
+                        if (backLeg.segment.position.y >= groundLevel - radius/4) {
                         backLeg.walking = true;
                         frontLeg.walking = true;
                         }
@@ -285,8 +286,8 @@ public class Dragon extends Character {
 
             }
         }
-        direction.y =  Math.signum(direction.y)*Math.min(Math.abs(direction.y), 0.5f);
-        direction.x = Math.signum(direction.x)*Math.max(Math.abs(direction.x), 0.5f);
+        //direction.y =  Math.signum(direction.y)*Math.min(Math.abs(direction.y), 0.5f);
+        //direction.x = Math.signum(direction.x)*Math.max(Math.abs(direction.x), 0.5f);
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
@@ -314,7 +315,7 @@ public class Dragon extends Character {
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
             if(segment.getBounds().contains(other.position.x,other.position.y)){
-                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.8) {
+                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.6) {
                     collided = true;
                     other.setParent(segment);
                 }
@@ -370,8 +371,14 @@ public class Dragon extends Character {
 
 
             }
-            fireBreath.physics(deltaTime);
+
         }
+        else {
+            breathingFire = false;
+        }
+
+        fireBreath.physics(deltaTime);
+
         if (!destroyed)
             super.physics(deltaTime);
         speed *= friction;
@@ -398,7 +405,7 @@ public class Dragon extends Character {
                 frontArm.draw(canvas);
                 frontWing.draw(canvas);
             }
-            if(i == 0){
+            if(i == 0 && !isSleeping){
                 fireBreath.draw(canvas);
             }
             segments.get(i).draw(canvas);
@@ -891,7 +898,6 @@ class FireBreath{
         }
         direction = dragon.direction.add(direction).multiply(0.5f);
 
-        boolean hit = false;
 
         Flame c = backFlames.get(colliderIndex);
         if(!c.active){
