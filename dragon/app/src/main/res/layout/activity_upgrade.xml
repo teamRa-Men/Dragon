@@ -55,34 +55,36 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="LV 100"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textColor="#333333"
+                            android:textSize="24sp" />
 
                         <TextView
                             android:id="@+id/upgradePoints"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="20dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="100 P"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textColor="#3C3C3C"
+                            android:textSize="24sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:orientation="horizontal">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,10 +94,11 @@
                             <ProgressBar
                                 android:id="@+id/xpBar"
                                 style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="20dp"
+                                android:layout_marginTop="5dp"
                                 android:layout_marginEnd="20dp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,6 +113,7 @@
                                 android:gravity="center"
                                 android:text="1000000 XP"
                                 android:textColor="@color/colorDragon"
+                                android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/xpBar"
                                 app:layout_constraintStart_toStartOf="@+id/xpBar"
@@ -144,11 +148,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="10dp"
+                            android:layout_margin="20dp"
                             android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
                             android:text="Back"
-                            android:textColor="#FFFFFF" />
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="normal" />
                     </FrameLayout>
                 </LinearLayout>
 

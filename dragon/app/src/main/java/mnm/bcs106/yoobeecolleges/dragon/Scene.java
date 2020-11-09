@@ -105,7 +105,7 @@ public class Scene {
         backPaint.setColorFilter(new LightingColorFilter(Color.rgb(bc,bc,bc),0));
         frontPaint.setColorFilter(new LightingColorFilter(Color.rgb(fc,fc,fc),0));
 
-        skyPaint.setColor(Color.rgb((int)(bc*0.97f),(int)(bc*0.97f),bc));
+        skyPaint.setColor(Color.rgb((int)(bc*0.80f),(int)(bc*0.90f),bc));
         //skyPaint.setAlpha(bc);
 
         timeOfDay +=deltaTime;

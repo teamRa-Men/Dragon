@@ -21,13 +21,18 @@ public class Wooloo extends NPC{
             flee = true;
             target.x = (int) (npcX+(-(Math.signum(GameView.instance.player.position.x-npcX))*1500));
             tempCreationPoint.x= target.x;
-        }else if((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0 && (Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5){
+        }else if((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0 && (Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5 ){
             idle(500,Math.abs(npcX-target.x) < 10);
             npcY = (int) GameView.instance.groundLevel-npcRect.height();
             npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
         }
         else{
-            npcY = (int) GameView.instance.groundLevel-npcRect.height()+npcRect.height()/8;
+            if(!flee) {
+                npcY = (int) GameView.instance.groundLevel - npcRect.height() + npcRect.height() / 8;
+            }
+            else{
+                npcY = (int) GameView.instance.groundLevel-npcRect.height();
+            }
             npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
         }
 

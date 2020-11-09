@@ -57,8 +57,8 @@ public class ArcherTower extends Foundation {
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
         float l= (float)Math.sqrt(dx*dx+dy*dy);
-        dx = dx/l-((float)Math.random()-0.5f)/4;
-        dy = dy/l-(float)Math.random()/4-0.1f;
+        dx = dx/l-((float)Math.random()-0.5f)/2;
+        dy = dy/l-0.1f;
         ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
     }
 

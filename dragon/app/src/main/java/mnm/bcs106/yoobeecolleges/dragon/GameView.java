@@ -49,6 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
     //Scene
     Scene scene;
 
+
     //Game objects
     //Game objects
     public Dragon player;
@@ -123,6 +124,7 @@ public class GameView extends SurfaceView implements Runnable {
         goldPool = new GoldPool();
         projectilePool = new ProjectilePool();
         firePool = new FirePool();
+
 
 
         hud = new Hud();
@@ -244,6 +246,7 @@ public class GameView extends SurfaceView implements Runnable {
             goldPool.draw(canvas);//
             scene.drawForeground(canvas);//
             firePool.draw(canvas);
+
 
             hud.draw(canvas);
             holder.unlockCanvasAndPost(canvas);

@@ -62,8 +62,9 @@ public class Fortress extends Foundation {
 
     boolean summonedWizard = false;
     boolean surrender = false;
+    float surrenderFear = 50;
 
-    Bitmap flag;
+    Flag flag;
     int flagy;
 
     //Fortress constructor, used when calling Fortress();
@@ -73,6 +74,7 @@ public class Fortress extends Foundation {
         super(x, y, tileNr, isStanding, activity);
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
         height = width * buildingImage.height() / buildingImage.width();
+        flag = new Flag();
 
         BD.add("House");
         BD.add("House");
@@ -99,8 +101,8 @@ public class Fortress extends Foundation {
 
     public void update(float deltaTime) {
         if (creationPoint.y != (int)(GameView.instance.groundLevel - height*3/4) || creationPoint.x != x+width/2){
-            creationPoint.x = x+width/2;
-            creationPoint.y = (int)(GameView.instance.groundLevel - height/2);
+            creationPoint.x = x+width/2-width/4;
+            creationPoint.y = (int)(GameView.instance.groundLevel - height/2)+height/8;
         }
 
         /*System.out.println(creationPoint.x);
@@ -141,6 +143,11 @@ public class Fortress extends Foundation {
                 System.out.println("Town's Fear :" + townFear);
 
                 hasTaxed = true;
+
+                //TODO tribute
+                if(surrender) {
+                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
+                }
             }
 
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) hasTaxed = false;
@@ -355,8 +362,13 @@ public class Fortress extends Foundation {
             summonedWizard = true;
         }
 
-        if(townFear > 50 && !surrender){
+        if(townFear > surrenderFear && !surrender){
             surrender = true;
+            flag.setSurrender(surrender);
+        }
+        else{
+            surrender = false;
+            flag.setSurrender(surrender);
         }
 
         Flagposition(deltaTime);
@@ -456,30 +468,10 @@ public class Fortress extends Foundation {
         countdown+=deltaTime;
         int flagf = 0;
 
+        flagy = (int)(GameView.instance.groundLevel-tilesize*3*((float)townFear/surrenderFear+1)/2);
 
-        // replace with sprite animation class
-        if (countdown >= 0 && flagf == 0) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf1);
-            flagf += 1;
-        }
+        flag.y = flagy;
 
-        if (countdown >= 200 && flagf == 1) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf2);
-            flagf += 1;
-        }
-
-        if (countdown >= 400 && flagf == 2) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf3);
-            flagf = 0;
-        }
-
-        if(fear < 10){
-            flagy = (int)GameView.instance.groundLevel-((tilesize*3)/5*4);
-        }
-
-        if(fear > 10){
-            flagy = (int)GameView.instance.groundLevel-tilesize*2;
-        }
     }
 
     @Override
@@ -506,7 +498,8 @@ public class Fortress extends Foundation {
             }
         }
         c.drawBitmap(flagpole, x+GameView.instance.cameraDisp.x+tilesize*3,(int)(GameView.instance.groundLevel-flagpole.getHeight()),null);
-        c.drawBitmap(flag,x+GameView.instance.cameraDisp.x+tilesize*3,flagy,null);
+        flag.x = x+tilesize*3;
+        flag.draw(c);
     }
 
     public void position(Fortress f) {
@@ -555,9 +548,9 @@ public class Fortress extends Foundation {
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
         float l= (float)Math.sqrt(dx*dx+dy*dy);
-        dx = dx/l-((float)Math.random()-0.5f)/4;
-        dy = dy/l-(float)Math.random()/4-0.1f;
-        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
+        dx = dx/l-((float)Math.random()-0.5f)/2;
+        dy = dy/l-0.1f;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
     }
 }
 

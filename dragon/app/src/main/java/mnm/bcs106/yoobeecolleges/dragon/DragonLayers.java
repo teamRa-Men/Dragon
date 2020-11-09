@@ -72,11 +72,12 @@ public class DragonLayers extends NPC {
 
     public void shoot() {
         Vector2 target = GameView.instance.player.aimFor();
-        float dx = target.x-npcX;
-        float dy = target.y-npcY;
+        float dx = target.x-(npcX+npcWidth/2);
+        float dy = target.y-(npcY+npcHeight/2);
         float l= (float)Math.sqrt(dx*dx+dy*dy);
+
         hitX = dx/l;
-        hitY = dy/l-(float)Math.random()/4-0.1f;
+        hitY = dy/l-(float)(Math.random())/8;
         GameView.instance.projectilePool.shootSpear(npcX+npcWidth/2,npcY+npcHeight/2,1f, hitX , hitY, dmg);
     }
 }
