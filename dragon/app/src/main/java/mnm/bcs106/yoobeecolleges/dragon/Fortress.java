@@ -48,7 +48,7 @@ public class Fortress extends Foundation {
 
     ArcherTower archertower;
     boolean hasTaxed = false;
-
+    boolean hasTribute = false;
     boolean hasFarm = false;
     // attack function
     public static int tileNr = 3;
@@ -106,20 +106,17 @@ public class Fortress extends Foundation {
         }
 
 
+
         /*System.out.println(creationPoint.x);
         System.out.println(GameView.instance.player.position.x);
         System.out.println(GameView.instance.player.position.x-creationPoint.x);
         System.out.println(GameView.instance.cameraSize*attackRange);*/
 
         int currentGold1 = currentGold;
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2){
+            if (currentGold < maxGold && (!hasTaxed)) {
 
-        if (currentGold < maxGold) {
-
-            // MONEY INCOME
-
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
-                    && (!hasTaxed)) {
-
+                // MONEY INCOME
                 goldRate = 15;
 
                 for (int i = 0; i < currentBuildingsRight.size(); i++) {
@@ -133,32 +130,34 @@ public class Fortress extends Foundation {
 
                 currentGold = currentGold + (int) (goldRate * 1.2*GameView.instance.timeScale);
 
-
                 if (currentGold > maxGold) {
-                    currentGold = currentGold - (currentGold - maxGold);
+                    currentGold = maxGold;
                 }
 
                 for (int i = 0; i < BD.size(); i++) {
                     System.out.print(BD.get(i) + ", ");
                 }
                 System.out.println("Town's Fear :" + townFear);
-
                 hasTaxed = true;
-
                 //TODO tribute
-                if (surrender) {
-                    System.out.println("TRIBUTE");
-                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
-                }
             }
-
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) hasTaxed = false;
-
             if (currentGold != currentGold1) {
                 System.out.println("Goldrate : " + goldRate);
                 System.out.println("Gold : " + currentGold);
             }
+            if (surrender && !hasTribute) {
+                System.out.println("TRIBUTE");
+                GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
+                hasTribute = true;
+            }
+
         }
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7){
+            hasTaxed = false;
+            hasTribute = false;
+        }
+
+
 
         //=======================================================================================//
 
@@ -318,32 +317,32 @@ public class Fortress extends Foundation {
         //  =====    ==     ====
         // =     =   ==     ==  ===
 
-    if (inRange() && !surrender) {
-        countdown+=GameView.instance.fixedDeltaTime;
-        System.out.println(countdown);
-        if (countdown > 1000) {
+        if (inRange() && !surrender) {
+            countdown+=GameView.instance.fixedDeltaTime;
+            System.out.println(countdown);
+            if (countdown > 1000) {
 
-            if (countdown > 1200 && attack == 0) {
-                Attack();
+                if (countdown > 1200 && attack == 0) {
+                    Attack();
 
-                attack += 1;
-                 }
-
-            if (countdown > 1400 && attack == 1) {
-                Attack();
-
-                attack += 1;
+                    attack += 1;
                 }
 
-            if (countdown > 1600 && attack == 2) {
-                Attack();
+                if (countdown > 1400 && attack == 1) {
+                    Attack();
 
-                attack += 1;
+                    attack += 1;
                 }
 
-            if (countdown >= 1800) {
-                countdown = 0;
-                attack = 0;
+                if (countdown > 1600 && attack == 2) {
+                    Attack();
+
+                    attack += 1;
+                }
+
+                if (countdown >= 1800) {
+                    countdown = 0;
+                    attack = 0;
                 }
             }
         }

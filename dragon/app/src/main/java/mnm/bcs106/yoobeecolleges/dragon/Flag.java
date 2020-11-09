@@ -16,7 +16,7 @@ public class Flag {
     Paint p = new Paint();
     public Flag() {
         flag = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.flag);
-        flag = Bitmap.createScaledBitmap(flag, GameView.instance.screenWidth / 5, GameView.instance.screenWidth / 20, false);
+        flag = Bitmap.createScaledBitmap(flag, GameView.instance.screenWidth / 10, GameView.instance.screenWidth / 40, false);
         src = new  Rect(flag.getWidth()/2,0,flag.getWidth(),flag.getHeight());
         x = GameView.instance.screenWidth/2;
         y = GameView.instance.screenHeight/2;

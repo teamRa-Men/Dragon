@@ -140,7 +140,7 @@ public class GameView extends SurfaceView implements Runnable {
         Game.instance.gameOver = false;
 
         resume();
-
+        GameView.instance.npc_pool.spawnTribute(fortress.x, fortress.y, 500);
     }
 
     Vector2 randomPosition(){
