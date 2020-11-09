@@ -132,7 +132,7 @@ import android.graphics.Rect;
                 super.update(deltaTime);
             }
         }
-        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4) {
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4 || flee) {
             target.x = tempCreationPoint.x;
             atFarm = false;
             workTime = 0;

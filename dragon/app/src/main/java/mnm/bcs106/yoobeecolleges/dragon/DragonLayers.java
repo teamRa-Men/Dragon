@@ -36,8 +36,9 @@ public class DragonLayers extends NPC {
         super.update(deltaTime);
         if(alive) {
             arrowRechargeTime.update(deltaTime);
-            direction = (int) Math.signum(GameView.instance.player.position.x - npcX);
+
             if(lockTarget) {
+                direction = (int) Math.signum(GameView.instance.player.position.x - npcX);
                 if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4) {
                     target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
                     moveToTarget(deltaTime);
@@ -75,7 +76,7 @@ public class DragonLayers extends NPC {
         float dy = target.y-npcY;
         float l= (float)Math.sqrt(dx*dx+dy*dy);
         hitX = dx/l;
-        hitY = dy/l-(float)Math.random()/3;
+        hitY = dy/l-(float)Math.random()/4-0.1f;
         GameView.instance.projectilePool.shootSpear(npcX+npcWidth/2,npcY+npcHeight/2,1f, hitX , hitY, dmg);
     }
 }

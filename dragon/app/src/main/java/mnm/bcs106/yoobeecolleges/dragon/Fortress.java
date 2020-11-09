@@ -556,7 +556,7 @@ public class Fortress extends Foundation {
         float dy =target.y-creationPoint.y;
         float l= (float)Math.sqrt(dx*dx+dy*dy);
         dx = dx/l-((float)Math.random()-0.5f)/4;
-        dy = dy/l-(float)Math.random()/4;
+        dy = dy/l-(float)Math.random()/4-0.1f;
         ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
     }
 }

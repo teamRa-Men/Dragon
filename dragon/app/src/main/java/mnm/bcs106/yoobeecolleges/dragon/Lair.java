@@ -12,7 +12,7 @@ public class Lair {
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
-    int depositedGold = 100;//500;
+    int depositedGold = 2;//100;//500;
     Bitmap goldPile;
     float goldPileHeight;
     float sleepTimeSpeed = 8;
