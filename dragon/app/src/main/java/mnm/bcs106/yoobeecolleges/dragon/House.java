@@ -18,8 +18,8 @@ public class House extends Foundation{
     boolean createdVillager = false;
     static int cost;
 
-    public House(int x, int y, boolean isStanding, GameView activity){
-        super(x, y,tileNr, isStanding, activity );
+    public House(int x, int y, boolean isStanding){
+        super(x, y,tileNr, isStanding);
         maxHealth = 200;
         cost = 120;
         height = tilesize;

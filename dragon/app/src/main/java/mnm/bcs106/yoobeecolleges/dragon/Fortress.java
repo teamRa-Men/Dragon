@@ -62,7 +62,7 @@ public class Fortress extends Foundation {
 
     boolean summonedWizard = false;
     boolean surrender = false;
-    float surrenderFear = 50;
+    float surrenderFear = 1;
 
     Flag flag;
     int flagy;
@@ -70,8 +70,8 @@ public class Fortress extends Foundation {
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
-    public Fortress(int x, int y, boolean isStanding, GameView activity) {
-        super(x, y, tileNr, isStanding, activity);
+    public Fortress(int x, int y, boolean isStanding) {
+        super(x, y, tileNr, isStanding);
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
         height = width * buildingImage.height() / buildingImage.width();
         flag = new Flag();
@@ -104,6 +104,7 @@ public class Fortress extends Foundation {
             creationPoint.x = x+width/2-width/4;
             creationPoint.y = (int)(GameView.instance.groundLevel - height/2)+height/8;
         }
+
 
         /*System.out.println(creationPoint.x);
         System.out.println(GameView.instance.player.position.x);
@@ -145,7 +146,8 @@ public class Fortress extends Foundation {
                 hasTaxed = true;
 
                 //TODO tribute
-                if(surrender) {
+                if (surrender) {
+                    System.out.println("TRIBUTE");
                     GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
                 }
             }
@@ -199,10 +201,10 @@ public class Fortress extends Foundation {
             this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
 
 
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, activity));
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
             currentTilesRight += 1;
 
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, activity));
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
             currentTilesLeft += 1;
         }
 
@@ -217,10 +219,10 @@ public class Fortress extends Foundation {
             this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
 
 
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, activity));
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
             currentTilesRight += 1;
 
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, activity));
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
             currentTilesLeft += 1;
         }
 
@@ -250,8 +252,8 @@ public class Fortress extends Foundation {
                         if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
                             System.out.println("converting house -> tower R");
                             int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true, activity));
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true,this));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, this));
                             currentBuildingsRight.get(i).health = 0;
                         }
                     }
@@ -261,7 +263,7 @@ public class Fortress extends Foundation {
                         if (townFear/10 < 2*lv && tower > 6) {
                             System.out.println("converting tower -> house R");
                             int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,activity));
+                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,this));
                         }
                     }
 
@@ -287,7 +289,7 @@ public class Fortress extends Foundation {
                         if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
                             System.out.println("converting house -> tower L");
                             int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, this));
                             currentBuildingsLeft.get(i).health = 0;
                         }
                     }
@@ -297,7 +299,7 @@ public class Fortress extends Foundation {
                         if (townFear/10 < 2*lv && tower > 6) {
                             System.out.println("converting tower -> house L");
                             int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true,activity));
+                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true, this));
                         }
                     }
                 }
@@ -316,7 +318,7 @@ public class Fortress extends Foundation {
         //  =====    ==     ====
         // =     =   ==     ==  ===
 
-    if (inRange()) {
+    if (inRange() && !surrender) {
         countdown+=GameView.instance.fixedDeltaTime;
         System.out.println(countdown);
         if (countdown > 1000) {
@@ -362,7 +364,7 @@ public class Fortress extends Foundation {
             summonedWizard = true;
         }
 
-        if(townFear > surrenderFear && !surrender){
+        if(townFear > surrenderFear){
             surrender = true;
             flag.setSurrender(surrender);
         }
@@ -424,7 +426,7 @@ public class Fortress extends Foundation {
             if(direction == currentBuildingsLeft) {
                 position -= Farm.tileNr*tilesize;
             }
-            building = new Farm(position,y,true,activity);
+            building = new Farm(position,y,true);
             currentGold-=Farm.cost*((lv*1.50)+1);
         }
 
@@ -435,19 +437,19 @@ public class Fortress extends Foundation {
                 if(direction == currentBuildingsLeft){
                     position-=House.tileNr*tilesize;
                 }
-                building = new House(position,y,true,activity);currentGold-=(int)(House.cost*((lv*1.75)+1));}
+                building = new House(position,y,true);currentGold-=(int)(House.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Farm" && currentGold > Farm.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){
                     position-=Farm.tileNr*tilesize;
                 }
-                building = new Farm(position,y,true,activity);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
+                building = new Farm(position,y,true);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Tower" && currentGold > ArcherTower.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){
                     position-=ArcherTower.tileNr*tilesize;
                 }
-                building = new ArcherTower(position,y,true,activity); currentGold-=(int)(ArcherTower.cost*((lv*1.75)+1));}
+                building = new ArcherTower(position,y,true, this); currentGold-=(int)(ArcherTower.cost*((lv*1.75)+1));}
             else return;
         }
 
@@ -468,7 +470,7 @@ public class Fortress extends Foundation {
         countdown+=deltaTime;
         int flagf = 0;
 
-        flagy = (int)(GameView.instance.groundLevel-tilesize*3*((float)townFear/surrenderFear+1)/2);
+        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min(((float)townFear/surrenderFear+1)/2,1)));
 
         flag.y = flagy;
 

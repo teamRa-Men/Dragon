@@ -28,8 +28,8 @@ public class Farm extends Foundation{
     public static int tileNr = 3;
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
-    public Farm(int x, int y, boolean isStanding, GameView activity){
-        super( x, y,tileNr, isStanding, activity);
+    public Farm(int x, int y, boolean isStanding){
+        super( x, y,tileNr, isStanding);
         int buildingSprite = (int) (Math.random()*2.9+1);
         cost = 110;
 

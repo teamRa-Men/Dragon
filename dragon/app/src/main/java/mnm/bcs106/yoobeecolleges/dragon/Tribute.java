@@ -1,21 +1,22 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Rect;
 
 public class Tribute extends NPC{
     public int tributeSize;
     public boolean given = false;
-
+    Flag flag;
 
     public Tribute(float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
         target.x = (int) GameView.instance.lair.position.x;
-
-
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
         Rect r = SpriteManager.instance.getNPCSprite("Tribute");
         npcBitmap =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        flag = new Flag();
+        flag.setSurrender(true);
     }
 
     public void spawn(int spawnX, int spawnY, int tributeSize) {
@@ -23,6 +24,14 @@ public class Tribute extends NPC{
         this.tributeSize = tributeSize;
         given = false;
         System.out.println("tribute spawwn");
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        flag.y = npcRect.top;
+        flag.x = npcX+npcWidth/2;
+        flag.draw(canvas);
     }
 
     @Override

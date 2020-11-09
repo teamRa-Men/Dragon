@@ -109,13 +109,13 @@ class Fire{
         }
         paint.setAlpha(alpha);
         backPaint.setAlpha(alpha);
-        System.out.println("fireUpdate" + alpha);
+       // System.out.println("fireUpdate" + alpha);
     }
 
     public void spawn(Vector2 p){
         position = p;
         alpha = 255;
         active = true;
-        System.out.println("fireSpawn");
+       // System.out.println("fireSpawn");
     }
 }

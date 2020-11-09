@@ -25,7 +25,7 @@ public class Foundation {
 
     protected int maxHealth=100;
 
-    protected GameView activity;
+
 
     int buildingType;
 
@@ -56,10 +56,10 @@ public class Foundation {
     boolean noAttackDay = false;
     boolean fearRemoved = false;
 
-    public Foundation(int x, int y, int tileNr, boolean isStanding, GameView activity){
+    public Foundation(int x, int y, int tileNr, boolean isStanding){
         tilesize =GameView.instance.cameraSize/9;
         this.tileNr=tileNr;
-        this.activity = activity;
+
         this.isStanding = true;
 
         buildingType = 0;

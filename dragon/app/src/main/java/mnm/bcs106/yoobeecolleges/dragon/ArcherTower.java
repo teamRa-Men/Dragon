@@ -15,10 +15,10 @@ public class ArcherTower extends Foundation {
     int attack = 0;
 
     public static int tileNr = 1;
-
-    public ArcherTower( int x, int y, boolean isStanding, GameView activity){
-        super( x, y, tileNr, isStanding, activity );
-
+    Fortress fortress;
+    public ArcherTower( int x, int y, boolean isStanding, Fortress  fortress){
+        super( x, y, tileNr, isStanding);
+        this.fortress = fortress;
         cost = 160;
         buildingType = 4;
         maxHealth = 400;
@@ -59,7 +59,7 @@ public class ArcherTower extends Foundation {
         float l= (float)Math.sqrt(dx*dx+dy*dy);
         dx = dx/l-((float)Math.random()-0.5f)/2;
         dy = dy/l-0.1f;
-        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
     }
 
     public void update(float fixedDeltaTime){
@@ -72,7 +72,7 @@ public class ArcherTower extends Foundation {
         if(isStanding) {
             countdown+=fixedDeltaTime;
             //System.out.println(countdown);
-            if (inRange()) {
+            if (inRange() && !fortress.surrender) {
 
                 if (countdown > 1000) {
 
