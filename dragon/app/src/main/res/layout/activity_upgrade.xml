@@ -145,8 +145,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
+                            android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
-                            android:text="Back" />
+                            android:text="Back"
+                            android:textColor="#FFFFFF" />
                     </FrameLayout>
                 </LinearLayout>
 
@@ -184,13 +186,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_margin="20dp"
                             android:layout_weight="0"
+                            android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:text="+"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -223,13 +226,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_margin="20dp"
                             android:layout_weight="0"
+                            android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:text="+"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -262,13 +266,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_margin="20dp"
                             android:layout_weight="0"
+                            android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:text="+"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -300,13 +305,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_margin="20dp"
                             android:layout_weight="0"
+                            android:background="@drawable/roundedbuttonshape"
                             android:gravity="center"
-                            android:padding="10dp"
                             android:text="+"
                             android:textAlignment="center"
-                            android:textColor="#D8B64E"
-                            android:textSize="18sp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

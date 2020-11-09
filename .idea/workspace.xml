@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/.idea/shelf/Uncommitted_changes_before_Update_at_19_10_2020_10_44_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/.idea/shelf/Uncommitted_changes_before_Update_at_19_10_2020_10_44_AM__Default_Changelist_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Dragon.java" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/Dragon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/House.java" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/java/mnm/bcs106/yoobeecolleges/dragon/House.java" afterDir="false" />
-    </list>
+    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
