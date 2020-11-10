@@ -44,6 +44,8 @@ public class Dragon extends Character {
         this.height = height;
         maxHealth = 60;
         health = maxHealth;
+        maxMoveSpeed = 1f/2;
+
 
 
         friction = 0.99f;
@@ -72,7 +74,6 @@ public class Dragon extends Character {
 
         bodyStart = size/7;
         bodyEnd = size/3;
-        maxMoveSpeed = 1f/2;
 
 
         destroyed = false;
