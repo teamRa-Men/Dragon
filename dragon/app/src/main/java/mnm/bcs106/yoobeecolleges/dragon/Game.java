@@ -166,7 +166,7 @@ public class Game extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
         highScoreEdit = pref.edit();
 
-        gameOverDialogBuilder = new AlertDialog.Builder(this);
+        gameOverDialogBuilder =  new AlertDialog.Builder(this,R.style.MyAlertDialog);
 
         pauseDialogBuilder = new AlertDialog.Builder(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
         final ViewGroup pauseMenu = (ViewGroup) getLayoutInflater().inflate(R.layout.activity_pause_menu,null,false);
