@@ -136,7 +136,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnThiefs((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnDragonLayers((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnWizard((int)fortress.x ,(int)groundLevel,1);
-        npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,500);
+        //npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,500);
         Game.instance.gameOver = false;
 
         resume();
