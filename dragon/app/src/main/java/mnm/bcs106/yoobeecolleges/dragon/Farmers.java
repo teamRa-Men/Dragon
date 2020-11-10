@@ -47,7 +47,7 @@ import android.graphics.Rect;
     public Boolean atHome = false;
     @Override
     public void update(float deltaTime) {
-        if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.4) && alive) {
+        if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
             if (!wasAttacked) {
                 if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && Math.abs(GameView.instance.player.position.y - npcY)< GameView.instance.screenHeight/2) {
                     flee = true;
@@ -135,7 +135,7 @@ import android.graphics.Rect;
                 super.update(deltaTime);
             }
         }
-        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4) {
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.5) {
             target.x = tempCreationPoint.x;
             atFarm = false;
             workTime = 0;

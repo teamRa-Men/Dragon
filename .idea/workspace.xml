@@ -3,8 +3,17 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand />
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="" />
+    <list default="true" id="6a385fd7-059e-420c-baaa-4cbb99a4d933" name="Default Changelist" comment="Desighne">
+      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/roundedbuttonshape.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/roundedbuttonshape.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_main_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_main_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_pause_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_pause_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/game_over.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/game_over.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +23,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1hyRBJqIinM8JAy5Yx7d3w5cJmI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -39,12 +49,24 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="532" y="194" key="FileChooserDialogImpl" timestamp="1603706403726">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="598" y="220" key="FileChooserDialogImpl" timestamp="1604970184241">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="532" y="194" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1603706403726" />
-    <state x="598" y="220" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1603393637918" />
+    <state x="598" y="220" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1604970184241" />
     <state x="748" y="276" key="FileChooserDialogImpl/0.0.1920.1035@0.0.1920.1035" timestamp="1603162232134" />
   </component>
 </project>
