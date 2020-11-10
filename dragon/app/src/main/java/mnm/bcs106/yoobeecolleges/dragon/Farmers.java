@@ -16,7 +16,7 @@ import android.graphics.Rect;
 
     public Farmers( float speed, int maxHP, int width, int height,int FX) {
         super(speed, maxHP, width, height);
-        farmX = npcX ;
+        farmX = (int)npcX ;
 
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
         Rect r = SpriteManager.instance.getNPCSprite("Farmer1");
@@ -76,7 +76,7 @@ import android.graphics.Rect;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
                 } else {
-                    idle(500, Math.abs(npcX - target.x) < 10);
+                    idle(500, true);//Math.abs(npcX - target.x) < 10);
                 }
             }
             if (atHome){
@@ -91,7 +91,7 @@ import android.graphics.Rect;
                     if (GameView.instance.fortress.currentBuildingsRight.get(j).buildingType == 3) {
                         if (Math.abs(npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x) < closestFarm.y) {
                             farmX = (int) (GameView.instance.fortress.currentBuildingsRight.get(j).x+GameView.instance.fortress.tilesize*1.5);
-                            closestFarm.y = Math.abs(npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x);
+                            closestFarm.y = Math.abs((int)npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x);
                         }
                     }
                 }
@@ -100,7 +100,7 @@ import android.graphics.Rect;
                         if (GameView.instance.fortress.currentBuildingsLeft.get(j).buildingType == 3) {
                             if (Math.abs(npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
                                 farmX = (int) (GameView.instance.fortress.currentBuildingsLeft.get(j).x+GameView.instance.fortress.tilesize*1.5);
-                                closestFarm.y = Math.abs(npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x);
+                                closestFarm.y = Math.abs((int)npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x);
                             }
                         }
                     }
@@ -125,12 +125,12 @@ import android.graphics.Rect;
                 }else {
                     wasAttacked = false;
                     npcY += npcRect.height()*7;
-                    npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
+                    npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
             }
             }else {
                 if(wasAttacked = true){
                     int r = (int)(Math.random()*3);
-                    GoldPool.instance.spawnGold(npcX, npcY,r);}
+                    GoldPool.instance.spawnGold((int)npcX, (int)npcY,r);}
                 wasAttacked = false;
                 super.update(deltaTime);
             }

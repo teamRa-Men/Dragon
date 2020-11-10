@@ -30,7 +30,7 @@ public class Tribute extends NPC{
     public void draw(Canvas canvas) {
         super.draw(canvas);
         flag.y = npcRect.top;
-        flag.x = npcX+npcWidth/2;
+        flag.x = (int)(npcX+npcWidth/2);
         flag.draw(canvas);
     }
 
@@ -43,7 +43,7 @@ public class Tribute extends NPC{
         if (!given){
             target.x = (int) GameView.instance.lair.position.x - direction*GameView.instance.screenWidth/4;
             if(Math.abs(target.x-npcX) < 7 || Math.abs(GameView.instance.player.position.x - npcX)< GameView.instance.screenWidth/4){
-                GoldPool.instance.spawnGold(npcX,npcY,tributeSize);
+                GoldPool.instance.spawnGold((int)npcX,(int)npcY,tributeSize);
                 given = true;
             }
 

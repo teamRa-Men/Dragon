@@ -16,7 +16,7 @@ public class Wizard extends NPC {
 
     public Wizard(float speed, int maxHP, int width, int height, int damage) {
         super(speed, maxHP, width, height);
-        target.x = npcX;
+        target.x = (int)npcX;
         arrowRechargeTime = new ActionController(3000, 500,2000);
         dmg = damage;
 
@@ -80,7 +80,7 @@ public class Wizard extends NPC {
     }
 
     public void shoot() {
-        GameView.instance.projectilePool.shootMagic(npcX+npcWidth/2,npcY+npcHeight/2, 1f / 4, 0, 1, dmg);
+        GameView.instance.projectilePool.shootMagic((int)(npcX+npcWidth/2),(int)(npcY+npcHeight/2), 1f / 4, 0, 1, dmg);
 
     }
 }

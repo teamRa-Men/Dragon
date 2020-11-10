@@ -25,14 +25,14 @@ public class Wooloo extends NPC{
             } else if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0 && (Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.5) {
                 idle(500, Math.abs(npcX - target.x) < 10);
                 npcY = (int) GameView.instance.groundLevel - npcRect.height();
-                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
+                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
             } else {
                 if (!flee) {
                     npcY = (int) GameView.instance.groundLevel - npcRect.height() + npcRect.height() / 8;
                 } else {
                     npcY = (int) GameView.instance.groundLevel - npcRect.height();
                 }
-                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
+                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
             }
         }
     }

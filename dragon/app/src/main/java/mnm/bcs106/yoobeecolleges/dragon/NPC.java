@@ -13,7 +13,7 @@ import android.graphics.RectF;
 
 public class NPC {
     public Bitmap npcBitmap;
-    public int npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
+    public float npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
     public Rect npcRect, npcCollider;
     public float npcSpeed;
     public Boolean alive = false;
@@ -40,8 +40,8 @@ public class NPC {
         npcFleeSpeed = (float) ((Math.random()*npcSpeed)+(npcSpeed*3));
         npcWidth = width;
         npcHeight = height;
-        npcRect = new Rect(npcX,npcY,width+npcX,height+npcY);
-        npcCollider = new Rect(npcX,npcY,width+npcX,height+npcY);
+        npcRect = new Rect((int)npcX,(int)npcY,(int)(width+npcX),(int)(height+npcY));
+        npcCollider = new Rect((int)npcX,(int)npcY,(int)(width+npcX),(int)(height+npcY));
         damagePeriod = new ActionController(0,5000,5000);
         random = Math.random();
     }
@@ -49,11 +49,11 @@ public class NPC {
         npcHp = npcMaxHP;
         npcX = spawnX;
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
-        tempCreationPoint.x = npcX;
-        tempCreationPoint.y = npcY;
+        tempCreationPoint.x = (int)npcX;
+        tempCreationPoint.y = (int)npcY;
         CreationPoint.x = spawnX;
         CreationPoint.y = spawnY;
-        target.x = npcX;
+        target.x = (int)npcX;
         alive = true;
         active = true;
         flee = false;
@@ -140,12 +140,12 @@ public class NPC {
             moveToTarget(deltaTime);
 
         }
-        npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),npcY);
+        npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
     }
 
 
     public  void  physics(float deltaTime) {
-        npcCollider = new Rect(npcX, npcY, npcX + npcRect.width(), npcY + npcRect.height());
+        npcCollider = new Rect((int)npcX, (int)npcY, (int)(npcX + npcRect.width()), (int)(npcY + npcRect.height()));
         //System.out.println("npcphysics");
         try {
             if (GameView.instance.player.fireBreath.collision(npcCollider) && !damagePeriod.performing) {

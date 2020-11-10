@@ -14,7 +14,7 @@ public class DragonLayers extends NPC {
 
     public DragonLayers(float speed, int maxHP, int width, int height, int damage) {
         super(speed, maxHP, width, height);
-        target.x = npcX;
+        target.x = (int)npcX;
         arrowRechargeTime = new ActionController(1000, (float) 1000,2000);
         dmg = damage;
 
@@ -43,7 +43,7 @@ public class DragonLayers extends NPC {
                     target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
                     moveToTarget(deltaTime);
                     npcY = (int) GameView.instance.groundLevel - npcRect.height();
-                    npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), npcY);
+                    npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
                 }
                 if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 2) {
                     arrowRechargeTime.triggerAction();
@@ -78,6 +78,6 @@ public class DragonLayers extends NPC {
 
         hitX = dx/l;
         hitY = dy/l-(float)(Math.random())/8;
-        GameView.instance.projectilePool.shootSpear(npcX+npcWidth/2,npcY+npcHeight/2,1f, hitX , hitY, dmg);
+        GameView.instance.projectilePool.shootSpear((int)(npcX+npcWidth/2),(int)(npcY+npcHeight/2),1f, hitX , hitY, dmg);
     }
 }
