@@ -38,7 +38,7 @@ public class Scene {
         Bitmap sheet = SpriteManager.instance.environmentSheet;
         Rect r = SpriteManager.instance.getEnvironmentSprite("Ground");
         ground = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.1),false);
+        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.3),false);
 
         r = SpriteManager.instance.getEnvironmentSprite("Mountains");
         hillsBackground = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
