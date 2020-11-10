@@ -75,7 +75,6 @@ public class House extends Foundation{
             }
 
             goldRate = currentInhabitants.size() * 3;
-            beenEmptied = false;
             fearCooldown();
 
         }
@@ -90,7 +89,8 @@ public class House extends Foundation{
 
             if(beenEmptied == false){
                 GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/5);
-                beenEmptied = true;}
+                beenEmptied = true;
+            }
 
             goldRate = 0;
         }
@@ -101,13 +101,4 @@ public class House extends Foundation{
         return 1;
     }
 
-    @Override
-    public void OnDamage() {
-        super.OnDamage();
-
-        if(health == 0 && isStanding){
-            isStanding = false;
-            //Log.i("ouch","damaged");
-        }
-    }
 }

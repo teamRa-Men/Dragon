@@ -62,7 +62,7 @@ public class SpriteManager {
         put("Fortress1",spriteRect(128*3,128*4,128*3,128*2));
         put("Fortress2",spriteRect(128*6,128*4,128*3,128*2));
         put("Fortress3",spriteRect(128*3,128*6,128* 3,128*2));
-        put("FortressRuin",spriteRect(128*6,128*6,128*3,128*2));
+        put("FortressRuin",spriteRect(128*6,128*6+2,128*3,128*2));
 
         put("Flag",spriteRect(0,128*5,128,128));
 
@@ -104,7 +104,7 @@ public class SpriteManager {
         put("LairFront",spriteRect(0,256*2,1024,256));
         put("Mum",spriteRect(0,256*3,256,64));
         put("GoldCoin",spriteRect(256,256*3,8,8));
-        put("Mountains",spriteRect(0,832,1034,64));
+        put("Mountains",spriteRect(0,832,1024,64));
         put("Ground",spriteRect(0,896,1024,128));
     }};
 

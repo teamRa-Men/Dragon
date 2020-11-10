@@ -42,7 +42,8 @@ public class Dragon extends Character {
         super(sprite, offsetX, offsetY);
         this.width = width;
         this.height = height;
-
+        maxHealth = 60;
+        health = maxHealth;
 
 
         friction = 0.99f;
@@ -72,8 +73,7 @@ public class Dragon extends Character {
         bodyStart = size/7;
         bodyEnd = size/3;
         maxMoveSpeed = 1f/2;
-        maxHealth = 60;
-        health = maxHealth;
+
 
         destroyed = false;
         centerPivot = true;
@@ -152,9 +152,6 @@ public class Dragon extends Character {
     }
 
 
-    public void attack(Character enemy){
-
-    }
 
     @Override
     public void onDamage(float damage) {
@@ -330,6 +327,8 @@ public class Dragon extends Character {
 
     @Override
     public void physics(float deltaTime) {
+        if( GameView.instance.lair != null)
+        groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
         if(!isSleeping) {
             if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
                 //direction.x = (-0.1f + direction.x)/2;
@@ -749,7 +748,7 @@ class Arm{
         float bottom = top + src.height();
 
         Matrix matrix = new Matrix();
-        collider = new RectF(left, top, right, bottom);
+        collider = new RectF(left, top, right+src.width()/2, bottom+src.height()/2);
         dst =new RectF(left + GameView.instance.cameraDisp.x, top + GameView.instance.cameraDisp.y, right + GameView.instance.cameraDisp.x, bottom + GameView.instance.cameraDisp.y);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());

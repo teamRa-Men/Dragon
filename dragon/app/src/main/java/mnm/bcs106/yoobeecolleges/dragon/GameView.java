@@ -136,11 +136,11 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnThiefs((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnDragonLayers((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnWizard((int)fortress.x ,(int)groundLevel,1);
-       // npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,100);
+        npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,500);
         Game.instance.gameOver = false;
 
         resume();
-        GameView.instance.npc_pool.spawnTribute(fortress.x, fortress.y, 500);
+
     }
 
     Vector2 randomPosition(){
@@ -241,11 +241,12 @@ public class GameView extends SurfaceView implements Runnable {
             lair.draw(canvas);//80
             fortress.draw(canvas);//90
             projectilePool.draw(canvas);//80
-            player.draw(canvas);//80
+
             npc_pool.draw(canvas);//90
             goldPool.draw(canvas);//
-            scene.drawForeground(canvas);//
+            player.draw(canvas);//80
             firePool.draw(canvas);
+            scene.drawForeground(canvas);//
 
 
             hud.draw(canvas);

@@ -48,6 +48,37 @@ import android.graphics.Rect;
     @Override
     public void update(float deltaTime) {
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.4) && alive) {
+            if (!wasAttacked) {
+                if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && Math.abs(GameView.instance.player.position.y - npcY)< GameView.instance.screenHeight/2) {
+                    flee = true;
+                    work = false;
+                    target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
+                    tempCreationPoint.x = target.x;
+                    wasAttacked = true;
+                }
+                if(whereFarm){
+                    if(!atFarm) {
+                        target.x = farmX;
+                        work = false;
+                    }
+                    else {
+                        work = true;
+                        doStuff();
+                    }
+                    if(Math.abs(target.x - npcX) < 7){
+                        atFarm = true;
+                    }
+                }
+            } else {
+                if (Math.abs(GameView.instance.player.position.x - npcX) < 300) {
+                    flee = true;
+                    work = false;
+                    target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
+                    tempCreationPoint.x = target.x;
+                } else {
+                    idle(500, Math.abs(npcX - target.x) < 10);
+                }
+            }
             if (atHome){
                 npcY = CreationPoint.y;
                 atHome = false;
@@ -78,35 +109,7 @@ import android.graphics.Rect;
                     whereFarm = true;
                 }
             }
-            if (!wasAttacked) {
-                if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && Math.abs(GameView.instance.player.position.y - npcY)< GameView.instance.screenHeight/2) {
-                    flee = true;
-                    work = false;
-                    target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
-                    tempCreationPoint.x = target.x;
-                    wasAttacked = true;
-                }
-                if(whereFarm){
-                    if(!atFarm) {
-                        target.x = farmX;
-                        work = false;
-                    }
-                    else {
-                        work = true;
-                        doStuff();
-                    }
-                    if(Math.abs(target.x - npcX) < 7){
-                        atFarm = true;
-                    }
-                }
-            } else {
-                if (Math.abs(GameView.instance.player.position.x - npcX) < 300) {
-                    flee = true;
-                    work = false;
-                    target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
-                    tempCreationPoint.x = target.x;
-                } else idle(500, Math.abs(npcX - target.x) < 10);
-            }
+
             super.update(deltaTime);
         }else{
             if (alive){
@@ -132,11 +135,12 @@ import android.graphics.Rect;
                 super.update(deltaTime);
             }
         }
-        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4 || flee) {
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.4) {
             target.x = tempCreationPoint.x;
             atFarm = false;
             workTime = 0;
             work = false;
+            flee = true;
             npcBitmap = idleSprite;
         }
         if (work) {

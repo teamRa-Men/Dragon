@@ -106,7 +106,7 @@ public class Lair {
         if(upgradePoints > 0 && player.maxMana < maximumMana) {
             player.maxMana+=20;
             upgradePoints--;
-            Hud.instance.manaMaxWidth = (int)(GameView.instance.screenWidth/4*player.maxMana/100);
+            Hud.instance.manaMaxWidth = (int)(GameView.instance.screenWidth/3*player.maxMana/100);
 
             return true;
         }
@@ -124,16 +124,16 @@ public class Lair {
         if(upgradePoints > 0 && player.maxHealth< maximumHealth) {
             player.maxHealth+=maximumHealth/10;
             upgradePoints--;
-            Hud.instance.healthMaxWidth = (int)(GameView.instance.screenWidth/4*player.maxHealth/100);
+            Hud.instance.healthMaxWidth = (int)(GameView.instance.screenWidth/3*player.maxHealth/100);
             return true;
         }
         return false;
     }
  public float getGroundLevel(Vector2 p, float r){
-        float groundLevel = GameView.instance.groundLevel -r*1.2f;
+        float groundLevel = GameView.instance.groundLevel -r*1.3f;
         if(Math.abs(p.x - position.x) < goldPile.getWidth()/2) {
             float goldSurface = goldPileHeight + goldPile.getHeight() / 2 - (float) Math.sqrt(Math.pow(goldPile.getHeight() / 2, 2) - Math.pow(p.x - position.x, 2));
-            groundLevel = Math.min(GameView.instance.groundLevel - r * 1.2f, goldSurface - r);
+            groundLevel = Math.min(GameView.instance.groundLevel - r * 1.4f, goldSurface - r);
         }
         return  groundLevel;
  }
@@ -183,10 +183,10 @@ public class Lair {
                 //System.out.println("sleep button on");
 
 
-                player.groundLevel = getGroundLevel(player.position, player.radius);
+
 
             } else {
-                player.groundLevel = GameView.instance.groundLevel - player.radius * 1.2f;
+
                 Game.instance.showSleepButton = false;
                 //System.out.println("sleep button off");
             }
@@ -208,7 +208,7 @@ public class Lair {
         }
     }
     public float getGoldPileHeight(){
-        return GameView.instance.groundLevel-goldPile.getHeight()/3*(Math.min((float)depositedGold/500,1));
+        return GameView.instance.groundLevel-goldPile.getHeight()/3*(float)Math.pow((float)depositedGold/1000,1f/3);
     }
 
     public void draw (Canvas canvas){

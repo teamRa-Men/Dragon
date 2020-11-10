@@ -77,7 +77,6 @@ public class Farm extends Foundation{
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) createdWooloo = false;
 
             goldRate = currentCattle.size() * 10;
-            beenEmptied = false;
             buildingImage = spriteAnim.getFrame(fixedDeltaTime,GameView.instance.timeScale);
             fearCooldown();
         }
@@ -98,14 +97,7 @@ public class Farm extends Foundation{
 
     }
 
-    @Override
-    public void OnDamage() {
-        super.OnDamage();
 
-        if(health == 0 && isStanding){
-            isStanding = false;
-        }
-    }
 
 
 

@@ -43,11 +43,12 @@ public class Thief extends NPC {
         //System.out.println("gold" + howManySteal);
         super.update(deltaTime);
         if (Math.abs(npcX - tempCreationPoint.x) < 7 && stole){
-            target.x = (int) GameView.instance.lair.position.x;
+            //target.x = (int) GameView.instance.lair.position.x;
             GameView.instance.fortress.currentGold+=howManySteal;
             howManySteal = 0;
             stole = false;
-            npcBitmap = idleSprite;
+            //npcBitmap = idleSprite;
+            active = false;
         }
         if (Math.abs(npcX - GameView.instance.lair.position.x) < 7 && !stole){
             if (GameView.instance.lair.depositedGold>maxSteal){

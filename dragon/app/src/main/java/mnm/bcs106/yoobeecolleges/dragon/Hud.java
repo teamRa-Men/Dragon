@@ -51,12 +51,12 @@ public class Hud {
             health.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
             mana.setColor(Game.instance.getResources().getColor(R.color.colorMana));
             barLeft = screenWidth/8;
-            manaMaxWidth = (int)(screenWidth/4*player.maxMana/100);
-            healthMaxWidth = (int)(screenWidth/4*player.maxHealth/100);
-            manaTop = screenWidth/40+20;
-            manaBottom = manaTop+10;
+            manaMaxWidth = (int)(screenWidth/3*player.maxMana/100);
+            healthMaxWidth = (int)(screenWidth/3*player.maxHealth/100);
+            manaTop = screenWidth/40+30;
+            manaBottom = manaTop+20;
             healthTop = screenWidth/40;
-            healthBottom = healthTop+10;
+            healthBottom = healthTop+20;
 
     }
     public void update(float deltaTime){

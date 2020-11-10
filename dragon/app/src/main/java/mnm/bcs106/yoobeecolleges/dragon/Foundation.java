@@ -30,10 +30,10 @@ public class Foundation {
     int buildingType;
 
 
-    // 0 = fortress
-    // 1 = house
-    // 2 = Farm
-    // 3 = tower
+    // 1 = fortress
+    // 2 = house
+    // 3 = Farm
+    // 4 = tower
 
     ArrayList <NPC> currentInhabitants = new ArrayList<NPC>();
 
@@ -83,7 +83,10 @@ public class Foundation {
 
     public void draw(Canvas c){
         Paint p = Scene.instance.frontPaint;
-        //p.setColorFilter(new LightingColorFilter(Color.rgb(health/maxHealth*255, health/maxHealth*255, health/maxHealth*255),0));
+        if(isStanding) {
+            int d = (int)((float) health / maxHealth*125)+130;
+            p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
+        }
         float left = x+GameView.instance.cameraDisp.x;
         float top = y-height;
         float bottom = y;
@@ -99,10 +102,16 @@ public class Foundation {
 
     public void physics(float deltaTime){
          // Log.i("gmg","phy");
+        if(buildingType == 0){
+            System.out.println("fortress");
+        }
         try {
+            if(buildingType == 0){
+                System.out.println("fortress sttack check");
+            }
             if (GameView.instance.player.fireBreath.collision(collider)) {
                 OnDamage();
-                //System.out.println(health);
+                System.out.println(health);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -120,20 +129,22 @@ public class Foundation {
                 y = (int) GameView.instance.groundLevel - 3;
 
             } else if (health < (maxHealth / 4 * 3) && health > (maxHealth / 2)) {
-                y = ((int) GameView.instance.groundLevel - 3) + (height / 4)/2;
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 4)/2/2;
 
             } else if (health < (maxHealth / 2) && health > maxHealth / 4) {
-                y = ((int) GameView.instance.groundLevel - 3) + (height / 2)/2;
+                y = ((int) GameView.instance.groundLevel - 3) + (height / 2)/2/2;
 
             } else if (health < (maxHealth / 4) && health != 0){
-                y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2;
+                y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2/2;
             }
         }
     }
 
     public void OnDamage () {
-        if(isStanding){
 
+
+        if(isStanding){
+            beenEmptied = false;
             if(Math.random() < 0.1) {
                 FirePool.instance.spawnFire(x + (float) Math.random() * width, y - (float) Math.random() * height / 4);
             }
@@ -151,9 +162,15 @@ public class Foundation {
                 health = Math.max(health,0);
 
                 fear+=0.5f;
-
+                if(buildingType == 1){
+                    System.out.println("fortress attacked" + fear);
+                }
                 damagePeriod.cooling=true;
             }
+        }
+
+        if(health == 0 && isStanding){
+            isStanding = false;
         }
     }
 
@@ -194,7 +211,7 @@ public class Foundation {
 
     public void repair(int repairRate, float deltaTime){
 
-        if(!isStanding){    // && currentInhabitants > 1
+        if(!isStanding || buildingType == 1){    // && currentInhabitants > 1
             rebuildTime+=deltaTime;
 
             if( rebuildTime > 1000){
@@ -202,9 +219,10 @@ public class Foundation {
                 rebuildTime = 0;
             }
 
+
             if(health == maxHealth) {
                 isStanding = true;
-
+                beenEmptied = false;
 
                 if(buildingType == 1){
                     buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
