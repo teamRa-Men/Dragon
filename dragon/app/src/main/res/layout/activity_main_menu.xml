@@ -49,9 +49,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:background="@drawable/roundedbuttonshape"
                     android:paddingLeft="50dp"
                     android:paddingRight="50dp"
-                    android:text="Start" />
+                    android:text="Start"
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 
