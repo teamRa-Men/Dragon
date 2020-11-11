@@ -103,7 +103,7 @@ public class SpriteManager {
         put("Thief2",spriteRect(d,d*5,d,d));
 
         put("Arrow",spriteRect(d,d/8,d/4,d/8));
-        put("Magic",spriteRect(d,d/4,d/4,d/4));
+        put("Magic",spriteRect(d,d/4,d/2,d/2));
         put("Spear",spriteRect(d,0,2*d,d/8));
 
     }};

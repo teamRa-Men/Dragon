@@ -74,7 +74,7 @@
         <Button
             android:id="@+id/wakeButton"
             android:layout_width="80dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@drawable/roundedbuttonshape"
             android:onClick="onWake"
             android:text="Wake"
