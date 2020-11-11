@@ -118,50 +118,7 @@ public class Fortress extends Foundation {
         System.out.println(GameView.instance.player.position.x-creationPoint.x);
         System.out.println(GameView.instance.cameraSize*attackRange);*/
 
-            int currentGold1 = currentGold;
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {
-                if (currentGold < maxGold && (!hasTaxed)) {
-
-                    // MONEY INCOME
-                    goldRate = 15;
-
-                    for (int i = 0; i < currentBuildingsRight.size(); i++) {
-                        goldRate = currentBuildingsRight.get(i).goldRate + goldRate;
-                    }
-
-                    for (int i = 0; i < currentBuildingsLeft.size(); i++) {
-                        goldRate = currentBuildingsLeft.get(i).goldRate + goldRate;
-                    }
-
-
-                    currentGold = currentGold + (int) (goldRate * 1.2 * GameView.instance.timeScale);
-
-                    if (currentGold > maxGold) {
-                        currentGold = maxGold;
-                    }
-
-                    for (int i = 0; i < BD.size(); i++) {
-                        //System.out.print(BD.get(i) + ", ");
-                    }
-                    System.out.println("Town's Fear :" + townFear);
-                    hasTaxed = true;
-                    //TODO tribute
-                }
-                if (currentGold != currentGold1) {
-                    System.out.println("Goldrate : " + goldRate);
-                    System.out.println("Gold : " + currentGold);
-                }
-                if (surrender && !hasTribute) {
-                    System.out.println("TRIBUTE");
-                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2, this);
-                    hasTribute = true;
-                }
-
-            }
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
-                hasTaxed = false;
-                hasTribute = false;
-            }
+          tax();
 
 
             //=======================================================================================//
@@ -171,32 +128,7 @@ public class Fortress extends Foundation {
             //=======================================================================================//
 
 
-            //System.out.println((int)(House.cost*((lv*1.75)+1)));
-
-            if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)) {
-                spawnRandomBuilding();
-            }
-
-            tower = 0;
-            for (int i = 0; i < currentBuildingsRight.size(); i++) {
-                if (currentBuildingsRight.get(i).buildingType == 4)
-                    tower++;
-            }
-
-            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
-                if (currentBuildingsLeft.get(i).buildingType == 4)
-                    tower++;
-            }
-
-            //  ==       =====   ====        ==           =====
-            //  ==        ==      =          ==           =============
-            //  ==         ==    =      =============         ==================
-            //  ==          ==  =            ==           ===============
-            //  ========     ===             ==           ===
-            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
-                    && (currentGold >= (maxGold / 10 * 9))){
-                levelUp();
-            }
+            grow();
 /*
             if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                     && (currentGold >= (maxGold / 10 * 9))
@@ -310,102 +242,8 @@ public class Fortress extends Foundation {
         //=   =   ==     =    =   = =    ==  =   =   ============================
         //====    ==     =====   =====   ==  ====    ============================
         //=   ==  =====  =      =     =  ==  =   ==  ============================
+        repair(deltaTime);
 
-        float tempfear;
-        int standingBuildings = 1;
-        if(health < maxHealth){
-            repair((int) (currentTownInhabitants/5) + 1, deltaTime);
-            System.out.println("repair fort" + health);
-        }
-        if (!isStanding) {
-            repair((int) (currentTownInhabitants) + 1, deltaTime);
-            System.out.println("repair fort is sta" + health);
-            if(health > maxHealth/2){
-                isStanding = true;
-                buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
-            }
-        }
-
-        else {
-            boolean repairingRight = false, repairingLeft = false;
-            tempfear = 0;
-
-            //RIGHT SIDE
-            for (int i = 0; i < currentBuildingsRight.size(); i++) {
-                currentBuildingsRight.get(i).update(deltaTime);
-                if(currentBuildingsRight.get(i).isStanding){
-                    standingBuildings++;
-                }
-                //repairing
-                if (!repairingRight && !currentBuildingsRight.get(i).isStanding) {
-
-                    if (currentBuildingsRight.get(i).buildingType == 2) {
-
-                        if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
-                            System.out.println("converting house -> tower R");
-                            int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true,this));
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, this));
-                            currentBuildingsRight.get(i).health = 0;
-                        }
-                    }
-
-                    else if(currentBuildingsRight.get(i).buildingType == 4){
-
-                        if (townFear/10 < 2*lv && tower > 6) {
-                            System.out.println("converting tower -> house R");
-                            int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,this));
-                        }
-                    }
-
-                    currentBuildingsRight.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
-                    repairingRight = true;
-
-                }
-
-                //gathering fear
-                tempfear += currentBuildingsRight.get(i).fear;
-            }
-
-            //LEFT SIDE
-            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
-                currentBuildingsLeft.get(i).update(deltaTime);
-                if(currentBuildingsLeft.get(i).isStanding){
-                    standingBuildings++;
-                }
-                //repairing
-                if (!repairingLeft && !currentBuildingsLeft.get(i).isStanding) {
-
-
-                    if (currentBuildingsLeft.get(i).buildingType == 2) {
-                        System.out.println("this is a house L");
-                        if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
-                            System.out.println("converting house -> tower L");
-                            int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, this));
-                            currentBuildingsLeft.get(i).health = 0;
-                        }
-                    }
-
-                    else if(currentBuildingsLeft.get(i).buildingType == 4){
-
-                        if (townFear/10 < 2*lv && tower > 6) {
-                            System.out.println("converting tower -> house L");
-                            int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true, this));
-                        }
-                    }
-                }
-                currentBuildingsLeft.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
-                repairingLeft = true;
-
-                tempfear += currentBuildingsLeft.get(i).fear;
-            }
-            tempfear += fear;
-            //gathering fear
-            townFear = (tempfear / standingBuildings);// (currentBuildingsLeft.size() + currentBuildingsRight.size()));
-        }
         super.update(deltaTime);
 
     }
@@ -531,7 +369,184 @@ public class Fortress extends Foundation {
         }
     }
 
+    public void grow(){
+//System.out.println((int)(House.cost*((lv*1.75)+1)));
 
+        if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)) {
+            spawnRandomBuilding();
+        }
+
+        tower = 0;
+        for (int i = 0; i < currentBuildingsRight.size(); i++) {
+            if (currentBuildingsRight.get(i).buildingType == 4)
+                tower++;
+        }
+
+        for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+            if (currentBuildingsLeft.get(i).buildingType == 4)
+                tower++;
+        }
+
+        //  ==       =====   ====        ==           =====
+        //  ==        ==      =          ==           =============
+        //  ==         ==    =      =============         ==================
+        //  ==          ==  =            ==           ===============
+        //  ========     ===             ==           ===
+        if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+                && (currentGold >= (maxGold / 10 * 9))){
+            levelUp();
+        }
+    }
+    public void tax(){
+        int currentGold1 = currentGold;
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {
+            if (currentGold < maxGold && (!hasTaxed)) {
+
+                // MONEY INCOME
+                goldRate = 15;
+
+                for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                    goldRate = currentBuildingsRight.get(i).goldRate + goldRate;
+                }
+
+                for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                    goldRate = currentBuildingsLeft.get(i).goldRate + goldRate;
+                }
+
+
+                currentGold = currentGold + (int) (goldRate * 1.2 * GameView.instance.timeScale);
+
+                if (currentGold > maxGold) {
+                    currentGold = maxGold;
+                }
+
+                for (int i = 0; i < BD.size(); i++) {
+                    //System.out.print(BD.get(i) + ", ");
+                }
+                System.out.println("Town's Fear :" + townFear);
+                hasTaxed = true;
+                //TODO tribute
+            }
+            if (currentGold != currentGold1) {
+                System.out.println("Goldrate : " + goldRate);
+                System.out.println("Gold : " + currentGold);
+            }
+            if (surrender && !hasTribute) {
+                System.out.println("TRIBUTE");
+                GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2, this);
+                hasTribute = true;
+            }
+
+        }
+        if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
+            hasTaxed = false;
+            hasTribute = false;
+        }
+    }
+    public void repair(float deltaTime){
+        float tempfear;
+        int standingBuildings = 1;
+        if(health < maxHealth){
+            repair((int) (currentTownInhabitants/5) + 1, deltaTime);
+            System.out.println("repair fort" + health);
+        }
+        if (!isStanding) {
+            repair((int) (currentTownInhabitants) + 1, deltaTime);
+            System.out.println("repair fort is sta" + health);
+            if(health > maxHealth/2){
+                isStanding = true;
+                if(lv == 0) {
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+                }else if(lv == 1){
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
+                }
+                else{
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
+                }
+            }
+        }
+
+        else {
+            boolean repairingRight = false, repairingLeft = false;
+            tempfear = 0;
+
+            //RIGHT SIDE
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                currentBuildingsRight.get(i).update(deltaTime);
+                if(currentBuildingsRight.get(i).isStanding){
+                    standingBuildings++;
+                }
+                //repairing
+                if (!repairingRight && !currentBuildingsRight.get(i).isStanding) {
+
+                    if (currentBuildingsRight.get(i).buildingType == 2) {
+
+                        if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
+                            System.out.println("converting house -> tower R");
+                            int bx = currentBuildingsRight.get(i).x;
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true,this));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, this));
+                            currentBuildingsRight.get(i).health = 0;
+                        }
+                    }
+
+                    else if(currentBuildingsRight.get(i).buildingType == 4){
+
+                        if (townFear/10 < 2*lv && tower > 6) {
+                            System.out.println("converting tower -> house R");
+                            int bx = currentBuildingsRight.get(i).x;
+                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,this));
+                        }
+                    }
+
+                    currentBuildingsRight.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    repairingRight = true;
+
+                }
+
+                //gathering fear
+                tempfear += currentBuildingsRight.get(i).fear;
+            }
+
+            //LEFT SIDE
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                currentBuildingsLeft.get(i).update(deltaTime);
+                if(currentBuildingsLeft.get(i).isStanding){
+                    standingBuildings++;
+                }
+                //repairing
+                if (!repairingLeft && !currentBuildingsLeft.get(i).isStanding) {
+
+
+                    if (currentBuildingsLeft.get(i).buildingType == 2) {
+                        System.out.println("this is a house L");
+                        if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
+                            System.out.println("converting house -> tower L");
+                            int bx = currentBuildingsLeft.get(i).x;
+                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, this));
+                            currentBuildingsLeft.get(i).health = 0;
+                        }
+                    }
+
+                    else if(currentBuildingsLeft.get(i).buildingType == 4){
+
+                        if (townFear/10 < 2*lv && tower > 6) {
+                            System.out.println("converting tower -> house L");
+                            int bx = currentBuildingsLeft.get(i).x;
+                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true, this));
+                        }
+                    }
+                }
+                currentBuildingsLeft.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                repairingLeft = true;
+
+                tempfear += currentBuildingsLeft.get(i).fear;
+            }
+            tempfear += fear;
+            //gathering fear
+            townFear = (tempfear / standingBuildings);// (currentBuildingsLeft.size() + currentBuildingsRight.size()));
+        }
+    }
 
     public void Flagposition(float deltaTime){
 

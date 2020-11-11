@@ -36,12 +36,22 @@ public class Scene {
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
         islandSize =width*8;
-        eastFort = new Fortress( width*3, (int)gameView.groundLevel);
-        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
-        finalFort = new Fortress( -width*5, (int)gameView.groundLevel);
-        finalFort.levelUp();
-        finalFort.levelUp();
-        finalFort.currentGold = finalFort.maxGold;
+        eastFort = new Fortress( width*2, (int)gameView.groundLevel);
+        westFort = new Fortress( -width*1, (int)gameView.groundLevel);
+        finalFort = new Fortress( -width*4, (int)gameView.groundLevel);
+        for(int i = 0; i < 20; i++) {
+            finalFort.currentGold = finalFort.maxGold;
+            finalFort.grow();
+            System.out.println("fort level " + finalFort.lv);
+            if(finalFort.lv == 2){
+                break;
+            }
+        }
+
+
+        //finalFort.levelUp();
+        //finalFort.levelUp();
+
 
         Bitmap sheet = SpriteManager.instance.environmentSheet;
         Rect r = SpriteManager.instance.getEnvironmentSprite("Ground");
