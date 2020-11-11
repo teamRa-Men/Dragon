@@ -32,6 +32,12 @@ public class DragonLayers extends NPC {
     }
 
     @Override
+    public void spawn(int spawnX, int spawnY, Fortress fortress) {
+        super.spawn(spawnX, spawnY, fortress);
+        lockTarget = false;
+    }
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         if(alive) {
@@ -62,7 +68,7 @@ public class DragonLayers extends NPC {
                 }
             }
             else {
-                idle(GameView.instance.screenWidth/4,true);
+                idle(GameView.instance.screenWidth/4,Math.abs(npcX - target.x) < 10);
                 if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 3){
                     lockTarget = true;
                 }
