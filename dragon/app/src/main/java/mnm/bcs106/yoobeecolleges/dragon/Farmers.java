@@ -14,7 +14,7 @@ import android.graphics.Rect;
     public boolean work = false;
     Bitmap idleSprite, workingSprite;
 
-    public Farmers( float speed, int maxHP, int width, int height,int FX) {
+    public Farmers( float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
         farmX = (int)npcX ;
 
@@ -29,8 +29,8 @@ import android.graphics.Rect;
     }
 
     @Override
-    public void spawn(int spawnX, int spawnY) {
-        super.spawn(spawnX, spawnY);
+    public void spawn(int spawnX, int spawnY, Fortress f) {
+        super.spawn(spawnX, spawnY, f);
         work = false;
     }
 
@@ -87,20 +87,20 @@ import android.graphics.Rect;
             if (!whereFarm) {
                 Point closestFarm = new Point();
                 closestFarm.y = 100000;
-                for (int j = 0; j < GameView.instance.fortress.currentBuildingsRight.size(); j++) {
-                    if (GameView.instance.fortress.currentBuildingsRight.get(j).buildingType == 3) {
-                        if (Math.abs(npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x) < closestFarm.y) {
-                            farmX = (int) (GameView.instance.fortress.currentBuildingsRight.get(j).x+GameView.instance.fortress.tilesize*1.5);
-                            closestFarm.y = Math.abs((int)npcX - GameView.instance.fortress.currentBuildingsRight.get(j).x);
+                for (int j = 0; j < fortress.currentBuildingsRight.size(); j++) {
+                    if (fortress.currentBuildingsRight.get(j).buildingType == 3) {
+                        if (Math.abs(npcX - fortress.currentBuildingsRight.get(j).x) < closestFarm.y) {
+                            farmX = (int) (fortress.currentBuildingsRight.get(j).x+fortress.tilesize*1.5);
+                            closestFarm.y = Math.abs((int)npcX - fortress.currentBuildingsRight.get(j).x);
                         }
                     }
                 }
-                for (int j = 0; j < GameView.instance.fortress.currentBuildingsLeft.size(); j++) {
-                    if (GameView.instance.fortress.currentBuildingsLeft.size() > j) {
-                        if (GameView.instance.fortress.currentBuildingsLeft.get(j).buildingType == 3) {
-                            if (Math.abs(npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
-                                farmX = (int) (GameView.instance.fortress.currentBuildingsLeft.get(j).x+GameView.instance.fortress.tilesize*1.5);
-                                closestFarm.y = Math.abs((int)npcX - GameView.instance.fortress.currentBuildingsLeft.get(j).x);
+                for (int j = 0; j < fortress.currentBuildingsLeft.size(); j++) {
+                    if ( fortress.currentBuildingsLeft.size() > j) {
+                        if ( fortress.currentBuildingsLeft.get(j).buildingType == 3) {
+                            if (Math.abs(npcX -  fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
+                                farmX = (int) ( fortress.currentBuildingsLeft.get(j).x+ fortress.tilesize*1.5);
+                                closestFarm.y = Math.abs((int)npcX -  fortress.currentBuildingsLeft.get(j).x);
                             }
                         }
                     }

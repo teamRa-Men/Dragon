@@ -55,8 +55,10 @@ public class Foundation {
     int fearTime = 0;
     boolean noAttackDay = false;
     boolean fearRemoved = false;
+    protected Fortress fortress;
 
-    public Foundation(int x, int y, int tileNr, boolean isStanding){
+    public Foundation(int x, int y, int tileNr, Fortress fortress){
+        this.fortress = fortress;
         tilesize =GameView.instance.cameraSize/9;
         this.tileNr=tileNr;
 

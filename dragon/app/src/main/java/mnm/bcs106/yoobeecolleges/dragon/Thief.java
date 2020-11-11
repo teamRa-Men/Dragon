@@ -11,7 +11,7 @@ public class Thief extends NPC {
 
     public Thief(float speed, int maxHP, int width, int height, int stealGold) {
         super(speed, maxHP, width, height);
-        target.x = (int) GameView.instance.lair.position.x;
+
         maxSteal = stealGold;
 
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
@@ -32,9 +32,9 @@ public class Thief extends NPC {
     }
 
     @Override
-    public void spawn(int spawnX, int spawnY) {
-        super.spawn(spawnX, spawnY);
-
+    public void spawn(int spawnX, int spawnY, Fortress f) {
+        super.spawn(spawnX, spawnY, f);
+        target.x = (int) GameView.instance.lair.position.x;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Thief extends NPC {
         super.update(deltaTime);
         if (Math.abs(npcX - tempCreationPoint.x) < 7 && stole){
             //target.x = (int) GameView.instance.lair.position.x;
-            GameView.instance.fortress.currentGold+=howManySteal;
+            fortress.currentGold+=howManySteal;
             howManySteal = 0;
             stole = false;
             //npcBitmap = idleSprite;

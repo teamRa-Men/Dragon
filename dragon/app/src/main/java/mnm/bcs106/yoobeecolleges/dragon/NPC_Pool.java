@@ -28,63 +28,63 @@ public class NPC_Pool {
             npcDragonLayers.add(new DragonLayers((float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/10,10));
             npcWizard.add(new Wizard((float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/30,GameView.instance.cameraSize/30,25));
             npcThiefs.add(new Thief((float)GameView.instance.cameraSize/25000,250,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30));
-            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 0));
+            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20));
 
         }
         for(int i = 0; i < 3; i++) {
             tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 12));
         }
     }
-    public Tribute spawnTribute(int spawnX, int spawnY, int tributeSize){
+    public Tribute spawnTribute(int spawnX, int spawnY, int tributeSize, Fortress f){
         for (int i = 0;i<tributes.size();i++){
             if (!tributes.get(i).active) {
-                tributes.get(i).spawn(spawnX,spawnY, tributeSize);
+                tributes.get(i).spawn(spawnX,spawnY, tributeSize, f);
                 return tributes.get(i);
             }
         }
         return null;
     }
 
-    public Wooloo spawnWooloo (int spawnX, int spawnY){
+    public Wooloo spawnWooloo (int spawnX, int spawnY, Fortress f){
         for (int i = 0;i<size;i++){
             if (!npcWooloo.get(i).alive) {
-                npcWooloo.get(i).spawn((int) (spawnX+GameView.instance.fortress.tilesize*1.5),spawnY);
+                npcWooloo.get(i).spawn((int) (spawnX+f.tilesize*1.5),spawnY, f);
                 return npcWooloo.get(i);
             }
         }
         return null;
     }
 
-    public void spawnDragonLayers (int spawnX, int spawnY, int ammount){
+    public void spawnDragonLayers (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
         for (int i = 0;i<ammount;i++){
             if (!npcDragonLayers.get(i).alive && d < ammount) {
-                npcDragonLayers.get(i).spawn(spawnX,spawnY);
+                npcDragonLayers.get(i).spawn(spawnX,spawnY, f);
                 d++;
             }
         }
     }
 
-    public void spawnWizard (int spawnX, int spawnY, int ammount){
+    public void spawnWizard (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
         for (int i = 0;i<ammount;i++){
             if (!npcWizard.get(i).alive && d < ammount) {
-                npcWizard.get(i).spawn(spawnX,spawnY);
+                npcWizard.get(i).spawn(spawnX,spawnY,f);
                 d++;
             }
         }
-    }public Farmers spawnFarmers (int spawnX, int spawnY){
+    }public Farmers spawnFarmers (int spawnX, int spawnY, Fortress f){
         for (int i = 0;i<size;i++){
             if (!npcFarmers.get(i).alive) {
-            npcFarmers.get(i).spawn(spawnX,spawnY);
+            npcFarmers.get(i).spawn(spawnX,spawnY, f);
             return npcFarmers.get(i);}
         }
         return null;
-    }public void spawnThiefs (int spawnX, int spawnY, int ammount){
+    }public void spawnThiefs (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
         for (int i = 0;i<ammount;i++){
             if (!npcThiefs.get(i).alive && d < ammount) {
-                npcThiefs.get(i).spawn(spawnX,spawnY);
+                npcThiefs.get(i).spawn(spawnX,spawnY, f);
                 d++;
             }
         }

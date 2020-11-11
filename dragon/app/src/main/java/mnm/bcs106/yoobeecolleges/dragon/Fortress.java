@@ -70,8 +70,8 @@ public class Fortress extends Foundation {
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
-    public Fortress(int x, int y, boolean isStanding) {
-        super(x, y, tileNr, isStanding);
+    public Fortress(int x, int y) {
+        super(x, y, tileNr, null);
         buildingType = 1;
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
         height = width * buildingImage.height() / buildingImage.width();
@@ -99,7 +99,7 @@ public class Fortress extends Foundation {
         surrenderFear = 150;
         health = maxHealth;
 
-        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+        Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
     }
 
     //new test with arraylists works pretty much, tiles and buildings still individual from each other
@@ -153,7 +153,7 @@ public class Fortress extends Foundation {
                 }
                 if (surrender && !hasTribute) {
                     System.out.println("TRIBUTE");
-                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
+                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2, this);
                     hasTribute = true;
                 }
 
@@ -267,17 +267,17 @@ public class Fortress extends Foundation {
 
             //spawning thief
             if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)){
-                GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1);
+                GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1, this);
             }
 
             //spawning dragonslayer
             if(townFear > 30 && lv != 0){
-                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1);
+                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1, this);
             }
 
             //spawning wizard
             if(townFear > 35 && lv ==2 && !summonedWizard){
-                GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+                GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
                 summonedWizard = true;
             }
 
@@ -456,7 +456,7 @@ public class Fortress extends Foundation {
             if(direction == currentBuildingsLeft) {
                 position -= Farm.tileNr*tilesize;
             }
-            building = new Farm(position,y,true);
+            building = new Farm(position,y,this);
             currentGold-=Farm.cost*((lv*1.50)+1);
         }
 
@@ -467,13 +467,13 @@ public class Fortress extends Foundation {
                 if(direction == currentBuildingsLeft){
                     position-=House.tileNr*tilesize;
                 }
-                building = new House(position,y,true);currentGold-=(int)(House.cost*((lv*1.75)+1));}
+                building = new House(position,y,this);currentGold-=(int)(House.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Farm" && currentGold > Farm.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){
                     position-=Farm.tileNr*tilesize;
                 }
-                building = new Farm(position,y,true);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
+                building = new Farm(position,y,this);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Tower" && currentGold > ArcherTower.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){

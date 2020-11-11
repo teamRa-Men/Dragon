@@ -18,8 +18,8 @@ public class House extends Foundation{
     boolean createdVillager = false;
     static int cost;
 
-    public House(int x, int y, boolean isStanding){
-        super(x, y,tileNr, isStanding);
+    public House(int x, int y, Fortress fortress){
+        super(x, y,tileNr, fortress);
         maxHealth = 200;
         cost = 120;
         height = tilesize;
@@ -61,7 +61,7 @@ public class House extends Foundation{
                     && (currentInhabitants.size() < maxInhabitants)
                     && (createdVillager == false)){
 
-                Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x+width/4, (int) GameView.instance.groundLevel);
+                Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x+width/4, (int) GameView.instance.groundLevel, fortress);
 
                 if (newFarmer != null) {
                     currentInhabitants.add(newFarmer);

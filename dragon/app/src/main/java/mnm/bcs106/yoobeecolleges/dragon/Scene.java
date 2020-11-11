@@ -17,6 +17,8 @@ public class Scene {
     int day;
     public static Scene instance;
 
+    Fortress eastFort, westFort, finalFort;
+
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
 
 
@@ -33,7 +35,10 @@ public class Scene {
 
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
-        islandSize =width*3;
+        islandSize =width*8;
+        eastFort = new Fortress( width*2, (int)gameView.groundLevel);
+        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
+        finalFort = new Fortress( -width*5, (int)gameView.groundLevel);
 
         Bitmap sheet = SpriteManager.instance.environmentSheet;
         Rect r = SpriteManager.instance.getEnvironmentSprite("Ground");
@@ -68,7 +73,9 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX2,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
 
-
+        eastFort.draw(canvas);
+        westFort.draw(canvas);
+        finalFort.draw(canvas);
     }
     public void drawForeground(Canvas canvas){
         canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, backPaint);
@@ -78,8 +85,17 @@ public class Scene {
         //canvas.drawRect(0, gameView.groundLevel+ground.getHeight()/12, gameView.screenWidth*1.2f,gameView.screenHeight*1.2f, frontPaint);
     }
 
+    public void physics(float deltaTime){
+        eastFort.physics(deltaTime);
+        westFort.physics(deltaTime);
+        finalFort.physics(deltaTime);
+    }
+
 
     public void update(float deltaTime){
+        eastFort.update(deltaTime);
+        westFort.update(deltaTime);
+        finalFort.update(deltaTime);
 
         mountainX = gameView.cameraDisp.x/4;
         hillsX = gameView.cameraDisp.x*3/4;

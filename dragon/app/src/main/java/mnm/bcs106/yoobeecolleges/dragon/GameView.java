@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
-//    final float fixedDeltaTime = (int) (1000 / 90); // in milliseconds
+    //    final float fixedDeltaTime = (int) (1000 / 90); // in milliseconds
     public float timeScale = 1;
     float deltaTime = fixedDeltaTime;
 
@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements Runnable {
     ProjectilePool projectilePool;
     FirePool firePool;
     Lair lair;
-    Fortress fortress;
+
     Hud hud;
 
     //Drawing
@@ -96,6 +96,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     void init(){
         instance = this;
+        isRunning = false;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
@@ -110,6 +111,10 @@ public class GameView extends SurfaceView implements Runnable {
         spriteManager = new SpriteManager();
         //Init scene
 
+        npc_pool = new NPC_Pool();
+        goldPool = new GoldPool();
+        projectilePool = new ProjectilePool();
+        firePool = new FirePool();
         scene = new Scene();
 
         //Player gameobject
@@ -117,15 +122,11 @@ public class GameView extends SurfaceView implements Runnable {
         player = new Dragon(playerSprite,0.5f,0.9f,screenHeight/20,screenHeight/20);
         player.setDamagedSound(SoundEffects.DAMAGE);
         player.setDestroyedSound(SoundEffects.DEATH);
-
         lair = new Lair();
 
 
-        npc_pool = new NPC_Pool();
 
-        goldPool = new GoldPool();
-        projectilePool = new ProjectilePool();
-        firePool = new FirePool();
+
 
 
 
@@ -134,7 +135,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-        fortress = new Fortress( screenWidth*2, (int)groundLevel, true);
+
         //npc_pool.spawnThiefs((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnDragonLayers((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnWizard((int)fortress.x ,(int)groundLevel,1);
@@ -179,15 +180,15 @@ public class GameView extends SurfaceView implements Runnable {
             long started = System.currentTimeMillis();
             //Apply physics calculations per frame
 
-                for (int i = 0; i < physicsIterations; i++) {
-                    physics();
-                }
-                long physicsTime = System.currentTimeMillis();
-                //System.out.println( "physics " + (physicsTime - started));
+            for (int i = 0; i < physicsIterations; i++) {
+                physics();
+            }
+            long physicsTime = System.currentTimeMillis();
+            //System.out.println( "physics " + (physicsTime - started));
 
-                //Apply game logic to game objects
+            //Apply game logic to game objects
 
-                update();
+            update();
 
 
             long updateTime = System.currentTimeMillis();
@@ -241,19 +242,24 @@ public class GameView extends SurfaceView implements Runnable {
             //90
             //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
 
-                scene.drawBackground(canvas);//40
-                lair.draw(canvas);//80
-                fortress.draw(canvas);//90
-                projectilePool.draw(canvas);//80
-
-                npc_pool.draw(canvas);//90
-                goldPool.draw(canvas);//
-                player.draw(canvas);//80
-                firePool.draw(canvas);
-                scene.drawForeground(canvas);//
 
 
-                hud.draw(canvas);
+
+
+
+
+
+            scene.drawBackground(canvas);//40
+            lair.draw(canvas);//80
+            goldPool.draw(canvas);//
+            projectilePool.draw(canvas);//80
+            npc_pool.draw(canvas);//90
+            player.draw(canvas);//80
+            firePool.draw(canvas);
+            scene.drawForeground(canvas);//
+
+
+            hud.draw(canvas);
 
 
             holder.unlockCanvasAndPost(canvas);
@@ -269,13 +275,14 @@ public class GameView extends SurfaceView implements Runnable {
         if(!Game.instance.gameOver) {
 
             npc_pool.physics(fixedDeltaTime);
-            fortress.physics(deltaTime);
+
             //Enemy motion
-            if (!player.destroyed) {
-                goldPool.physics(fixedDeltaTime / physicsIterations);
-                projectilePool.physics(fixedDeltaTime / physicsIterations);
-                player.physics(fixedDeltaTime / physicsIterations);
-            }
+
+            goldPool.physics(fixedDeltaTime / physicsIterations);
+            projectilePool.physics(fixedDeltaTime / physicsIterations);
+            player.physics(fixedDeltaTime / physicsIterations);
+            scene.physics(fixedDeltaTime/physicsIterations);
+
         }
     }
 
@@ -291,7 +298,7 @@ public class GameView extends SurfaceView implements Runnable {
             projectilePool.update(fixedDeltaTime);
             //System.out.println(fixedDeltaTime +" "+ deltaTime);
             goldPool.update(fixedDeltaTime);
-            fortress.update(fixedDeltaTime);
+            //fortress.update(fixedDeltaTime);
             hud.update(fixedDeltaTime);
             lair.update(fixedDeltaTime);
             firePool.update(fixedDeltaTime);

@@ -28,8 +28,8 @@ public class Farm extends Foundation{
     public static int tileNr = 3;
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
-    public Farm(int x, int y, boolean isStanding){
-        super( x, y,tileNr, isStanding);
+    public Farm(int x, int y, Fortress fortress){
+        super( x, y,tileNr, fortress);
         int buildingSprite = (int) (Math.random()*2.9+1);
         cost = 110;
 
@@ -65,7 +65,7 @@ public class Farm extends Foundation{
                     && (currentCattle.size() < maxCattle)
                     && (createdWooloo == false)) {
 
-                Wooloo newWooloo = GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel);
+                Wooloo newWooloo = GameView.instance.npc_pool.spawnWooloo(x, (int) GameView.instance.groundLevel, fortress);
 
                 if (newWooloo != null) {
                     currentCattle.add(newWooloo);

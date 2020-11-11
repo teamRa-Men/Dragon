@@ -15,10 +15,10 @@ public class ArcherTower extends Foundation {
     int attack = 0;
 
     public static int tileNr = 1;
-    Fortress fortress;
+
     public ArcherTower( int x, int y, boolean isStanding, Fortress  fortress){
-        super( x, y, tileNr, isStanding);
-        this.fortress = fortress;
+        super( x, y, tileNr, fortress);
+
         cost = 160;
         buildingType = 4;
         maxHealth = 400;

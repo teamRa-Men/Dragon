@@ -31,7 +31,10 @@ public class NPC {
     public Point CreationPoint = new Point();
     public Paint NpcPain = new Paint();
     ColorFilter colorFilter = new LightingColorFilter(Color.parseColor("#40000000"),0);
+    Fortress fortress;
+
     public NPC (float speed, int maxHP, int width,int height) {
+
         npcX = 0;
         npcY = 0;
         npcMaxHP = maxHP;
@@ -45,7 +48,7 @@ public class NPC {
         damagePeriod = new ActionController(0,5000,5000);
         random = Math.random();
     }
-    public void spawn (int spawnX, int spawnY){
+    public void spawn (int spawnX, int spawnY, Fortress fortress){
         npcHp = npcMaxHP;
         npcX = spawnX;
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
@@ -57,6 +60,7 @@ public class NPC {
         alive = true;
         active = true;
         flee = false;
+        this.fortress = fortress;
     }
     public  void OnDamage () {
         if(Math.random() < 0.1 && alive) {

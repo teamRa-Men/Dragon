@@ -73,6 +73,7 @@ public class Lair {
     }
 
     public void lieDown(){
+
         if(level%2 == 0) {
             player.head.direction = new Vector2(-player.direction.x, player.direction.y);
         }

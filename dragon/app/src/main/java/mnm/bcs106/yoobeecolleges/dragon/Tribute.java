@@ -11,7 +11,7 @@ public class Tribute extends NPC{
 
     public Tribute(float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
-        target.x = (int) GameView.instance.lair.position.x;
+
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
         Rect r = SpriteManager.instance.getNPCSprite("Tribute");
         npcBitmap =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
@@ -19,11 +19,11 @@ public class Tribute extends NPC{
         flag.setSurrender(true);
     }
 
-    public void spawn(int spawnX, int spawnY, int tributeSize) {
-        super.spawn(spawnX, spawnY);
+    public void spawn(int spawnX, int spawnY, int tributeSize, Fortress f) {
+        super.spawn(spawnX, spawnY, f);
         this.tributeSize = tributeSize;
         given = false;
-        System.out.println("tribute spawwn");
+        target.x = (int) GameView.instance.lair.position.x;
     }
 
     @Override
