@@ -184,7 +184,7 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            //System.out.println( "physics " + (physicsTime - started));
+            System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
@@ -192,22 +192,22 @@ public class GameView extends SurfaceView implements Runnable {
 
 
             long updateTime = System.currentTimeMillis();
-            //System.out.println( "update " + (updateTime-physicsTime));
+            System.out.println( "update " + (updateTime-physicsTime));
             if(isDrawing) {
                 draw();
             }
             long drawTime = System.currentTimeMillis() - updateTime;
-            //System.out.println( "draw main " + drawTime);
+            System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            //System.out.println("average draw " + totalFrame/numberFrame);
+            System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime/timeScale - deltaTime);
 
-            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     gameThread.sleep(lag);
@@ -241,14 +241,6 @@ public class GameView extends SurfaceView implements Runnable {
         if (canvas != null) {
             //90
             //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
-
-
-
-
-
-
-
-
             scene.drawBackground(canvas);//40
             lair.draw(canvas);//80
             goldPool.draw(canvas);//
@@ -272,18 +264,18 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     private void physics() {
         cameraDisp.x = -player.position.x+screenWidth/2;
-        if(!Game.instance.gameOver) {
 
-            npc_pool.physics(fixedDeltaTime);
 
-            //Enemy motion
+        npc_pool.physics(fixedDeltaTime);
 
-            goldPool.physics(fixedDeltaTime / physicsIterations);
-            projectilePool.physics(fixedDeltaTime / physicsIterations);
-            player.physics(fixedDeltaTime / physicsIterations);
-            scene.physics(fixedDeltaTime/physicsIterations);
+        //Enemy motion
 
-        }
+        goldPool.physics(fixedDeltaTime / physicsIterations);
+        projectilePool.physics(fixedDeltaTime / physicsIterations);
+        player.physics(fixedDeltaTime / physicsIterations);
+        scene.physics(fixedDeltaTime/physicsIterations);
+
+
     }
 
     //-----------------------------------------------------------------------------------------------------------
@@ -291,7 +283,7 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     private void update() {
 
-        if(player.visible){
+        if(player.health>0) {
             player.update(fixedDeltaTime);
             scene.update(fixedDeltaTime);
             npc_pool.update(fixedDeltaTime);
@@ -302,12 +294,12 @@ public class GameView extends SurfaceView implements Runnable {
             hud.update(fixedDeltaTime);
             lair.update(fixedDeltaTime);
             firePool.update(fixedDeltaTime);
-        }
-        else{
-            if(!Game.instance.gameOver) {
+        }else  {
+            if (!Game.instance.gameOver) {
                 Game.instance.showGameOver = true;
             }
         }
+
     }
     public void movePlayerBy(Vector2 dv){
 

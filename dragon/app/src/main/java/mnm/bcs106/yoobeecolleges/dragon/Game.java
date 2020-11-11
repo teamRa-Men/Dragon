@@ -403,10 +403,7 @@ public class Game extends AppCompatActivity {
         //Apply only once
         showGameOver = false;
         gameOver = true;
-        gameView.pause();
 
-        runTime = 0;
-        loadScreen.setVisibility(View.VISIBLE);
 
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
@@ -421,6 +418,10 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 //reset states and restart game loop
                 score = 0;
+                gameView.pause();
+
+                runTime = 0;
+                loadScreen.setAlpha(1);
                 gameView.init();
 
                 //Close dialog box

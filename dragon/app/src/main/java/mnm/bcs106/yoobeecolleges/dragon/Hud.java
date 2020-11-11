@@ -71,7 +71,7 @@ public class Hud {
             fire.setAlpha(155);
         }
 
-        healthWidth = (int)(healthMaxWidth*player.health/player.maxHealth);
+        healthWidth = Math.max((int)(healthMaxWidth*player.health/player.maxHealth),0);
         manaWidth = (int)(manaMaxWidth*player.mana/player.maxMana);
     }
     public  void draw(Canvas canvas){

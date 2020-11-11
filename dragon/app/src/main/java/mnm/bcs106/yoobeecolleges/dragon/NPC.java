@@ -108,7 +108,7 @@ public class NPC {
             matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
             if (alive) {
                 matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
-                canvas.drawBitmap(npcBitmap, matrix, Scene.instance.frontPaint);
+                canvas.drawBitmap(npcBitmap, matrix, null);
             } else {
                 matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
                 canvas.drawBitmap(npcBitmap, matrix, NpcPain);

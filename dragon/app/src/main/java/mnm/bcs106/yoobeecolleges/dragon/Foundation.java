@@ -59,7 +59,7 @@ public class Foundation {
 
     public Foundation(int x, int y, int tileNr, Fortress fortress){
         this.fortress = fortress;
-        tilesize =GameView.instance.cameraSize/9;
+        tilesize =GameView.instance.cameraSize/15;
         this.tileNr=tileNr;
 
         this.isStanding = true;
@@ -84,17 +84,17 @@ public class Foundation {
     }
 
     public void draw(Canvas c){
-        Paint p = Scene.instance.frontPaint;
+        /*Paint p = Scene.instance.frontPaint;
         if(isStanding) {
             int d = (int)((float) health / maxHealth*125)+130;
             p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
-        }
+        }*/
         float left = x+GameView.instance.cameraDisp.x;
         float top = y-height;
         float bottom = y;
         float right = left + width;
         Rect dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
-        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,p);
+        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,null);
 
     }
 

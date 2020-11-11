@@ -52,11 +52,12 @@ public class Destroyable extends GameObject{
 
     //Apply states and sound when destroyed
     public void onDestroyed(){
-        destroyed = true;
-        simulated = false;
-        if(destroyedSound>-1){
+
+        if(destroyedSound>-1 && destroyed == false){
             Game.instance.soundEffects.play(destroyedSound,0.5f,1,2);
         }
+        destroyed = true;
+        simulated = false;
     }
 
     protected void destroyAnim(Canvas canvas){

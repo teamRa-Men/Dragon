@@ -80,7 +80,7 @@ public class Wizard extends NPC {
     }
 
     public void shoot() {
-        GameView.instance.projectilePool.shootMagic((int)(npcX+npcWidth/2),(int)(npcY+npcHeight/2), 1f / 4, 0, 1, dmg);
+        GameView.instance.projectilePool.shootMagic((int)(npcX+npcWidth/2),(int)(npcY+npcHeight/2), 1f / 2, 0, 1, dmg);
 
     }
 }

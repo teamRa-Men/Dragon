@@ -120,9 +120,9 @@ public class Dragon extends Character {
             }
             float c = Math.min((float)(size-i)/size/5,0.15f)+0.85f;
 
-            s.paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
+            /*s.paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(Color.red(dragonColor)*c),
                     (int)(Color.green(dragonColor)*c),
-                    (int)(Color.blue(dragonColor)*c)),0));
+                    (int)(Color.blue(dragonColor)*c)),0));*/
 
             if(i>0) {
 
@@ -583,12 +583,12 @@ class Segment extends GameObject{
         dst = src;
         matrix = new Matrix();
 
-        paint.setAntiAlias(true);
+        //.setAntiAlias(true);
         centerPivot = true;
     }
     @Override
     public void draw(Canvas canvas){
-        canvas.drawBitmap(sprite, matrix,paint);
+        canvas.drawBitmap(sprite, matrix,null);
     }
     public void update(float deltaTime, Vector2 target){
 

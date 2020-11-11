@@ -22,7 +22,7 @@ public class Scene {
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
 
 
-    Paint skyPaint, backPaint,frontPaint;
+    Paint skyPaint, backPaint,frontPaint, black;
 
     float islandSize;
 
@@ -36,8 +36,7 @@ public class Scene {
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
         islandSize =width*8;
-        eastFort = new Fortress( width*2, (int)gameView.groundLevel);
-        westFort = new Fortress( -width*1, (int)gameView.groundLevel);
+
         finalFort = new Fortress( -width*4, (int)gameView.groundLevel);
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
@@ -47,7 +46,13 @@ public class Scene {
                 break;
             }
         }
+        gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,3,finalFort);
+        gameView.npc_pool.spawnWizard(finalFort.x,finalFort.y,3,finalFort);
 
+        eastFort = new Fortress( width*2, (int)gameView.groundLevel);
+        gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,1,eastFort);
+
+        westFort = new Fortress( -width*1, (int)gameView.groundLevel);
 
         //finalFort.levelUp();
         //finalFort.levelUp();
@@ -56,7 +61,7 @@ public class Scene {
         Bitmap sheet = SpriteManager.instance.environmentSheet;
         Rect r = SpriteManager.instance.getEnvironmentSprite("Ground");
         ground = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
-        ground = Bitmap.createScaledBitmap(ground, width,(int)((height-gameView.groundLevel)*1.3),false);
+        ground = Bitmap.createScaledBitmap(ground, width,width/r.width()*r.height(),false);//(int)((height-gameView.groundLevel)*1.3),false);
 
         r = SpriteManager.instance.getEnvironmentSprite("Mountains");
         hillsBackground = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
@@ -64,8 +69,10 @@ public class Scene {
         backPaint = new Paint();
         frontPaint = new Paint();
         skyPaint = new Paint();
+        black = new Paint();
         frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
         backPaint.setColor(Color.rgb(240,250,255));
+        black.setColor(Color.BLACK);
         //skyPaint.setColor(Color.rgb(250,250,255));
     }
 
@@ -85,12 +92,18 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX0,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX2,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
-
-        eastFort.draw(canvas);
-        westFort.draw(canvas);
-        finalFort.draw(canvas);
+        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*2) {
+            eastFort.draw(canvas);
+        }
+        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*2) {
+            westFort.draw(canvas);
+        }
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*2) {
+            finalFort.draw(canvas);
+        }
     }
     public void drawForeground(Canvas canvas){
+        canvas.drawRect(0,GameView.instance.groundLevel ,width,height,black);
         canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, backPaint);
         canvas.drawBitmap(ground, groundX + groundX1, GameView.instance.groundLevel * .985f, backPaint);
         canvas.drawBitmap(ground, groundX + groundX2, GameView.instance.groundLevel * .985f, backPaint);
@@ -99,9 +112,15 @@ public class Scene {
     }
 
     public void physics(float deltaTime){
-        eastFort.physics(deltaTime);
-        westFort.physics(deltaTime);
-        finalFort.physics(deltaTime);
+        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*2) {
+            eastFort.physics(deltaTime);
+        }
+        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*2) {
+            westFort.physics(deltaTime);
+        }
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*2) {
+            finalFort.physics(deltaTime);
+        }
     }
 
 

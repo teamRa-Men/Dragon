@@ -10,7 +10,12 @@ import android.net.MacAddress;
 import java.util.ArrayList;
 
 public class NPC_Pool {
-    int size = 20;
+    int maxSlayers = 6;
+    int maxTheives= 3;
+    int maxWizards = 3;
+    int maxFarmers = 20;
+    int maxWooloo = 20;
+int maxTributes = 3;
 
     ArrayList<Wooloo> npcWooloo = new ArrayList<Wooloo>();
     ArrayList<DragonLayers>  npcDragonLayers = new ArrayList<DragonLayers>();
@@ -19,19 +24,21 @@ public class NPC_Pool {
     ArrayList<Thief>  npcThiefs = new ArrayList<Thief>();
     ArrayList<Tribute>  tributes = new ArrayList<Tribute>();
     public NPC_Pool(){
-
-
-
-
-        for(int i = 0 ;i < size; i++){
-            npcWooloo.add(new Wooloo((float)GameView.instance.cameraSize/35000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
-            npcDragonLayers.add(new DragonLayers((float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/10,10));
-            npcWizard.add(new Wizard((float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/30,GameView.instance.cameraSize/30,25));
-            npcThiefs.add(new Thief((float)GameView.instance.cameraSize/25000,250,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30));
+        for(int i = 0 ;i < maxWooloo; i++) {
+            npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 100, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 500));
+        }
+        for(int i = 0 ;i < maxSlayers; i++) {
+            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 10, 10));
+        } for(int i = 0 ;i < maxWizards; i++) {
+            npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 250, GameView.instance.cameraSize / 30, GameView.instance.cameraSize / 30, 25));
+        } for(int i = 0 ;i < maxTheives; i++) {
+            npcThiefs.add(new Thief((float) GameView.instance.cameraSize / 25000, 250, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 30));
+        }
+        for(int i = 0 ;i < maxFarmers; i++) {
             npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 25000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20));
 
         }
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < maxTributes; i++) {
             tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 12));
         }
     }
@@ -46,7 +53,7 @@ public class NPC_Pool {
     }
 
     public Wooloo spawnWooloo (int spawnX, int spawnY, Fortress f){
-        for (int i = 0;i<size;i++){
+        for (int i = 0;i<npcWooloo.size();i++){
             if (!npcWooloo.get(i).alive) {
                 npcWooloo.get(i).spawn((int) (spawnX+f.tilesize*1.5),spawnY, f);
                 return npcWooloo.get(i);
@@ -57,8 +64,8 @@ public class NPC_Pool {
 
     public void spawnDragonLayers (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
-        for (int i = 0;i<ammount;i++){
-            if (!npcDragonLayers.get(i).alive && d < ammount) {
+        for (int i = 0;i< npcDragonLayers.size();i++){
+            if (!npcDragonLayers.get(i).active && d < ammount) {
                 npcDragonLayers.get(i).spawn(spawnX,spawnY, f);
                 d++;
             }
@@ -67,23 +74,23 @@ public class NPC_Pool {
 
     public void spawnWizard (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
-        for (int i = 0;i<ammount;i++){
-            if (!npcWizard.get(i).alive && d < ammount) {
+        for (int i = 0;i<npcWizard.size();i++){
+            if (!npcWizard.get(i).active && d < ammount) {
                 npcWizard.get(i).spawn(spawnX,spawnY,f);
                 d++;
             }
         }
     }public Farmers spawnFarmers (int spawnX, int spawnY, Fortress f){
-        for (int i = 0;i<size;i++){
-            if (!npcFarmers.get(i).alive) {
+        for (int i = 0;i<npcFarmers.size();i++){
+            if (!npcFarmers.get(i).active) {
             npcFarmers.get(i).spawn(spawnX,spawnY, f);
             return npcFarmers.get(i);}
         }
         return null;
     }public void spawnThiefs (int spawnX, int spawnY, int ammount, Fortress f){
         int d = 0;
-        for (int i = 0;i<ammount;i++){
-            if (!npcThiefs.get(i).alive && d < ammount) {
+        for (int i = 0;i<npcThiefs.size();i++){
+            if (!npcThiefs.get(i).active && d < ammount) {
                 npcThiefs.get(i).spawn(spawnX,spawnY, f);
                 d++;
             }
@@ -91,16 +98,28 @@ public class NPC_Pool {
     }
 
     public void draw (Canvas canvas){
-        for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).active){
+        for (int i = 0; i<npcWooloo.size();i++) {
+            if (npcWooloo.get(i).active) {
                 npcWooloo.get(i).draw(canvas);
-            }if (npcWizard.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcWizard.size();i++) {
+            if (npcWizard.get(i).active) {
                 npcWizard.get(i).draw(canvas);
-            }if (npcFarmers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcWooloo.size();i++) {
+            if (npcFarmers.get(i).active) {
                 npcFarmers.get(i).draw(canvas);
-            }if (npcThiefs.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcThiefs.size();i++){
+            if (npcThiefs.get(i).active){
                 npcThiefs.get(i).draw(canvas);
-            }if (npcDragonLayers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcDragonLayers.size();i++){
+            if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).draw(canvas);
             }
         }
@@ -112,16 +131,28 @@ public class NPC_Pool {
         }
     }
     public void update(float deltaTime){
-        for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).active){
+        for (int i = 0; i<npcWooloo.size();i++) {
+            if (npcWooloo.get(i).active) {
                 npcWooloo.get(i).update(deltaTime);
-            }if (npcWizard.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcWizard.size();i++) {
+            if (npcWizard.get(i).active) {
                 npcWizard.get(i).update(deltaTime);
-            }if (npcFarmers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcFarmers.size();i++) {
+            if (npcFarmers.get(i).active) {
                 npcFarmers.get(i).update(deltaTime);
-            }if (npcThiefs.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcThiefs.size();i++) {
+            if (npcThiefs.get(i).active) {
                 npcThiefs.get(i).update(deltaTime);
-            }if (npcDragonLayers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcDragonLayers.size();i++) {
+            if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).update(deltaTime);
             }
         }
@@ -132,16 +163,28 @@ public class NPC_Pool {
         }
     }
     public void physics(float deltaTime){
-        for (int i = 0; i<size;i++){
-            if (npcWooloo.get(i).active){
+        for (int i = 0; i<npcWooloo.size();i++) {
+            if (npcWooloo.get(i).active) {
                 npcWooloo.get(i).physics(deltaTime);
-            }if (npcWizard.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcWizard.size();i++) {
+            if (npcWizard.get(i).active) {
                 npcWizard.get(i).physics(deltaTime);
-            }if (npcFarmers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcFarmers.size();i++) {
+            if (npcFarmers.get(i).active) {
                 npcFarmers.get(i).physics(deltaTime);
-            }if (npcThiefs.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcThiefs.size();i++) {
+            if (npcThiefs.get(i).active) {
                 npcThiefs.get(i).physics(deltaTime);
-            }if (npcDragonLayers.get(i).active){
+            }
+        }
+        for (int i = 0; i<npcDragonLayers.size();i++) {
+            if (npcDragonLayers.get(i).active){
                 npcDragonLayers.get(i).physics(deltaTime);
             }
         }

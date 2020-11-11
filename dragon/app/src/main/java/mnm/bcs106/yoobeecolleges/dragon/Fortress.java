@@ -202,7 +202,7 @@ public class Fortress extends Foundation {
             }
 
             //spawning thief
-            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)){
+            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)&&Scene.instance.day>2){
                 GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1, this);
             }
 
@@ -428,11 +428,11 @@ public class Fortress extends Foundation {
                 //TODO tribute
             }
             if (currentGold != currentGold1) {
-                System.out.println("Goldrate : " + goldRate);
+               //System.out.println("Goldrate : " + goldRate);
                 System.out.println("Gold : " + currentGold);
             }
             if (surrender && !hasTribute) {
-                System.out.println("TRIBUTE");
+                //System.out.println("TRIBUTE");
                 GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2, this);
                 hasTribute = true;
             }
@@ -448,11 +448,11 @@ public class Fortress extends Foundation {
         int standingBuildings = 1;
         if(health < maxHealth){
             repair((int) (currentTownInhabitants/5) + 1, deltaTime);
-            System.out.println("repair fort" + health);
+            //System.out.println("repair fort" + health);
         }
         if (!isStanding) {
             repair((int) (currentTownInhabitants) + 1, deltaTime);
-            System.out.println("repair fort is sta" + health);
+            //System.out.println("repair fort is sta" + health);
             if(health > maxHealth/2){
                 isStanding = true;
                 if(lv == 0) {
