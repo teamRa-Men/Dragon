@@ -24,7 +24,7 @@ public class NPC_Pool {
 
 
         for(int i = 0 ;i < size; i++){
-            npcWooloo.add(new Wooloo((float)GameView.instance.cameraSize/45000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
+            npcWooloo.add(new Wooloo((float)GameView.instance.cameraSize/35000,100,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,500));
             npcDragonLayers.add(new DragonLayers((float)GameView.instance.cameraSize/25000,500,GameView.instance.cameraSize/20,GameView.instance.cameraSize/10,10));
             npcWizard.add(new Wizard((float)GameView.instance.cameraSize/45000,250,GameView.instance.cameraSize/30,GameView.instance.cameraSize/30,25));
             npcThiefs.add(new Thief((float)GameView.instance.cameraSize/25000,250,GameView.instance.cameraSize/20,GameView.instance.cameraSize/20,30));

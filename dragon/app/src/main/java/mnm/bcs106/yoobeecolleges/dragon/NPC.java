@@ -133,12 +133,11 @@ public class NPC {
         }else {
             npcY = (int) GameView.instance.groundLevel-npcRect.height();
             NpcPain.setColorFilter(null);
-        countdown+=deltaTime;
+            countdown+=deltaTime;
             if (Math.abs(target.x-npcX)>1){
                 direction = (int) Math.signum(target.x-npcX);
             }
             moveToTarget(deltaTime);
-
         }
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
     }
@@ -159,7 +158,7 @@ public class NPC {
     }
 
     public void idle(int boundry,boolean lessTen){
-        if (countdown >= Math.random()*5000+10000){
+        if (countdown >= Math.random()*5000){
             if (lessTen) {
                 flee = false;
                 double targetDistance = (Math.random() - 0.5) * boundry;
