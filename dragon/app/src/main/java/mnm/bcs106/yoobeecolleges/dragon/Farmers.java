@@ -13,6 +13,7 @@ import android.graphics.Rect;
     public boolean whereFarm = false;
     public boolean work = false;
     Bitmap idleSprite, workingSprite;
+    public Boolean atHome = false;
 
     public Farmers( float speed, int maxHP, int width, int height,int FX) {
         super(speed, maxHP, width, height);
@@ -28,11 +29,19 @@ import android.graphics.Rect;
         npcBitmap = idleSprite;
     }
 
+    /*
+    Down bellow I made so once villager gets spawned he has no work, to resolve some of the issues.
+     */
+
     @Override
     public void spawn(int spawnX, int spawnY) {
         super.spawn(spawnX, spawnY);
         work = false;
     }
+
+    /*
+    Down bellow I've added method for villagers when they are busy on the fields they start moving around the farm and work.
+     */
 
     public void doStuff() {
         if (countdown >= Math.random()*5000+8000){
@@ -44,7 +53,12 @@ import android.graphics.Rect;
 
     }
 
-    public Boolean atHome = false;
+    /*
+    Down bellow I updated update method giving villagers logic of going to work when it's morning and run away from the dragon
+    if they see that he's close, or run back home once it's night back to safety keeping them protected from the dragon.
+     */
+
+
     @Override
     public void update(float deltaTime) {
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
