@@ -193,7 +193,11 @@ public class Fortress extends Foundation {
             //  ==         ==    =      =============         ==================
             //  ==          ==  =            ==           ===============
             //  ========     ===             ==           ===
-
+            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+                    && (currentGold >= (maxGold / 10 * 9))){
+                levelUp();
+            }
+/*
             if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
                     && (currentGold >= (maxGold / 10 * 9))
                     && lv == 0) {
@@ -228,7 +232,7 @@ public class Fortress extends Foundation {
 
                 currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
                 currentTilesLeft += 1;
-            }
+            }*/
 
             //    =   ========  ==   ==
             //   = =     ==     ==  ==
@@ -495,6 +499,40 @@ public class Fortress extends Foundation {
         direction.add(building);
     }
 
+    public void levelUp() {
+        if (lv == 0) {
+            lv++;
+            maxGold = maxGold * 4 + 300;
+            maxBuildings = 12;
+
+            this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
+
+
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
+            currentTilesRight += 1;
+
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
+            currentTilesLeft += 1;
+
+        } else {
+
+            lv++;
+            maxGold = maxGold * 4 + 600;
+            maxBuildings = 18;
+
+            this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
+
+
+            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
+            currentTilesRight += 1;
+
+            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
+            currentTilesLeft += 1;
+        }
+    }
+
+
+
     public void Flagposition(float deltaTime){
 
         countdown+=deltaTime;
@@ -534,9 +572,7 @@ public class Fortress extends Foundation {
         flag.draw(c);
     }
 
-    public void position(Fortress f) {
 
-    }
 
     /*public void CombList(){
 
@@ -586,7 +622,6 @@ public class Fortress extends Foundation {
         ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
     }
 }
-
 
 
 
