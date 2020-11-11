@@ -151,7 +151,7 @@ public class NPC {
                 active = false;
                 afterLife = 0;
             }else {
-                if (Math.abs(GameView.instance.player.position.x-npcX) < 100 && Math.abs(GameView.instance.player.position.y-npcY) < 100) {
+                if (Math.abs(GameView.instance.player.position.x-npcX) < 150 && Math.abs(GameView.instance.player.position.y-npcY) < 150) {
                     if (GameView.instance.player.health < GameView.instance.player.maxHealth){
                         GameView.instance.player.health+=npcMaxHP/20;
                         active = false;
