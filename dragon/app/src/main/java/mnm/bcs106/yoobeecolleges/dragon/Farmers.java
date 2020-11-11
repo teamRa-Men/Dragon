@@ -90,7 +90,7 @@ import android.graphics.Rect;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
                 } else {
-                    idle(500, true);//Math.abs(npcX - target.x) < 10);
+                    idle(500, Math.abs(npcX - target.x) < 10);
                 }
             }
             if (atHome){
@@ -142,19 +142,20 @@ import android.graphics.Rect;
                     npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
             }
             }else {
-                if(wasAttacked = true){
+                if(wasAttacked == true){
                     int r = (int)(Math.random()*3);
-                    GoldPool.instance.spawnGold((int)npcX, (int)npcY,r);}
-                wasAttacked = false;
+                    GoldPool.instance.spawnGold((int)npcX, (int)npcY,r);
+                    wasAttacked = false;
+                }
                 super.update(deltaTime);
             }
         }
-        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.5 && !flee) {
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.5) {
             target.x = tempCreationPoint.x;
             atFarm = false;
             workTime = 0;
             work = false;
-
+            flee = true;
             npcBitmap = idleSprite;
         }
         if (work  && !flee) {

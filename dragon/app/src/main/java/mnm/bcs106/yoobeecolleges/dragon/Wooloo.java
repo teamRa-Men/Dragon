@@ -7,6 +7,11 @@ public class Wooloo extends NPC{
 
     int boundry;
 
+    /*
+    Down bellow i added some important variables into main constructor of the Wooloo class.
+    Such as boundaries of farms.
+     */
+
     public Wooloo(float speed, int maxHP, int width, int height, int SBoundry) {
         super(speed, maxHP, width, height);
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
@@ -15,6 +20,12 @@ public class Wooloo extends NPC{
         boundry = SBoundry;
     }
     @Override
+
+    /*
+    In uodated update method i made Wooloo to walk around fields and run from the dragon once they see it
+    though they might get lost once they run away from the fields.
+     */
+
     public void update(float deltaTime) {
         super.update(deltaTime);
         if (alive) {
