@@ -77,7 +77,6 @@ public class Fortress extends Foundation {
         height = width * buildingImage.height() / buildingImage.width();
         collider = new Rect(x,y-height,x+width,y);
         flag = new Flag();
-
         BD.add("House");
         BD.add("House");
         BD.add("House");
