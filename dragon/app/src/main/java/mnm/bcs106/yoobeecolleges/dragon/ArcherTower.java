@@ -30,7 +30,7 @@ public class ArcherTower extends Foundation {
         else{
             this.buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
         }
-        height = width*buildingImage.height()/buildingImage.width();
+        height = width*buildingImage.getHeight()/buildingImage.getWidth();
         creationPoint.x = x+(width/2);
         creationPoint.y = (int)((y - height*3/4));
         System.out.println("Tower spawned");

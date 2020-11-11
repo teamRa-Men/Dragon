@@ -14,13 +14,6 @@ public class Farm extends Foundation{
     int maxCattle;
     static int cost;
 
-    Bitmap cattle;
-    Rect cattleBorder;
-    Bitmap[] farmBuildings = new Bitmap[3];
-    int[] farmBuildingImage = new int[3];
-    ArrayList<Integer> Pos = new ArrayList<Integer>();
-    int[] spritePosition = new int[3];
-
     boolean createdWooloo = false;
 
     SpriteAnimation spriteAnim;
@@ -34,12 +27,12 @@ public class Farm extends Foundation{
         cost = 110;
 
         if(buildingSprite == 3) {
-            spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
+            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
                     SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),
                     SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "3")}, 1000);
         }
         else{
-            spriteAnim = new SpriteAnimation(new Rect[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
+            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
         }
         buildingImage = spriteAnim.getFrame(0);
         height = tilesize;

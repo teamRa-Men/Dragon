@@ -24,22 +24,22 @@ int maxTributes = 3;
     ArrayList<Thief>  npcThiefs = new ArrayList<Thief>();
     ArrayList<Tribute>  tributes = new ArrayList<Tribute>();
     public NPC_Pool(){
+        int size = GameView.instance.cameraSize / 20;
         for(int i = 0 ;i < maxWooloo; i++) {
-            npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 100, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 500));
+            npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 100, size, size, 500));
         }
         for(int i = 0 ;i < maxSlayers; i++) {
-            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 500, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 10, 10));
+            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 500, size, size*2, 10));
         } for(int i = 0 ;i < maxWizards; i++) {
-            npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 250, GameView.instance.cameraSize / 30, GameView.instance.cameraSize / 30, 25));
+            npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 250, size, size, 25));
         } for(int i = 0 ;i < maxTheives; i++) {
-            npcThiefs.add(new Thief((float) GameView.instance.cameraSize / 25000, 250, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20, 30));
+            npcThiefs.add(new Thief((float) GameView.instance.cameraSize / 25000, 250, size, size, 30));
         }
         for(int i = 0 ;i < maxFarmers; i++) {
-            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 25000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 20));
-
+            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 25000, 200, size, size));
         }
         for(int i = 0; i < maxTributes; i++) {
-            tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, GameView.instance.cameraSize / 20, GameView.instance.cameraSize / 12));
+            tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, size, (int)(size*1.2f)));
         }
     }
     public Tribute spawnTribute(int spawnX, int spawnY, int tributeSize, Fortress f){

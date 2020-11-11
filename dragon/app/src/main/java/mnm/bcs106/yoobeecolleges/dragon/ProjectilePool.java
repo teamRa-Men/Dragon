@@ -31,21 +31,21 @@ public class ProjectilePool {
         instance = this;
         Bitmap sheet = SpriteManager.instance.NPCSheet;
 
-        Rect r = SpriteManager.instance.getNPCSprite("Arrow");
+        Rect r = SpriteManager.instance.getNPCSpriteRect("Arrow");
         arrowSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxArrows; i++) {
             Projectile newArrow = new Projectile(arrowSprite,0.7f,0.5f,Projectile.ARROW);
             arrowPool.add(newArrow);
         }
 
-        r = SpriteManager.instance.getNPCSprite("Magic");
+        r = SpriteManager.instance.getNPCSpriteRect("Magic");
         magicSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxMagic; i++) {
             Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f, Projectile.MAGIC);
             magicPool.add(newMagic);
         }
 
-        r = SpriteManager.instance.getNPCSprite("Spear");
+        r = SpriteManager.instance.getNPCSpriteRect("Spear");
         spearSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxSpear; i++) {
             Projectile newSpear = new Projectile(spearSprite,0.7f,0.5f, Projectile.SPEAR);

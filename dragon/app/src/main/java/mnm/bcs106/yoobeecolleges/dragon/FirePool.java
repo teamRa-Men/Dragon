@@ -22,7 +22,7 @@ public class FirePool {
     public FirePool(){
         instance = this;
         Bitmap sheet = SpriteManager.instance.fireSheet;
-        Rect r = SpriteManager.instance.getEnvironmentSprite("Flame1");
+        Rect r = SpriteManager.instance.getEnvironmentSpriteRect("Flame1");
         for (int i = 0; i < maxFire; i++) {
             Fire newFire = new Fire();
             firePool.add(newFire);
@@ -71,12 +71,12 @@ class Fire{
 
     public Fire (){
         fireSheet = SpriteManager.instance.fireSheet;
-        src[0] = SpriteManager.instance.getFireSprite("Fire0");
-        src[1] = SpriteManager.instance.getFireSprite("Fire1");
-        src[2] = SpriteManager.instance.getFireSprite("Fire2");
-        src[3] = SpriteManager.instance.getFireSprite("Fire3");
-        src[4] = SpriteManager.instance.getFireSprite("Fire4");
-        src[5] = SpriteManager.instance.getFireSprite("Fire5");
+        src[0] = SpriteManager.instance.getFireSpriteRect("Fire0");
+        src[1] = SpriteManager.instance.getFireSpriteRect("Fire1");
+        src[2] = SpriteManager.instance.getFireSpriteRect("Fire2");
+        src[3] = SpriteManager.instance.getFireSpriteRect("Fire3");
+        src[4] = SpriteManager.instance.getFireSpriteRect("Fire4");
+        src[5] = SpriteManager.instance.getFireSpriteRect("Fire5");
         paint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
         backPaint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFireCold),0));
         active = false;

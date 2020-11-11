@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 public class SpriteManager {
     Bitmap buildingSheet, NPCSheet, fireSheet, dragonSheet, environmentSheet;
+    HashMap<String,Bitmap> buildingSprites, NPCSprites;
     GameView gameView;
     public static SpriteManager instance;
 
@@ -24,11 +25,11 @@ public class SpriteManager {
         buildingSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.building_sheet_low);
         buildingSheet = Bitmap.createScaledBitmap(buildingSheet,1152/2,512,true);
 
-        //NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
-        //NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392,768,true);
+        NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
+        NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392,768,true);
 
-        NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet_low);
-        NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392/2,768/2,true);
+        //NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet_low);
+        //NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392/2,768/2,true);
 
         fireSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire_sheet);
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
@@ -41,9 +42,62 @@ public class SpriteManager {
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
         environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1024,true);
+
+        NPCSprites = new HashMap<String,Bitmap>() {{
+            int size = GameView.instance.cameraSize / 20;
+            put("Wooloo",getSprite(getNPCSpriteRect("Wooloo"),NPCSheet,size,size));
+
+            put("Farmer1",getSprite(getNPCSpriteRect("Farmer1"),NPCSheet,size,size));
+            put("Farmer2",getSprite(getNPCSpriteRect("Farmer2"),NPCSheet,size,size));
+
+            put("Tribute",getSprite(getNPCSpriteRect("Tribute"),NPCSheet,size,(int)(size*1.2f)));
+
+            put("Wizard1",getSprite(getNPCSpriteRect("Wizard1"),NPCSheet,size,size));
+            put("Wizard2",getSprite(getNPCSpriteRect("Wizard2"),NPCSheet,size,size));
+            put("Wizard3",getSprite(getNPCSpriteRect("Wizard3"),NPCSheet,size,size));
+
+            put("Slayer1",getSprite(getNPCSpriteRect("Slayer1"),NPCSheet,size,size*2));
+            put("Slayer2",getSprite(getNPCSpriteRect("Slayer2"),NPCSheet,size,size*2));
+            put("Slayer3",getSprite(getNPCSpriteRect("Slayer3"),NPCSheet,size,size*2));
+
+            put("Thief1",getSprite(getNPCSpriteRect("Thief1"),NPCSheet,size,size));
+            put("Thief2",getSprite(getNPCSpriteRect("Thief2"),NPCSheet,size,size));
+
+            put("Arrow",getSprite(getNPCSpriteRect("Arrow"),NPCSheet,size/4,size/8));
+            put("Magic",getSprite(getNPCSpriteRect("Magic"),NPCSheet,size/2,size/2));
+            put("Spear",getSprite(getNPCSpriteRect("Spear"),NPCSheet,size*2,size/8));
+        }};
+
+        buildingSprites = new HashMap<String,Bitmap>() {{
+            int tileSize = GameView.instance.cameraSize/15;
+            put("House1",getSprite(getBuildingSpriteRect("House1"),buildingSheet,tileSize,tileSize));
+            put("House2",getSprite(getBuildingSpriteRect("House2"),buildingSheet,tileSize,tileSize));
+            put("House3",getSprite(getBuildingSpriteRect("House3"),buildingSheet,tileSize,tileSize));
+            put("HouseRuin",getSprite(getBuildingSpriteRect("HouseRuin"),buildingSheet,tileSize,tileSize));
+
+            put("Farm11",getSprite(getBuildingSpriteRect("Farm11"),buildingSheet,3*tileSize,tileSize));
+
+            put("Farm21",getSprite(getBuildingSpriteRect("Farm21"),buildingSheet,3*tileSize,tileSize));
+
+            put("Farm31",getSprite(getBuildingSpriteRect("Farm31"),buildingSheet,3*tileSize,tileSize));
+            put("Farm32",getSprite(getBuildingSpriteRect("Farm32"),buildingSheet,3*tileSize,tileSize));
+            put("Farm33",getSprite(getBuildingSpriteRect("Farm33"),buildingSheet,3*tileSize,tileSize));
+
+            put("FarmRuin",getSprite(getBuildingSpriteRect("FarmRuin"),buildingSheet,3*tileSize,tileSize));
+
+            put("Fortress1",getSprite(getBuildingSpriteRect("Fortress1"),buildingSheet,3*tileSize,2*tileSize));
+            put("Fortress2",getSprite(getBuildingSpriteRect("Fortress2"),buildingSheet,3*tileSize,2*tileSize));
+            put("Fortress3",getSprite(getBuildingSpriteRect("Fortress3"),buildingSheet,3*tileSize,2*tileSize));
+            put("FortressRuin",getSprite(getBuildingSpriteRect("FortressRuin"),buildingSheet,3*tileSize,2*tileSize));
+
+            put("Tower1",getSprite(getBuildingSpriteRect("Tower1"),buildingSheet,tileSize,2*tileSize));
+            put("Tower2",getSprite(getBuildingSpriteRect("Tower2"),buildingSheet,tileSize,2*tileSize));
+            put("TowerRuin",getSprite(getBuildingSpriteRect("TowerRuin"),buildingSheet,tileSize,2*tileSize));
+        }};
+
     }
 
-    private final HashMap<String,Rect> buildingSprites = new HashMap<String,Rect>() {{
+    private final HashMap<String,Rect> buildingSpriteRects = new HashMap<String,Rect>() {{
         int d = 64;
         put("House1",spriteRect(0,0,d,d));
         put("House2",spriteRect(d,0,d,d));
@@ -71,7 +125,7 @@ public class SpriteManager {
         put("Fortress1",spriteRect(d*3,d*4,d*3,d*2));
         put("Fortress2",spriteRect(d*6,d*4,d*3,d*2));
         put("Fortress3",spriteRect(d*3,d*6,d* 3,d*2));
-        put("FortressRuin",spriteRect(d*6,d*6+2,d*3,d*2));
+        put("FortressRuin",spriteRect(d*6,d*6,d*3,d*2));
 
         put("Flag",spriteRect(0,d*5,d,d));
 
@@ -82,8 +136,8 @@ public class SpriteManager {
 
     }};
 
-    private final HashMap<String,Rect> NPCSprites = new HashMap<String,Rect>() {{
-        int d = 64;
+    private final HashMap<String,Rect> NPCSpriteRects = new HashMap<String,Rect>() {{
+        int d = 128;
         put("Wooloo",spriteRect(0,0,d,d));
 
         put("Farmer1",spriteRect(0,d,d,d));
@@ -108,7 +162,7 @@ public class SpriteManager {
 
     }};
 
-    private final HashMap<String,Rect> environmentSprites = new HashMap<String,Rect>() {{
+    private final HashMap<String,Rect> environmentSpriteRects = new HashMap<String,Rect>() {{
         put("LairBack",spriteRect(0,0,1024,256));
         put("LairMiddle",spriteRect(0,256,1024,256));
         put("LairFront",spriteRect(0,256*2,1024,256));
@@ -118,7 +172,7 @@ public class SpriteManager {
         put("Ground",spriteRect(0,896,1024,32));
     }};
 
-    private final HashMap<String,Rect> fireSprites = new HashMap<String,Rect>() {{
+    private final HashMap<String,Rect> fireSpriteRects = new HashMap<String,Rect>() {{
         put("Fire0",spriteRect(0,0,32,32));
         put("Fire1",spriteRect(0,32,32,32));
         put("Fire2",spriteRect(0,32*2,32,32));
@@ -127,7 +181,7 @@ public class SpriteManager {
         put("Fire5",spriteRect(32,32*2,32,32));
     }};
 
-    private final HashMap<String,Rect> dragonSprites = new HashMap<String,Rect>() {{
+    private final HashMap<String,Rect> dragonSpriteRects = new HashMap<String,Rect>() {{
         int d = 32;
         put("Head",spriteRect(0,0,d*2,d*2));
         put("Jaw",spriteRect(d*2,0,d*2,d*2));
@@ -149,19 +203,32 @@ public class SpriteManager {
     }
 
 
-    public Rect getBuildingSprite( String spriteName) {
+    public Rect getBuildingSpriteRect( String spriteName) {
+        return buildingSpriteRects.get(spriteName);
+    }
+    public Rect getNPCSpriteRect( String spriteName) {
+        return NPCSpriteRects.get(spriteName);
+    }
+    public Rect getFireSpriteRect( String spriteName) {
+        return fireSpriteRects.get(spriteName);
+    }
+    public Rect getDragonSpriteRect( String spriteName) {
+        return dragonSpriteRects.get(spriteName);
+    }
+    public Rect getEnvironmentSpriteRect( String spriteName) {
+        return environmentSpriteRects.get(spriteName);
+    }
+
+    private Bitmap getSprite(Rect r, Bitmap sheet, int width, int height) {
+        Bitmap sprite = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        sprite = Bitmap.createScaledBitmap(sprite,width,height,true);
+        return sprite;
+    }
+
+    public Bitmap getBuildingSprite( String spriteName) {
         return buildingSprites.get(spriteName);
     }
-    public Rect getNPCSprite( String spriteName) {
+    public Bitmap getNPCSprite( String spriteName) {
         return NPCSprites.get(spriteName);
-    }
-    public Rect getFireSprite( String spriteName) {
-        return fireSprites.get(spriteName);
-    }
-    public Rect getDragonSprite( String spriteName) {
-        return dragonSprites.get(spriteName);
-    }
-    public Rect getEnvironmentSprite( String spriteName) {
-        return environmentSprites.get(spriteName);
     }
 }

@@ -40,7 +40,7 @@ public class House extends Foundation{
         if(rh >= 2){
             buildingImage = SpriteManager.instance.getBuildingSprite("House3");
         }
-        height = width*buildingImage.height()/buildingImage.width();
+        height = width*buildingImage.getHeight()/buildingImage.getWidth();
 
         if(flipp < 0){
 

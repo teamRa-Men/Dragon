@@ -14,9 +14,8 @@ public class Wooloo extends NPC{
 
     public Wooloo(float speed, int maxHP, int width, int height, int SBoundry) {
         super(speed, maxHP, width, height);
-        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Wooloo");
-        npcBitmap =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+
+        npcBitmap =SpriteManager.instance.getNPCSprite("Wooloo");
         boundry = SBoundry;
     }
     @Override

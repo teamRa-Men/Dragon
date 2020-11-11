@@ -20,15 +20,9 @@ public class Wizard extends NPC {
         arrowRechargeTime = new ActionController(3000*(1+(float)Math.random()-0.5f), 500,2000*(1+(float)Math.random()-0.5f));
         dmg = damage;
 
-        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Wizard1");
-        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
-
-        r = SpriteManager.instance.getNPCSprite("Wizard2");
-        shootSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
-
-        r = SpriteManager.instance.getNPCSprite("Wizard3");
-        shootingSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        idleSprite = SpriteManager.instance.getNPCSprite("Wizard1");
+        shootSprite = SpriteManager.instance.getNPCSprite("Wizard2");
+        shootingSprite = SpriteManager.instance.getNPCSprite("Wizard3");
 
         npcBitmap = idleSprite;
     }

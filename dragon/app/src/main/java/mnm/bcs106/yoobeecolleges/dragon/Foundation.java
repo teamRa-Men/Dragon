@@ -45,7 +45,8 @@ public class Foundation {
 
     int fixedx;
 
-    Rect buildingImage, dst;
+    Rect  dst;
+    Bitmap buildingImage;
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
@@ -73,7 +74,7 @@ public class Foundation {
 
         fixedx = x;
 
-        width = tilesize*tileNr+tilesize/10*tileNr;//(tilesize-(tilesize/10))*tileNr;
+        width = tilesize*tileNr;//(tilesize-(tilesize/10))*tileNr;
         height = width;
 
 
@@ -91,7 +92,7 @@ public class Foundation {
             p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
         }*/
 
-        c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,null);
+        c.drawBitmap(buildingImage,dst.left,dst.top,null);
 
     }
 

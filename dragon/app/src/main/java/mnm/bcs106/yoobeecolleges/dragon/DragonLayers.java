@@ -18,15 +18,10 @@ public class DragonLayers extends NPC {
         arrowRechargeTime = new ActionController(1000*(1+(float)Math.random()-0.5f), (float) 1000,2000*(1+(float)Math.random()-0.5f));
         dmg = damage;
 
-        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Slayer1");
-        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
 
-        r = SpriteManager.instance.getNPCSprite("Slayer2");
-        shootSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
-
-        r = SpriteManager.instance.getNPCSprite("Slayer3");
-        shootingSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        idleSprite =SpriteManager.instance.getNPCSprite("Slayer1");
+        shootSprite =SpriteManager.instance.getNPCSprite("Slayer2");
+        shootingSprite =SpriteManager.instance.getNPCSprite("Slayer3");
 
         npcBitmap = idleSprite;
     }

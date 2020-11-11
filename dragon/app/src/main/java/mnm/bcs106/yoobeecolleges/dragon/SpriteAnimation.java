@@ -6,17 +6,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 public class SpriteAnimation {
-    Rect [] sprites;
+    Bitmap [] sprites;
     float progress,  animTime;
     int frameCount, currentFrame = 0;
     Rect srcBounds;
 
-    public SpriteAnimation(Rect[] sprites, float animTime){
+    public SpriteAnimation(Bitmap[] sprites, float animTime){
         this.sprites = sprites;
         this.animTime = animTime;
         this.frameCount = sprites.length;
     }
-    public Rect getFrame(float deltaTime, float playSpeed){
+    public Bitmap getFrame(float deltaTime, float playSpeed){
         progress += playSpeed*deltaTime/animTime;
         if(progress >= 1){
             progress = 0;
@@ -30,7 +30,7 @@ public class SpriteAnimation {
         return sprites[currentFrame];
     }
 
-    public Rect getFrame(int index){
+    public Bitmap getFrame(int index){
         currentFrame = index;
         return sprites[index];
     }

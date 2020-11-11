@@ -88,9 +88,9 @@ public class Dragon extends Character {
 
         Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
 
-        Rect r = SpriteManager.instance.getDragonSprite("Segment");
+        Rect r = SpriteManager.instance.getDragonSpriteRect("Segment");
         Bitmap segmentSprite =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSprite("SpikedSegment");
+        r = SpriteManager.instance.getDragonSpriteRect("SpikedSegment");
         Bitmap spikedSegmentSprite =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
 
 
@@ -487,17 +487,17 @@ class Head{
         src = new RectF(0,0,radius * 2, radius * 2);
 
 
-        Rect r = SpriteManager.instance.getDragonSprite("Head");
+        Rect r = SpriteManager.instance.getDragonSpriteRect("Head");
         head = Bitmap.createBitmap(dragonSheet, r.left, r.top, r.width(), r.height());
-        head = Bitmap.createScaledBitmap(head, (int) src.width(), (int) src.height(), false);
+        head = Bitmap.createScaledBitmap(head, (int) src.width(), (int) src.height(),  true);
 
 
-        r = SpriteManager.instance.getDragonSprite("Jaw");
+        r = SpriteManager.instance.getDragonSpriteRect("Jaw");
         jaw = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
-        jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),false);
-        r = SpriteManager.instance.getDragonSprite("HeadSleeping");
+        jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),true);
+        r = SpriteManager.instance.getDragonSpriteRect("HeadSleeping");
         sleeping = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
-        sleeping = Bitmap.createScaledBitmap(sleeping,(int)src.width(),(int)src.height(),false);
+        sleeping = Bitmap.createScaledBitmap(sleeping,(int)src.width(),(int)src.height(),true);
 
 
     }
@@ -577,7 +577,7 @@ class Segment extends GameObject{
         position = dragon.position.add(Vector2.left.multiply(1000));
         direction = dragon.direction;
 
-        this.sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), false);
+        this.sprite = Bitmap.createScaledBitmap(sprite, (int) (radius * 2), (int) (radius * 2), true);
         src = new RectF(0, 0, radius * 2, radius * 2);
 
         dst = src;
@@ -648,19 +648,19 @@ class Leg{
         position = dragon.position;
         Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
         if(!front){
-            Rect r = SpriteManager.instance.getDragonSprite("BackLeg");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("BackLeg");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-            r = SpriteManager.instance.getDragonSprite("BackLegFlying");
+            r = SpriteManager.instance.getDragonSpriteRect("BackLegFlying");
             spriteFlying = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else{
-            Rect r = SpriteManager.instance.getDragonSprite("Leg");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("Leg");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-            r = SpriteManager.instance.getDragonSprite("LegFlying");
+            r = SpriteManager.instance.getDragonSpriteRect("LegFlying");
             spriteFlying = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
-        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f -GameView.instance.screenWidth/200), false);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), true);
+        spriteFlying = Bitmap.createScaledBitmap(spriteFlying, (int) (dragon.radius*3/2f  ), (int) (dragon.radius *3/2f -GameView.instance.screenWidth/200), true);
         src = new RectF(0, 0, dragon.radius*3/2f , dragon.radius *3/2f-GameView.instance.screenWidth/200);
         dst = src;
     }
@@ -721,14 +721,14 @@ class Arm{
 
         Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
         if(!front){
-            Rect r = SpriteManager.instance.getDragonSprite("BackArm");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("BackArm");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else{
-            Rect r = SpriteManager.instance.getDragonSprite("Arm");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("Arm");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
-        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), false);
+        sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-GameView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-GameView.instance.screenWidth/200), true);
         src = new RectF(0, 0, dragon.radius*3/2f-GameView.instance.screenWidth/200 , dragon.radius *3/2f-GameView.instance.screenWidth/200);
         dst = src;
 
@@ -780,14 +780,14 @@ class Wing{
         this.dragon = dragon;
         Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
         if(front){
-            Rect r = SpriteManager.instance.getDragonSprite("Wing");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("Wing");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else {
-            Rect r = SpriteManager.instance.getDragonSprite("BackWing");
+            Rect r = SpriteManager.instance.getDragonSpriteRect("BackWing");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
-        sprite = Bitmap.createScaledBitmap(sprite, size/2, size,false);
+        sprite = Bitmap.createScaledBitmap(sprite, size/2, size,true);
         src = new RectF(0, 0, sprite.getWidth(),sprite.getHeight());
         position = segment.position;
         rotation = segment.rotation;
@@ -854,17 +854,17 @@ class FireBreath{
         direction = dragon.direction;
 
         Bitmap fireSheet = SpriteManager.instance.fireSheet;
-        Rect r = SpriteManager.instance.getFireSprite("Fire0");
+        Rect r = SpriteManager.instance.getFireSpriteRect("Fire0");
         sprites[0] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getFireSprite("Fire1");
+        r = SpriteManager.instance.getFireSpriteRect("Fire1");
         sprites[1] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getFireSprite("Fire2");
+        r = SpriteManager.instance.getFireSpriteRect("Fire2");
         sprites[2] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getFireSprite("Fire3");
+        r = SpriteManager.instance.getFireSpriteRect("Fire3");
         sprites[3] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getFireSprite("Fire4");
+        r = SpriteManager.instance.getFireSpriteRect("Fire4");
         sprites[4] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getFireSprite("Fire5");
+        r = SpriteManager.instance.getFireSpriteRect("Fire5");
         sprites[5] =Bitmap.createBitmap(fireSheet,r.left,r.top,r.width(),r.height());
 
         paint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));

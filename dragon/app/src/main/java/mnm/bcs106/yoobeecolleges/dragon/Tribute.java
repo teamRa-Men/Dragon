@@ -12,9 +12,7 @@ public class Tribute extends NPC{
     public Tribute(float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
 
-        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Tribute");
-        npcBitmap =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        npcBitmap = SpriteManager.instance.getNPCSprite("Tribute");
         flag = new Flag();
         flag.setSurrender(true);
     }

@@ -20,11 +20,8 @@ import android.graphics.Rect;
         farmX = (int)npcX ;
 
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Farmer1");
-        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
-
-        r = SpriteManager.instance.getNPCSprite("Farmer2");
-        workingSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        idleSprite = SpriteManager.instance.getNPCSprite("Farmer1");
+        workingSprite =SpriteManager.instance.getNPCSprite("Farmer2");
 
         npcBitmap = idleSprite;
     }

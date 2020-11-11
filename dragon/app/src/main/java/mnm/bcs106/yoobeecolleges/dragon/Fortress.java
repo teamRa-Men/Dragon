@@ -74,7 +74,7 @@ public class Fortress extends Foundation {
         super(x, y, tileNr, null);
         buildingType = 1;
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
-        height = width * buildingImage.height() / buildingImage.width();
+        height = width * buildingImage.getHeight() / buildingImage.getWidth();
         collider = new Rect(x,y-height,x+width,y);
         flag = new Flag();
 

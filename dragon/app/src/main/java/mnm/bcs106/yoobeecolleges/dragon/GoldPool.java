@@ -17,7 +17,7 @@ public class GoldPool {
     public GoldPool(){
         instance = this;
         Bitmap sheet = SpriteManager.instance.environmentSheet;
-        Rect r = SpriteManager.instance.getEnvironmentSprite("GoldCoin");
+        Rect r = SpriteManager.instance.getEnvironmentSpriteRect("GoldCoin");
         goldSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
 
         for (int i = 0; i < maxGold; i++) {

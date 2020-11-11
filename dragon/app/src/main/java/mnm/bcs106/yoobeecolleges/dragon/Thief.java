@@ -14,12 +14,8 @@ public class Thief extends NPC {
 
         maxSteal = stealGold;
 
-        Bitmap npcSheet = SpriteManager.instance.NPCSheet;
-        Rect r = SpriteManager.instance.getNPCSprite("Thief1");
-        idleSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
-
-        r = SpriteManager.instance.getNPCSprite("Thief2");
-        stolenSprite =Bitmap.createBitmap(npcSheet,r.left,r.top,r.width(),r.height());
+        idleSprite =SpriteManager.instance.getNPCSprite("Thief1");
+        stolenSprite =SpriteManager.instance.getNPCSprite("Thief2");
 
         npcBitmap = idleSprite;
     }

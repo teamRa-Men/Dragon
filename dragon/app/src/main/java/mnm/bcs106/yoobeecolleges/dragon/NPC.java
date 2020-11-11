@@ -100,10 +100,8 @@ public class NPC {
     public void draw(Canvas canvas){
         if(npcBitmap!=null) {
             if (alive) {
-
                 canvas.drawBitmap(npcBitmap, matrix, null);
             } else {
-
                 canvas.drawBitmap(npcBitmap, matrix, NpcPain);
             }
         }
