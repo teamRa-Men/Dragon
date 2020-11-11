@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
-    //    final float fixedDeltaTime = (int) (1000 / 90); // in milliseconds
+    //    final float fixedDeltaTime = (int) (1000 / 30); // in milliseconds
     public float timeScale = 1;
     float deltaTime = fixedDeltaTime;
 
@@ -283,18 +283,18 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     private void update() {
 
-        if(player.health>0) {
-            player.update(fixedDeltaTime);
-            scene.update(fixedDeltaTime);
-            npc_pool.update(fixedDeltaTime);
-            projectilePool.update(fixedDeltaTime);
-            //System.out.println(fixedDeltaTime +" "+ deltaTime);
-            goldPool.update(fixedDeltaTime);
-            //fortress.update(fixedDeltaTime);
-            hud.update(fixedDeltaTime);
-            lair.update(fixedDeltaTime);
-            firePool.update(fixedDeltaTime);
-        }else  {
+
+        player.update(fixedDeltaTime);
+        scene.update(fixedDeltaTime);
+        npc_pool.update(fixedDeltaTime);
+        projectilePool.update(fixedDeltaTime);
+        //System.out.println(fixedDeltaTime +" "+ deltaTime);
+        goldPool.update(fixedDeltaTime);
+        //fortress.update(fixedDeltaTime);
+        hud.update(fixedDeltaTime);
+        lair.update(fixedDeltaTime);
+        firePool.update(fixedDeltaTime);
+        if(player.health<=0) {
             if (!Game.instance.gameOver) {
                 Game.instance.showGameOver = true;
             }

@@ -15,6 +15,8 @@ public class NPC {
     public Bitmap npcBitmap;
     public float npcX,npcY,npcMaxHP,npcHp,npcWidth,npcHeight;
     public Rect npcRect, npcCollider;
+    RectF destTempRect;
+    Matrix matrix = new Matrix();
     public float npcSpeed;
     public Boolean alive = false;
     public Boolean active = false;
@@ -97,20 +99,11 @@ public class NPC {
 
     public void draw(Canvas canvas){
         if(npcBitmap!=null) {
-            Matrix matrix = new Matrix();
-            int top = (int) (npcRect.top + Math.sin(distTravel / 4 + random * Math.PI * 2) * 3);
-            int left = npcRect.left;
-            int right = left + npcRect.width();
-            int bottom = top + npcRect.height();
-            RectF tempRect = new RectF(0, 0, npcBitmap.getWidth(), npcBitmap.getHeight());
-            RectF destTempRect;
-            destTempRect = new RectF(left, top, right, bottom);
-            matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
             if (alive) {
-                matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
+
                 canvas.drawBitmap(npcBitmap, matrix, null);
             } else {
-                matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
+
                 canvas.drawBitmap(npcBitmap, matrix, NpcPain);
             }
         }
@@ -145,6 +138,20 @@ public class NPC {
      */
 
     public void update(float deltaTime){
+        int top = (int) (npcRect.top + Math.sin(distTravel / 4 + random * Math.PI * 2) * 3);
+        int left = npcRect.left;
+        int right = left + npcRect.width();
+        int bottom = top + npcRect.height();
+        RectF tempRect = new RectF(0, 0, npcBitmap.getWidth(), npcBitmap.getHeight());
+        destTempRect = new RectF(left, top, right, bottom);
+        matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
+        if (alive) {
+            matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
+        }
+        else {
+            matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
+        }
+
         if (!alive){
             afterLife+=deltaTime;
             if (afterLife >= 10000){

@@ -44,7 +44,7 @@ public class Wizard extends NPC {
                 flee = true;
             }
         }else if (lockTarget){
-            direction = (int) Math.signum(target.x-npcX);
+            direction = (int) Math.signum(GameView.instance.player.aimFor().x -npcX);
             if (Math.abs(GameView.instance.player.position.x-npcX) > GameView.instance.screenWidth/4 ){
                 target.x = (int) GameView.instance.player.position.x-direction*200;
             }

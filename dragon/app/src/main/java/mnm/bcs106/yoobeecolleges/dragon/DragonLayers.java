@@ -44,14 +44,14 @@ public class DragonLayers extends NPC {
             arrowRechargeTime.update(deltaTime);
 
             if(lockTarget) {
-                direction = (int) Math.signum(GameView.instance.player.position.x - npcX);
+                direction = (int) Math.signum(GameView.instance.player.aimFor().x - (npcX+npcWidth/2));
                 if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4) {
                     target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
                     moveToTarget(deltaTime);
                     npcY = (int) GameView.instance.groundLevel - npcRect.height();
                     npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
                 }
-                if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 2) {
+                if (Math.abs(GameView.instance.player.aimFor().x - npcX) < GameView.instance.cameraSize / 2) {
                     arrowRechargeTime.triggerAction();
                     if (arrowRechargeTime.charging) {
                         shot = false;
@@ -69,7 +69,7 @@ public class DragonLayers extends NPC {
             }
             else {
                 idle(GameView.instance.screenWidth/4,Math.abs(npcX - target.x) < 10);
-                if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize / 3){
+                if (Math.abs(GameView.instance.player.aimFor().x  - npcX) < GameView.instance.cameraSize / 3){
                     lockTarget = true;
                 }
             }

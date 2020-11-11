@@ -683,13 +683,13 @@ class Leg{
         dst = new RectF(left, top, right, bottom);
         matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
         matrix.postScale(Math.signum(segment.direction.x),1,  dst.centerX(),dst.centerY());
+        if (!walking) {
+            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 20, dst.centerX(), dst.top);
+        }
     }
     public void draw(Canvas canvas){
 
-
-
         if (!walking) {
-            matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 20, dst.centerX(), dst.top);
             canvas.drawBitmap(spriteFlying, matrix, paint);
         } else {
             canvas.drawBitmap(sprite, matrix, paint);

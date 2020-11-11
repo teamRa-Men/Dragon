@@ -45,7 +45,7 @@ public class Foundation {
 
     int fixedx;
 
-    Rect buildingImage;
+    Rect buildingImage, dst;
     public ActionController damagePeriod;
     float rebuildTime = 0;
 
@@ -81,6 +81,7 @@ public class Foundation {
         collider = new Rect(x,y-height,x+width,y);
         damagePeriod = new ActionController(100,0,2000);
 
+
     }
 
     public void draw(Canvas c){
@@ -89,11 +90,7 @@ public class Foundation {
             int d = (int)((float) health / maxHealth*125)+130;
             p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
         }*/
-        float left = x+GameView.instance.cameraDisp.x;
-        float top = y-height;
-        float bottom = y;
-        float right = left + width;
-        Rect dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
+
         c.drawBitmap(SpriteManager.instance.buildingSheet,buildingImage,dst,null);
 
     }
@@ -140,6 +137,12 @@ public class Foundation {
                 y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2/2;
             }
         }
+
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
     }
 
     public void OnDamage () {

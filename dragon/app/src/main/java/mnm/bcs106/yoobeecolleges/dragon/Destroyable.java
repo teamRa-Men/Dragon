@@ -33,7 +33,7 @@ public class Destroyable extends GameObject{
         health -=damage;
 
         //Sound effect on being hit
-        if(damagedSound>-1){
+        if(damagedSound>-1 && health >0){
             Game.instance.soundEffects.play(damagedSound,1f,1,1);
         }
 
