@@ -19,7 +19,7 @@ public class Fortress extends Foundation {
 
     int lv;
 
-    int maxHealth = 500;
+
 
     int currentGold;
     int maxGold;
@@ -48,7 +48,7 @@ public class Fortress extends Foundation {
 
     ArcherTower archertower;
     boolean hasTaxed = false;
-
+    boolean hasTribute = false;
     boolean hasFarm = false;
     // attack function
     public static int tileNr = 3;
@@ -62,17 +62,21 @@ public class Fortress extends Foundation {
 
     boolean summonedWizard = false;
     boolean surrender = false;
+    float surrenderFear;
 
-    Bitmap flag;
+    Flag flag;
     int flagy;
 
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
-    public Fortress(int x, int y, boolean isStanding, GameView activity) {
-        super(x, y, tileNr, isStanding, activity);
+    public Fortress(int x, int y, boolean isStanding) {
+        super(x, y, tileNr, isStanding);
+        buildingType = 1;
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
         height = width * buildingImage.height() / buildingImage.width();
+        collider = new Rect(x,y-height,x+width,y);
+        flag = new Flag();
 
         BD.add("House");
         BD.add("House");
@@ -91,6 +95,9 @@ public class Fortress extends Foundation {
         maxBuildings = 5;
         maxGold = 400;
         lv = 0;
+        maxHealth = 1000;
+        surrenderFear = 150;
+        health = maxHealth;
 
         Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
     }
@@ -99,122 +106,200 @@ public class Fortress extends Foundation {
 
     public void update(float deltaTime) {
         if (creationPoint.y != (int)(GameView.instance.groundLevel - height*3/4) || creationPoint.x != x+width/2){
-            creationPoint.x = x+width/2;
-            creationPoint.y = (int)(GameView.instance.groundLevel - height/2);
+            creationPoint.x = x+width/2-width/4;
+            creationPoint.y = (int)(GameView.instance.groundLevel - height/2)+height/8;
         }
+
+
+        if(isStanding) {
 
         /*System.out.println(creationPoint.x);
         System.out.println(GameView.instance.player.position.x);
         System.out.println(GameView.instance.player.position.x-creationPoint.x);
         System.out.println(GameView.instance.cameraSize*attackRange);*/
 
-        int currentGold1 = currentGold;
+            int currentGold1 = currentGold;
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {
+                if (currentGold < maxGold && (!hasTaxed)) {
 
-        if (currentGold < maxGold) {
+                    // MONEY INCOME
+                    goldRate = 15;
 
-            // MONEY INCOME
+                    for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                        goldRate = currentBuildingsRight.get(i).goldRate + goldRate;
+                    }
 
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2
-                    && (!hasTaxed)) {
+                    for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                        goldRate = currentBuildingsLeft.get(i).goldRate + goldRate;
+                    }
 
-                goldRate = 15;
 
-                for (int i = 0; i < currentBuildingsRight.size(); i++) {
-                    goldRate = currentBuildingsRight.get(i).goldRate + goldRate;
+                    currentGold = currentGold + (int) (goldRate * 1.2 * GameView.instance.timeScale);
+
+                    if (currentGold > maxGold) {
+                        currentGold = maxGold;
+                    }
+
+                    for (int i = 0; i < BD.size(); i++) {
+                        //System.out.print(BD.get(i) + ", ");
+                    }
+                    System.out.println("Town's Fear :" + townFear);
+                    hasTaxed = true;
+                    //TODO tribute
+                }
+                if (currentGold != currentGold1) {
+                    System.out.println("Goldrate : " + goldRate);
+                    System.out.println("Gold : " + currentGold);
+                }
+                if (surrender && !hasTribute) {
+                    System.out.println("TRIBUTE");
+                    GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2);
+                    hasTribute = true;
                 }
 
-                for (int i = 0; i < currentBuildingsLeft.size(); i++) {
-                    goldRate = currentBuildingsLeft.get(i).goldRate + goldRate;
-                }
-
-
-                currentGold = currentGold + (int) (goldRate * 1.2*GameView.instance.timeScale);
-
-
-                if (currentGold > maxGold) {
-                    currentGold = currentGold - (currentGold - maxGold);
-                }
-
-                for (int i = 0; i < BD.size(); i++) {
-                    System.out.print(BD.get(i) + ", ");
-                }
-                System.out.println("Town's Fear :" + townFear);
-
-                hasTaxed = true;
+            }
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) {
+                hasTaxed = false;
+                hasTribute = false;
             }
 
-            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) hasTaxed = false;
 
-            if (currentGold != currentGold1) {
-                System.out.println("Goldrate : " + goldRate);
-                System.out.println("Gold : " + currentGold);
+            //=======================================================================================//
+
+            //Buildings
+
+            //=======================================================================================//
+
+
+            //System.out.println((int)(House.cost*((lv*1.75)+1)));
+
+            if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)) {
+                spawnRandomBuilding();
             }
+
+            tower = 0;
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                if (currentBuildingsRight.get(i).buildingType == 4)
+                    tower++;
+            }
+
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                if (currentBuildingsLeft.get(i).buildingType == 4)
+                    tower++;
+            }
+
+            //  ==       =====   ====        ==           =====
+            //  ==        ==      =          ==           =============
+            //  ==         ==    =      =============         ==================
+            //  ==          ==  =            ==           ===============
+            //  ========     ===             ==           ===
+
+            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+                    && (currentGold >= (maxGold / 10 * 9))
+                    && lv == 0) {
+
+                lv++;
+                maxGold = maxGold * 4 + 300;
+                maxBuildings = 12;
+
+                this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
+
+
+                currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
+                currentTilesRight += 1;
+
+                currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
+                currentTilesLeft += 1;
+            }
+
+            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
+                    && (currentGold >= (maxGold / 10 * 9))
+                    && lv == 1) {
+
+                lv++;
+                maxGold = maxGold * 4 + 600;
+                maxBuildings = 18;
+
+                this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
+
+
+                currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
+                currentTilesRight += 1;
+
+                currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
+                currentTilesLeft += 1;
+            }
+
+            //    =   ========  ==   ==
+            //   = =     ==     ==  ==
+            //  =====    ==     ====
+            // =     =   ==     ==  ===
+
+            if (inRange() && !surrender) {
+                countdown+=GameView.instance.fixedDeltaTime;
+                //System.out.println(countdown);
+                if (countdown > 1000) {
+
+                    if (countdown > 1200 && attack == 0) {
+                        Attack();
+
+                        attack += 1;
+                    }
+
+                    if (countdown > 1400 && attack == 1) {
+                        Attack();
+
+                        attack += 1;
+                    }
+
+                    if (countdown > 1600 && attack == 2) {
+                        Attack();
+
+                        attack += 1;
+                    }
+
+                    if (countdown >= 1800) {
+                        countdown = 0;
+                        attack = 0;
+                    }
+                }
+            }
+
+            //spawning thief
+            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)){
+                GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1);
+            }
+
+            //spawning dragonslayer
+            if(townFear > 30 && lv != 0){
+                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1);
+            }
+
+            //spawning wizard
+            if(townFear > 35 && lv ==2 && !summonedWizard){
+                GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
+                summonedWizard = true;
+            }
+
+            if(townFear > surrenderFear){
+                surrender = true;
+                flag.setSurrender(surrender);
+            }
+            else{
+                surrender = false;
+                flag.setSurrender(surrender);
+            }
+
+            Flagposition(deltaTime);
         }
+        else {
+            buildingImage = SpriteManager.instance.getBuildingSprite("FortressRuin");
 
-        //=======================================================================================//
-
-        //Buildings
-
-        //=======================================================================================//
-
-
-        //System.out.println((int)(House.cost*((lv*1.75)+1)));
-
-        if (((currentBuildingsRight.size() + currentBuildingsLeft.size()) < maxBuildings)) {
-            spawnRandomBuilding();
-        }
-
-        tower = 0;
-        for (int i = 0; i < currentBuildingsRight.size(); i++) {
-            if (currentBuildingsRight.get(i).buildingType == 4)
-                tower++;
-        }
-
-        for (int i = 0; i < currentBuildingsLeft.size(); i++) {
-            if (currentBuildingsLeft.get(i).buildingType == 4)
-                tower++;
-        }
-
-        //  ==       =====   ====        ==           =====
-        //  ==        ==      =          ==           =============
-        //  ==         ==    =      =============         ==================
-        //  ==          ==  =            ==           ===============
-        //  ========     ===             ==           ===
-
-        if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
-                && (currentGold >= (maxGold / 10 * 9))
-                && lv == 0) {
-
-            lv++;
-            maxGold = maxGold * 4 + 300;
-            maxBuildings = 12;
-
-            this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
-
-
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, activity));
-            currentTilesRight += 1;
-
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, activity));
-            currentTilesLeft += 1;
-        }
-
-        if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
-                && (currentGold >= (maxGold / 10 * 9))
-                && lv == 1) {
-
-            lv++;
-            maxGold = maxGold * 4 + 600;
-            maxBuildings = 18;
-
-            this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
-
-
-            currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, activity));
-            currentTilesRight += 1;
-
-            currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, activity));
-            currentTilesLeft += 1;
+            if(beenEmptied == false){
+                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate);
+                beenEmptied = true;
+            }
+            townFear = 0;
         }
 
         //====    =====  =====     =     ==  ====    ============================
@@ -223,8 +308,18 @@ public class Fortress extends Foundation {
         //=   ==  =====  =      =     =  ==  =   ==  ============================
 
         float tempfear;
+        int standingBuildings = 1;
+        if(health < maxHealth){
+            repair((int) (currentTownInhabitants/5) + 1, deltaTime);
+            System.out.println("repair fort" + health);
+        }
         if (!isStanding) {
-            repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+            repair((int) (currentTownInhabitants) + 1, deltaTime);
+            System.out.println("repair fort is sta" + health);
+            if(health > maxHealth/2){
+                isStanding = true;
+                buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+            }
         }
 
         else {
@@ -234,7 +329,9 @@ public class Fortress extends Foundation {
             //RIGHT SIDE
             for (int i = 0; i < currentBuildingsRight.size(); i++) {
                 currentBuildingsRight.get(i).update(deltaTime);
-
+                if(currentBuildingsRight.get(i).isStanding){
+                    standingBuildings++;
+                }
                 //repairing
                 if (!repairingRight && !currentBuildingsRight.get(i).isStanding) {
 
@@ -243,8 +340,8 @@ public class Fortress extends Foundation {
                         if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
                             System.out.println("converting house -> tower R");
                             int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true, activity));
-                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, true,this));
+                            currentBuildingsRight.set(i, new ArcherTower(bx, y, false, this));
                             currentBuildingsRight.get(i).health = 0;
                         }
                     }
@@ -254,7 +351,7 @@ public class Fortress extends Foundation {
                         if (townFear/10 < 2*lv && tower > 6) {
                             System.out.println("converting tower -> house R");
                             int bx = currentBuildingsRight.get(i).x;
-                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,activity));
+                            currentBuildingsRight.set(i, new ArcherTower(bx,y,true,this));
                         }
                     }
 
@@ -270,7 +367,9 @@ public class Fortress extends Foundation {
             //LEFT SIDE
             for (int i = 0; i < currentBuildingsLeft.size(); i++) {
                 currentBuildingsLeft.get(i).update(deltaTime);
-
+                if(currentBuildingsLeft.get(i).isStanding){
+                    standingBuildings++;
+                }
                 //repairing
                 if (!repairingLeft && !currentBuildingsLeft.get(i).isStanding) {
 
@@ -280,7 +379,7 @@ public class Fortress extends Foundation {
                         if ((townFear - 4) / 10 > tower / 2 && lv > 0) {
                             System.out.println("converting house -> tower L");
                             int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, activity));
+                            currentBuildingsLeft.set(i, new ArcherTower(bx, y, false, this));
                             currentBuildingsLeft.get(i).health = 0;
                         }
                     }
@@ -290,7 +389,7 @@ public class Fortress extends Foundation {
                         if (townFear/10 < 2*lv && tower > 6) {
                             System.out.println("converting tower -> house L");
                             int bx = currentBuildingsLeft.get(i).x;
-                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true,activity));
+                            currentBuildingsLeft.set(i, new ArcherTower(bx,y,true, this));
                         }
                     }
                 }
@@ -299,67 +398,12 @@ public class Fortress extends Foundation {
 
                 tempfear += currentBuildingsLeft.get(i).fear;
             }
-
+            tempfear += fear;
             //gathering fear
-            townFear = (tempfear / (currentBuildingsLeft.size() + currentBuildingsRight.size()));
+            townFear = (tempfear / standingBuildings);// (currentBuildingsLeft.size() + currentBuildingsRight.size()));
         }
+        super.update(deltaTime);
 
-        //    =   ========  ==   ==
-        //   = =     ==     ==  ==
-        //  =====    ==     ====
-        // =     =   ==     ==  ===
-
-    if (inRange()) {
-        countdown+=GameView.instance.fixedDeltaTime;
-        System.out.println(countdown);
-        if (countdown > 1000) {
-
-            if (countdown > 1200 && attack == 0) {
-                Attack();
-
-                attack += 1;
-                 }
-
-            if (countdown > 1400 && attack == 1) {
-                Attack();
-
-                attack += 1;
-                }
-
-            if (countdown > 1600 && attack == 2) {
-                Attack();
-
-                attack += 1;
-                }
-
-            if (countdown >= 1800) {
-                countdown = 0;
-                attack = 0;
-                }
-            }
-        }
-
-        //spawning thief
-        if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)){
-            GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1);
-        }
-
-        //spawning dragonslayer
-        if(townFear > 30 && lv != 0){
-            GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1);
-        }
-
-        //spawning wizard
-        if(townFear > 35 && lv ==2 && !summonedWizard){
-            GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel);
-            summonedWizard = true;
-        }
-
-        if(townFear > 50 && !surrender){
-            surrender = true;
-        }
-
-        Flagposition(deltaTime);
     }
 
 
@@ -412,7 +456,7 @@ public class Fortress extends Foundation {
             if(direction == currentBuildingsLeft) {
                 position -= Farm.tileNr*tilesize;
             }
-            building = new Farm(position,y,true,activity);
+            building = new Farm(position,y,true);
             currentGold-=Farm.cost*((lv*1.50)+1);
         }
 
@@ -423,19 +467,19 @@ public class Fortress extends Foundation {
                 if(direction == currentBuildingsLeft){
                     position-=House.tileNr*tilesize;
                 }
-                building = new House(position,y,true,activity);currentGold-=(int)(House.cost*((lv*1.75)+1));}
+                building = new House(position,y,true);currentGold-=(int)(House.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Farm" && currentGold > Farm.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){
                     position-=Farm.tileNr*tilesize;
                 }
-                building = new Farm(position,y,true,activity);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
+                building = new Farm(position,y,true);currentGold-=(int)(Farm.cost*((lv*1.75)+1));}
 
             else if(BD.get(random) == "Tower" && currentGold > ArcherTower.cost*(int)((lv*1.75)+1)){
                 if(direction == currentBuildingsLeft){
                     position-=ArcherTower.tileNr*tilesize;
                 }
-                building = new ArcherTower(position,y,true,activity); currentGold-=(int)(ArcherTower.cost*((lv*1.75)+1));}
+                building = new ArcherTower(position,y,true, this); currentGold-=(int)(ArcherTower.cost*((lv*1.75)+1));}
             else return;
         }
 
@@ -456,30 +500,10 @@ public class Fortress extends Foundation {
         countdown+=deltaTime;
         int flagf = 0;
 
+        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min(((float)townFear/surrenderFear+2)/3,1)));
 
-        // replace with sprite animation class
-        if (countdown >= 0 && flagf == 0) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf1);
-            flagf += 1;
-        }
+        flag.y = flagy;
 
-        if (countdown >= 200 && flagf == 1) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf2);
-            flagf += 1;
-        }
-
-        if (countdown >= 400 && flagf == 2) {
-            flag = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagf3);
-            flagf = 0;
-        }
-
-        if(fear < 10){
-            flagy = (int)GameView.instance.groundLevel-((tilesize*3)/5*4);
-        }
-
-        if(fear > 10){
-            flagy = (int)GameView.instance.groundLevel-tilesize*2;
-        }
     }
 
     @Override
@@ -506,7 +530,8 @@ public class Fortress extends Foundation {
             }
         }
         c.drawBitmap(flagpole, x+GameView.instance.cameraDisp.x+tilesize*3,(int)(GameView.instance.groundLevel-flagpole.getHeight()),null);
-        c.drawBitmap(flag,x+GameView.instance.cameraDisp.x+tilesize*3,flagy,null);
+        flag.x = x+tilesize*3;
+        flag.draw(c);
     }
 
     public void position(Fortress f) {
@@ -527,6 +552,7 @@ public class Fortress extends Foundation {
       }*/
 
     public void physics(float deltaTime){
+
         super.physics(deltaTime);
 
         for(int i = 0; i < currentBuildingsLeft.size(); i++){
@@ -555,9 +581,9 @@ public class Fortress extends Foundation {
         float dx = target.x-creationPoint.x;
         float dy =target.y-creationPoint.y;
         float l= (float)Math.sqrt(dx*dx+dy*dy);
-        dx = dx/l-((float)Math.random()-0.5f)/4;
-        dy = dy/l-(float)Math.random()/4;
-        ProjectilePool.instance.shootArrow(creationPoint.x-width/4, creationPoint.y+height/8, 1, dx, dy, 2);
+        dx = dx/l-((float)Math.random()-0.5f)/2;
+        dy = dy/l-0.1f;
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
     }
 }
 
