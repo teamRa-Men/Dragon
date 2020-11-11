@@ -8,7 +8,7 @@ import android.graphics.Paint;
 import java.util.Collection;
 
 public class Gold extends GameObject{
-    float spawnSpeed = 1f/4;
+    float spawnSpeed = 1f/2;
     float time;
     boolean fromDragon = false;
 
@@ -30,7 +30,12 @@ public class Gold extends GameObject{
     public  void spawn(Vector2 p, boolean fromDragon){
         this.fromDragon = fromDragon;
         position = p;
-        direction = new Vector2((float) (Math.random()-0.5f)/10, (float) (Math.random()-0.5f)).getNormal();
+        if(!fromDragon) {
+            direction = new Vector2((float) (Math.random() - 0.5f) / 10, (float) (Math.random() - 0.5f)).getNormal();
+        }
+        else {
+            direction = new Vector2((float) (Math.random() - 0.5f) / 10,0).getNormal();
+        }
         speed = spawnSpeed*((float)Math.random());
     }
 

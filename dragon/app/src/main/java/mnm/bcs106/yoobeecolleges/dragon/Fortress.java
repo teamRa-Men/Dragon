@@ -500,7 +500,7 @@ public class Fortress extends Foundation {
         countdown+=deltaTime;
         int flagf = 0;
 
-        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min(((float)townFear/surrenderFear+1)/2,1)));
+        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min(((float)townFear/surrenderFear+2)/3,1)));
 
         flag.y = flagy;
 

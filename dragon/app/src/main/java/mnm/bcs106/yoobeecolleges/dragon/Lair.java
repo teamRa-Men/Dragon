@@ -223,7 +223,7 @@ public class Lair {
             Vector2 disp = position.add(g.position.multiply(-1));
             if(g.position.y < getGroundLevel(g.position,g.width/2)){
                 if(g.velocity.y>0){
-                    g.setDir(disp.getNormal().multiply(0.1f).add(g.direction));
+                    g.setDir(disp.getNormal().multiply(0.03f).add(g.direction));
                 }
             }
             else{

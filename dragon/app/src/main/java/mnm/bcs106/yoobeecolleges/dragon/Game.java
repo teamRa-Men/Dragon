@@ -1,5 +1,6 @@
 
 package mnm.bcs106.yoobeecolleges.dragon;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -74,7 +76,7 @@ public class Game extends AppCompatActivity {
     AlertDialog.Builder gameOverDialogBuilder;
     AlertDialog.Builder pauseDialogBuilder;
     AlertDialog.Builder upgradeDialogBuilder;
-    SharedPreferences.Editor highScoreEdit;
+    ConstraintLayout loadScreen;
 
     //Threads
     Handler handler;
@@ -91,6 +93,7 @@ public class Game extends AppCompatActivity {
     boolean breathFire = false;
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
+    int runTime = 0, loadingTime = 5000;
 
 
     public Context context;
@@ -163,8 +166,7 @@ public class Game extends AppCompatActivity {
         fireButton = new Vector2(screenWidth*0.95f,screenHeight*0.85f);
 
         //Load high score
-        SharedPreferences pref = getSharedPreferences("HighScore", Context.MODE_PRIVATE);
-        highScoreEdit = pref.edit();
+        loadScreen = findViewById(R.id.loadScreen);
 
         gameOverDialogBuilder =  new AlertDialog.Builder(this,R.style.MyAlertDialog);
 
@@ -338,14 +340,21 @@ public class Game extends AppCompatActivity {
         handler.postDelayed(runnable, 1000/15);
 
         if(!gameOver) {
-            //gameView.setPlayerMovement(dragTo);
-            if(dragFrom !=null && dragTo!=null) {
-                gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius/2));
+            if(runTime > loadingTime) {
+                float alpha = loadScreen.getAlpha();
+                if (alpha > 0)
+                    loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha/alpha);
+
+                //gameView.setPlayerMovement(dragTo);
+                if (dragFrom != null && dragTo != null) {
+                    gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius / 2));
+                } else {
+                    gameView.movePlayerBy(null);
+                }
+                gameView.breathFire(breathFire);
             }
-            else {
-                gameView.movePlayerBy(null);
-            }
-            gameView.breathFire(breathFire);
+
+            runTime+=1000/15;
 
             fadeView(showSleepButton, sleepButton);
             fadeView(showWakeButton, wakeButton);
@@ -395,6 +404,9 @@ public class Game extends AppCompatActivity {
         showGameOver = false;
         gameOver = true;
         gameView.pause();
+
+        runTime = 0;
+        loadScreen.setVisibility(View.VISIBLE);
 
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);

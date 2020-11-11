@@ -18,7 +18,7 @@ public class Wooloo extends NPC{
     public void update(float deltaTime) {
         super.update(deltaTime);
         if (alive) {
-            if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && GameView.instance.player.position.y > GameView.instance.screenHeight / 4) {
+            if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.screenHeight/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3) {
                 flee = true;
                 target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                 tempCreationPoint.x = target.x;

@@ -49,7 +49,7 @@ import android.graphics.Rect;
     public void update(float deltaTime) {
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
             if (!wasAttacked) {
-                if (Math.abs(GameView.instance.player.position.x - npcX) < 300 && Math.abs(GameView.instance.player.position.y - npcY)< GameView.instance.screenHeight/2) {
+                if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.screenHeight/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3) {
                     flee = true;
                     work = false;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
@@ -135,15 +135,15 @@ import android.graphics.Rect;
                 super.update(deltaTime);
             }
         }
-        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.5) {
+        if ((Scene.instance.timeOfDay)/(Scene.instance.dayLength)>0.5 && !flee) {
             target.x = tempCreationPoint.x;
             atFarm = false;
             workTime = 0;
             work = false;
-            flee = true;
+
             npcBitmap = idleSprite;
         }
-        if (work) {
+        if (work  && !flee) {
             workTime += deltaTime;
             npcBitmap = workingSprite;
         }
