@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -44,6 +45,7 @@ public class Game extends AppCompatActivity {
     Button pauseRestart;
     Button pauseCredits;
     Button pauseExit;
+    SeekBar soundVolume;
 
     Button backButton;
     Button upgradeAttackButton;
@@ -178,6 +180,7 @@ public class Game extends AppCompatActivity {
 
 
         stopButton = findViewById(R.id.buttonOfStop);
+        soundVolume = pauseMenu.findViewById(R.id.soundVolume);
         pauseContinue = pauseMenu.findViewById(R.id.pauseContinue);
         pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
         pauseCredits = pauseMenu.findViewById(R.id.pauseCredits);
@@ -221,6 +224,22 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        soundVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                System.out.println(soundVolume.getProgress()/100f);
+                SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
             }
         });
 

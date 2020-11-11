@@ -11,7 +11,8 @@ public class SoundEffects {
     public static int HIT = 2,EXPLOSION = 3,PEW = 0,SHOOT = 1,ROOSTER = 4, DAMAGE = 5, DEATH = 6, SUMMON = 7;
     int[] soundId;
     public static int MAXSTREAMS = 10;
-    private float volumeMul = 0.3f;
+    public float volumeMul = 0.3f;
+
 
 
     public SoundEffects(Context context){

@@ -160,10 +160,10 @@ public class Foundation {
                 //
 
 
-                health-=3*GameView.instance.player.attack;
+                health-=1*GameView.instance.player.attack;
                 health = Math.max(health,0);
 
-                fear+=0.5f;
+                fear+=0.15f;
                 if(buildingType == 1){
                     System.out.println("fortress attacked" + fear);
                 }
