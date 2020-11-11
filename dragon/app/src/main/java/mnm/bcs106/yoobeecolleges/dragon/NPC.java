@@ -48,7 +48,9 @@ public class NPC {
         damagePeriod = new ActionController(0,5000,5000);
         random = Math.random();
     }
+
     public void spawn (int spawnX, int spawnY, Fortress fortress){
+
         npcHp = npcMaxHP;
         npcX = spawnX;
         npcY = (int) GameView.instance.groundLevel-npcRect.height();
@@ -62,6 +64,11 @@ public class NPC {
         flee = false;
         this.fortress = fortress;
     }
+
+    /*
+    Down bellow i made method "OnDamage to make NPCs killable and damageable"
+     */
+
     public  void OnDamage () {
         if(Math.random() < 0.1 && alive) {
             FirePool.instance.spawnFire(npcX + ((float)Math.random()-0.5f)*npcWidth/2, npcY+npcHeight);
@@ -72,10 +79,21 @@ public class NPC {
             death();
         }
     }
+
+    /*
+    Down bellow i made method that eases up way of making sure that NPC died.
+     */
+
     public void death(){
         alive = false;
     }
     float distTravel = 0;
+
+    /*
+    Down bellow I made method which makes all sprites and bitmaps of NPCs get drawn on the screen of the phone
+    and also makes them rotate left or right depending on direction and giving them animation while they walk
+    making it feel like it's jumps or like it's controlled like a puppet.
+     */
 
     public void draw(Canvas canvas){
         if(npcBitmap!=null) {
@@ -99,6 +117,11 @@ public class NPC {
 
     }
 
+    /*
+    Down bellow is method that helps me to trace when NPC walks somewhere
+    or when it's reached it's target so it can stop and start doing next action.
+     */
+
     public  boolean there = false;
     public void moveToTarget(float deltaTime){
         if (Math.abs(target.x-npcX) > 5){
@@ -114,6 +137,13 @@ public class NPC {
             distTravel = 0;
         }
     }
+
+    /*
+    In method down bellow is main core of all NPCs that makes all other methods in action
+    using moveToTarget to move NPCs to targets they need or making sure to show the player that NPC died
+    making it's sprite black and face down the earth.
+     */
+
     public void update(float deltaTime){
         if (!alive){
             afterLife+=deltaTime;
@@ -146,6 +176,9 @@ public class NPC {
         npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
     }
 
+    /*
+    In physics I realized the way of damaging NPCs by fire breath of dragon making them taking damage.
+     */
 
     public  void  physics(float deltaTime) {
         npcCollider = new Rect((int)npcX, (int)npcY, (int)(npcX + npcRect.width()), (int)(npcY + npcRect.height()));
@@ -160,6 +193,11 @@ public class NPC {
             e.printStackTrace();
         }
     }
+
+    /*
+    Down bellow I realized method in which i made Idle state of all NPCs as in some situations they'd need it
+    like Wooloos Idling on hte fields or NPC's Idling when they run far enough.
+     */
 
     public void idle(int boundry,boolean lessTen){
         if (countdown >= Math.random()*5000){
