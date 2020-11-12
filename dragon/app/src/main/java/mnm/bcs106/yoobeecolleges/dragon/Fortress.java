@@ -179,27 +179,28 @@ public class Fortress extends Foundation {
             if (inRange() && !surrender) {
                 countdown+=GameView.instance.fixedDeltaTime;
                 //System.out.println(countdown);
-                if (countdown > 1000) {
+                float shootSpeed=2f;
+                if (countdown > 1000*shootSpeed) {
 
-                    if (countdown > 1200 && attack == 0) {
+                    if (countdown > 1200*shootSpeed && attack == 0) {
                         Attack();
 
                         attack += 1;
                     }
 
-                    if (countdown > 1400 && attack == 1) {
+                    if (countdown > 1400*shootSpeed && attack == 1) {
                         Attack();
 
                         attack += 1;
                     }
 
-                    if (countdown > 1600 && attack == 2) {
+                    if (countdown > 1600*shootSpeed && attack == 2) {
                         Attack();
 
                         attack += 1;
                     }
 
-                    if (countdown >= 1800) {
+                    if (countdown >= 1800*shootSpeed) {
                         countdown = 0;
                         attack = 0;
                     }
