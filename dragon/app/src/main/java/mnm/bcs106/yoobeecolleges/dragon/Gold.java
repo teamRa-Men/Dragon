@@ -19,7 +19,7 @@ public class Gold extends GameObject{
         simulated = true;
         bounce = 0.6f;
         friction = 0.8f;
-        width = GameView.instance.screenWidth/30/3;
+        width = GameView.instance.screenWidth/70;
         height = width;
         phase = Math.random()*Math.PI*2;
         gravity = 1f/2;

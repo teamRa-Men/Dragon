@@ -18,15 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/loadScreen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="20dp"
-            android:foreground="@android:color/background_dark"
-            android:visibility="invisible">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -178,6 +169,16 @@
             app:layout_constraintEnd_toEndOf="@+id/xpBarLair"
             app:layout_constraintStart_toStartOf="@+id/xpBarLair"
             app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loadScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        android:foreground="@android:color/background_dark"
+        android:visibility="visible">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
