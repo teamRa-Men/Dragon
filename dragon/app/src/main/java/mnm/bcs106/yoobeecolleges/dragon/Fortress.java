@@ -238,7 +238,7 @@ public class Fortress extends Foundation {
             buildingImage = SpriteManager.instance.getBuildingSprite("FortressRuin");
 
             if(beenEmptied == false){
-                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate);
+                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),Math.min(currentGold,100) );
                 beenEmptied = true;
             }
             townFear = 0;
@@ -450,7 +450,7 @@ public class Fortress extends Foundation {
             }
             if (surrender && !hasTribute) {
                 //System.out.println("TRIBUTE");
-                GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 3, this);
+                GameView.instance.npc_pool.spawnTribute(x, y, Math.min(currentGold,100) / 4, this);
                 hasTribute = true;
             }
 

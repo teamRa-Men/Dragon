@@ -23,7 +23,7 @@ public class Lair {
     Dragon player;
     float maximumMana = 200;
     float maximumHealth = 200;
-    float maximumSpeed = 1.5f;
+    float maximumSpeed = 1.2f;
     float maximumAttack= 3;
 
     float minimumMana;

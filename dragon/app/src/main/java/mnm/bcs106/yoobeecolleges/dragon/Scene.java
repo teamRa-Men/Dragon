@@ -118,14 +118,19 @@ public class Scene {
     }
 
     public void physics(float deltaTime){
-        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*2) {
-            eastFort.physics(deltaTime);
+        try {
+            if (Math.abs(eastFort.x - GameView.instance.player.position.x) < width * 2) {
+                eastFort.physics(deltaTime);
+            }
+            if (Math.abs(westFort.x - GameView.instance.player.position.x) < width * 2) {
+                westFort.physics(deltaTime);
+            }
+            if (Math.abs(finalFort.x - GameView.instance.player.position.x) < width * 2) {
+                finalFort.physics(deltaTime);
+            }
         }
-        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*2) {
-            westFort.physics(deltaTime);
-        }
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*2) {
-            finalFort.physics(deltaTime);
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
 
