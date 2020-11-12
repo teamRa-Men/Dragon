@@ -92,6 +92,7 @@ public class Lair {
     public void sleep(){
         isSleeping = true;
         player.isSleeping = true;
+        player.speed = 0;
         lieDown();
         GameView.instance.timeScale = sleepTimeSpeed;
     }
@@ -217,9 +218,9 @@ public class Lair {
             Game.instance.showWakeButton = true;
             Game.instance.showUpgradeButton = true;
 
-            experience += deltaTime * depositedGold / 2000;
+            experience += deltaTime * depositedGold / 1500;
             //System.out.println(experience);
-            if (experience > level * 2000) {
+            if (experience > level * 1500) {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
