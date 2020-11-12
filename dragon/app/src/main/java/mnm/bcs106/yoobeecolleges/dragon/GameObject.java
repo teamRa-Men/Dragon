@@ -156,10 +156,10 @@ public class GameObject implements Comparable{
 
     public void gravity(float deltaTime){
         if(GameView.instance != null) {
-            if (position.y + height / 2 < GameView.instance.getGroundLevel()) {
+            if (position.y + height / 2 < GameView.instance.getGroundLevel()-height/4) {
                 setVelocity(getVelocity().x, getVelocity().y + gravity * deltaTime/1000 );
             } else {
-                onGrounded(GameView.instance.getGroundLevel());
+                onGrounded(GameView.instance.getGroundLevel()-height/4);
             }
         }
         else{

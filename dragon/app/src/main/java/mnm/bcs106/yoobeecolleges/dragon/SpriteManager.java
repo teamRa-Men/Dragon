@@ -69,7 +69,7 @@ public class SpriteManager {
         }};
 
         buildingSprites = new HashMap<String,Bitmap>() {{
-            int tileSize = GameView.instance.cameraSize/15;
+            int tileSize = GameView.instance.cameraSize/10;
             put("House1",getSprite(getBuildingSpriteRect("House1"),buildingSheet,tileSize,tileSize));
             put("House2",getSprite(getBuildingSpriteRect("House2"),buildingSheet,tileSize,tileSize));
             put("House3",getSprite(getBuildingSpriteRect("House3"),buildingSheet,tileSize,tileSize));

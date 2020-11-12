@@ -68,7 +68,9 @@ public class Gold extends GameObject{
             System.out.println("collected");
 
         }
-        GameView.instance.lair.attractGold(this);
+        if(fromDragon) {
+            GameView.instance.lair.attractGold(this);
+        }
 
     }
 

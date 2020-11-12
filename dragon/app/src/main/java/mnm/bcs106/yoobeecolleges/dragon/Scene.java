@@ -24,7 +24,7 @@ public class Scene {
 
     Paint skyPaint, backPaint,frontPaint, black;
 
-    float islandSize;
+    float islandSizeLeft, islandSizeRight;
 
     GameView gameView;
     public Scene(){
@@ -35,9 +35,10 @@ public class Scene {
 
         width = (int)(gameView.screenWidth*1.2);
         height = gameView.screenHeight;
-        islandSize =width*8;
+        islandSizeLeft =width*10;
+        islandSizeRight =width*6;
 
-        finalFort = new Fortress( -width*4, (int)gameView.groundLevel);
+        finalFort = new Fortress( -width*6, (int)gameView.groundLevel);
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
             finalFort.grow();
@@ -52,10 +53,10 @@ public class Scene {
 
         gameView.npc_pool.spawnWizard(finalFort.x,finalFort.y,3,finalFort);
 
-        eastFort = new Fortress( width*2, (int)gameView.groundLevel);
+        eastFort = new Fortress( width*3, (int)gameView.groundLevel);
         gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
 
-        westFort = new Fortress( -width*1, (int)gameView.groundLevel);
+        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
 
         //finalFort.levelUp();
         //finalFort.levelUp();
@@ -119,13 +120,13 @@ public class Scene {
 
     public void physics(float deltaTime){
         try {
-            if (Math.abs(eastFort.x - GameView.instance.player.position.x) < width * 2) {
+            if (Math.abs(eastFort.x - GameView.instance.player.position.x) < width * 3) {
                 eastFort.physics(deltaTime);
             }
-            if (Math.abs(westFort.x - GameView.instance.player.position.x) < width * 2) {
+            if (Math.abs(westFort.x - GameView.instance.player.position.x) < width * 3) {
                 westFort.physics(deltaTime);
             }
-            if (Math.abs(finalFort.x - GameView.instance.player.position.x) < width * 2) {
+            if (Math.abs(finalFort.x - GameView.instance.player.position.x) < width * 3) {
                 finalFort.physics(deltaTime);
             }
         }

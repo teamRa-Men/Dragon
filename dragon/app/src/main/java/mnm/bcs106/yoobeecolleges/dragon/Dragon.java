@@ -336,23 +336,23 @@ public class Dragon extends Character {
         if( GameView.instance.lair != null&&!destroyed)
         groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
         if(!isSleeping) {
-            if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
+            if(position.x < -Scene.instance.islandSizeLeft+Scene.instance.width && velocity!=null) {
                 //direction.x = (-0.1f + direction.x)/2;
                 //direction.y = 0;
                 //position.x =  -Scene.instance.islandSize+Scene.instance.width;
-                position.x = Scene.instance.islandSize;
+                position.x = Scene.instance.islandSizeRight;
                 for(int i = 0; i < segments.size();i++){
-                    segments.get(i).position.x += Scene.instance.islandSize+Scene.instance.islandSize+Scene.instance.width;
+                    segments.get(i).position.x += Scene.instance.islandSizeLeft+Scene.instance.islandSizeRight+Scene.instance.width;
                 }
                 System.out.println("wall right");
             }
-            if(position.x  > Scene.instance.islandSize && velocity!=null) {
+            if(position.x  > Scene.instance.islandSizeRight && velocity!=null) {
                 //direction.x = (0.1f + direction.x)/2f;
                 //direction.y = 0;
                 //position.x =  Scene.instance.islandSize;
-                position.x = -Scene.instance.islandSize+Scene.instance.width;
+                position.x = -Scene.instance.islandSizeLeft+Scene.instance.width;
                 for(int i = 0; i < segments.size();i++){
-                    segments.get(i).position.x -= Scene.instance.islandSize+Scene.instance.islandSize+Scene.instance.width;
+                    segments.get(i).position.x -= Scene.instance.islandSizeLeft+Scene.instance.islandSizeRight+Scene.instance.width;
                 }
                 System.out.println("wall left");
             }

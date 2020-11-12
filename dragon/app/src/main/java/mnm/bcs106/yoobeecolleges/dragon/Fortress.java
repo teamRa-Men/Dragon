@@ -179,7 +179,7 @@ public class Fortress extends Foundation {
             if (inRange() && !surrender) {
                 countdown+=GameView.instance.fixedDeltaTime;
                 //System.out.println(countdown);
-                float shootSpeed=4f;
+                float shootSpeed=4-lv;
                 if (countdown > 1000*shootSpeed) {
 
                     if (countdown > 1200*shootSpeed && attack == 0) {
@@ -351,6 +351,7 @@ public class Fortress extends Foundation {
     }
 
     public void levelUp() {
+
         if (lv == 0) {
             lv++;
             maxGold = maxGold * 4 + 300;
@@ -384,6 +385,16 @@ public class Fortress extends Foundation {
             currentTilesLeft += 1;
             towerLeft = x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize;
         }
+
+        maxHealth*=1.25f;
+        for(int i = 0; i < currentBuildingsRight.size(); i++){
+            currentBuildingsRight.get(i).maxHealth*=1.25f;
+        }
+
+        for(int i = 0; i < currentBuildingsLeft.size(); i++){
+            currentBuildingsLeft.get(i).maxHealth*=1.25f;
+        }
+
     }
 
     public void grow(){

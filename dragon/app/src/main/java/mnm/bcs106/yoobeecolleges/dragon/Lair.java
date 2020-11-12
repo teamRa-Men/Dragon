@@ -40,7 +40,7 @@ public class Lair {
 
     public Lair() {
         width = (int) (Game.instance.screenWidth);
-        height =(int)GameView.instance.groundLevel/2;
+        height =(int) GameView.instance.screenWidth/4;
 
         Bitmap sheet = SpriteManager.instance.environmentSheet;
 
@@ -309,7 +309,7 @@ public class Lair {
     }
 
     public void attractGold(Gold g){
-        if(Math.abs(g.position.x - position.x) < goldPile.getWidth() / 2){
+
             Vector2 disp = position.add(g.position.multiply(-1));
             if(g.position.y < getGroundLevel(g.position,g.width/2)){
                 if(g.velocity.y>0){
@@ -320,7 +320,7 @@ public class Lair {
                 GoldPool.instance.collectedGold(g);
 
                 goldPileHeight = getGoldPileHeight();
-            }
+
         }
     }
 }
