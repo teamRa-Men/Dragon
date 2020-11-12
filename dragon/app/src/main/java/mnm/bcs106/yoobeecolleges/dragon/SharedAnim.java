@@ -18,7 +18,7 @@ public class SharedAnim {
         }
 
         public static boolean fade(Paint paint){
-            int alpha = paint.getAlpha() - 10;
+            int alpha = paint.getAlpha() - 1;
             if (alpha > 0) {
                 paint.setAlpha(alpha);
                 return  true;

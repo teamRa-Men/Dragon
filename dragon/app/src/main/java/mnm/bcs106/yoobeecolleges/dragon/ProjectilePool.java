@@ -34,14 +34,14 @@ public class ProjectilePool {
         Rect r = SpriteManager.instance.getNPCSpriteRect("Arrow");
         arrowSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxArrows; i++) {
-            Projectile newArrow = new Projectile(arrowSprite,0.7f,0.5f,Projectile.ARROW);
+            Projectile newArrow = new Projectile(arrowSprite,0.6f,0.5f,Projectile.ARROW);
             arrowPool.add(newArrow);
         }
 
         r = SpriteManager.instance.getNPCSpriteRect("Magic");
         magicSprite =Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         for (int i = 0; i < maxMagic; i++) {
-            Projectile newMagic = new Projectile(magicSprite,0.7f,0.5f, Projectile.MAGIC);
+            Projectile newMagic = new Projectile(magicSprite,0.5f,0.5f, Projectile.MAGIC);
             magicPool.add(newMagic);
         }
 
@@ -56,7 +56,7 @@ public class ProjectilePool {
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
-            arrow.shoot(x,y,speed,dx,dy,1f/6);
+            arrow.shoot(x,y,speed,dx,dy,1f/4);
             arrowPool.remove(0);
 
             arrow.damage = damage;
@@ -82,7 +82,7 @@ public class ProjectilePool {
 
         if(spearPool.size()>0) {
             Projectile spear = spearPool.get(0);
-            spear.shoot(x,y,speed,dx,dy,1f/6);
+            spear.shoot(x,y,speed,dx,dy,1f/4);
             spearPool.remove(0);
 
             spear.damage = damage;

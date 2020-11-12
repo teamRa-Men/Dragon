@@ -10,9 +10,9 @@ import android.net.MacAddress;
 import java.util.ArrayList;
 
 public class NPC_Pool {
-    int maxSlayers = 6;
-    int maxTheives= 3;
-    int maxWizards = 3;
+    int maxSlayers = 10;
+    int maxTheives= 10;
+    int maxWizards = 10;
     int maxFarmers = 20;
     int maxWooloo = 20;
 int maxTributes = 3;

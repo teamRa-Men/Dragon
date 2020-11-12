@@ -158,6 +158,9 @@ public class Dragon extends Character {
     public void onDamage(float damage) {
         GameView.instance.lair.wake();
         if(!stunController.performing) {
+            if(!destroyed && (health-damage)<0 && flying){
+                setVelocity(Math.signum(direction.x)/2+getVelocity().x,getVelocity().y);
+            }
             super.onDamage(damage);
         }
         stunController.triggerAction();
@@ -172,6 +175,7 @@ public class Dragon extends Character {
             segments.get(i).update(deltaTime, segments.get(i-1).position);
 
         }
+
         frontWing.update(deltaTime);
         backWing.update(deltaTime);
         head.update(deltaTime);
@@ -191,7 +195,7 @@ public class Dragon extends Character {
     }
     public void moveBy(Vector2 moveBy){
         //System.out.println(isSleeping);
-        if(!isSleeping) {
+        if(!isSleeping && !destroyed) {
 
             if (moveBy == null) {
                 //setDir(Math.signum(direction.x),direction.y/2);
@@ -323,12 +327,12 @@ public class Dragon extends Character {
     }
     //lead
     public Vector2 aimFor(){
-        return segments.get(bodyStart).position;
+        return segments.get((bodyStart+bodyEnd)/2).position;
     }
 
     @Override
     public void physics(float deltaTime) {
-        if( GameView.instance.lair != null)
+        if( GameView.instance.lair != null&&!destroyed)
         groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
         if(!isSleeping) {
             if(position.x < -Scene.instance.islandSize+Scene.instance.width && velocity!=null) {
@@ -387,12 +391,14 @@ public class Dragon extends Character {
 
         fireBreath.physics(deltaTime);
 
-        if (!destroyed)
+
             super.physics(deltaTime);
         speed *= friction;
 
 
     }
+
+
 
     @Override
     public void draw(Canvas canvas) {
@@ -439,23 +445,42 @@ public class Dragon extends Character {
         //SoundEffects.instance.play(SoundEffects.PEW);
     }
 
-
+int animDuration = 2500, animTime = 0;
     @Override
     protected void destroyAnim(Canvas canvas) {
-        if(visible) {
-            //Fading animation
-            int alpha = paint.getAlpha() - 5;
-            if (alpha > 0) {
-                paint.setAlpha(alpha);
-            } else {
+        GameView.instance.timeScale = 0.2f;
+        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/2);
+            if (animTime>animDuration) {
+
                 visible = false;
+                animTime = 0;
             }
+            animTime += fixedDeltaTime;
 
-            //Shaking animation
-            drawDisplacement.y = height * ((float) Math.random() - 0.5f) / 50;
-            drawDisplacement.x = width * ((float) Math.random() - 0.5f) / 20;
+            friction=0.998f;
+            bounce = 0.5f;
+            if (position.y < groundLevel) {
+                setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
+            } else {
+                float y = -speed*bounce;
+                if(y*y<0.01){
+                    y = 0;
+                    if(Math.abs(getVelocity().x) < 0.1) {
+                        GameView.instance.lair.lieDown();
+                        speed = 0;
+                    }
+                }
+                else {
+                    position.y = groundLevel;
+                }
+                setVelocity(speed*direction.x*friction,y);
 
-        }
+            }
+                position = position.add(direction.multiply(fixedDeltaTime * speed));
+
+
+
+
     }
 
 
@@ -806,7 +831,7 @@ class Wing{
 
         matrix.postScale(1,flap,left,bottom);
         matrix.postRotate((float) rotation, dst.centerX(),dst.bottom);
-        if(!(walking && !front)) {
+        if(!((walking|| dragon.isSleeping || dragon.destroyed) && !front)) {
             canvas.drawBitmap(sprite, matrix, paint);
         }
 
@@ -815,7 +840,7 @@ class Wing{
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
         position = new Vector2(segment.position.x,segment.position.y);
         //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
-        if(walking || dragon.isSleeping){
+        if(walking || dragon.isSleeping || dragon.destroyed){
             flap = (Math.signum(segment.direction.x)*1f/4+flap)/2;
             rotation = segment.rotation+Math.signum(segment.direction.x)*10;
             scaleX=(2f+scaleX)/2;

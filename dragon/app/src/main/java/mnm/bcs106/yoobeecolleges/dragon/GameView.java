@@ -141,6 +141,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnWizard((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,500);
         Game.instance.gameOver = false;
+        timeScale = 1;
         resume();
     }
 
@@ -272,7 +273,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         goldPool.physics(fixedDeltaTime / physicsIterations);
         projectilePool.physics(fixedDeltaTime / physicsIterations);
+
         player.physics(fixedDeltaTime / physicsIterations);
+
         scene.physics(fixedDeltaTime/physicsIterations);
 
 
@@ -284,7 +287,8 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
 
 
-        player.update(fixedDeltaTime);
+            player.update(fixedDeltaTime);
+
         scene.update(fixedDeltaTime);
         npc_pool.update(fixedDeltaTime);
         projectilePool.update(fixedDeltaTime);
@@ -294,7 +298,7 @@ public class GameView extends SurfaceView implements Runnable {
         hud.update(fixedDeltaTime);
         lair.update(fixedDeltaTime);
         firePool.update(fixedDeltaTime);
-        if(player.health<=0) {
+        if(!player.visible) {
             if (!Game.instance.gameOver) {
                 Game.instance.showGameOver = true;
             }
