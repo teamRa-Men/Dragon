@@ -62,11 +62,13 @@ public class Game extends AppCompatActivity {
     TextView upgradePoints;
     TextView level;
 
+    TextView showDayText;
+
     boolean visibleCredits;
     CardView creditCard;
 
     //state variables
-    boolean showGameOver = false, gameOver = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false;
+    boolean showGameOver = false, gameOver = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
 
     int screenHeight, screenWidth;
     public int score = 0, highScore;
@@ -308,7 +310,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
-
+        showDayText = findViewById(R.id.showDayText);
         sleepButton = findViewById(R.id.sleepButton);
         wakeButton = findViewById(R.id.wakeButton);
         upgradeButton = findViewById(R.id.upgradeButton);
@@ -371,6 +373,15 @@ public class Game extends AppCompatActivity {
                     gameView.movePlayerBy(null);
                 }
                 gameView.breathFire(breathFire);
+
+                if(showDay){
+                    showDayText.setText("DAY "+ gameView.scene.day);
+                    showDayText.setAlpha(1);
+                    showDay = false;
+                }
+                else  if (showDayText.getAlpha()> 0){
+                    showDayText.setAlpha(showDayText.getAlpha() - 0.005f /showDayText.getAlpha() /showDayText.getAlpha());
+                }
             }
 
             runTime+=1000/15;
@@ -381,6 +392,7 @@ public class Game extends AppCompatActivity {
             fadeView(showWakeButton, xpBarLair);
             fadeView(showSleepButton||showWakeButton,goldDeposited);
             fadeView(showWakeButton,  xpTextLair);
+
 
 
             Lair lair = GameView.instance.lair;
@@ -441,6 +453,7 @@ public class Game extends AppCompatActivity {
 
                 runTime = 0;
                 loadScreen.setAlpha(1);
+                Game.instance.showDay = true;
                 gameView.init();
 
                 //Close dialog box

@@ -14,7 +14,7 @@ public class Scene {
     float mountainX, hillsX, groundX;
     float timeOfDay;
     int dayLength;
-    int day;
+    int day = 1;
     public static Scene instance;
 
     Fortress eastFort, westFort, finalFort;
@@ -170,6 +170,7 @@ public class Scene {
                     d.lockTarget = true;
                 }
             }
+            Game.instance.showDay = true;
         }
     }
 }
