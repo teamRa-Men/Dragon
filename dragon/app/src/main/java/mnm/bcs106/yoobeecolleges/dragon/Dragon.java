@@ -57,7 +57,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(35);
+        initBody(65);
 
 
         setAttackController(0,100,100);
@@ -159,7 +159,7 @@ public class Dragon extends Character {
         GameView.instance.lair.wake();
         if(!stunController.performing) {
             if(!destroyed && (health-damage)<0 && flying){
-                setVelocity(Math.signum(direction.x)/2+getVelocity().x,getVelocity().y);
+                setVelocity(Math.signum(direction.x)/2*size/35+getVelocity().x,getVelocity().y);
             }
             super.onDamage(damage);
         }
@@ -449,7 +449,7 @@ int animDuration = 2500, animTime = 0;
     @Override
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
-        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/2);
+        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/3);
             if (animTime>animDuration) {
 
                 visible = false;
@@ -467,7 +467,8 @@ int animDuration = 2500, animTime = 0;
                     y = 0;
                     if(Math.abs(getVelocity().x) < 0.1) {
                         GameView.instance.lair.lieDown();
-                        speed = 0;
+                        head.direction = direction;
+                        speed = 0.001f;
                     }
                 }
                 else {
@@ -476,7 +477,7 @@ int animDuration = 2500, animTime = 0;
                 setVelocity(speed*direction.x*friction,y);
 
             }
-                position = position.add(direction.multiply(fixedDeltaTime * speed));
+            position = position.add(direction.multiply(fixedDeltaTime * speed));
 
 
 
