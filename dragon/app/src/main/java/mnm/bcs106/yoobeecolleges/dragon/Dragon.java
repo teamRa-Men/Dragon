@@ -58,7 +58,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(35);
+        initBody(65);
 
 
         setAttackController(0,100,100);
@@ -468,7 +468,7 @@ int animDuration = 2500, animTime = 0;
 
                 if(y*y<0.02){
                     y = 0;
-                    if(Math.abs(getVelocity().x) < 0.2) {
+                    if(Math.abs(getVelocity().x) < 0.1) {
                         GameView.instance.lair.lieDown();
 
                         speed = 0.001f;

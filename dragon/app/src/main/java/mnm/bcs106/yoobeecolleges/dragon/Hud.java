@@ -47,17 +47,17 @@ public class Hud {
             gold.setShadowLayer(3,1,1,Color.DKGRAY);
 
             bar.setColor(Color.BLACK);
-            bar.setShadowLayer(3,1,1,Color.DKGRAY);
+            bar.setShadowLayer(3,0,3,Color.DKGRAY);
             health.setColor(Game.instance.getResources().getColor(R.color.colorHealth));
             mana.setColor(Game.instance.getResources().getColor(R.color.colorMana));
             barLeft = screenWidth/8;
             manaMaxWidth = (int)(screenWidth/3*player.maxMana/100);
             healthMaxWidth = (int)(screenWidth/3*player.maxHealth/100);
-            manaTop = screenWidth/40+30;
-            manaBottom = manaTop+20;
-            healthTop = screenWidth/40;
-            healthBottom = healthTop+20;
 
+            healthTop = screenHeight/15;
+            healthBottom = healthTop+20;
+            manaTop = healthBottom + 10;
+            manaBottom = manaTop+20;
     }
     public void update(float deltaTime){
         dragFrom = Game.instance.dragFrom;
@@ -85,7 +85,7 @@ public class Hud {
 
         canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
 
-        canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, GameView.instance.screenHeight/15,gold);
+        canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
 
         canvas.drawRect(barLeft, manaTop, barLeft + manaMaxWidth, manaBottom, bar);
         canvas.drawRect(barLeft, healthTop, barLeft + healthMaxWidth, healthBottom, bar);
