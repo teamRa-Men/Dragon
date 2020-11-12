@@ -58,7 +58,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        initBody(65);
+        initBody(35);
 
 
         setAttackController(0,100,100);
@@ -711,8 +711,8 @@ class Leg{
             if(!front){
                 phase = (float)Math.PI+(float)Math.PI/4;
             }
-            left+=Math.min(dragon.speed/dragon.maxMoveSpeed*3,1)*(Math.cos(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase))*dragon.radius/2;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
+            left+=Math.min(dragon.speed/dragon.maxMoveSpeed*3,1)*(Math.cos(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase))*dragon.radius/2;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
         }
         float right = left + src.width();
         float bottom = top + src.height();
@@ -779,8 +779,8 @@ class Arm{
             if(front){
                 phase = (float)Math.PI;
             }
-            left+=Math.min(dragon.speed/dragon.maxMoveSpeed*3,1)*(Math.cos(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase))*dragon.radius/2;
-            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
+            left+=Math.min(dragon.speed/dragon.maxMoveSpeed*3,1)*(Math.cos(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase))*dragon.radius/2;
+            top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
         }
         float right = left + src.width();
         float bottom = top + src.height();

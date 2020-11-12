@@ -245,11 +245,13 @@ public class GameView extends SurfaceView implements Runnable {
             //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
             scene.drawBackground(canvas);//40
             lair.drawBackground(canvas);//80
-            goldPool.draw(canvas);//
+
             projectilePool.draw(canvas);//80
             npc_pool.draw(canvas);//90
             player.draw(canvas);//80
+            goldPool.draw(canvas);//
             lair.drawForeground(canvas);
+
             firePool.draw(canvas);
             scene.drawForeground(canvas);//
 

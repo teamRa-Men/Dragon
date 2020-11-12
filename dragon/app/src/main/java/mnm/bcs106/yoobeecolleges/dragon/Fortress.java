@@ -101,7 +101,7 @@ public class Fortress extends Foundation {
         maxGold = 400;
         lv = 0;
         maxHealth = 1000;
-        surrenderFear = 150;
+        surrenderFear = 100;
         health = maxHealth;
 
         Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
@@ -207,7 +207,7 @@ public class Fortress extends Foundation {
             }
 
             //spawning thief
-            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)&&Scene.instance.day>2){
+            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)&&Scene.instance.day>2 && Scene.instance.timeOfDay/ Scene.instance.dayLength>0.5){
                 GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1, this);
             }
 
@@ -449,7 +449,7 @@ public class Fortress extends Foundation {
             }
             if (surrender && !hasTribute) {
                 //System.out.println("TRIBUTE");
-                GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 2, this);
+                GameView.instance.npc_pool.spawnTribute(x, y, currentGold / 3, this);
                 hasTribute = true;
             }
 

@@ -170,7 +170,9 @@ public class Scene {
             if(day%3==0){
                 for(int i = 0; i < day/3; i++) {
                     DragonLayers d = GameView.instance.npc_pool.spawnDragonLayers(eastFort.x, eastFort.y, eastFort);
-                    d.lockTarget = true;
+                    if(d!=null) {
+                        d.lockTarget = true;
+                    }
                 }
             }
             Game.instance.showDay = true;

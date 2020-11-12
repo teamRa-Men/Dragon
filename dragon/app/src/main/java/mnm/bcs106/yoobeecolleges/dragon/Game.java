@@ -334,7 +334,7 @@ public class Game extends AppCompatActivity {
         Dragon player = GameView.instance.player;
         level.setText("LV "+ (int)lair.level);
         upgradePoints.setText((int)lair.upgradePoints + "AP");
-        xpBar.setProgress((int)(lair.experience/(1000f*lair.level)*100));
+        xpBar.setProgress((int)(lair.experience/(2000f*lair.level)*100));
         xpText.setText((int)lair.experience + " XP");
         progressAttack.setProgress((int)((player.attack-lair.minimumAttack)/(lair.maximumAttack-lair.minimumAttack)*100));
         progressMana.setProgress((int)((player.maxMana-lair.minimumMana)/(lair.maximumMana-lair.minimumMana)*100));
@@ -398,7 +398,7 @@ public class Game extends AppCompatActivity {
             Lair lair = GameView.instance.lair;
             if(showSleepButton || showWakeButton) {
                 //goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
-                xpBarLair.setProgress((int) (lair.experience / (1000f * lair.level) * 100));
+                xpBarLair.setProgress((int) (lair.experience / (2000f * lair.level) * 100));
                 xpTextLair.setText((int) lair.experience + " XP");
             }
         }

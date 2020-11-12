@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class NPC_Pool {
     int maxSlayers = 10;
-    int maxTheives= 5;
+    int maxTheives= 3;
     int maxWizards = 10;
     int maxFarmers = 20;
     int maxWooloo = 20;
@@ -26,20 +26,20 @@ int maxTributes = 3;
     public NPC_Pool(){
         int size = GameView.instance.cameraSize / 20;
         for(int i = 0 ;i < maxWooloo; i++) {
-            npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 100, size, size, 500));
+            npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 200, size, size, 500));
         }
         for(int i = 0 ;i < maxSlayers; i++) {
-            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 500, size, size*2, 10));
+            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 800, size, size*2, 30));
         } for(int i = 0 ;i < maxWizards; i++) {
-            npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 250, size, size, 25));
+            npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 350, size, size, 50));
         } for(int i = 0 ;i < maxTheives; i++) {
             npcThiefs.add(new Thief((float) GameView.instance.cameraSize / 25000, 250, size, size, 30));
         }
         for(int i = 0 ;i < maxFarmers; i++) {
-            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 25000, 200, size, size));
+            npcFarmers.add(new Farmers( (float) GameView.instance.cameraSize / 25000, 250, size, size));
         }
         for(int i = 0; i < maxTributes; i++) {
-            tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, size, (int)(size*1.2f)));
+            tributes.add(new Tribute((float) GameView.instance.cameraSize / 35000, 200, size, (int)(size*1.5f)));
         }
     }
     public Tribute spawnTribute(int spawnX, int spawnY, int tributeSize, Fortress f){

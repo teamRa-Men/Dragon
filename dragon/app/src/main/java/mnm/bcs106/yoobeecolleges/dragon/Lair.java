@@ -23,7 +23,7 @@ public class Lair {
     Dragon player;
     float maximumMana = 200;
     float maximumHealth = 200;
-    float maximumSpeed = 3f/2;
+    float maximumSpeed = 1.5f;
     float maximumAttack= 3;
 
     float minimumMana;
@@ -217,9 +217,9 @@ public class Lair {
             Game.instance.showWakeButton = true;
             Game.instance.showUpgradeButton = true;
 
-            experience += deltaTime * depositedGold / 1000;
+            experience += deltaTime * depositedGold / 2000;
             //System.out.println(experience);
-            if (experience > level * 1000) {
+            if (experience > level * 2000) {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
@@ -268,7 +268,7 @@ public class Lair {
                 //System.out.println(depositedGold);}
                 //goldPileHeight = getGoldPileHeight();
                 //GameView.instance.player.goldHolding -= 1;]
-                Vector2 p = GameView.instance.player.aimFor();
+                Vector2 p = GameView.instance.player.segments.get(GameView.instance.player.bodyStart).position;
 
                 GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
                 GameView.instance.player.goldHolding--;

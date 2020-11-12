@@ -50,7 +50,7 @@ public class SpriteManager {
             put("Farmer1",getSprite(getNPCSpriteRect("Farmer1"),NPCSheet,size,size));
             put("Farmer2",getSprite(getNPCSpriteRect("Farmer2"),NPCSheet,size,size));
 
-            put("Tribute",getSprite(getNPCSpriteRect("Tribute"),NPCSheet,size,(int)(size*1.2f)));
+            put("Tribute",getSprite(getNPCSpriteRect("Tribute"),NPCSheet,size,(int)(size*1.5f)));
 
             put("Wizard1",getSprite(getNPCSpriteRect("Wizard1"),NPCSheet,size,size));
             put("Wizard2",getSprite(getNPCSpriteRect("Wizard2"),NPCSheet,size,size));
