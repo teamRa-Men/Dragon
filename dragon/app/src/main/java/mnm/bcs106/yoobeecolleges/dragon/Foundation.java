@@ -116,11 +116,7 @@ public class Foundation {
         }catch (Exception e){
             e.printStackTrace();
         }
-        float left = x+GameView.instance.cameraDisp.x;
-        float top = y-height;
-        float bottom = y;
-        float right = left + width;
-        dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
+
     }
 
     public void update(float deltaTime){
@@ -143,7 +139,11 @@ public class Foundation {
                 y = ((int) GameView.instance.groundLevel - 3) + (height/4*3)/2/2;
             }
         }
-
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
 
     }
 

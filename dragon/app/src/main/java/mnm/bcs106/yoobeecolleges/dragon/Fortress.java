@@ -244,6 +244,13 @@ public class Fortress extends Foundation {
         //=   ==  =====  =      =     =  ==  =   ==  ============================
         repair(deltaTime);
 
+        for(int i = 0; i < currentBuildingsLeft.size(); i++){
+            currentBuildingsLeft.get(i).update(deltaTime);
+        }
+
+        for(int i = 0; i < currentBuildingsRight.size(); i++){
+            currentBuildingsRight.get(i).update(deltaTime);
+        }
         super.update(deltaTime);
 
     }
