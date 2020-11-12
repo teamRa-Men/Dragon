@@ -8,12 +8,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a385fd7-059e-420c-baaa-4cbb99a4d933" name="Default Changelist" comment="Desighne">
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/roundedbuttonshape.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/drawable/roundedbuttonshape.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_main_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_main_menu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_pause_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/activity_pause_menu.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dragon/app/src/main/res/layout/game_over.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dragon/app/src/main/res/layout/game_over.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6a385fd7-059e-420c-baaa-4cbb99a4d933" name="Default Changelist" comment="Desighne" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +36,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2c456dbc-1908-40f2-80b2-0a9bff2325fc" name="Default Changelist" comment="" />
+      <changelist id="6a385fd7-059e-420c-baaa-4cbb99a4d933" name="Default Changelist" comment="Desighne" />
       <created>1600981208954</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

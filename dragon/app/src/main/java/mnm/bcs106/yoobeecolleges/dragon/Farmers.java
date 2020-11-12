@@ -107,12 +107,10 @@ import android.graphics.Rect;
                     }
                 }
                 for (int j = 0; j < fortress.currentBuildingsLeft.size(); j++) {
-                    if ( fortress.currentBuildingsLeft.size() > j) {
-                        if ( fortress.currentBuildingsLeft.get(j).buildingType == 3) {
-                            if (Math.abs(npcX -  fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
-                                farmX = (int) ( fortress.currentBuildingsLeft.get(j).x+ fortress.tilesize*1.5);
-                                closestFarm.y = Math.abs((int)npcX -  fortress.currentBuildingsLeft.get(j).x);
-                            }
+                    if ( fortress.currentBuildingsLeft.get(j).buildingType == 3) {
+                        if (Math.abs(npcX -  fortress.currentBuildingsLeft.get(j).x) < closestFarm.y) {
+                            farmX = (int) ( fortress.currentBuildingsLeft.get(j).x+ fortress.tilesize*1.5);
+                            closestFarm.y = Math.abs((int)npcX -  fortress.currentBuildingsLeft.get(j).x);
                         }
                     }
                 }
@@ -139,7 +137,7 @@ import android.graphics.Rect;
                     npcRect.offsetTo((int) (npcX+GameView.instance.cameraDisp.x),(int)npcY);
             }
             }else {
-                if(wasAttacked == true){
+                if(wasAttacked){
                     int r = (int)(Math.random()*3);
                     GoldPool.instance.spawnGold((int)npcX, (int)npcY,r);
                     wasAttacked = false;
