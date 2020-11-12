@@ -220,7 +220,7 @@ public class Lair {
 
             experience += deltaTime * depositedGold / 1500;
             //System.out.println(experience);
-            if (experience > level * 1500) {
+            if (experience > level*level * 1000) {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
