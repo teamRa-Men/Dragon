@@ -33,6 +33,7 @@ public class Dragon extends Character {
     Segment[] colliders;
 
 
+
     int goldHolding = 0;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
@@ -159,7 +160,7 @@ public class Dragon extends Character {
         GameView.instance.lair.wake();
         if(!stunController.performing) {
             if(!destroyed && (health-damage)<0 && flying){
-                setVelocity(Math.signum(direction.x)/2*size/35+getVelocity().x,getVelocity().y);
+                setVelocity((Math.signum(direction.x)/2*size/35)*(1-(float)Math.pow(position.y/groundLevel/2,2))+getVelocity().x,getVelocity().y);
             }
             super.onDamage(damage);
         }
@@ -449,7 +450,8 @@ int animDuration = 2500, animTime = 0;
     @Override
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
-        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/3);
+
+        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/2);
             if (animTime>animDuration) {
 
                 visible = false;
@@ -463,11 +465,12 @@ int animDuration = 2500, animTime = 0;
                 setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
             } else {
                 float y = -speed*bounce;
-                if(y*y<0.01){
+
+                if(y*y<0.02){
                     y = 0;
-                    if(Math.abs(getVelocity().x) < 0.1) {
+                    if(Math.abs(getVelocity().x) < 0.2) {
                         GameView.instance.lair.lieDown();
-                        head.direction = direction;
+
                         speed = 0.001f;
                     }
                 }
@@ -552,7 +555,7 @@ class Head{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
 
-        if(!dragon.isSleeping) {
+        if(!dragon.isSleeping && !dragon.destroyed) {
             canvas.drawBitmap(head, matrix, paint);
         }
         else{
@@ -579,6 +582,9 @@ class Head{
         }
         else{
             open = open/2;
+        }
+        if(dragon.destroyed){
+            open = (20+open)/2;
         }
     }
 }
@@ -631,6 +637,9 @@ class Segment extends GameObject{
         time += deltaTime * (dragon.speed / dragon.maxMoveSpeed * 4 + 1) * 0.75f;
         if(!dragon.isSleeping) {
             wave = (float) Math.cos((-time / 1000 + index / dragon.segments.size() * 2) * Math.PI) * dragon.radius * index / dragon.segments.size() * 0.2f;
+        }
+        if(dragon.destroyed){
+            wave = 0;
         }
         float left = position.x - src.width() / 2 + wave * direction.y;
         float top = position.y - src.height() / 4 + wave * direction.x;
