@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class NPC_Pool {
     int maxSlayers = 10;
-    int maxTheives= 10;
+    int maxTheives= 5;
     int maxWizards = 10;
     int maxFarmers = 20;
     int maxWooloo = 20;
@@ -62,14 +62,15 @@ int maxTributes = 3;
         return null;
     }
 
-    public void spawnDragonLayers (int spawnX, int spawnY, int ammount, Fortress f){
+    public DragonLayers spawnDragonLayers (int spawnX, int spawnY, Fortress f){
         int d = 0;
         for (int i = 0;i< npcDragonLayers.size();i++){
-            if (!npcDragonLayers.get(i).active && d < ammount) {
+            if (!npcDragonLayers.get(i).active) {
                 npcDragonLayers.get(i).spawn(spawnX,spawnY, f);
-                d++;
+                return npcDragonLayers.get(i);
             }
         }
+        return  null;
     }
 
     public void spawnWizard (int spawnX, int spawnY, int ammount, Fortress f){

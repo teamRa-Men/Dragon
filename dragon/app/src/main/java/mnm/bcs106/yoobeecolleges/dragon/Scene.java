@@ -46,11 +46,14 @@ public class Scene {
                 break;
             }
         }
-        gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,3,finalFort);
+        gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,finalFort);
+        gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,finalFort);
+        gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,finalFort);
+
         gameView.npc_pool.spawnWizard(finalFort.x,finalFort.y,3,finalFort);
 
         eastFort = new Fortress( width*2, (int)gameView.groundLevel);
-        gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,1,eastFort);
+        gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
 
         westFort = new Fortress( -width*1, (int)gameView.groundLevel);
 
@@ -161,6 +164,12 @@ public class Scene {
         if(timeOfDay > dayLength){
             timeOfDay = 0;
             day++;
+            if(day%3==0){
+                for(int i = 0; i < day/3; i++) {
+                    DragonLayers d = GameView.instance.npc_pool.spawnDragonLayers(eastFort.x, eastFort.y, eastFort);
+                    d.lockTarget = true;
+                }
+            }
         }
     }
 }

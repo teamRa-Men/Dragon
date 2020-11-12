@@ -208,7 +208,7 @@ public class Fortress extends Foundation {
 
             //spawning dragonslayer
             if(townFear > 30 && lv != 0){
-                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, 1, this);
+                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, this);
             }
 
             //spawning wizard
