@@ -29,7 +29,7 @@ int maxTributes = 3;
             npcWooloo.add(new Wooloo((float) GameView.instance.cameraSize / 35000, 200, size, size, 500));
         }
         for(int i = 0 ;i < maxSlayers; i++) {
-            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 800, size, size*2, 30));
+            npcDragonLayers.add(new DragonLayers((float) GameView.instance.cameraSize / 25000, 800, size, size*2, 25));
         } for(int i = 0 ;i < maxWizards; i++) {
             npcWizard.add(new Wizard((float) GameView.instance.cameraSize / 45000, 350, size, size, 50));
         } for(int i = 0 ;i < maxTheives; i++) {

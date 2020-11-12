@@ -10,6 +10,7 @@ import java.util.Collection;
 public class Gold extends GameObject{
     float spawnSpeed = 1f/2;
     float time;
+    float fadeTime = 40;
     boolean fromDragon = false;
 
     double phase;
@@ -37,6 +38,7 @@ public class Gold extends GameObject{
             direction = new Vector2((float) (Math.random() - 0.5f) / 10,0).getNormal();
         }
         speed = spawnSpeed*((float)Math.random());
+        time = 0;
     }
 
     @Override
@@ -48,6 +50,13 @@ public class Gold extends GameObject{
         int c = (int) (255);
         c *= (1+scaleX)/2;
         paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
+
+        if(time > fadeTime*0.75){
+            paint.setAlpha((int)(Math.random()*255));
+            if(time > fadeTime){
+                GoldPool.instance.collectedGold(this);
+            }
+        }
     }
 
     @Override

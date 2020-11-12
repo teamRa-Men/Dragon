@@ -36,7 +36,7 @@ public class Hud {
             control.setStrokeWidth(20);
             control.setStrokeCap(Paint.Cap.ROUND);
 
-            fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.circle);
+            fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire);
             fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
             fire.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
 
