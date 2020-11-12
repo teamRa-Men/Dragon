@@ -91,11 +91,6 @@ public class Foundation {
             int d = (int)((float) health / maxHealth*125)+130;
             p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
         }*/
-        float left = x+GameView.instance.cameraDisp.x;
-        float top = y-height;
-        float bottom = y;
-        float right = left + width;
-        dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
 
         c.drawBitmap(buildingImage,dst.left,dst.top,null);
 
@@ -121,6 +116,11 @@ public class Foundation {
         }catch (Exception e){
             e.printStackTrace();
         }
+        float left = x+GameView.instance.cameraDisp.x;
+        float top = y-height;
+        float bottom = y;
+        float right = left + width;
+        dst = new Rect ((int)left, (int)top, (int)right, (int)bottom);
     }
 
     public void update(float deltaTime){
