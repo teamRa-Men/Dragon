@@ -46,7 +46,7 @@ public class Fortress extends Foundation {
 
     //public Foundation[] buildings = new Foundation[5];
 
-    ArcherTower archertower;
+    int towerLeft, towerRight;
     boolean hasTaxed = false;
     boolean hasTribute = false;
     boolean hasFarm = false;
@@ -66,7 +66,9 @@ public class Fortress extends Foundation {
 
     Flag flag;
     int flagy;
+    Bitmap flagpole;
 
+    Bitmap background;
     //Fortress constructor, used when calling Fortress();
 
     //this specific Fortress
@@ -74,9 +76,12 @@ public class Fortress extends Foundation {
         super(x, y, tileNr, null);
         buildingType = 1;
         buildingImage = SpriteManager.instance.getBuildingSprite("Fortress1");
+        background = SpriteManager.instance.getBuildingSprite("Background");
         height = width * buildingImage.getHeight() / buildingImage.getWidth();
         collider = new Rect(x,y-height,x+width,y);
         flag = new Flag();
+        flagpole = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagpole);
+        flagpole = Bitmap.createScaledBitmap(flagpole, tilesize, tilesize*2, false);
 
         BD.add("House");
         BD.add("House");
@@ -355,9 +360,11 @@ public class Fortress extends Foundation {
 
             currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
             currentTilesRight += 1;
+            towerRight = x + (tilesize * tileNr) + (currentTilesRight) * tilesize;
 
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
             currentTilesLeft += 1;
+            towerLeft = x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize;
 
         } else {
 
@@ -370,9 +377,11 @@ public class Fortress extends Foundation {
 
             currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
             currentTilesRight += 1;
+            towerRight = x + (tilesize * tileNr) + (currentTilesRight) * tilesize;
 
             currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
             currentTilesLeft += 1;
+            towerLeft = x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize;
         }
     }
 
@@ -568,10 +577,11 @@ public class Fortress extends Foundation {
 
     @Override
     public void draw(Canvas c) {
-        super.draw(c);
 
-        Bitmap flagpole = BitmapFactory.decodeResource(GameView.instance.getResources(), R.drawable.flagpole);
-        flagpole = Bitmap.createScaledBitmap(flagpole, tilesize, tilesize*2, false);
+        for(int i = 0; i < (towerRight-towerLeft)/tilesize-2;i++){
+            c.drawBitmap(background, towerLeft+tilesize*1.5f+i*tilesize +GameView.instance.cameraDisp.x,(int)(GameView.instance.groundLevel-background.getHeight()),null);
+        }
+
 
         for (int i = 0; i < currentBuildingsLeft.size(); i++) {
 
@@ -587,11 +597,16 @@ public class Fortress extends Foundation {
             if (currentBuildingsRight.get(i) != null) {
 
                 currentBuildingsRight.get(i).draw(c);
+
             }
         }
+
+
         c.drawBitmap(flagpole, x+GameView.instance.cameraDisp.x+tilesize*3,(int)(GameView.instance.groundLevel-flagpole.getHeight()),null);
         flag.x = x+tilesize*3;
         flag.draw(c);
+
+        super.draw(c);
     }
 
 

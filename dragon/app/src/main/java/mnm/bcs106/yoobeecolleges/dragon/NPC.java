@@ -136,19 +136,8 @@ public class NPC {
      */
 
     public void update(float deltaTime){
-        int top = (int) (npcRect.top + Math.sin(distTravel / 4 + random * Math.PI * 2) * 3);
-        int left = npcRect.left;
-        int right = left + npcRect.width();
-        int bottom = top + npcRect.height();
-        RectF tempRect = new RectF(0, 0, npcBitmap.getWidth(), npcBitmap.getHeight());
-        destTempRect = new RectF(left, top, right, bottom);
-        matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
-        if (alive) {
-            matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
-        }
-        else {
-            matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
-        }
+
+
 
         if (!alive){
             afterLife+=deltaTime;
@@ -196,6 +185,20 @@ public class NPC {
         }
         catch (Exception e){
             e.printStackTrace();
+        }
+
+        int top = (int) (npcRect.top + Math.sin(distTravel / 4 + random * Math.PI * 2) * 3);
+        int left = npcRect.left;
+        int right = left + npcRect.width();
+        int bottom = top + npcRect.height();
+        RectF tempRect = new RectF(0, 0, npcBitmap.getWidth(), npcBitmap.getHeight());
+        destTempRect = new RectF(left, top, right, bottom);
+        matrix.setRectToRect(tempRect, destTempRect, Matrix.ScaleToFit.FILL);
+        if (alive) {
+            matrix.postScale(direction, 1, destTempRect.centerX(), destTempRect.centerY());
+        }
+        else {
+            matrix.postRotate(90, destTempRect.centerX(), destTempRect.centerY());
         }
     }
 

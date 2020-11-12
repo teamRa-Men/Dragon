@@ -54,7 +54,7 @@ int maxTributes = 3;
 
     public Wooloo spawnWooloo (int spawnX, int spawnY, Fortress f){
         for (int i = 0;i<npcWooloo.size();i++){
-            if (!npcWooloo.get(i).alive) {
+            if (!npcWooloo.get(i).active) {
                 npcWooloo.get(i).spawn((int) (spawnX+f.tilesize*1.5),spawnY, f);
                 return npcWooloo.get(i);
             }

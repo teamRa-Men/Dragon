@@ -93,6 +93,8 @@ public class SpriteManager {
             put("Tower1",getSprite(getBuildingSpriteRect("Tower1"),buildingSheet,tileSize,2*tileSize));
             put("Tower2",getSprite(getBuildingSpriteRect("Tower2"),buildingSheet,tileSize,2*tileSize));
             put("TowerRuin",getSprite(getBuildingSpriteRect("TowerRuin"),buildingSheet,tileSize,2*tileSize));
+
+            put("Background",getSprite(getBuildingSpriteRect("Background"),buildingSheet,(int)(tileSize*1.05),tileSize));
         }};
 
     }
@@ -133,7 +135,7 @@ public class SpriteManager {
         put("Tower2",spriteRect(d,d*6,d,d*2));
         put("TowerRuin",spriteRect(d*2,d*6,d,d*2));
 
-
+        put("Background",spriteRect(d*4,0,d,d));
     }};
 
     private final HashMap<String,Rect> NPCSpriteRects = new HashMap<String,Rect>() {{

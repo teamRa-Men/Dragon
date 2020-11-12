@@ -3,15 +3,18 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.View;
 import android.widget.Button;
 
 public class Lair {
-    Bitmap lairBackSprite,lairFrontSprite;
+    Bitmap lairBack,lairFront,lairMiddle;
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
+    Paint frontPaint = new Paint();
     int depositedGold = 2;//100;//500;
     Bitmap goldPile;
     float goldPileHeight;
@@ -32,14 +35,26 @@ public class Lair {
     boolean isSleeping = false;
     Button sleepButton;
 
+    Rect colliderLeft,colliderCenter,colliderRight;
+
 
     public Lair() {
         width = (int) (Game.instance.screenWidth);
         height =(int)GameView.instance.groundLevel/2;
-        lairBackSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair);
-        lairBackSprite = Bitmap.createScaledBitmap(lairBackSprite, width, height, false);
-        //lairFrontSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.lair_front);
-        //lairFrontSprite = Bitmap.createScaledBitmap(lairFrontSprite, width, height, false);
+
+        Bitmap sheet = SpriteManager.instance.environmentSheet;
+
+        Rect r = SpriteManager.instance.getEnvironmentSpriteRect("LairFront");
+        lairFront = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        lairFront = Bitmap.createScaledBitmap(lairFront, width,height,false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("LairMiddle");
+        lairMiddle = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        lairMiddle = Bitmap.createScaledBitmap(lairMiddle, width,height,false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("LairBack");
+        lairBack = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        lairBack = Bitmap.createScaledBitmap(lairBack, width,height,false);
 
         position = new Vector2(GameView.instance.screenWidth/2, GameView.instance.getGroundLevel());
         player = GameView.instance.player;
@@ -53,6 +68,24 @@ public class Lair {
         minimumMana = player.maxMana;
         minimumHealth = player.maxHealth;
         minimumSpeed = player.maxMoveSpeed;
+
+        int left =  (int) (position.x - width / 4);
+        int right = left + width/2;
+        int top = (int) (position.y - height*5/6);
+        int bottom = top + height/3;
+        colliderCenter= new Rect(left,top,right,bottom);
+
+        left =  (int) (position.x + width / 4);
+        right = left + width/5;
+        top = (int) (position.y - height*5/6);
+        bottom = top + height/2;
+        colliderRight = new Rect(left,top,right,bottom);
+
+        left =  (int) (position.x - width /4-width/5);
+        right = left + width/5;
+        top = (int) (position.y - height*3/5);
+        bottom = top + height/3;
+        colliderLeft = new Rect(left,top,right,bottom);
 
     }
 
@@ -87,6 +120,41 @@ public class Lair {
         }
         player.physics(player.fixedDeltaTime);
         player.update(player.fixedDeltaTime);
+    }
+
+    public void physics(float deltaTime){
+        int x= (int)player.position.x;
+        int y= (int)player.position.y;
+        if(player.position.y > colliderLeft.top) {
+            if (colliderRight.contains(x, y)) {
+                player.direction.y = -player.direction.y/2;
+                player.position.y = colliderRight.bottom+1;
+            }
+            if (colliderLeft.contains(x, y)) {
+                player.direction.y = -player.direction.y/2;
+                player.position.y = colliderLeft.bottom+1;
+            }
+            if (colliderCenter.contains(x, y)) {
+                player.direction.y = -player.direction.y/2;
+                player.position.y = colliderCenter.bottom+1;
+            }
+        }
+        else{
+
+            if (colliderRight.contains(x, y)) {
+                player.direction.y = -player.direction.y/2;
+                player.position.y = colliderRight.top;
+            }
+            y += (int)player.radius;
+            if (colliderLeft.contains(x, y)) {
+                player.direction.y = 0;
+                player.position.y = colliderLeft.top-player.radius;
+            }
+            if (colliderCenter.contains(x, y)) {
+                player.direction.y = 0;
+                player.position.y = colliderCenter.top-player.radius;
+            }
+        }
     }
 
     public void wake(){
@@ -130,14 +198,14 @@ public class Lair {
         }
         return false;
     }
- public float getGroundLevel(Vector2 p, float r){
+    public float getGroundLevel(Vector2 p, float r){
         float groundLevel = GameView.instance.groundLevel -r*1.3f;
         if(Math.abs(p.x - position.x) < goldPile.getWidth()/2) {
             float goldSurface = goldPileHeight + goldPile.getHeight() / 2 - (float) Math.sqrt(Math.pow(goldPile.getHeight() / 2, 2) - Math.pow(p.x - position.x, 2));
             groundLevel = Math.min(GameView.instance.groundLevel - r * 1.4f, goldSurface - r);
         }
         return  groundLevel;
- }
+    }
 
     public void update(float deltaTime) {
 
@@ -207,16 +275,36 @@ public class Lair {
                 depositedGold++;
             }
         }
+
+        float dx=  Math.abs(player.position.x-position.x);
+        if(!(player.position.y > colliderLeft.top && dx < width/2)) {
+            frontPaint.setAlpha((frontPaint.getAlpha()*9+255)/10);
+        }
+        else{
+            frontPaint.setAlpha((int)(frontPaint.getAlpha()*0.9f));
+        }
     }
     public float getGoldPileHeight(){
         return GameView.instance.groundLevel-goldPile.getHeight()/3*(float)Math.pow((float)depositedGold/1000,1f/3);
     }
 
-    public void draw (Canvas canvas){
-        //canvas.drawBitmap(lairBackSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
-       // canvas.drawBitmap(lairFrontSprite, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+    public void drawBackground (Canvas canvas){
+        canvas.drawBitmap(lairBack, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
+
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
+    }
+
+    public void drawForeground(Canvas canvas){
+
+        canvas.drawBitmap(lairMiddle, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
+
+
+        if(frontPaint.getAlpha()>1) {
+            canvas.drawBitmap(lairFront, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), frontPaint);
+        }
+
+
     }
 
     public void attractGold(Gold g){

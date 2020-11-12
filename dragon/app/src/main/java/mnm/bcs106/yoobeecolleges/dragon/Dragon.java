@@ -398,7 +398,9 @@ public class Dragon extends Character {
 
 
     }
+    public void drawBreath(Canvas canvas) {
 
+    }
 
 
     @Override
@@ -555,7 +557,7 @@ class Head{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
 
-        if(!dragon.isSleeping && !dragon.destroyed) {
+        if(!dragon.isSleeping) {
             canvas.drawBitmap(head, matrix, paint);
         }
         else{

@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class Scene {
-    Bitmap sky, ground, hillsBackground, sea;
+    Bitmap ground, hillsBackground, lairFront,lairMiddle, lairBack;
     int height, width;
     float mountainX, hillsX, groundX;
     float timeOfDay;
@@ -69,6 +69,9 @@ public class Scene {
         r = SpriteManager.instance.getEnvironmentSpriteRect("Mountains");
         hillsBackground = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         hillsBackground = Bitmap.createScaledBitmap(hillsBackground, width,(int)(height/10),false);
+
+
+
         backPaint = new Paint();
         frontPaint = new Paint();
         skyPaint = new Paint();

@@ -244,11 +244,12 @@ public class GameView extends SurfaceView implements Runnable {
             //90
             //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
             scene.drawBackground(canvas);//40
-            lair.draw(canvas);//80
+            lair.drawBackground(canvas);//80
             goldPool.draw(canvas);//
             projectilePool.draw(canvas);//80
             npc_pool.draw(canvas);//90
             player.draw(canvas);//80
+            lair.drawForeground(canvas);
             firePool.draw(canvas);
             scene.drawForeground(canvas);//
 
@@ -276,7 +277,7 @@ public class GameView extends SurfaceView implements Runnable {
         projectilePool.physics(fixedDeltaTime / physicsIterations);
 
         player.physics(fixedDeltaTime / physicsIterations);
-
+        lair.physics(fixedDeltaTime / physicsIterations);
         scene.physics(fixedDeltaTime/physicsIterations);
 
 
