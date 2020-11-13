@@ -69,11 +69,19 @@ public class SpriteManager {
         }};
 
         buildingSprites = new HashMap<String,Bitmap>() {{
-            int tileSize = GameView.instance.cameraSize/10;
+            int tileSize = GameView.instance.cameraSize/15;
             put("House1",getSprite(getBuildingSpriteRect("House1"),buildingSheet,tileSize,tileSize));
             put("House2",getSprite(getBuildingSpriteRect("House2"),buildingSheet,tileSize,tileSize));
             put("House3",getSprite(getBuildingSpriteRect("House3"),buildingSheet,tileSize,tileSize));
             put("HouseRuin",getSprite(getBuildingSpriteRect("HouseRuin"),buildingSheet,tileSize,tileSize));
+            put("Tower1",getSprite(getBuildingSpriteRect("Tower1"),buildingSheet,tileSize,2*tileSize));
+            put("Tower2",getSprite(getBuildingSpriteRect("Tower2"),buildingSheet,tileSize,2*tileSize));
+            put("TowerRuin",getSprite(getBuildingSpriteRect("TowerRuin"),buildingSheet,tileSize,2*tileSize));
+
+            put("Background",getSprite(getBuildingSpriteRect("Background"),buildingSheet,(int)(tileSize*1.05),tileSize));
+
+            put("WindMill",getSprite(getBuildingSpriteRect("WindMill"),buildingSheet,tileSize,tileSize));
+            tileSize*=4f/3;
 
             put("Farm11",getSprite(getBuildingSpriteRect("Farm11"),buildingSheet,3*tileSize,tileSize));
 
@@ -90,11 +98,7 @@ public class SpriteManager {
             put("Fortress3",getSprite(getBuildingSpriteRect("Fortress3"),buildingSheet,3*tileSize,2*tileSize));
             put("FortressRuin",getSprite(getBuildingSpriteRect("FortressRuin"),buildingSheet,3*tileSize,2*tileSize));
 
-            put("Tower1",getSprite(getBuildingSpriteRect("Tower1"),buildingSheet,tileSize,2*tileSize));
-            put("Tower2",getSprite(getBuildingSpriteRect("Tower2"),buildingSheet,tileSize,2*tileSize));
-            put("TowerRuin",getSprite(getBuildingSpriteRect("TowerRuin"),buildingSheet,tileSize,2*tileSize));
 
-            put("Background",getSprite(getBuildingSpriteRect("Background"),buildingSheet,(int)(tileSize*1.05),tileSize));
         }};
 
     }
@@ -109,6 +113,8 @@ public class SpriteManager {
         put("Smoke1",spriteRect(d*6,0,d,d));
         put("Smoke2",spriteRect(d*7,0,d,d));
         put("Smoke3",spriteRect(d*8,0,d,d));
+
+        put("WindMill",spriteRect(d*5,0,d,d));
 
         put("Farm11",spriteRect(0,d,d*3,d));
         put("Farm12",spriteRect(d*3,d,d*3,d));

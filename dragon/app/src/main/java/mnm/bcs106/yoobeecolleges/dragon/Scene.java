@@ -99,13 +99,13 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX0,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX1,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
         canvas.drawBitmap(hillsBackground, hillsX+ hillsX2,gameView.groundLevel-hillsBackground.getHeight()*0.9f,backPaint);
-        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*2) {
+        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*3) {
             eastFort.draw(canvas);
         }
-        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*2) {
+        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*3) {
             westFort.draw(canvas);
         }
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*2) {
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*3) {
             finalFort.draw(canvas);
         }
     }

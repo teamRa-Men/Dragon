@@ -3,7 +3,9 @@ package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -13,19 +15,28 @@ public class Farm extends Foundation{
     ArrayList<Object> currentCattle = new ArrayList<Object>();
     int maxCattle;
     static int cost;
-
+    int buildingSprite = 3;
     boolean createdWooloo = false;
+    Bitmap windMill;
+    float windmillDegrees = 0;
+Matrix matrix;
+    //SpriteAnimation spriteAnim;
 
-    SpriteAnimation spriteAnim;
-
-    public static int tileNr = 3;
+    public static int tileNr = 4;
     //   int[] spritePosition = new int[]{1,2,3}; // 0=1, 1=2 and so on.
 
     public Farm(int x, int y, Fortress fortress){
         super( x, y,tileNr, fortress);
-        int buildingSprite = (int) (Math.random()*2.9+1);
-        cost = 110;
+        double r = Math.random();
 
+        if(r<0.25){
+            buildingSprite = 2;
+        }
+        else if(r<0.5){
+            buildingSprite=1;
+        }
+        cost = 110;
+/*
         if(buildingSprite == 3) {
             spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
                     SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),
@@ -34,8 +45,13 @@ public class Farm extends Foundation{
         else{
             spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
         }
-        buildingImage = spriteAnim.getFrame(0);
-        height = tilesize;
+        */
+
+        buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
+        windMill = SpriteManager.instance.getBuildingSprite("WindMill");
+        matrix = new Matrix();
+
+        height = tilesize*tileNr/3;
 
         buildingType = 3;
 
@@ -70,8 +86,24 @@ public class Farm extends Foundation{
             if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.7) createdWooloo = false;
 
             goldRate = currentCattle.size() * 10;
-            buildingImage = spriteAnim.getFrame(fixedDeltaTime,GameView.instance.timeScale);
+
             fearCooldown();
+
+            if(buildingSprite ==3) {
+                windmillDegrees += fixedDeltaTime/100;
+                if (windmillDegrees >= 360) {
+                    windmillDegrees = 0;
+                }
+
+                int top = (int)(y - height - windMill.getHeight()*0.4);
+                int left = (int) (x + width * 3 / 4 - tilesize / 6 + GameView.instance.cameraDisp.x);
+                int right = left + tilesize;
+                int bottom = top + tilesize;
+                RectF src = new RectF(0, 0, windMill.getWidth(), windMill.getHeight());
+                RectF dst = new RectF(left, top, right, bottom);
+                matrix.setRectToRect(src, dst, Matrix.ScaleToFit.FILL);
+                matrix.postRotate(windmillDegrees, dst.centerX(), dst.centerY());
+            }
         }
 
         //===========================
@@ -97,6 +129,9 @@ public class Farm extends Foundation{
     @Override
     public void draw(Canvas c) {
         super.draw(c);
+        if(isStanding && buildingSprite == 3) {
+            c.drawBitmap(windMill, matrix, null);
+        }
     }
 
 

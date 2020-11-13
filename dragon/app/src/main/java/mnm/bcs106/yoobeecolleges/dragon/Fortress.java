@@ -27,7 +27,7 @@ public class Fortress extends Foundation {
 
     int currentTilesLeft;
     int currentTilesRight;
-    int maxTiles = 8;
+    int maxTiles = 16;
 
     public Point creationPoint = new Point();
     float attackRange = (1f/2);
@@ -51,7 +51,7 @@ public class Fortress extends Foundation {
     boolean hasTribute = false;
     boolean hasFarm = false;
     // attack function
-    public static int tileNr = 3;
+    public static int tileNr = 4;
 
     float townFear;
 
