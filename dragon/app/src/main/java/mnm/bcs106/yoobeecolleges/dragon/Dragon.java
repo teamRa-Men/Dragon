@@ -295,7 +295,7 @@ public class Dragon extends Character {
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
 
-            return Vector2.sqrDistance(p,aimFor())<radius*radius;
+            return Vector2.sqrDistance(p,aimFor())<radius*radius*4;
 
     }
 
@@ -447,7 +447,8 @@ public class Dragon extends Character {
         //SoundEffects.instance.play(SoundEffects.PEW);
     }
 
-int animDuration = 2500, animTime = 0;
+int animDuration = 500, animTime = 0;
+    boolean down = false;
     @Override
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
@@ -456,12 +457,15 @@ int animDuration = 2500, animTime = 0;
             if (animTime>animDuration) {
 
                 visible = false;
+                down = false;
                 animTime = 0;
             }
-            animTime += fixedDeltaTime;
+            if(down) {
+                animTime += fixedDeltaTime;
+            }
 
-            friction=0.998f;
-            bounce = 0.5f;
+            friction=0.997f;
+            bounce = 0.3f;
             if (position.y < groundLevel) {
                 setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
             } else {
@@ -471,7 +475,7 @@ int animDuration = 2500, animTime = 0;
                     y = 0;
                     if(Math.abs(getVelocity().x) < 0.1) {
                         GameView.instance.lair.lieDown();
-
+                        down = true;
                         speed = 0.001f;
                     }
                 }

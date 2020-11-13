@@ -30,14 +30,19 @@ public class Gold extends GameObject{
     }
     public  void spawn(Vector2 p, boolean fromDragon){
         this.fromDragon = fromDragon;
+
+
         position = p;
         if(!fromDragon) {
             direction = new Vector2((float) (Math.random() - 0.5f) / 10, (float) (Math.random() - 0.5f)).getNormal();
+            gravity = 1f/2;
         }
         else {
-            direction = new Vector2((float) (Math.random() - 0.5f) / 10,0).getNormal();
+            gravity=0;
+            direction = new Vector2((float) (Math.random() - 0.5f),(float) (Math.random()/2)).getNormal();
         }
         speed = spawnSpeed*((float)Math.random());
+        paint.setAlpha(255);
         time = 0;
     }
 

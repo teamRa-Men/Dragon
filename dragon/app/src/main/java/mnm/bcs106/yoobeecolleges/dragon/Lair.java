@@ -32,6 +32,7 @@ public class Lair {
     float minimumAttack;
 
     float experience, upgradePoints, level = 1;
+    public float nextLevel;
     boolean isSleeping = false;
     Button sleepButton;
 
@@ -220,7 +221,8 @@ public class Lair {
 
             experience += deltaTime * depositedGold / 1500;
             //System.out.println(experience);
-            if (experience > level*level * 1000) {
+            nextLevel =  level*level * 500;
+            if (experience > nextLevel) {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
@@ -271,7 +273,7 @@ public class Lair {
                 //GameView.instance.player.goldHolding -= 1;]
                 Vector2 p = GameView.instance.player.aimFor();
 
-                GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
+                GoldPool.instance.spawnGold((int)p.x, (int)(p.y+ GameView.instance.player.radius), 1,true);
                 GameView.instance.player.goldHolding--;
                 depositedGold++;
             }
@@ -311,11 +313,13 @@ public class Lair {
     public void attractGold(Gold g){
             Vector2 goldPilePosition = new Vector2(position.x, goldPileHeight+goldPile.getHeight()/2);
             Vector2 disp = goldPilePosition.add(g.position.multiply(-1));
-            if( g.fromDragon) {
-                if (disp.sqrMagnitude() > (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)) {
 
-                        g.setDir(disp.getNormal().multiply(0.03f).add(g.direction));
-                    
+            if( g.fromDragon) {
+
+                if (disp.sqrMagnitude() > (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)) {
+                        g.speed = (g.speed+0.2f)/2;
+                        g.setDir(position.add(g.position.multiply(-1)).getNormal().multiply(0.03f).add(g.direction));
+
                 } else {
                     GoldPool.instance.collectedGold(g);
                     goldPileHeight = getGoldPileHeight();

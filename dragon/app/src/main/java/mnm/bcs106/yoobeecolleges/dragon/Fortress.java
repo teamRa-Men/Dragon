@@ -102,6 +102,7 @@ public class Fortress extends Foundation {
         lv = 0;
         maxHealth = 1000;
         surrenderFear = 100;
+
         health = maxHealth;
 
         Farmers newFarmer = GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
@@ -223,14 +224,21 @@ public class Fortress extends Foundation {
                 summonedWizard = true;
             }
 
-            if(townFear > surrenderFear){
-                surrender = true;
-                flag.setSurrender(surrender);
+            if(!surrender) {
+                if (townFear > surrenderFear) {
+                    surrender = true;
+                    flag.setSurrender(surrender);
+                }
             }
-            else{
-                surrender = false;
-                flag.setSurrender(surrender);
+            else {
+                if(townFear < surrenderFear/2) {
+                    surrender = false;
+                    flag.setSurrender(surrender);
+
+                }
             }
+
+
 
             Flagposition(deltaTime);
         }
@@ -238,7 +246,7 @@ public class Fortress extends Foundation {
             buildingImage = SpriteManager.instance.getBuildingSprite("FortressRuin");
 
             if(beenEmptied == false){
-                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),Math.min(currentGold,100) );
+                GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),Math.min(currentGold,100*(lv+1)) );
                 beenEmptied = true;
             }
             townFear = 0;
@@ -461,7 +469,7 @@ public class Fortress extends Foundation {
             }
             if (surrender && !hasTribute) {
                 //System.out.println("TRIBUTE");
-                GameView.instance.npc_pool.spawnTribute(x, y, Math.min(currentGold,100) / 4, this);
+                GameView.instance.npc_pool.spawnTribute(x, y, Math.min(currentGold,100*(lv+1)) / 4, this);
                 hasTribute = true;
             }
 
@@ -668,7 +676,7 @@ public class Fortress extends Foundation {
         float l= (float)Math.sqrt(dx*dx+dy*dy);
         dx = dx/l-((float)Math.random()-0.5f)/2;
         dy = dy/l-(float)(Math.random())/10;
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 2);
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 5);
     }
 }
 
