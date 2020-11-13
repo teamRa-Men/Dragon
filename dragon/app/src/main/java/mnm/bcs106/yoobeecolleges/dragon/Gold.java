@@ -62,15 +62,16 @@ public class Gold extends GameObject{
     @Override
     public void physics(float deltaTime) {
         super.physics(deltaTime);
+
+        GameView.instance.lair.attractGold(this);
+
         if (GameView.instance.player.inReach(position) && !fromDragon) {
             GoldPool.instance.collectedGold(this);
             GameView.instance.player.collectedGold();
             System.out.println("collected");
 
         }
-        if(fromDragon) {
-            GameView.instance.lair.attractGold(this);
-        }
+
 
     }
 

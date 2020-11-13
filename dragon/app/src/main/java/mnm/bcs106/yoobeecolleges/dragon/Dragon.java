@@ -294,10 +294,9 @@ public class Dragon extends Character {
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
-        if(frontArm.collider!=null) {
-            return frontArm.collider.contains(p.x, p.y);
-        }
-        return false;
+
+            return Vector2.sqrDistance(p,aimFor())<radius*radius;
+
     }
 
 

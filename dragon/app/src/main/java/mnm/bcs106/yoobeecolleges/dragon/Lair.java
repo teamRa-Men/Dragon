@@ -269,7 +269,7 @@ public class Lair {
                 //System.out.println(depositedGold);}
                 //goldPileHeight = getGoldPileHeight();
                 //GameView.instance.player.goldHolding -= 1;]
-                Vector2 p = GameView.instance.player.segments.get(GameView.instance.player.bodyStart).position;
+                Vector2 p = GameView.instance.player.aimFor();
 
                 GoldPool.instance.spawnGold((int)p.x, (int)p.y, 1,true);
                 GameView.instance.player.goldHolding--;
@@ -309,19 +309,25 @@ public class Lair {
     }
 
     public void attractGold(Gold g){
+            Vector2 goldPilePosition = new Vector2(position.x, goldPileHeight+goldPile.getHeight()/2);
+            Vector2 disp = goldPilePosition.add(g.position.multiply(-1));
+            if( g.fromDragon) {
+                if (disp.sqrMagnitude() > (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)) {
 
-            Vector2 disp = position.add(g.position.multiply(-1));
-            if(g.position.y < getGroundLevel(g.position,g.width/2)){
-                if(g.velocity.y>0){
-                    g.setDir(disp.getNormal().multiply(0.03f).add(g.direction));
+                        g.setDir(disp.getNormal().multiply(0.03f).add(g.direction));
+                    
+                } else {
+                    GoldPool.instance.collectedGold(g);
+                    goldPileHeight = getGoldPileHeight();
+
                 }
             }
-            else{
-                GoldPool.instance.collectedGold(g);
-
-                goldPileHeight = getGoldPileHeight();
-
-        }
+            else {
+                if (disp.sqrMagnitude() < (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)){
+                    GoldPool.instance.collectedGold(g);
+                    goldPileHeight = getGoldPileHeight();
+                }
+            }
     }
 }
 

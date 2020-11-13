@@ -139,7 +139,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnThiefs((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnDragonLayers((int)fortress.x ,(int)groundLevel,1);
         //npc_pool.spawnWizard((int)fortress.x ,(int)groundLevel,1);
-        //npc_pool.spawnTribute((int)fortress.x ,(int)groundLevel,500);
+        npc_pool.spawnTribute((int)screenWidth*2,(int)groundLevel,500, scene.finalFort);
         Game.instance.gameOver = false;
         timeScale = 1;
 
@@ -248,8 +248,9 @@ public class GameView extends SurfaceView implements Runnable {
 
             projectilePool.draw(canvas);//80
             npc_pool.draw(canvas);//90
-            player.draw(canvas);//80
+
             goldPool.draw(canvas);//
+            player.draw(canvas);//80
             lair.drawForeground(canvas);
 
             firePool.draw(canvas);

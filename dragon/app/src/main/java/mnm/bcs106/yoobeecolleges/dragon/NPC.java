@@ -143,6 +143,7 @@ public class NPC {
             afterLife+=deltaTime;
             if (afterLife >= 10000){
                 active = false;
+                npcY = Game.instance.screenHeight*2;
                 afterLife = 0;
             }else {
                 if (Math.abs(GameView.instance.player.position.x-npcX) < 150 && Math.abs(GameView.instance.player.position.y-npcY) < 150) {
