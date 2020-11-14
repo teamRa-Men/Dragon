@@ -147,12 +147,17 @@ public class NPC {
                 afterLife = 0;
             }else {
                 if (Math.abs(GameView.instance.player.position.x-npcX) < 150 && Math.abs(GameView.instance.player.position.y-npcY) < 150) {
-                    if (GameView.instance.player.health < GameView.instance.player.maxHealth){
-                        GameView.instance.player.health+=npcMaxHP/20;
+                    if (GameView.instance.player.health < GameView.instance.player.maxHealth || (GameView.instance.player.mana < GameView.instance.player.maxMana)){
+
+                        GameView.instance.player.health+=20;
+                        GameView.instance.player.mana+=20;
                         active = false;
                         afterLife = 0;
                         if (GameView.instance.player.health > GameView.instance.player.maxHealth){
                             GameView.instance.player.health = GameView.instance.player.maxHealth;
+                        }
+                        if (GameView.instance.player.mana > GameView.instance.player.maxMana){
+                            GameView.instance.player.mana = GameView.instance.player.maxMana;
                         }
                     }
                 }

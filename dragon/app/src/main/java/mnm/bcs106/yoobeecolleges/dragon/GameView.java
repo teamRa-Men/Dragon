@@ -101,7 +101,7 @@ public class GameView extends SurfaceView implements Runnable {
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenHeight = displayMetrics.heightPixels;
         screenWidth = displayMetrics.widthPixels;
-        cameraSize = (int) (screenWidth);
+        cameraSize = screenWidth;
         screenCenter = new Vector2(screenWidth/2,screenHeight/2);
         back.setColor(Color.BLACK);
         holder = getHolder();
@@ -212,7 +212,7 @@ public class GameView extends SurfaceView implements Runnable {
             System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
-                    gameThread.sleep(lag);
+                    Thread.sleep(lag);
                 } catch (Exception e) {
                 }
             }

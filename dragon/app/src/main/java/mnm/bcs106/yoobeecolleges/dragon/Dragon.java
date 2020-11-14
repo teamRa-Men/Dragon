@@ -365,11 +365,7 @@ public class Dragon extends Character {
                 position.y = groundLevel;
             }
 
-            if (position.y >= groundLevel) {
-                flying = false;
-            } else {
-                flying = true;
-            }
+            flying = !(position.y >= groundLevel);
 
             if (breathingFire && mana > 0) {
 
@@ -537,8 +533,8 @@ class Head{
     }
     public void draw(Canvas canvas){
 
-        float left = position.x- src.width()/2 + GameView.instance.cameraDisp.x+wave*direction.y;;
-        float top = position.y - src.height() *0.4f+wave*direction.x;;
+        float left = position.x- src.width()/2 + GameView.instance.cameraDisp.x+wave*direction.y;
+        float top = position.y - src.height() *0.4f+wave*direction.x;
         float right = left + src.width();
         float bottom = top + src.height();
 
@@ -659,7 +655,7 @@ class Segment extends GameObject{
         matrix.postScale(1, Math.signum(direction.x), dst.centerX(), dst.centerY());
 
 
-        matrix.postRotate((float) (rotation), dst.centerX(), dst.centerY());
+        matrix.postRotate(rotation, dst.centerX(), dst.centerY());
 
     }
 
@@ -882,7 +878,7 @@ class FireBreath{
 
     float shootTime = 20, timeSinceShoot;
     Vector2 direction, collisionPosition;
-    Bitmap sprites[] = new Bitmap[6];
+    Bitmap[] sprites = new Bitmap[6];
     Paint paint = new Paint();
     Paint backPaint = new Paint();
 

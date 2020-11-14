@@ -1,8 +1,6 @@
 
 package mnm.bcs106.yoobeecolleges.dragon;
-import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -97,7 +94,7 @@ public class Game extends AppCompatActivity {
     boolean breathFire = false;
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
-    int runTime = 0, loadingTime = 5000;
+    int runTime = 0, loadingTime = 8000;
 
 
     public Context context;
@@ -128,15 +125,15 @@ public class Game extends AppCompatActivity {
 
 
         //initialize
-        initUI();
-        initSound(this);
 
+        initSound(this);
+        initUI();
         handler = new Handler();
 
 
         //start game loop
         gameView = new GameView(this);
-        ConstraintLayout gameLayout = findViewById(R.id.game);
+        ConstraintLayout gameLayout = findViewById(R.id.startSurfaceView);
         gameLayout.addView(gameView);
         updateUI();
 
@@ -234,6 +231,7 @@ public class Game extends AppCompatActivity {
                 finish();
             }
         });
+        soundVolume.setProgress( (int)(SoundEffects.instance.volumeMul*100));
         soundVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -558,23 +556,5 @@ public class Game extends AppCompatActivity {
     public void onWake(View view){
         GameView.instance.lair.wake();
         //System.out.println("wake");
-    }
-
-
-
-    public void onGrow(View view){
-        gameView.pause();
-        int size = gameView.player.size+3;
-        if(size <70)
-            gameView.player.initBody(size);
-        gameView.resume();
-    }
-
-    public void onShrink(View view){
-        gameView.pause();
-        int size = gameView.player.size-5;
-        if(size > 35)
-            gameView.player.initBody(size);
-        gameView.resume();
     }
 }

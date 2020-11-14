@@ -32,7 +32,7 @@ public class ArcherTower extends Foundation {
         }
         height = width*buildingImage.getHeight()/buildingImage.getWidth();
         creationPoint.x = x+(width/2);
-        creationPoint.y = (int)((y - height*3/4));
+        creationPoint.y = (y - height*3/4);
         System.out.println("Tower spawned");
     }
 
@@ -44,9 +44,7 @@ public class ArcherTower extends Foundation {
 
     // calculates if the dragon is in range
     public boolean inRange(){
-        if (Math.abs(GameView.instance.player.position.x-creationPoint.x)<GameView.instance.cameraSize*attackRange){
-            return true;}
-        return false;
+        return Math.abs(GameView.instance.player.position.x - creationPoint.x) < GameView.instance.cameraSize * attackRange;
     }
 
     //shooting an arrow at target
@@ -64,7 +62,7 @@ public class ArcherTower extends Foundation {
 
     public void update(float fixedDeltaTime){
         super.update(fixedDeltaTime);
-        creationPoint.y = (int)((y - height*3/4));
+        creationPoint.y = (y - height*3/4);
 
         /*System.out.println(health);
         System.out.println(isStanding);*/

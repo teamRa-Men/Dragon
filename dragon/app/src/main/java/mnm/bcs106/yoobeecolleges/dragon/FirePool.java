@@ -61,7 +61,7 @@ public class FirePool {
 }
 
 class Fire{
-    Rect src[] = new Rect[6];
+    Rect[] src = new Rect[6];
     Bitmap fireSheet;
     Paint paint = new Paint();
     Paint backPaint = new Paint();

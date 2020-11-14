@@ -59,11 +59,7 @@ public class Thief extends NPC {
             target.x = tempCreationPoint.x;
         }
 
-        if (Math.abs(GameView.instance.player.position.x-npcX) < 500 ){
-            flee = true;
-        }else {
-            flee = false;
-        }
+        flee = Math.abs(GameView.instance.player.position.x - npcX) < 500;
 
     }
 

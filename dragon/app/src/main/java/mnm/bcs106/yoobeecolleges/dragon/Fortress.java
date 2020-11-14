@@ -483,11 +483,11 @@ public class Fortress extends Foundation {
         float tempfear;
         int standingBuildings = 1;
         if(health < maxHealth){
-            repair((int) (currentTownInhabitants/5) + 1, deltaTime);
+            repair((currentTownInhabitants/5) + 1, deltaTime);
             //System.out.println("repair fort" + health);
         }
         if (!isStanding) {
-            repair((int) (currentTownInhabitants) + 1, deltaTime);
+            repair(currentTownInhabitants + 1, deltaTime);
             //System.out.println("repair fort is sta" + health);
             if(health > maxHealth/2){
                 isStanding = true;
@@ -535,7 +535,7 @@ public class Fortress extends Foundation {
                         }
                     }
 
-                    currentBuildingsRight.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                    currentBuildingsRight.get(i).repair((currentTownInhabitants / 5) + 1, deltaTime);
                     repairingRight = true;
 
                 }
@@ -573,7 +573,7 @@ public class Fortress extends Foundation {
                         }
                     }
                 }
-                currentBuildingsLeft.get(i).repair((int) (currentTownInhabitants / 5) + 1, deltaTime);
+                currentBuildingsLeft.get(i).repair((currentTownInhabitants / 5) + 1, deltaTime);
                 repairingLeft = true;
 
                 tempfear += currentBuildingsLeft.get(i).fear;
@@ -589,7 +589,7 @@ public class Fortress extends Foundation {
         countdown+=deltaTime;
         int flagf = 0;
 
-        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min(((float)townFear/surrenderFear+2)/3,1)));
+        flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min((townFear /surrenderFear+2)/3,1)));
 
         flag.y = flagy;
 
@@ -660,10 +660,7 @@ public class Fortress extends Foundation {
     // calculates if the dragon is in range
     public boolean inRange(){
         //System.out.println("inRange");
-        if (Math.abs(GameView.instance.player.position.x-creationPoint.x)<GameView.instance.cameraSize*attackRange){
-            return true;
-        }
-        return false;
+        return Math.abs(GameView.instance.player.position.x - creationPoint.x) < GameView.instance.cameraSize * attackRange;
     }
 
     //shooting an arrow at target

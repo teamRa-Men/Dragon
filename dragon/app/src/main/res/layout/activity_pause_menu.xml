@@ -74,9 +74,6 @@
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
-                                android:shadowColor="#2B2B2B"
-                                android:shadowDy="10"
-                                android:shadowRadius="10"
                                 android:text="Restart"
                                 android:textColor="#FFFFFF" />
 
@@ -87,9 +84,6 @@
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
-                                android:shadowColor="#2B2B2B"
-                                android:shadowDy="10"
-                                android:shadowRadius="10"
                                 android:text="Continue"
                                 android:textColor="#FFFFFF" />
 
@@ -100,9 +94,6 @@
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
-                                android:shadowColor="#2B2B2B"
-                                android:shadowDy="10"
-                                android:shadowRadius="10"
                                 android:text="Credits"
                                 android:textColor="#FFFFFF" />
 
@@ -113,9 +104,6 @@
                                 android:layout_margin="10dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
-                                android:shadowColor="#2B2B2B"
-                                android:shadowDy="10"
-                                android:shadowRadius="10"
                                 android:text="Exit"
                                 android:textColor="#FFFFFF" />
                         </LinearLayout>
@@ -132,9 +120,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:shadowColor="#5C5C5C"
-                        android:shadowDy="10"
-                        android:shadowRadius="10"
                         android:text="Music"
                         android:textColor="#000000" />
 
@@ -151,9 +136,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:shadowColor="#5C5C5C"
-                        android:shadowDy="10"
-                        android:shadowRadius="10"
                         android:text="Sound Effects"
                         android:textColor="#000000" />
 

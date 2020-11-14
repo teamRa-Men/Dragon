@@ -40,8 +40,8 @@ public class Lair {
 
 
     public Lair() {
-        width = (int) (Game.instance.screenWidth);
-        height =(int) GameView.instance.screenWidth/4;
+        width = Game.instance.screenWidth;
+        height = GameView.instance.screenWidth /4;
 
         Bitmap sheet = SpriteManager.instance.environmentSheet;
 
@@ -195,7 +195,7 @@ public class Lair {
         if(upgradePoints > 0 && player.maxHealth< maximumHealth) {
             player.maxHealth+=maximumHealth/10;
             upgradePoints--;
-            Hud.instance.healthMaxWidth = (int)(GameView.instance.screenWidth/3*player.maxHealth/100);
+            Hud.instance.healthMaxWidth = GameView.instance.screenWidth/3*player.maxHealth/100;
             return true;
         }
         return false;
@@ -250,18 +250,9 @@ public class Lair {
             Game.instance.showUpgradeButton = false;
 
 
-            if (Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2) {
-                Game.instance.showSleepButton = true;
-                //System.out.println("sleep button on");
-
-
-
-
-            } else {
-
-                Game.instance.showSleepButton = false;
-                //System.out.println("sleep button off");
-            }
+            //System.out.println("sleep button on");
+            //System.out.println("sleep button off");
+            Game.instance.showSleepButton = Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2;
 
         }
 

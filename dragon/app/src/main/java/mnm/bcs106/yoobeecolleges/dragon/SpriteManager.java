@@ -41,7 +41,7 @@ public class SpriteManager {
 
 
         environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
-        environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1024,true);
+        environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1088,true);
 
         NPCSprites = new HashMap<String,Bitmap>() {{
             int size = GameView.instance.cameraSize / 20;
@@ -176,8 +176,32 @@ public class SpriteManager {
         put("LairFront",spriteRect(0,256*2,1024,256));
         put("Mum",spriteRect(0,256*3,256,64));
         put("GoldCoin",spriteRect(256,256*3,8,8));
-        put("Mountains",spriteRect(0,832,1024,64));
+        put("Mountains",spriteRect(0,256*3+8,1024,64));
+        put("Hills",spriteRect(0,1024+1,1024,64-1));
         put("Ground",spriteRect(0,896,1024,32));
+        put("Tree1",spriteRect(0,1024-64,64,64));
+        put("Tree2",spriteRect(64,1024-64,64,64));
+        put("Tree3",spriteRect(64*2,1024-64,64,64));
+        put("Tree4",spriteRect(64*3,1024-64,64,64));
+        put("Tree5",spriteRect(64*4,1024-64,64,64));
+        put("Tree6",spriteRect(64*5,1024-64,64,64));
+        put("Tree7",spriteRect(64*6,1024-64,64,64));
+        put("Tree8",spriteRect(64*7,1024-64,64,64));
+        put("ForestLeft",spriteRect(64*8,1024-64,128,64));
+        put("Forest",spriteRect(64*10,1024-64,128,64));
+        put("ForestRight",spriteRect(64*12,1024-64,128,64));
+        put("Bush",spriteRect(0,1024-64-32,64,32));
+        put("Trunk",spriteRect(64,1024-64-32,64,32));
+        put("Tiny1",spriteRect(128,1024-64-32,32,32));
+        put("Tiny2",spriteRect(128+32,1024-64-32,32,32));
+        put("Tiny3",spriteRect(128+32*2,1024-64-32,32,32));
+        put("Tiny4",spriteRect(128+32*3,1024-64-32,32,32));
+        put("Tiny5",spriteRect(128+32*4,1024-64-32,32,32));
+        put("Tiny6",spriteRect(128+32*5,1024-64-32,32,32));
+        put("Tiny7",spriteRect(128+32*6,1024-64-32,32,32));
+        put("Tiny8",spriteRect(128+32*7,1024-64-32,32,32));
+        put("Tiny9",spriteRect(128+32*8,1024-64-32,32,32));
+
     }};
 
     private final HashMap<String,Rect> fireSpriteRects = new HashMap<String,Rect>() {{

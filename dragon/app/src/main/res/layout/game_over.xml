@@ -22,7 +22,7 @@
         android:padding="?attr/dialogPreferredPadding"
         android:shadowDy="10"
         android:shadowRadius="10"
-        android:text="Game Over"
+        android:text="YOU DIED!"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="36sp"

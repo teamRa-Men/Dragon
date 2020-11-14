@@ -52,7 +52,7 @@ public class Gold extends GameObject{
         scaleX = (float) Math.abs(Math.cos(time +phase)/2)+0.5f;
         scaleY = 1;
         time+=deltaTime/800;
-        int c = (int) (255);
+        int c = 255;
         c *= (1+scaleX)/2;
         paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
 
