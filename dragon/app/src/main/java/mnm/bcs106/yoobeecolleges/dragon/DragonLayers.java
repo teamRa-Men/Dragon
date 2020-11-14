@@ -15,7 +15,7 @@ public class DragonLayers extends NPC {
     public DragonLayers(float speed, int maxHP, int width, int height, int damage) {
         super(speed, maxHP, width, height);
         target.x = (int)npcX;
-        arrowRechargeTime = new ActionController(1000*(1+(float)Math.random()/4), (float) 500,3000*(1+(float)Math.random()/4));
+        arrowRechargeTime = new ActionController(1000*(1+(float)Math.random()/4), (float) 500,2000*(1+(float)Math.random()/4));
         dmg = damage;
 
 

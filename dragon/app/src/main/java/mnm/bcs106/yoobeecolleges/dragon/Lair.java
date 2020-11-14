@@ -113,8 +113,8 @@ public class Lair {
             player.head.direction = new Vector2(-player.direction.x, player.direction.y);
         }
 
-        player.position.y = getGroundLevel(player.position, player.radius/2);
-        player.head.position.y =getGroundLevel( player.head.position,  player.head.radius/2);
+        player.position.y = getGroundLevel(player.position, player.radius*0.6f);
+        player.head.position.y =getGroundLevel( player.head.position,  player.head.radius*0.6f);
         for(int i = 0; i < player.segments.size();i++) {
 
             player.segments.get(i).position.y = getGroundLevel(player.segments.get(i).position, player.segments.get(i).radius);

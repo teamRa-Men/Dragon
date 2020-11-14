@@ -453,7 +453,7 @@ int animDuration = 500, animTime = 0;
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
 
-        groundLevel = GameView.instance.lair.getGroundLevel(position, radius/2);
+        groundLevel = GameView.instance.lair.getGroundLevel(position, radius*0.6f);
             if (animTime>animDuration) {
 
                 visible = false;
@@ -464,8 +464,8 @@ int animDuration = 500, animTime = 0;
                 animTime += fixedDeltaTime;
             }
 
-            friction=0.997f;
-            bounce = 0.3f;
+            friction=0.998f;
+            bounce = 0.35f;
             if (position.y < groundLevel) {
                 setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
             } else {
