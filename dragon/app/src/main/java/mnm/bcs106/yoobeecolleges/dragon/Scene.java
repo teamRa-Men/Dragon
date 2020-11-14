@@ -116,7 +116,7 @@ public class Scene {
 
         r = SpriteManager.instance.getEnvironmentSpriteRect("Forest");
         forest = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
-        forest = Bitmap.createScaledBitmap(forest, width/8, width/16,false);
+        forest = Bitmap.createScaledBitmap(forest, width/7, width/16,false);
 
         r = SpriteManager.instance.getEnvironmentSpriteRect("ForestRight");
         forestRight = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
