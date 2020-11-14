@@ -155,14 +155,14 @@ public class Scene {
         for(int i = 0; i < treeCount/2; i++){
             treePositionsLair[i] = (int)(Math.random()*1.2*width-width);
             trees[i] = treeTypes[(int)(Math.random()*7.5)];
-            int size = (int)((float)width/20+(float)width/20*Math.random());
+            int size = (int)((float)width/25+(float)width/25*Math.random());
             trees[i] = Bitmap.createScaledBitmap(trees[i], size, size,false);
 
         }
         for(int i = treeCount/2; i < treeCount; i++){
             treePositionsLair[i] = (int)(Math.random()*1.2*width+width*0.8);
             trees[i] = treeTypes[(int)(Math.random()*7.5)];
-            int size = (int)((float)width/15+(float)width/20*Math.random());
+            int size = (int)((float)width/25+(float)width/25*Math.random());
             trees[i] = Bitmap.createScaledBitmap(trees[i], size, size,false);
         }
 

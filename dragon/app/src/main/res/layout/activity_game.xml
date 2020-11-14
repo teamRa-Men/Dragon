@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
+            android:fontFamily="sans-serif-condensed"
             android:shadowColor="#A5A5A5"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -66,7 +67,6 @@
             android:id="@+id/sleepButton"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="40dp"
             android:background="@drawable/roundedbuttonshape"
             android:onClick="onSleep"
             android:text="Sleep"
@@ -74,18 +74,22 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.93" />
 
         <TextView
             android:id="@+id/goldDeposited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
             android:padding="10dp"
             android:shadowColor="#7C7C7C"
-            android:shadowDy="10"
+            android:shadowDy="5"
             android:shadowRadius="10"
             android:textColor="@color/colorDragon"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/sleepButton"
             app:layout_constraintEnd_toEndOf="@+id/sleepButton"
             app:layout_constraintStart_toStartOf="@+id/sleepButton" />

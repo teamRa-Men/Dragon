@@ -401,7 +401,7 @@ public class Game extends AppCompatActivity {
 
             Lair lair = GameView.instance.lair;
             if(showSleepButton || showWakeButton) {
-                //goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
+                goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
                 xpBarLair.setProgress((int) (lair.experience / (lair.nextLevel) * 100));
                 xpTextLair.setText((int) lair.experience + " XP");
             }
