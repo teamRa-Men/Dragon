@@ -61,7 +61,7 @@ public class Lair {
         player = GameView.instance.player;
         sleepButton = Game.instance.sleepButton;
         goldPile = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.gold_pile);
-        goldPile = Bitmap.createScaledBitmap(goldPile,Game.instance.screenWidth/4, Game.instance.screenWidth/4,false);
+        goldPile = Bitmap.createScaledBitmap(goldPile,Game.instance.screenWidth/5, Game.instance.screenWidth/5,false);
         goldPileHeight = getGoldPileHeight();
         lieDown();
 

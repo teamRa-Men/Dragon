@@ -53,8 +53,8 @@ public class Gold extends GameObject{
         scaleY = 1;
         time+=deltaTime/800;
         int c = 255;
-        c *= (1+scaleX)/2;
-        paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,c),0));
+        c = (int)(255*scaleX);
+        paint.setColorFilter(new LightingColorFilter(Color.rgb(c,c,(int)(c*0.9f)),0));
 
         if(time > fadeTime*0.75){
             paint.setAlpha((int)(Math.random()*255));
