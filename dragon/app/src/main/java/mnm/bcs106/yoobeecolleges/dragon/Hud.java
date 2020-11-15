@@ -61,7 +61,7 @@ public class Hud {
         goldMeterGold = Bitmap.createScaledBitmap(goldMeterGold, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
 
         meterSrc = new Rect(0,0,Game.instance.controlRadius*2,Game.instance.controlRadius*2);
-        int left = GameView.instance.screenWidth-Game.instance.controlRadius;
+        int left = GameView.instance.screenWidth-Game.instance.controlRadius*2;
         int right = left+Game.instance.controlRadius*2;
         int top = screenHeight/30;
         int bottom = top +Game.instance.controlRadius*2;
@@ -120,12 +120,12 @@ public class Hud {
 
         canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
 
-        canvas.drawBitmap(goldMeterBack,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
-        canvas.drawBitmap(goldMeter,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
+        canvas.drawBitmap(goldMeterBack,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
+        canvas.drawBitmap(goldMeter,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
 
         canvas.drawBitmap(goldMeterGold,meterSrc,meterDst, null);
 
-        canvas.drawBitmap(goldMeterFront,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
+        canvas.drawBitmap(goldMeterFront,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
 
         // canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
 
