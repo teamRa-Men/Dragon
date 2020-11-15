@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 public class Hud {
     public static Hud instance;
@@ -15,6 +17,12 @@ public class Hud {
     Vector2 dragTo = Game.instance.dragTo;
 
     Bitmap fireButtonSprite;
+    Bitmap goldMeterBack;
+    Bitmap goldMeterFront;
+    Bitmap goldMeter;
+    Bitmap goldMeterGold;
+    Rect meterSrc;
+    Rect meterDst;
 
 
     int barLeft, manaTop, manaMaxWidth, manaBottom, healthTop, healthMaxWidth, healthBottom;
@@ -40,11 +48,33 @@ public class Hud {
             fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
             fire.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
 
-            gold.setTextSize(GameView.instance.screenWidth/30);
+        goldMeter = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.goldmeter);
+        goldMeter = Bitmap.createScaledBitmap(goldMeter, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
+
+        goldMeterBack = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.goldmeterback);
+        goldMeterBack = Bitmap.createScaledBitmap(goldMeterBack, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
+
+        goldMeterFront = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.goldmeterfront);
+        goldMeterFront = Bitmap.createScaledBitmap(goldMeterFront, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
+
+        goldMeterGold = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.goldmetergold);
+        goldMeterGold = Bitmap.createScaledBitmap(goldMeterGold, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
+
+        meterSrc = new Rect(0,0,Game.instance.controlRadius*2,Game.instance.controlRadius*2);
+        int left = GameView.instance.screenWidth-Game.instance.controlRadius;
+        int right = left+Game.instance.controlRadius*2;
+        int top = screenHeight/30;
+        int bottom = top +Game.instance.controlRadius*2;
+        meterDst = new Rect(left,top,right,bottom);
+
+
+
+/*
+        gold.setTextSize(GameView.instance.screenWidth/30);
             gold.setFakeBoldText(true);
             gold.setColor(Color.WHITE);
             gold.setTextAlign(Paint.Align.RIGHT);
-            gold.setShadowLayer(3,1,1,Color.DKGRAY);
+            gold.setShadowLayer(3,1,1,Color.DKGRAY);*/
 
             bar.setColor(Color.BLACK);
             bar.setShadowLayer(3,0,3,Color.DKGRAY);
@@ -64,6 +94,11 @@ public class Hud {
         dragTo = Game.instance.dragTo;
 
 
+        meterSrc.top = (int)( (0.85-(float)player.goldHolding/player.maxGoldHolding)*Game.instance.controlRadius*2+1);
+        meterDst.top = (int)( screenHeight/30  +(0.85-(float)player.goldHolding/player.maxGoldHolding)*Game.instance.controlRadius*2+1);
+
+
+
         if(GameView.instance.player.breathingFire){
             fire.setAlpha(255);
         }
@@ -81,11 +116,16 @@ public class Hud {
         }
 
 
-        canvas.drawCircle(Game.instance.fireButton.x,Game.instance.fireButton.y,Game.instance.controlRadius,fire);
-
         canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
 
-        canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
+        canvas.drawBitmap(goldMeterBack,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
+        canvas.drawBitmap(goldMeter,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
+
+        canvas.drawBitmap(goldMeterGold,meterSrc,meterDst, null);
+
+        canvas.drawBitmap(goldMeterFront,GameView.instance.screenWidth-Game.instance.controlRadius, screenHeight/30, null);
+
+        // canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
 
         canvas.drawRect(barLeft, manaTop, barLeft + manaMaxWidth, manaBottom, bar);
         canvas.drawRect(barLeft, healthTop, barLeft + healthMaxWidth, healthBottom, bar);

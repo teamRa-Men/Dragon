@@ -226,6 +226,7 @@ public class Lair {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
+                player.maxGoldHolding = (int)level*50;
 
                 //Grow
                 GameView.instance.isDrawing = false;

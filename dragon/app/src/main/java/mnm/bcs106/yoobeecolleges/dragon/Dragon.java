@@ -34,7 +34,7 @@ public class Dragon extends Character {
 
 
 
-    int goldHolding = 0;
+    int goldHolding = 0,maxGoldHolding = 50;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
     float flyingManaCost = 5, fireManaCost = 5, manaRegen=3;
@@ -69,6 +69,7 @@ public class Dragon extends Character {
         segments.clear();
 
         this.size = size;
+
         colliders = new Segment[size/6];
         int cameraSize = GameView.instance.cameraSize;
         radius = (float)cameraSize*size/3000;
@@ -221,13 +222,13 @@ public class Dragon extends Character {
                         frontWing.walking = true;
 
                         if (backArm.segment.position.y >= groundLevel - radius/4) {
-                        backArm.walking = true;
-                        frontArm.walking = true;
+                            backArm.walking = true;
+                            frontArm.walking = true;
                         }
 
                         if (backLeg.segment.position.y >= groundLevel - radius/4) {
-                        backLeg.walking = true;
-                        frontLeg.walking = true;
+                            backLeg.walking = true;
+                            frontLeg.walking = true;
                         }
 
                         setDir(moveBy.add(direction.multiply(0.1f)));
@@ -241,7 +242,7 @@ public class Dragon extends Character {
                         if (mana <= 0) {
                             direction.y = Math.max(direction.y, 0);
                         }
-                        direction.y = Math.min(direction.y, 0); 
+                        direction.y = Math.min(direction.y, 0);
 
                     } else {
                         mana -= flyingManaCost * fixedDeltaTime / 1000 * (GameView.instance.screenHeight - position.y) / GameView.instance.screenHeight;
@@ -294,8 +295,10 @@ public class Dragon extends Character {
     }
     public boolean inReach(Vector2 p){
         //Vector2 hand = new Vector2(frontArm.dst.centerX(),frontArm.dst.bottom);
-
-            return Vector2.sqrDistance(p,aimFor())<radius*radius*4;
+        if(goldHolding<maxGoldHolding) {
+            return Vector2.sqrDistance(p, aimFor()) < radius * radius * 4;
+        }
+        return  false;
 
     }
 
@@ -333,7 +336,7 @@ public class Dragon extends Character {
     @Override
     public void physics(float deltaTime) {
         if( GameView.instance.lair != null&&!destroyed)
-        groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
+            groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
         if(!isSleeping) {
             if(position.x < -Scene.instance.islandSizeLeft+Scene.instance.width && velocity!=null) {
                 //direction.x = (-0.1f + direction.x)/2;
@@ -388,7 +391,7 @@ public class Dragon extends Character {
         fireBreath.physics(deltaTime);
 
 
-            super.physics(deltaTime);
+        super.physics(deltaTime);
         speed *= friction;
 
 
@@ -443,45 +446,45 @@ public class Dragon extends Character {
         //SoundEffects.instance.play(SoundEffects.PEW);
     }
 
-int animDuration = 500, animTime = 0;
+    int animDuration = 500, animTime = 0;
     boolean down = false;
     @Override
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
 
         groundLevel = GameView.instance.lair.getGroundLevel(position, radius*0.6f);
-            if (animTime>animDuration) {
+        if (animTime>animDuration) {
 
-                visible = false;
-                down = false;
-                animTime = 0;
-            }
-            if(down) {
-                animTime += fixedDeltaTime;
-            }
+            visible = false;
+            down = false;
+            animTime = 0;
+        }
+        if(down) {
+            animTime += fixedDeltaTime;
+        }
 
-            friction=0.998f;
-            bounce = 0.35f;
-            if (position.y < groundLevel) {
-                setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
-            } else {
-                float y = -speed*bounce;
+        friction=0.998f;
+        bounce = 0.35f;
+        if (position.y < groundLevel) {
+            setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
+        } else {
+            float y = -speed*bounce;
 
-                if(y*y<0.02){
-                    y = 0;
-                    if(Math.abs(getVelocity().x) < 0.1) {
-                        GameView.instance.lair.lieDown();
-                        down = true;
-                        speed = 0.001f;
-                    }
+            if(y*y<0.02){
+                y = 0;
+                if(Math.abs(getVelocity().x) < 0.1) {
+                    GameView.instance.lair.lieDown();
+                    down = true;
+                    speed = 0.001f;
                 }
-                else {
-                    position.y = groundLevel;
-                }
-                setVelocity(speed*direction.x*friction,y);
-
             }
-            position = position.add(direction.multiply(fixedDeltaTime * speed));
+            else {
+                position.y = groundLevel;
+            }
+            setVelocity(speed*direction.x*friction,y);
+
+        }
+        position = position.add(direction.multiply(fixedDeltaTime * speed));
 
 
 
