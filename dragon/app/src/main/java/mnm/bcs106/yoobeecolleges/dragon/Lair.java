@@ -171,7 +171,7 @@ public class Lair {
 
     public boolean upgradeAttack(){
         if(upgradePoints > 0 && player.attack < maximumAttack) {
-            player.attack+=maximumAttack/10;
+            player.attack+=maximumAttack/40;
             upgradePoints--;
             return true;
         }
