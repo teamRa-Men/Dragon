@@ -37,7 +37,7 @@ public class Dragon extends Character {
     int goldHolding = 0,maxGoldHolding = 50;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 5, manaRegen=3;
+    float flyingManaCost = 5, fireManaCost = 2.5f, manaRegen=5;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
