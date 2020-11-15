@@ -17,7 +17,6 @@ import android.graphics.Rect;
 
     public Farmers( float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
-        farmX = (int)npcX ;
 
         Bitmap npcSheet = SpriteManager.instance.NPCSheet;
         idleSprite = SpriteManager.instance.getNPCSprite("Farmer1");
@@ -34,6 +33,8 @@ import android.graphics.Rect;
     public void spawn(int spawnX, int spawnY, Fortress f) {
         super.spawn(spawnX, spawnY, f);
         work = false;
+        farmX = (int)npcX ;
+        whereFarm = false;
     }
 
     /*
