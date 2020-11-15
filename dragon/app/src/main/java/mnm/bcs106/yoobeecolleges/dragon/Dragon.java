@@ -463,7 +463,7 @@ public class Dragon extends Character {
             animTime += fixedDeltaTime;
         }
 
-        friction=0.998f;
+        friction=0.9975f;
         bounce = 0.35f;
         if (position.y < groundLevel) {
             setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );

@@ -100,10 +100,12 @@ public class Hud {
 
 
         if(GameView.instance.player.breathingFire){
-            fire.setAlpha(255);
+            fire.setColorFilter(new LightingColorFilter(Color.WHITE,Color.rgb(100,100,50)));
+
         }
         else {
-            fire.setAlpha(155);
+            fire.setColorFilter(new LightingColorFilter(Color.WHITE,0));
+
         }
 
         healthWidth = Math.max((int)(healthMaxWidth*player.health/player.maxHealth),0);
