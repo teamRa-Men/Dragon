@@ -366,7 +366,7 @@ public class Scene {
         }
     }
     public void drawForeground(Canvas canvas){
-        canvas.drawRect(0,GameView.instance.groundLevel ,width,height,black);
+        canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,black);
         canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, null);
         canvas.drawBitmap(ground, groundX + groundX1, GameView.instance.groundLevel * .985f, null);
         canvas.drawBitmap(ground, groundX + groundX2, GameView.instance.groundLevel * .985f, null);

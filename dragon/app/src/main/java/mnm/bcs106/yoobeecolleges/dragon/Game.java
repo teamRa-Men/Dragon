@@ -94,7 +94,7 @@ public class Game extends AppCompatActivity {
     boolean breathFire = false;
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
-    int runTime = 0, loadingTime = 10000;
+    int runTime = 0, loadingTime = 5000;
 
 
     public Context context;
