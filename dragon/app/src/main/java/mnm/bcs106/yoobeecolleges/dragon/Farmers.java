@@ -34,6 +34,7 @@ import android.graphics.Rect;
         super.spawn(spawnX, spawnY, f);
         work = false;
         farmX = (int)npcX ;
+        whereFarm = false;
     }
 
     /*
