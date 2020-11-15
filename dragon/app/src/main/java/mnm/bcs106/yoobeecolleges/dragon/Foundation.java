@@ -60,7 +60,7 @@ public class Foundation {
 
     public Foundation(int x, int y, int tileNr, Fortress fortress){
         this.fortress = fortress;
-        tilesize = GameView.instance.cameraSize/15;
+        tilesize = GameView.instance.cameraSize/12;
         this.tileNr=tileNr;
 
         this.isStanding = true;

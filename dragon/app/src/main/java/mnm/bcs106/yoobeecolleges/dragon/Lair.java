@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Lair {
-    Bitmap lairBack,lairFront,lairMiddle;
+    Bitmap lairBack,lairFront,lairMiddle, mum;
     int width,height;
     Vector2 position;
     Paint paint = new Paint();
@@ -56,6 +56,10 @@ public class Lair {
         r = SpriteManager.instance.getEnvironmentSpriteRect("LairBack");
         lairBack = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
         lairBack = Bitmap.createScaledBitmap(lairBack, width,height,false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Mum");
+        mum = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        mum = Bitmap.createScaledBitmap(mum, width/4,(int)((float)r.height()/r.width()*width/4),false);
 
         position = new Vector2(GameView.instance.screenWidth/2, GameView.instance.getGroundLevel());
         player = GameView.instance.player;
@@ -291,6 +295,7 @@ public class Lair {
     public void drawBackground (Canvas canvas){
         canvas.drawBitmap(lairBack, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
+        canvas.drawBitmap(mum, (int) (position.x - width*0.45) + GameView.instance.cameraDisp.x,(int)(position.y- mum.getHeight()*1.05), paint);
 
         //canvas.drawCircle(position.x,goldPileHeight+goldPile.getHeight()/2,goldPile.getHeight()/2,paint);
     }

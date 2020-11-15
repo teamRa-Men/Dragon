@@ -40,7 +40,7 @@ public class SpriteManager {
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
 
 
-        environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet);
+        environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet_low);
         environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1088,true);
 
         NPCSprites = new HashMap<String,Bitmap>() {{
@@ -69,7 +69,7 @@ public class SpriteManager {
         }};
 
         buildingSprites = new HashMap<String,Bitmap>() {{
-            int tileSize = GameView.instance.cameraSize/15;
+            int tileSize = GameView.instance.cameraSize/12;
             put("House1",getSprite(getBuildingSpriteRect("House1"),buildingSheet,tileSize,tileSize));
             put("House2",getSprite(getBuildingSpriteRect("House2"),buildingSheet,tileSize,tileSize));
             put("House3",getSprite(getBuildingSpriteRect("House3"),buildingSheet,tileSize,tileSize));
@@ -171,18 +171,19 @@ public class SpriteManager {
     }};
 
     private final HashMap<String,Rect> environmentSpriteRects = new HashMap<String,Rect>() {{
-        put("LairBack",spriteRect(0,0,1024,256));
-        put("LairMiddle",spriteRect(0,256,1024,256));
-        put("LairFront",spriteRect(0,256*2,1024,256));
-        put("Mum",spriteRect(0,256*3,256,64));
+
+        put("LairBack",spriteRect(0,0,512,128));
+        put("LairMiddle",spriteRect(0,256,512,128));
+        put("LairFront",spriteRect(0,256*2,512,128));
+        put("Mum",spriteRect(0,128,256,64));
         put("GoldCoin",spriteRect(256,256*3,8,8));
-        put("Mountains",spriteRect(0,256*3+8,1024,64));
+        put("Mountains",spriteRect(0,(256*3+8),1024,64));
         put("Hills",spriteRect(0,1024+1,1024,64-1));
         put("Ground",spriteRect(0,896,1024,24));
-        put("Tree1",spriteRect(0,1024-64,64,64));
-        put("Tree2",spriteRect(64,1024-64,64,64));
-        put("Tree3",spriteRect(64*2,1024-64,64,64));
-        put("Tree4",spriteRect(64*3,1024-64,64,64));
+        put("Tree1",spriteRect(0,(1024-64),64,64));
+        put("Tree2",spriteRect(64,(1024-64),64,64));
+        put("Tree3",spriteRect(64*2,(1024-64),64,64));
+        put("Tree4",spriteRect(64*3,(1024-64),64,64));
         put("Tree5",spriteRect(64*4,1024-64,64,64));
         put("Tree6",spriteRect(64*5,1024-64,64,64));
         put("Tree7",spriteRect(64*6,1024-64,64,64));
