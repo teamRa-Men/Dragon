@@ -178,7 +178,7 @@ public class SpriteManager {
         put("GoldCoin",spriteRect(256,256*3,8,8));
         put("Mountains",spriteRect(0,256*3+8,1024,64));
         put("Hills",spriteRect(0,1024+1,1024,64-1));
-        put("Ground",spriteRect(0,896,1024,32));
+        put("Ground",spriteRect(0,896,1024,24));
         put("Tree1",spriteRect(0,1024-64,64,64));
         put("Tree2",spriteRect(64,1024-64,64,64));
         put("Tree3",spriteRect(64*2,1024-64,64,64));
@@ -202,6 +202,9 @@ public class SpriteManager {
         put("Tiny8",spriteRect(128+32*7,1024-64-32,32,32));
         put("Tiny9",spriteRect(128+32*8,1024-64-32,32,32));
 
+        put("Cloud1",spriteRect(1024-128,1024-64-32,128,32));
+        put("Cloud2",spriteRect(1024-256,1024-64-32,128,32));
+        put("Cloud3",spriteRect(1024-128,1024-64,128,64));
     }};
 
     private final HashMap<String,Rect> fireSpriteRects = new HashMap<String,Rect>() {{

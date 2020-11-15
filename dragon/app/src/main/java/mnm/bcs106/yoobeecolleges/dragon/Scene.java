@@ -14,20 +14,23 @@ public class Scene {
     Bitmap ground, hillsBackground,mountainBackground, forestLeft, forestRight, forest, bush, trunk;
     Bitmap[] treeTypes = new Bitmap[8];
     Bitmap[] tinies = new Bitmap[9];
+    Bitmap[] clouds = new Bitmap[8];
     int height, width;
     float mountainX, hillsX, groundX;
     float timeOfDay;
     int dayLength;
     int day = 1;
     public static Scene instance;
-    int treeCount = 100;
+    int treeCount = 80;
     int tiniesCount = 60;
     int bushCount = 60;
+    int cloudCount = 30;
 
     Wooloo[] forestWooloo = new Wooloo[5];
 
     int[] treePositionsLair, treePositionsEast, treePositionsWest;
-    Point[] tiniesPositionsLair, tiniesPositionsEast, tiniesPositions;
+    Point[] tiniesPositionsLair, tiniesPositionsEast, tiniesPositions, cloudPositions;
+    int[] cloudTypes;
     int[] bushPositionsWest, bushPositionsLair;
 
     Bitmap[] trees;
@@ -136,6 +139,37 @@ public class Scene {
             tinies[i] = Bitmap.createScaledBitmap(tinies[i], width / 40, width / 40, false);
         }
 
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud1");
+        clouds[0] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[0] = Bitmap.createScaledBitmap(clouds[0], width/5, (int)((float)clouds[0].getHeight()/clouds[0].getWidth()*width/5),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud2");
+        clouds[1] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[1] = Bitmap.createScaledBitmap(clouds[1], width/5, (int)((float)clouds[1].getHeight()/clouds[1].getWidth()*width/5),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud3");
+        clouds[2] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[2] = Bitmap.createScaledBitmap(clouds[2], width/5, (int)((float)clouds[2].getHeight()/clouds[2].getWidth()*width/6),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud1");
+        clouds[3] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[3] = Bitmap.createScaledBitmap(clouds[3], width/7, (int)((float)clouds[3].getHeight()/clouds[3].getWidth()*width/7),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud2");
+        clouds[4] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[4] = Bitmap.createScaledBitmap(clouds[4], width/7, (int)((float)clouds[4].getHeight()/clouds[4].getWidth()*width/7),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud3");
+        clouds[5] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[5] = Bitmap.createScaledBitmap(clouds[5], width/7, (int)((float)clouds[5].getHeight()/clouds[5].getWidth()*width/8),false);
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud1");
+        clouds[6] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[6] = Bitmap.createScaledBitmap(clouds[6], width/8, (int)((float)clouds[6].getHeight()/clouds[6].getWidth()*width/9),false);
+
+        r = SpriteManager.instance.getEnvironmentSpriteRect("Cloud3");
+        clouds[7] = Bitmap.createBitmap(sheet,r.left,r.top,r.width(),r.height());
+        clouds[7] = Bitmap.createScaledBitmap(clouds[7], width/4, (int)((float)clouds[7].getHeight()/clouds[7].getWidth()*width/5),false);
+
 
         eastFort = new Fortress( width*3, (int)gameView.groundLevel);
         gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
@@ -149,32 +183,24 @@ public class Scene {
         bushPositionsLair = new int[bushCount];
         treePositionsEast = new int[treeCount];
         bushPositionsWest = new int[bushCount];
-        tiniesPositionsLair = new Point[tiniesCount];
+        tiniesPositionsLair = new Point[tiniesCount/2];
         tiniesPositionsEast= new Point[tiniesCount];
         tiniesPositions= new Point[tiniesCount];
+        cloudPositions= new Point[cloudCount];
+        cloudTypes= new int[cloudCount];
 
         trees = new Bitmap[treeCount];
         int j = 0;
-        for(int i = 0; i < treeCount/2; i++){
-            treePositionsLair[i] = (int)(Math.random()*1.2*width-width);
-            trees[i] = treeTypes[(int)(Math.random()*7.5)];
-            int size = (int)((float)width/25+(float)width/25*Math.random());
-            trees[i] = Bitmap.createScaledBitmap(trees[i], size, size,false);
-            if(j<bushCount/2) {
-                bushPositionsLair[j] = treePositionsLair[i] + (int) ((Math.random() - 0.5) * width / 10);
-                j++;
-            }
-            if(j<bushCount/2) {
-                bushPositionsLair[j] = treePositionsLair[i] + (int) ((Math.random() - 0.5) * width / 10);
-                j++;
-            }
 
-        }
-        for(int i = treeCount/2; i < treeCount; i++){
-            treePositionsLair[i] = (int)(Math.random()*1.2*width+width*0.8);
+        for(int i = 0; i < treeCount; i++){
+            treePositionsLair[i] = (int)(Math.random()*1.2*width+width*0.5);
             trees[i] = treeTypes[(int)(Math.random()*7.5)];
-            int size = (int)((float)width/25+(float)width/25*Math.random());
+            int size =  (int)((float)width/30+(float)width/15*Math.random());//*(float)(1.8*width-treePositionsLair[i])/width);
             trees[i] = Bitmap.createScaledBitmap(trees[i], size, size,false);
+            if(j<bushCount) {
+                bushPositionsLair[j] = treePositionsLair[i] + (int) ((Math.random() - 0.5) * width / 10);
+                j++;
+            }
             if(j<bushCount) {
                 bushPositionsLair[j] = treePositionsLair[i] + (int) ((Math.random() - 0.5) * width / 10);
                 j++;
@@ -187,21 +213,28 @@ public class Scene {
         }
 
 
-        for(int i = 0; i < tiniesCount/2; i++) {
+        for(int i = 0; i < tiniesCount/8; i++) {
             tiniesPositionsLair[i] = new Point();
             tiniesPositionsLair[i].x = (int)(Math.random()*width-width*0.8);
-            tiniesPositionsLair[i].y = (int)(Math.random()*8.5);
+            tiniesPositionsLair[i].y = (int)(Math.random()*5.9+3);
         }
-        for(int i = tiniesCount/2; i < tiniesCount; i++){
+        for(int i = tiniesCount/8; i < tiniesCount/2; i++){
             tiniesPositionsLair[i] = new Point();
             tiniesPositionsLair[i].x = (int)(Math.random()*width+width*0.8);
-            tiniesPositionsLair[i].y = (int)(Math.random()*8.5);
+            tiniesPositionsLair[i].y = (int)(Math.random()*8.9);
         }
 
         for(int i = 0; i < tiniesCount; i++){
             tiniesPositions[i] = new Point();
             tiniesPositions[i].x = (int)(Math.random()*width*14-width*8);
             tiniesPositions[i].y = (int)(Math.random()*5.9+3);
+        }
+
+        for(int i = 0; i < cloudCount; i++){
+            cloudPositions[i] = new Point();
+            cloudPositions[i].x = (int)(Math.random()*width*6-width*3);
+            cloudPositions[i].y = (int)(Math.random()*GameView.instance.screenHeight/2);
+            cloudTypes[i] = (int)(Math.random()*7.9);
         }
 
         j = 0;
@@ -255,7 +288,9 @@ public class Scene {
         //canvas.drawBitmap(sky, mountainX+ mountainX0,0,backPaint);
         //canvas.drawBitmap(sky, mountainX+ mountainX1,0,backPaint);
         //canvas.drawBitmap(sky, mountainX+ mountainX2,0,backPaint);
-
+        for (int i = 0; i < cloudPositions.length; i++) {
+            canvas.drawBitmap(clouds[cloudTypes[i]], mountainX + cloudPositions[i].x, cloudPositions[i].y, backPaint);
+        }
 
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
         canvas.drawBitmap(mountainBackground, mountainX+ mountainX1,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
@@ -265,8 +300,18 @@ public class Scene {
         canvas.drawBitmap(hillsBackground, hillsX + hillsX1, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
         canvas.drawBitmap(hillsBackground, hillsX + hillsX2, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
 
+
+
         if (Math.abs(GameView.instance.lair.position.x - GameView.instance.player.position.x) < width * 2.5){
-            
+            for (int i = 0; i < 9; i++) {
+                if (i == 8) {
+                    canvas.drawBitmap(forestRight, groundX +width/2 + i * width / 8, gameView.groundLevel - forest.getHeight(), null);
+                } else {
+                    canvas.drawBitmap(forest, groundX +width/2 + i * width / 8, gameView.groundLevel - forest.getHeight(), null);
+                }
+            }
+
+
             for (int i = 0; i < treeCount; i++) {
                 canvas.drawBitmap(trees[i], groundX + treePositionsLair[i], gameView.groundLevel - trees[i].getHeight(), null);
             }
@@ -277,6 +322,8 @@ public class Scene {
             for (int i = 0; i < tiniesPositionsLair.length; i++) {
                 canvas.drawBitmap(tinies[tiniesPositionsLair[i].y], groundX + tiniesPositionsLair[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
             }
+
+
         }
         else if( GameView.instance.player.position.x < -0){
             for(int i = 0; i < treePositionsWest.length; i++) {
@@ -290,11 +337,11 @@ public class Scene {
 
             for (int i = 0; i < 17; i++) {
                 if (i == 0) {
-                    canvas.drawBitmap(forestLeft, groundX +4*width + i * width / 8 , gameView.groundLevel - forest.getHeight(), null);
+                    canvas.drawBitmap(forestLeft, groundX +4*width + (i) * width / 8 , gameView.groundLevel - forest.getHeight(), null);
                 } else if (i == 16) {
-                    canvas.drawBitmap(forestRight, groundX +4*width + i * width / 8, gameView.groundLevel - forest.getHeight(), null);
+                    canvas.drawBitmap(forestRight, groundX +4*width + (i) * width / 8, gameView.groundLevel - forest.getHeight(), null);
                 } else {
-                    canvas.drawBitmap(forest, groundX +4*width + i * width / 8, gameView.groundLevel - forest.getHeight(), null);
+                    canvas.drawBitmap(forest, groundX +4*width + (i) * width / 8, gameView.groundLevel - forest.getHeight(), null);
                 }
             }
             for(int i = 0; i < treePositionsEast.length; i++) {

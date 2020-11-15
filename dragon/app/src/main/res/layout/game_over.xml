@@ -19,7 +19,7 @@
         android:layout_weight="1"
         android:background="@android:color/white"
         android:fontFamily="sans-serif-condensed-medium"
-        android:padding="?attr/dialogPreferredPadding"
+        android:paddingTop="30dp"
         android:shadowColor="#BDBDBD"
         android:shadowDy="10"
         android:shadowRadius="10"
