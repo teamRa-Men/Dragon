@@ -40,8 +40,8 @@ public class Lair {
 
 
     public Lair() {
-        width = Game.instance.screenWidth;
-        height = GameView.instance.screenWidth /4;
+        width = Game.instance.screenWidth*3/4;
+        height = GameView.instance.screenWidth*3/4/4;
 
         Bitmap sheet = SpriteManager.instance.environmentSheet;
 
@@ -256,9 +256,10 @@ public class Lair {
             Game.instance.showSleepButton = Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2;
 
         }
-
+        if (Math.abs(player.aimFor().x - position.x) < goldPile.getWidth() / 4 ) {
+            Game.instance.showGold = true;
         if (GameView.instance.player.goldHolding > 0) {
-            if (Math.abs(player.aimFor().x - position.x) < goldPile.getWidth() / 4 ) {
+
                 //depositedGold += 1;
                 //System.out.println(depositedGold);}
                 //goldPileHeight = getGoldPileHeight();
@@ -268,7 +269,11 @@ public class Lair {
                 GoldPool.instance.spawnGold((int)p.x, (int)(p.y+ GameView.instance.player.radius), 1,true);
                 GameView.instance.player.goldHolding--;
                 depositedGold++;
+
             }
+        }
+        else{
+            Game.instance.showGold = false;
         }
 
         float dx=  Math.abs(player.position.x-position.x);

@@ -65,7 +65,7 @@ public class Game extends AppCompatActivity {
     CardView creditCard;
 
     //state variables
-    boolean showGameOver = false, gameOver = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
+    boolean showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
 
     int screenHeight, screenWidth;
     public int score = 0, highScore;
@@ -394,14 +394,17 @@ public class Game extends AppCompatActivity {
             fadeView(showWakeButton, wakeButton);
             fadeView(showUpgradeButton, upgradeButton);
             fadeView(showWakeButton, xpBarLair);
-            fadeView(showSleepButton||showWakeButton,goldDeposited);
+            fadeView(showGold,goldDeposited);
             fadeView(showWakeButton,  xpTextLair);
 
 
 
             Lair lair = GameView.instance.lair;
-            if(showSleepButton || showWakeButton) {
+            if(showGold){
                 goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
+            }
+            if(showSleepButton || showWakeButton) {
+
                 xpBarLair.setProgress((int) (lair.experience / (lair.nextLevel) * 100));
                 xpTextLair.setText((int) lair.experience + " XP");
             }

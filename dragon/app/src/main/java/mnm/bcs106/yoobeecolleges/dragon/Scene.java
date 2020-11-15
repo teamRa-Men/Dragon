@@ -21,10 +21,10 @@ public class Scene {
     int dayLength;
     int day = 1;
     public static Scene instance;
-    int treeCount = 80;
-    int tiniesCount = 60;
-    int bushCount = 60;
-    int cloudCount = 30;
+    int treeCount = 40;
+    int tiniesCount = 40;
+    int bushCount = 40;
+    int cloudCount = 20;
 
     Wooloo[] forestWooloo = new Wooloo[5];
 
