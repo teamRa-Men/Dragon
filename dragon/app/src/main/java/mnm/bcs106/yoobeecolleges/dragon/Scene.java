@@ -23,8 +23,8 @@ public class Scene {
     public static Scene instance;
     int treeCount = 30;
     int tiniesCount = 30;
-    int bushCount = 30;
-    int cloudCount = 20;
+    int bushCount = 20;
+    int cloudCount = 10;
 
     Wooloo[] forestWooloo = new Wooloo[5];
 
