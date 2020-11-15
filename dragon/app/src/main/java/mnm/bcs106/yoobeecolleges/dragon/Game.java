@@ -65,8 +65,8 @@ public class Game extends AppCompatActivity {
     CardView creditCard;
 
     //state variables
-    boolean showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
-
+    boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
+    int breathCoolDownLength = 500, coolDownTime = 0;
     int screenHeight, screenWidth;
     public int score = 0, highScore;
     float refreshRating;
@@ -376,7 +376,18 @@ public class Game extends AppCompatActivity {
                 } else {
                     gameView.movePlayerBy(null);
                 }
-                gameView.breathFire(breathFire);
+                if(!breathCoolDown) {
+                    gameView.breathFire(breathFire);
+                }
+                else{
+                    coolDownTime+=1000/15;
+                    if(coolDownTime> breathCoolDownLength){
+                        breathCoolDown = false;
+                        coolDownTime = 0;
+                    }
+                }
+
+
 
                 if(showDay){
                     showDayText.setText("DAY "+ gameView.scene.day);
@@ -530,9 +541,12 @@ public class Game extends AppCompatActivity {
                 }
                 else {
                     breathFire = false;
+                    breathCoolDown = true;
+
                 }
                 if(!dragging){
                     breathFire = false;
+                    breathCoolDown = true;
                 }
                 if(!breathFire){
                     dragging = false;

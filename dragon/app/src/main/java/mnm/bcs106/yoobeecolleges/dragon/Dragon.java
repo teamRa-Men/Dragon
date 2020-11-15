@@ -875,6 +875,7 @@ class FireBreath{
     ArrayList<Flame> flames = new ArrayList<Flame>();
     ArrayList<Flame> backFlames = new ArrayList<Flame>();
 
+
     int currentBreath = 0;
     Dragon dragon;
     float range,length;
