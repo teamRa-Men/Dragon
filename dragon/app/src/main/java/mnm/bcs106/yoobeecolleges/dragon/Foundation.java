@@ -91,9 +91,9 @@ public class Foundation {
             int d = (int)((float) health / maxHealth*125)+130;
             p.setColorFilter(new LightingColorFilter(Color.rgb(d,d,d), 0));
         }*/
-
-        c.drawBitmap(buildingImage,dst.left,dst.top,null);
-
+        if(buildingImage!=null) {
+            c.drawBitmap(buildingImage, dst.left, dst.top, null);
+        }
     }
 
     public int getTileNr(){
@@ -250,7 +250,16 @@ public class Foundation {
                 }
 
                 else if(buildingType == 3){
-                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm1");
+                    double r = Math.random();
+                    int buildingSprite = 3;
+                    if(r<0.25){
+                        buildingSprite = 2;
+                    }
+                    else if(r<0.5){
+                        buildingSprite=1;
+                    }
+
+                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
                 }
 
                 else if(buildingType == 4){

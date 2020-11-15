@@ -44,5 +44,6 @@ public class StartMenu extends AppCompatActivity {
     public void startGame(View view){
         Intent i = new Intent(this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
+        finish();
     }
 }
