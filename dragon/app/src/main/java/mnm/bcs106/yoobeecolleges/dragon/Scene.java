@@ -359,14 +359,19 @@ public class Scene {
 
 
         if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*3) {
+
             eastFort.draw(canvas);
         }
         if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*3) {
+
             westFort.draw(canvas);
         }
         if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*3) {
+
             finalFort.draw(canvas);
         }
+
+
 
 
     }
@@ -398,11 +403,18 @@ public class Scene {
 
 
     public void update(float deltaTime){
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width) {
+            if(!Music.instance.playingTheme) {
+                Music.instance.playThemeMusic();
+            }
+        }
+
         eastFort.update(deltaTime);
         westFort.update(deltaTime);
         finalFort.update(deltaTime);
         if(!finalFort.isStanding && !StatsRecorder.instance.finalKingdom){
             StatsRecorder.instance.finalKingdomDestroyed();
+
         }
 
         mountainX = gameView.cameraDisp.x/2;
@@ -437,6 +449,7 @@ public class Scene {
         timeOfDay +=deltaTime;
         if(timeOfDay > dayLength/2){
             timeOfDay +=deltaTime;
+            Music.instance.startFadeOut(6000);
         }
         //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){

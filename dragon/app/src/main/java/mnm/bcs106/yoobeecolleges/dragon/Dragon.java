@@ -485,19 +485,22 @@ public class Dragon extends Character {
         SoundEffects.instance.play(SoundEffects.COIN);
     }
 
-    int animDuration = 500, animTime = 0;
+    int animDuration = 500, animTime = 0, deathTime = 0;
+
     boolean down = false;
     @Override
     protected void destroyAnim(Canvas canvas) {
         GameView.instance.timeScale = 0.2f;
 
         groundLevel = GameView.instance.lair.getGroundLevel(position, radius*0.6f);
-        if (animTime>animDuration) {
+        if (animTime>animDuration || deathTime>2000) {
 
             visible = false;
             down = false;
             animTime = 0;
+            deathTime = 0;
         }
+        deathTime+=fixedDeltaTime;
         if(down) {
             animTime += fixedDeltaTime;
         }
@@ -680,6 +683,9 @@ class Segment extends GameObject{
         time += deltaTime * (dragon.speed / dragon.maxMoveSpeed * 4 + 1) * 0.75f;
         if(!dragon.isSleeping) {
             wave = (float) Math.cos((-time / 1000 + index / dragon.segments.size() * 2) * Math.PI) * dragon.radius * index / dragon.segments.size() * 0.2f;
+        }
+        else{
+            wave = (float) Math.sin(time / 1300 )*(1-Math.abs(2*(dragon.bodyStart+dragon.bodyEnd)/2-index)/dragon.segments.size())/10*dragon.radius;
         }
         if(dragon.destroyed){
             wave = 0;
@@ -914,7 +920,7 @@ class Wing{
             flap = ((float) Math.sin(time / 1000 * Math.PI)+flap)/2;
             double f = Math.cos(time / 1000 * Math.PI);
             if(front) {
-                if (flap > 0.4 && flap <0.6 ) {
+                if (flap > 0.4 && flap <0.6 && dragon.speed/dragon.maxMoveSpeed>0.5) {
                     if(!soundPlayed) {
                         soundPlayed = true;
                         SoundEffects.instance.play(SoundEffects.FLYING);

@@ -39,6 +39,9 @@ public class GoldPool {
 
             }
         }
+        if(Math.random()<0.1){
+            Music.instance.playThemeMusic();
+        }
     }
 
     public void collectedGold(Gold collected){

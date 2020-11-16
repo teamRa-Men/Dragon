@@ -30,6 +30,7 @@ public class Game extends AppCompatActivity {
     //UI
     Vector2 fireButton;
 
+    Button mournButton;
     Button sleepButton;
     Button wakeButton;
     Button upgradeButton;
@@ -67,6 +68,8 @@ public class Game extends AppCompatActivity {
 
     //state variables
     boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
+    boolean showMournButton = false;
+    boolean mourning = false;
     int breathCoolDownLength = 300, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
@@ -93,6 +96,7 @@ public class Game extends AppCompatActivity {
     //Player control
     boolean dragging = false;
     boolean breathFire = false;
+
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
     int runTime = 0, loadingTime = 8000;
@@ -368,6 +372,7 @@ public class Game extends AppCompatActivity {
         });
 
         showDayText = findViewById(R.id.showDayText);
+        mournButton = findViewById(R.id.mourn);
         sleepButton = findViewById(R.id.sleepButton);
         wakeButton = findViewById(R.id.wakeButton);
         upgradeButton = findViewById(R.id.upgradeButton);
@@ -423,21 +428,30 @@ public class Game extends AppCompatActivity {
                     loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha / alpha);
                 }
 
-
-                //gameView.setPlayerMovement(dragTo);
-                if (dragFrom != null && dragTo != null) {
-                    gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius / 2));
-                } else {
-                    gameView.movePlayerBy(null);
-                }
-                if(!breathCoolDown) {
-                    gameView.breathFire(breathFire);
+                if(!mourning) {
+                    //gameView.setPlayerMovement(dragTo);
+                    if (dragFrom != null && dragTo != null) {
+                        gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius / 2));
+                    } else {
+                        gameView.movePlayerBy(null);
+                    }
+                    if (!breathCoolDown) {
+                        gameView.breathFire(breathFire);
+                    } else {
+                        coolDownTime += 1000 / 15;
+                        if (coolDownTime > breathCoolDownLength) {
+                            breathCoolDown = false;
+                            coolDownTime = 0;
+                        }
+                    }
                 }
                 else{
-                    coolDownTime+=1000/15;
-                    if(coolDownTime> breathCoolDownLength){
-                        breathCoolDown = false;
+                    coolDownTime += 1000 / 15;
+                    if(coolDownTime>4000){
+                        mourning = false;
                         coolDownTime = 0;
+                        gameView.drawHUD = true;
+                        gameView.player.direction = new Vector2(gameView.player.direction.x,0);
                     }
                 }
 
@@ -463,6 +477,7 @@ public class Game extends AppCompatActivity {
             fadeView(showWakeButton, xpBarLair);
             fadeView(showGold,goldDeposited);
             fadeView(showWakeButton,  xpTextLair);
+            fadeView(showMournButton,mournButton);
 
 
 
@@ -629,5 +644,21 @@ public class Game extends AppCompatActivity {
         GameView.instance.lair.wake();
         SoundEffects.instance.play(SoundEffects.MENU);
         //System.out.println("wake");
+    }
+
+    public void onMourn(View view) {
+
+        SoundEffects.instance.play(SoundEffects.MOURN);
+        mourning = true;
+        gameView.drawHUD = false;
+        coolDownTime = 0;
+        float dx = gameView.player.direction.x;
+
+        gameView.lair.lieDown();
+        //gameView.player.head.position.y =GameView.instance.groundLevel;
+
+        gameView.player.direction = new Vector2(dx,-Math.abs(4*dx));
+        //gameView.player.moveBy(new Vector2(dx,-Math.abs(4*dx)));
+
     }
 }

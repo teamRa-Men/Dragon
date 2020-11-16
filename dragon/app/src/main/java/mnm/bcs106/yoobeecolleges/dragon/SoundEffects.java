@@ -23,7 +23,7 @@ public class SoundEffects{
             ARROW=9,
             MAGIC=10,
             HIT=11,
-            EXPLOSION=12,
+            MOURN=12,
             DEATH=13,
             LEVELUP = 14,
             BELLS = 15,
@@ -58,7 +58,7 @@ public class SoundEffects{
         //List of available sound effects
         soundId = new int[21];
         soundId[HIT] = soundPool.load(context,R.raw.damage,1);
-        soundId[EXPLOSION] = soundPool.load(context,R.raw.explosion,1);
+        soundId[MOURN] = soundPool.load(context,R.raw.mourn,1);
         soundId[ARROW] = soundPool.load(context,R.raw.arrow,1);
 
         soundId[COIN] = soundPool.load(context,R.raw.coin,1);

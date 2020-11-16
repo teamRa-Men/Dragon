@@ -46,10 +46,7 @@ public class Projectile extends GameObject {
                     returnToPool = true;
                 }
             }
-            if(type == MAGIC){
-                scaleY = (float)Math.cos(timeSinceShot/coolDown*50*Math.PI)/20+0.95f;
-                scaleX = (float)Math.sin(timeSinceShot/coolDown*50*Math.PI)/10+0.90f;
-            }
+
         }
         super.draw(canvas);
     }

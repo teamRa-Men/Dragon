@@ -166,6 +166,7 @@ public class Lair {
         player.speed = 0;
         lieDown();
         GameView.instance.timeScale = sleepTimeSpeed;
+        Music.instance.startFadeOut(2000);
         soundID = SoundEffects.instance.play(SoundEffects.SLEEP,-1,1);
     }
 
@@ -217,6 +218,7 @@ public class Lair {
             float goldSurface = goldPileHeight + goldPile.getHeight() / 2 - (float) Math.sqrt(Math.pow(goldPile.getHeight() / 2, 2) - Math.pow(p.x - position.x, 2));
             groundLevel = Math.min(GameView.instance.groundLevel - r * 1.4f, goldSurface - r);
         }
+
         return  groundLevel;
     }
 
@@ -262,6 +264,9 @@ public class Lair {
         } else {
             Game.instance.showWakeButton = false;
             Game.instance.showUpgradeButton = false;
+
+                Game.instance.showMournButton = Math.abs(position.x - width*0.4 - player.position.x )<width/20 && !player.flying;
+
 
 
             //System.out.println("sleep button on");

@@ -269,7 +269,7 @@ public class SpriteManager {
         return NPCSprites.get(spriteName);
     }
 
-    //0 horizontal, 1 vertical
+
     public static Bitmap flip(Bitmap bitmap, int type){
         Matrix matrix =new Matrix();
         if(type==0){

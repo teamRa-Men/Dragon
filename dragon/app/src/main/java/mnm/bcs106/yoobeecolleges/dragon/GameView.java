@@ -65,6 +65,7 @@ public class GameView extends SurfaceView implements Runnable {
     Hud hud;
 
     //Drawing
+    public boolean drawHUD = true;
     SurfaceHolder holder;
     Paint back = new Paint();
     SpriteManager spriteManager;
@@ -128,7 +129,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-
+        drawHUD = true;
 
         hud = new Hud();
 
@@ -256,8 +257,9 @@ public class GameView extends SurfaceView implements Runnable {
             firePool.draw(canvas);
             scene.drawForeground(canvas);//
 
-
-            hud.draw(canvas);
+            if(drawHUD) {
+                hud.draw(canvas);
+            }
 
 
             holder.unlockCanvasAndPost(canvas);
@@ -292,7 +294,9 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
 
         Music.instance.update(fixedDeltaTime);
-
+        if(player.health<=0){
+            drawHUD = false;
+        }
         if(!player.visible) {
             if (!Game.instance.gameOver) {
                 timeScale = 1;
@@ -304,7 +308,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
         else{
             player.update(fixedDeltaTime);
-
             scene.update(fixedDeltaTime);
             npc_pool.update(fixedDeltaTime);
             projectilePool.update(fixedDeltaTime);

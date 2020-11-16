@@ -40,28 +40,40 @@ public class DragonLayers extends NPC {
             arrowRechargeTime.update(deltaTime);
 
             if(lockTarget) {
-                direction = (int) Math.signum(GameView.instance.player.aimFor().x - (npcX+npcWidth/2));
+
+                boolean insideLair = Math.abs(npcX-GameView.instance.lair.position.x)<GameView.instance.lair.width/2;
+                boolean aboveLair = GameView.instance.player.aimFor().y<GameView.instance.lair.colliderLeft.top && insideLair;
+
                 if (Math.abs(GameView.instance.player.position.x - npcX) > GameView.instance.cameraSize / 4) {
-                    target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
-                    moveToTarget(deltaTime);
-                    npcY = (int) GameView.instance.groundLevel - npcRect.height();
-                    npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
-                }
-                if (Math.abs(GameView.instance.player.aimFor().x - npcX) < GameView.instance.cameraSize / 2) {
-                    arrowRechargeTime.triggerAction();
-                    if (arrowRechargeTime.charging) {
-                        shot = false;
-                        npcBitmap = shootSprite;
-                    } else if (arrowRechargeTime.performing) {
-                        if (!shot) {
-                            shoot();
-                            shot = true;
-                            npcBitmap = shootingSprite;
-                        }
-                    } else {
-                        npcBitmap = idleSprite;
+                    if(!aboveLair) {
+                        direction = (int) Math.signum(GameView.instance.player.aimFor().x - (npcX+npcWidth/2));
+                        target.x = (int) GameView.instance.player.position.x - direction * GameView.instance.cameraSize / 4;
+                    }
+                    else{
+                        target.x = (int) GameView.instance.lair.position.x+direction* GameView.instance.lair.width;
                     }
                 }
+                if (Math.abs(GameView.instance.player.aimFor().x - npcX) < GameView.instance.cameraSize / 2) {
+                    if(!aboveLair){
+                        arrowRechargeTime.triggerAction();
+                        if (arrowRechargeTime.charging) {
+                            shot = false;
+                            npcBitmap = shootSprite;
+                        } else if (arrowRechargeTime.performing) {
+                            if (!shot) {
+                                shoot();
+                                shot = true;
+                                npcBitmap = shootingSprite;
+                            }
+                        } else {
+                            npcBitmap = idleSprite;
+                        }
+                    }
+                }
+                moveToTarget(deltaTime);
+                npcY = (int) GameView.instance.groundLevel - npcRect.height();
+                npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
+
             }
             else {
                 idle(GameView.instance.screenWidth/4,Math.abs(npcX - target.x) < 10);
