@@ -25,6 +25,7 @@ public class Wizard extends NPC {
         shootingSprite = SpriteManager.instance.getNPCSprite("Wizard3");
 
         npcBitmap = idleSprite;
+        npcType = 5;
     }
 
     @Override

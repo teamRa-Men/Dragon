@@ -66,9 +66,9 @@ public class Game extends AppCompatActivity {
 
     //state variables
     boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
-    int breathCoolDownLength = 500, coolDownTime = 0;
+    int breathCoolDownLength = 100, coolDownTime = 0;
     int screenHeight, screenWidth;
-    public int score = 0, highScore;
+    public StatsRecorder statsRecorder;
     float refreshRating;
 
     //misc
@@ -130,9 +130,12 @@ public class Game extends AppCompatActivity {
         initUI();
         handler = new Handler();
 
+        statsRecorder = new StatsRecorder();
 
         //start game loop
         gameView = new GameView(this);
+        statsRecorder.init();
+
         ConstraintLayout gameLayout = findViewById(R.id.startSurfaceView);
         gameLayout.addView(gameView);
         updateUI();
@@ -215,19 +218,23 @@ public class Game extends AppCompatActivity {
         pauseRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                score = 0;
+
                 gameView.pause();
+                statsRecorder.gameEnd();
 
                 runTime = 0;
                 loadScreen.setAlpha(1);
                 Game.instance.showDay = true;
                 gameView.init();
+
+                statsRecorder.init();
                 dialog.dismiss();
             }
         });
         pauseExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StatsRecorder.instance.gameEnd();
                 finish();
             }
         });
@@ -452,7 +459,7 @@ public class Game extends AppCompatActivity {
         //Apply only once
         showGameOver = false;
         gameOver = true;
-
+        statsRecorder.gameEnd();
 
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
@@ -466,14 +473,14 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //reset states and restart game loop
-                score = 0;
+
                 gameView.pause();
 
                 runTime = 0;
                 loadScreen.setAlpha(1);
                 Game.instance.showDay = true;
                 gameView.init();
-
+                statsRecorder.init();
                 //Close dialog box
                 dialog.dismiss();
             }

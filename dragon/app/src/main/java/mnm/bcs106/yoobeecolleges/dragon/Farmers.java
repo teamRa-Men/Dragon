@@ -23,6 +23,7 @@ import android.graphics.Rect;
         workingSprite =SpriteManager.instance.getNPCSprite("Farmer2");
 
         npcBitmap = idleSprite;
+        npcType = 2;
     }
 
     /*

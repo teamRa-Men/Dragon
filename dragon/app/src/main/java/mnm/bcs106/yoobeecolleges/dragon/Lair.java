@@ -273,7 +273,7 @@ public class Lair {
                 GoldPool.instance.spawnGold((int)p.x, (int)(p.y+ GameView.instance.player.radius), 1,true);
                 GameView.instance.player.goldHolding--;
                 depositedGold++;
-
+                StatsRecorder.instance.setMaxGold(depositedGold);
             }
         }
         else{

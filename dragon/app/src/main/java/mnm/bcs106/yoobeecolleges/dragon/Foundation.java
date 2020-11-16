@@ -178,6 +178,8 @@ public class Foundation {
 
         if(health == 0 && isStanding){
             isStanding = false;
+            StatsRecorder.instance.buildingDestroyed(buildingType);
+
         }
     }
 

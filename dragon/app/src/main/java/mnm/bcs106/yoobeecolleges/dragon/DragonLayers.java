@@ -24,6 +24,7 @@ public class DragonLayers extends NPC {
         shootingSprite =SpriteManager.instance.getNPCSprite("Slayer3");
 
         npcBitmap = idleSprite;
+        npcType = 3;
     }
 
     @Override

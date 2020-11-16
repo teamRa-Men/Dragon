@@ -244,20 +244,20 @@ public class GameView extends SurfaceView implements Runnable {
             //90
             //canvas.drawRect(0, 0, screenWidth * 1.2f, screenHeight, back);
             scene.drawBackground(canvas);//40
-            //lair.drawBackground(canvas);//80
+            lair.drawBackground(canvas);//80
 
-            //projectilePool.draw(canvas);//80
-            //npc_pool.draw(canvas);//90
+            projectilePool.draw(canvas);//80
+            npc_pool.draw(canvas);//90
 
-            //goldPool.draw(canvas);//
+            goldPool.draw(canvas);//
             player.draw(canvas);//80
-            //lair.drawForeground(canvas);
+            lair.drawForeground(canvas);
 
-            //firePool.draw(canvas);
+            firePool.draw(canvas);
             scene.drawForeground(canvas);//
 
 
-            //hud.draw(canvas);
+            hud.draw(canvas);
 
 
             holder.unlockCanvasAndPost(canvas);
@@ -272,16 +272,16 @@ public class GameView extends SurfaceView implements Runnable {
         cameraDisp.x = -player.position.x+screenWidth/2;
 
 
-        //npc_pool.physics(fixedDeltaTime);
+        npc_pool.physics(fixedDeltaTime);
 
         //Enemy motion
 
-        //goldPool.physics(fixedDeltaTime / physicsIterations);
-        //projectilePool.physics(fixedDeltaTime / physicsIterations);
+        goldPool.physics(fixedDeltaTime / physicsIterations);
+        projectilePool.physics(fixedDeltaTime / physicsIterations);
 
         player.physics(fixedDeltaTime / physicsIterations);
-        //lair.physics(fixedDeltaTime / physicsIterations);
-        //scene.physics(fixedDeltaTime/physicsIterations);
+        lair.physics(fixedDeltaTime / physicsIterations);
+        scene.physics(fixedDeltaTime/physicsIterations);
 
 
     }
@@ -295,14 +295,13 @@ public class GameView extends SurfaceView implements Runnable {
             player.update(fixedDeltaTime);
 
         scene.update(fixedDeltaTime);
-        //npc_pool.update(fixedDeltaTime);
-        //projectilePool.update(fixedDeltaTime);
+        npc_pool.update(fixedDeltaTime);
+        projectilePool.update(fixedDeltaTime);
         //System.out.println(fixedDeltaTime +" "+ deltaTime);
-        //goldPool.update(fixedDeltaTime);
-        //fortress.update(fixedDeltaTime);
-        //hud.update(fixedDeltaTime);
-        //lair.update(fixedDeltaTime);
-        //firePool.update(fixedDeltaTime);
+        goldPool.update(fixedDeltaTime);
+        hud.update(fixedDeltaTime);
+        lair.update(fixedDeltaTime);
+        firePool.update(fixedDeltaTime);
         if(!player.visible) {
             if (!Game.instance.gameOver) {
                 Game.instance.showGameOver = true;

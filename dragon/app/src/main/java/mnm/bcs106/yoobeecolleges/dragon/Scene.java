@@ -55,7 +55,7 @@ public class Scene {
         height = gameView.screenHeight;
         islandSizeLeft =width*10;
         islandSizeRight =width*7;
-        /*
+
         finalFort = new Fortress( -width*6, (int)gameView.groundLevel);
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
@@ -70,7 +70,11 @@ public class Scene {
         gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,finalFort);
 
         gameView.npc_pool.spawnWizard(finalFort.x,finalFort.y,3,finalFort);
-*/
+
+        eastFort = new Fortress( width*3, (int)gameView.groundLevel);
+        gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
+
+        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
 
 
 
@@ -171,10 +175,7 @@ public class Scene {
         clouds[7] = Bitmap.createScaledBitmap(clouds[7], width/4, (int)((float)clouds[7].getHeight()/clouds[7].getWidth()*width/5),false);
 
 
-        eastFort = new Fortress( width*3, (int)gameView.groundLevel);
-        gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
 
-        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
 
 
 
@@ -281,56 +282,6 @@ public class Scene {
         //skyPaint.setColor(Color.rgb(250,250,255));
     }
 
-
-
-    public void drawBackground(Canvas canvas) {
-        canvas.drawRect(0, 0, width, height, skyPaint);
-        for (int i = 0; i < cloudPositions.length; i++) {
-            canvas.drawBitmap(clouds[cloudTypes[i]], mountainX + cloudPositions[i].x, cloudPositions[i].y, backPaint);
-        }
-
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX1,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
-        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
-
-        canvas.drawBitmap(hillsBackground, hillsX + hillsX0, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
-        canvas.drawBitmap(hillsBackground, hillsX + hillsX1, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
-        canvas.drawBitmap(hillsBackground, hillsX + hillsX2, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
-
-
-
-        if (Math.abs(GameView.instance.lair.position.x - GameView.instance.player.position.x) < width * 2.5){
-           //drawLairForest(canvas);
-        }
-        else if( GameView.instance.player.position.x < -0){
-            for(int i = 0; i < treePositionsWest.length; i++) {
-                canvas.drawBitmap(trees[i], groundX + treePositionsWest[i], gameView.groundLevel - trees[i].getHeight(), null);
-            }
-            for (int i = 0; i < bushPositionsWest.length; i++) {
-                canvas.drawBitmap(bush, groundX + bushPositionsWest[i], gameView.groundLevel - bush.getHeight(), null);
-            }
-        }
-        else{
-            //drawWoolooForest(canvas);
-        }
-        for (int i = 0; i < tiniesPositions.length; i++) {
-            canvas.drawBitmap(tinies[tiniesPositions[i].y], groundX + tiniesPositions[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
-        }
-
-        /*
-        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*3) {
-            eastFort.draw(canvas);
-        }
-        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*3) {
-            westFort.draw(canvas);
-        }
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*3) {
-            finalFort.draw(canvas);
-        }
-
-         */
-    }
-
     void drawLairForest(Canvas canvas){
         for (int i = 0; i < 9; i++) {
             if (i == 8) {
@@ -339,6 +290,8 @@ public class Scene {
                 canvas.drawBitmap(forest, groundX +width/2 + i * width / 8, gameView.groundLevel - forest.getHeight(), null);
             }
         }
+
+
         for (int i = 0; i < treeCount; i++) {
             canvas.drawBitmap(trees[i], groundX + treePositionsLair[i], gameView.groundLevel - trees[i].getHeight(), null);
         }
@@ -368,6 +321,55 @@ public class Scene {
         }
     }
 
+    public void drawBackground(Canvas canvas) {
+        canvas.drawRect(0, 0, width, height, skyPaint);
+        for (int i = 0; i < cloudPositions.length; i++) {
+            canvas.drawBitmap(clouds[cloudTypes[i]], mountainX + cloudPositions[i].x, cloudPositions[i].y, backPaint);
+        }
+
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX0,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX1,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
+        canvas.drawBitmap(mountainBackground, mountainX+ mountainX2,gameView.groundLevel - mountainBackground.getHeight() * 0.9f,backPaint);
+
+        canvas.drawBitmap(hillsBackground, hillsX + hillsX0, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
+        canvas.drawBitmap(hillsBackground, hillsX + hillsX1, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
+        canvas.drawBitmap(hillsBackground, hillsX + hillsX2, gameView.groundLevel - hillsBackground.getHeight() * 0.9f, backPaint);
+
+
+
+        if (Math.abs(GameView.instance.lair.position.x - GameView.instance.player.position.x) < width * 2.5){
+           drawLairForest(canvas);
+
+        }
+        else if( GameView.instance.player.position.x < -0){
+            for(int i = 0; i < treePositionsWest.length; i++) {
+                canvas.drawBitmap(trees[i], groundX + treePositionsWest[i], gameView.groundLevel - trees[i].getHeight(), null);
+            }
+            for (int i = 0; i < bushPositionsWest.length; i++) {
+                canvas.drawBitmap(bush, groundX + bushPositionsWest[i], gameView.groundLevel - bush.getHeight(), null);
+            }
+        }
+        else{
+
+            drawWoolooForest(canvas);
+        }
+        for (int i = 0; i < tiniesPositions.length; i++) {
+            canvas.drawBitmap(tinies[tiniesPositions[i].y], groundX + tiniesPositions[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
+        }
+
+
+        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*3) {
+            eastFort.draw(canvas);
+        }
+        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*3) {
+            westFort.draw(canvas);
+        }
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*3) {
+            finalFort.draw(canvas);
+        }
+
+
+    }
     public void drawForeground(Canvas canvas){
         canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,black);
         canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, null);
@@ -396,9 +398,12 @@ public class Scene {
 
 
     public void update(float deltaTime){
-        //eastFort.update(deltaTime);
-        //westFort.update(deltaTime);
-        //finalFort.update(deltaTime);
+        eastFort.update(deltaTime);
+        westFort.update(deltaTime);
+        finalFort.update(deltaTime);
+        if(!finalFort.isStanding && !StatsRecorder.instance.finalKingdom){
+            StatsRecorder.instance.finalKingdomDestroyed();
+        }
 
         mountainX = gameView.cameraDisp.x/2;
         hillsX = gameView.cameraDisp.x*3/4;

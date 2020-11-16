@@ -17,6 +17,7 @@ public class Wooloo extends NPC{
 
         npcBitmap =SpriteManager.instance.getNPCSprite("Wooloo");
         boundry = SBoundry;
+        npcType = 1;
     }
     @Override
 

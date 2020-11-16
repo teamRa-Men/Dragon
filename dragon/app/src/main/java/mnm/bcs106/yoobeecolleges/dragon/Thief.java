@@ -18,6 +18,7 @@ public class Thief extends NPC {
         stolenSprite =SpriteManager.instance.getNPCSprite("Thief2");
 
         npcBitmap = idleSprite;
+        npcType = 4;
     }
     @Override
     public void death() {

@@ -59,7 +59,7 @@ public class Dragon extends Character {
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
         flyingManaCost = 0;
-        initBody(65);
+        initBody(35);
 
 
         setAttackController(0,100,100);

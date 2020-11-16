@@ -34,6 +34,7 @@ public class NPC {
     public Paint NpcPain = new Paint();
     ColorFilter colorFilter = new LightingColorFilter(Color.parseColor("#40000000"),0);
     Fortress fortress;
+    public int npcType;
 
     public NPC (float speed, int maxHP, int width,int height) {
 
@@ -88,6 +89,7 @@ public class NPC {
 
     public void death(){
         alive = false;
+        StatsRecorder.instance.npcDestroyed(npcType);
     }
     float distTravel = 0;
 
