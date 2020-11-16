@@ -83,6 +83,7 @@ public class Projectile extends GameObject {
         position = new Vector2(x,y);
         this.speed = speed;
         timeSinceShot = 0;
+
         if(Scene.instance.timeOfDay/Scene.instance.dayLength > 0.5){
             if(type == ARROW) {
                 dx += (Math.random() - 0.5f);

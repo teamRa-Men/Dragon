@@ -441,9 +441,10 @@ public class Scene {
         //System.out.println(timeOfDay/dayLength);
         if(timeOfDay > dayLength){
             timeOfDay = 0;
+            SoundEffects.instance.play(SoundEffects.BELLS);
             day++;
-            if(day%3==0){
-                for(int i = 0; i < day/3; i++) {
+            if(day%2==0){
+                for(int i = 0; i < day/2; i++) {
                     DragonLayers d = GameView.instance.npc_pool.spawnDragonLayers(eastFort.x, eastFort.y, eastFort);
                     if(d!=null) {
                         d.lockTarget = true;

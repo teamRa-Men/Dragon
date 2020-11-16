@@ -5,37 +5,126 @@ import android.media.MediaPlayer;
 
 //Handles the music in the shapes game
 public class Music{
-    public static MediaPlayer musicPlayer;
-    public static boolean isPlaying = true;
+    public MediaPlayer themeMusicPlayer, deathMusicPlayer;
+    public boolean playingTheme = true, playingDeath = false;
+    public float themeVolume=1, deathVolume=1, volume = 0.5f;
+    public boolean fadeOut = false;
+    float fadeTime = 0, fadeLength = 3000;
+    public static Music instance;
+    Context context;
 
-    public static void setUp(Context context){
+    public Music(Context context){
         //Set up media player if there is no instance of it
-        if(musicPlayer == null) {
-            try {
-                musicPlayer = MediaPlayer.create(context, R.raw.music);
-                musicPlayer.setLooping(true);
-                musicPlayer.setVolume(0.5f, 0.5f);
-                playMusic();
+        instance = this;
+        this.context = context;
+
+
+    }
+
+    public void setVolume(float volume){
+        volume = Math.min(Math.max(volume,0),1);
+        System.out.println(volume);
+        if(deathMusicPlayer!=null) {
+            deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
+        }
+        if(themeMusicPlayer!=null) {
+            themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
+        }
+    }
+
+    public void playThemeMusic(){
+
+        stopDeathMusic();
+        System.out.println("THEMEMUSIC");
+
+        try {
+            themeVolume = 1;
+            themeMusicPlayer = MediaPlayer.create(context, R.raw.theme);
+            themeMusicPlayer.setLooping(true);
+            themeMusicPlayer .setVolume(themeVolume *volume, themeVolume *volume);
+            playingTheme = true;
+            themeMusicPlayer.start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void stopThemeMusic(){
+        if(themeMusicPlayer != null) {
+
+            themeMusicPlayer.release();
+            playingTheme = false;
+        }
+    }
+
+    public void playDeathMusic(){
+        System.out.println("DEATHMUSIC");
+
+        stopThemeMusic();
+
+        deathVolume=1;
+
+
+        try {
+            deathMusicPlayer = MediaPlayer.create(context, R.raw.death);
+            deathMusicPlayer .setLooping(false);
+            deathMusicPlayer .setVolume(deathVolume*volume, deathVolume*volume);
+            playingDeath = true;
+            deathMusicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    stopDeathMusic();
+                }
+            });
+            deathMusicPlayer.start();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+    public void stopDeathMusic(){
+        if(deathMusicPlayer != null) {
+
+            deathMusicPlayer.release();
+            playingDeath = false;
+        }
+    }
+    public void startFadeOut(float fadeLength){
+        this.fadeLength = fadeLength;
+        fadeTime = fadeLength;
+        fadeOut = true;
+
+    }
+
+    public void update(float deltaTime){
+        if(fadeOut){
+            fadeTime-=deltaTime;
+            if(playingDeath){
+                deathVolume = fadeTime/fadeLength;
+                deathMusicPlayer.setVolume(deathVolume*volume,deathVolume*volume);
+                if(fadeTime<0){
+                    stopDeathMusic();
+                    fadeOut = false;
+                    fadeTime = 0;
+                }
             }
-            catch (Exception e){
-
+            if(playingTheme){
+                themeVolume =fadeTime/fadeLength;
+                themeMusicPlayer.setVolume(themeVolume*volume,themeVolume*volume);
+                if(fadeTime<0){
+                    stopDeathMusic();
+                    fadeOut = false;
+                    fadeTime = 0;
+                }
             }
         }
-
     }
-
-    public static void playMusic(){
-        if(musicPlayer != null) {
-            musicPlayer.start();
-            isPlaying = true;
-        }
-    }
-
-    public static void stopMusic(){
-        if(musicPlayer != null) {
-            musicPlayer.pause();
-            isPlaying = false;
-        }
-    }
-
 }

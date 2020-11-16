@@ -22,7 +22,9 @@ public class StartMenu extends AppCompatActivity {
         setContentView(R.layout.activity_start_menu);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
+        Music music = new Music(this);
+        music.playThemeMusic();
+        new SoundEffects(this);
     }
 
     @Override
@@ -42,6 +44,7 @@ public class StartMenu extends AppCompatActivity {
 
     }
     public void startGame(View view){
+        SoundEffects.instance.play(SoundEffects.SELECT);
         Intent i = new Intent(this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
         finish();

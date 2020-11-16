@@ -19,22 +19,31 @@ public class Wooloo extends NPC{
         boundry = SBoundry;
         npcType = 1;
     }
-    @Override
+
 
     /*
     In uodated update method i made Wooloo to walk around fields and run from the dragon once they see it
     though they might get lost once they run away from the fields.
      */
-
+    int fleeSoundID;
+    boolean fleeingSound = false;
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         if (alive) {
             if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.screenHeight/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3) {
+
                 flee = true;
                 target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                 tempCreationPoint.x = target.x;
+                if(!fleeingSound){
+                    fleeSoundID = SoundEffects.instance.play(SoundEffects.SHEEPFLEEING,-1,1);
+                    fleeingSound = true;
+                }
+
             } else if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0 && (Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.5) {
                 idle(500, Math.abs(npcX - target.x) < 10);
+
                 npcY = (int) GameView.instance.groundLevel - npcRect.height();
                 npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
             } else {
@@ -44,6 +53,13 @@ public class Wooloo extends NPC{
                     npcY = (int) GameView.instance.groundLevel - npcRect.height();
                 }
                 npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
+            }
+            if(fleeingSound ){
+                SoundEffects.instance.setVolume(fleeSoundID,Math.abs(npcX - target.x)/1500);
+                if( Math.abs(npcX - target.x) < 10) {
+                    fleeingSound = false;
+                    SoundEffects.instance.stop(fleeSoundID);
+                }
             }
         }
     }

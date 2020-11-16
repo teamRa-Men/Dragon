@@ -94,15 +94,10 @@ public class Lair {
 
     }
 
-    public void sleep(){
-        isSleeping = true;
-        player.isSleeping = true;
-        player.speed = 0;
-        lieDown();
-        GameView.instance.timeScale = sleepTimeSpeed;
-    }
+
 
     public  void stealGold(int steal){
+        SoundEffects.instance.play(SoundEffects.STEAL);
         depositedGold -= steal;
         goldPileHeight = getGoldPileHeight();
         if(isSleeping) {
@@ -135,10 +130,12 @@ public class Lair {
             if (colliderRight.contains(x, y)) {
                 player.direction.y = -player.direction.y/2;
                 player.position.y = colliderRight.bottom+1;
+
             }
             if (colliderLeft.contains(x, y)) {
                 player.direction.y = -player.direction.y/2;
                 player.position.y = colliderLeft.bottom+1;
+
             }
             if (colliderCenter.contains(x, y)) {
                 player.direction.y = -player.direction.y/2;
@@ -162,11 +159,21 @@ public class Lair {
             }
         }
     }
+    int soundID;
+    public void sleep(){
+        isSleeping = true;
+        player.isSleeping = true;
+        player.speed = 0;
+        lieDown();
+        GameView.instance.timeScale = sleepTimeSpeed;
+        soundID = SoundEffects.instance.play(SoundEffects.SLEEP,-1,1);
+    }
 
     public void wake(){
         isSleeping = false;
         player.isSleeping = false;
         GameView.instance.timeScale = 1;
+        SoundEffects.instance.stop(soundID);
     }
 
     public boolean upgradeAttack(){
@@ -227,6 +234,7 @@ public class Lair {
             //System.out.println(experience);
             nextLevel =  level*level * 500;
             if (experience > nextLevel) {
+                SoundEffects.instance.play(SoundEffects.LEVELUP);
                 experience = 0;
                 level++;
                 upgradePoints += 3;
@@ -240,6 +248,7 @@ public class Lair {
                     lieDown();
                 }
                 GameView.instance.isDrawing = true;
+
 
             }
             if (player.mana < player.maxMana) {

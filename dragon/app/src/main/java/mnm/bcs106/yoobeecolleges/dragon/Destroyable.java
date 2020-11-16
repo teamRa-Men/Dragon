@@ -34,7 +34,8 @@ public class Destroyable extends GameObject{
 
         //Sound effect on being hit
         if(damagedSound>-1 && health >0){
-            Game.instance.soundEffects.play(damagedSound,1f,1,1);
+            SoundEffects.instance.play(SoundEffects.HIT,0,1);
+            SoundEffects.instance.play(SoundEffects.DAMAGE,0,1);
         }
 
         //Turn red when health is low
@@ -54,7 +55,7 @@ public class Destroyable extends GameObject{
     public void onDestroyed(){
 
         if(destroyedSound>-1 && destroyed == false){
-            Game.instance.soundEffects.play(destroyedSound,0.5f,1,2);
+            SoundEffects.instance.play(SoundEffects.DEATH,0,1);
         }
         destroyed = true;
         simulated = false;

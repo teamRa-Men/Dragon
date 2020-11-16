@@ -151,6 +151,7 @@ public class Foundation {
 
 
         if(isStanding){
+
             beenEmptied = false;
             if(Math.random() < 0.1) {
                 FirePool.instance.spawnFire(x + (float) Math.random() * width, y - (float) Math.random() * height / 4);
@@ -162,7 +163,6 @@ public class Foundation {
             fearTime = 0;
 
             if(damagePeriod.charging){
-                //
 
 
                 health-=1*GameView.instance.player.attack;

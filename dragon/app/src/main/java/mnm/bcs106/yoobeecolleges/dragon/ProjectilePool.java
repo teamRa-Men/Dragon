@@ -53,6 +53,7 @@ public class ProjectilePool {
         }
     }
     public void shootArrow(int x, int y, float speed, float dx, float dy, int damage){
+        SoundEffects.instance.play(SoundEffects.ARROW);
 
         if(arrowPool.size()>0) {
             Projectile arrow = arrowPool.get(0);
@@ -66,6 +67,7 @@ public class ProjectilePool {
     }
 
     public void shootMagic(int x, int y, float speed, float dx, float dy, int damage){
+        SoundEffects.instance.play(SoundEffects.MAGIC);
 
         if(magicPool.size()>0) {
             Projectile magic = magicPool.get(0);
@@ -79,7 +81,7 @@ public class ProjectilePool {
     }
 
     public void shootSpear(int x, int y, float speed, float dx, float dy, int damage){
-
+        SoundEffects.instance.play(SoundEffects.SPEAR);
         if(spearPool.size()>0) {
             Projectile spear = spearPool.get(0);
             spear.shoot(x,y,speed,dx,dy,1f/4);

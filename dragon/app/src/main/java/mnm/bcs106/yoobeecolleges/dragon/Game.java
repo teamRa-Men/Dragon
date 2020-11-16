@@ -43,6 +43,7 @@ public class Game extends AppCompatActivity {
     Button pauseCredits;
     Button pauseExit;
     SeekBar soundVolume;
+    SeekBar musicVolume;
 
     Button backButton;
     Button upgradeAttackButton;
@@ -66,14 +67,14 @@ public class Game extends AppCompatActivity {
 
     //state variables
     boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
-    int breathCoolDownLength = 100, coolDownTime = 0;
+    int breathCoolDownLength = 300, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
     float refreshRating;
 
     //misc
     MediaPlayer pointsPlayer;
-    SoundEffects soundEffects;
+
     AlertDialog.Builder gameOverDialogBuilder;
     AlertDialog.Builder pauseDialogBuilder;
     AlertDialog.Builder upgradeDialogBuilder;
@@ -94,7 +95,7 @@ public class Game extends AppCompatActivity {
     boolean breathFire = false;
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
-    int runTime = 0, loadingTime = 5000;
+    int runTime = 0, loadingTime = 8000;
 
 
     public Context context;
@@ -126,7 +127,6 @@ public class Game extends AppCompatActivity {
 
         //initialize
 
-        initSound(this);
         initUI();
         handler = new Handler();
 
@@ -183,6 +183,7 @@ public class Game extends AppCompatActivity {
 
         stopButton = findViewById(R.id.buttonOfStop);
         soundVolume = pauseMenu.findViewById(R.id.soundVolume);
+        musicVolume = pauseMenu.findViewById(R.id.musicVolume);
         pauseContinue = pauseMenu.findViewById(R.id.pauseContinue);
         pauseRestart = pauseMenu.findViewById(R.id.pauseRestart);
         pauseCredits = pauseMenu.findViewById(R.id.pauseCredits);
@@ -193,6 +194,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GameView.instance.pause();
+                SoundEffects.instance.play(SoundEffects.MENU);
                 dialog.show();
             }
         });
@@ -200,12 +202,14 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 GameView.instance.resume();
+                SoundEffects.instance.play(SoundEffects.MENU);
                 dialog.dismiss();
             }
         });
         pauseCredits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffects.instance.play(SoundEffects.MENU);
                 if (!visibleCredits){
                     creditCard.setVisibility(View.VISIBLE);
                     visibleCredits = true;
@@ -218,7 +222,7 @@ public class Game extends AppCompatActivity {
         pauseRestart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                SoundEffects.instance.play(SoundEffects.SELECT);
                 gameView.pause();
                 statsRecorder.gameEnd();
 
@@ -234,25 +238,50 @@ public class Game extends AppCompatActivity {
         pauseExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffects.instance.play(SoundEffects.SELECT);
                 StatsRecorder.instance.gameEnd();
                 finish();
             }
         });
+        musicVolume.setProgress( (int)(Music.instance.volume*100));
+        musicVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Music.instance.setVolume(musicVolume.getProgress()/100f);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                Music.instance.playThemeMusic();
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Music.instance.setVolume(soundVolume.getProgress()/100f);
+                Music.instance.stopThemeMusic();
+                SoundEffects.instance.play(SoundEffects.MENU);
+            }
+        });
+
         soundVolume.setProgress( (int)(SoundEffects.instance.volumeMul*100));
         soundVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+                SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 System.out.println(soundVolume.getProgress()/100f);
                 SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
+                SoundEffects.instance.play(SoundEffects.COIN);
+                SoundEffects.instance.play(SoundEffects.MENU);
             }
         });
 
@@ -284,7 +313,11 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeAttack()){
                     //play upgrade sound, show graphic
+                    SoundEffects.instance.play(SoundEffects.SELECT);
                     updateUpgradeMenu();
+                }
+                else{
+                    SoundEffects.instance.play(SoundEffects.MENU);
                 }
             }
         });
@@ -292,7 +325,11 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeSpeed()){
+                    SoundEffects.instance.play(SoundEffects.SELECT);
                     updateUpgradeMenu();
+                }
+                else{
+                    SoundEffects.instance.play(SoundEffects.MENU);
                 }
             }
         });
@@ -300,7 +337,11 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeMana()){
+                    SoundEffects.instance.play(SoundEffects.SELECT);
                     updateUpgradeMenu();
+                }
+                else{
+                    SoundEffects.instance.play(SoundEffects.MENU);
                 }
             }
         });
@@ -308,7 +349,11 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(GameView.instance.lair.upgradeHealth()){
+                    SoundEffects.instance.play(SoundEffects.SELECT);
                     updateUpgradeMenu();
+                }
+                else{
+                    SoundEffects.instance.play(SoundEffects.MENU);
                 }
             }
         });
@@ -316,6 +361,7 @@ public class Game extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffects.instance.play(SoundEffects.MENU);
                 upgradeDialog.dismiss();
                 GameView.instance.resume();
             }
@@ -328,6 +374,7 @@ public class Game extends AppCompatActivity {
         upgradeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SoundEffects.instance.play(SoundEffects.MENU);
                 GameView.instance.pause();
                 updateUpgradeMenu();
                 upgradeDialog.show();
@@ -354,9 +401,7 @@ public class Game extends AppCompatActivity {
     }
 
 
-    void initSound(Context context){
-        soundEffects = new SoundEffects(context);
-    }
+
 
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
@@ -374,8 +419,10 @@ public class Game extends AppCompatActivity {
         if(!gameOver) {
             if(runTime > loadingTime) {
                 float alpha = loadScreen.getAlpha();
-                if (alpha > 0)
-                    loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha/alpha);
+                if (alpha > 0) {
+                    loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha / alpha);
+                }
+
 
                 //gameView.setPlayerMovement(dragTo);
                 if (dragFrom != null && dragTo != null) {
@@ -406,7 +453,9 @@ public class Game extends AppCompatActivity {
                 }
             }
 
+
             runTime+=1000/15;
+
 
             fadeView(showSleepButton, sleepButton);
             fadeView(showWakeButton, wakeButton);
@@ -461,6 +510,7 @@ public class Game extends AppCompatActivity {
         gameOver = true;
         statsRecorder.gameEnd();
 
+
         //Custom alert dialog
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
 
@@ -473,7 +523,8 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //reset states and restart game loop
-
+                SoundEffects.instance.play(SoundEffects.SELECT);
+                Music.instance.startFadeOut(1000);
                 gameView.pause();
 
                 runTime = 0;
@@ -499,32 +550,31 @@ public class Game extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
 
 
-        for (int i = 0; i < event.getPointerCount(); i++){
+        for (int i = 0; i < event.getPointerCount(); i++) {
 
             Vector2 p = new Vector2(event.getX(i), event.getY(i));
 
             int action = event.getAction();
 
-            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN ) {
+            if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 //System.out.println("dow");
-                if(Vector2.distance(fireButton, p)> controlRadius) {
-                    if(!dragging) {
+                if (Vector2.distance(fireButton, p) > controlRadius) {
+                    if (!dragging) {
                         dragFrom = p;
                         dragging = true;
                     }
 
 
-                }
-                else {
+                } else {
                     breathFire = true;
                 }
 
 
             }
 
-            if (action == MotionEvent.ACTION_MOVE ) {
+            if (action == MotionEvent.ACTION_MOVE) {
                 //System.out.println("move");
-                if (Vector2.distance(fireButton, p)> controlRadius) {
+                if (Vector2.distance(fireButton, p) > controlRadius) {
                     dragging = true;
                     Vector2 disp = p.sub(dragFrom);
 
@@ -534,28 +584,26 @@ public class Game extends AppCompatActivity {
                     }
                     dragTo = p;
 
-                }
-                else {
+                } else {
                     breathFire = true;
                 }
             }
 
-            if (action== MotionEvent.ACTION_UP || action == MotionEvent.ACTION_OUTSIDE|| action == MotionEvent.ACTION_POINTER_UP|| action == MotionEvent.ACTION_POINTER_2_UP|| action == MotionEvent.ACTION_POINTER_3_UP) {
+            if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_OUTSIDE || action == MotionEvent.ACTION_POINTER_UP || action == MotionEvent.ACTION_POINTER_2_UP || action == MotionEvent.ACTION_POINTER_3_UP) {
                 //System.out.println("up");
-                if(Vector2.distance(fireButton, p)> controlRadius) {
+                if (Vector2.distance(fireButton, p) > controlRadius) {
                     dragging = false;
                     dragTo = null;
-                }
-                else {
+                } else {
                     breathFire = false;
                     breathCoolDown = true;
 
                 }
-                if(!dragging){
+                if (!dragging) {
                     breathFire = false;
                     breathCoolDown = true;
                 }
-                if(!breathFire){
+                if (!breathFire) {
                     dragging = false;
                 }
 
@@ -564,8 +612,6 @@ public class Game extends AppCompatActivity {
 
             System.out.println();
 
-
-
         }
 
 
@@ -573,12 +619,15 @@ public class Game extends AppCompatActivity {
 
     }
 
+
     public void onSleep(View view){
         GameView.instance.lair.sleep();
+        SoundEffects.instance.play(SoundEffects.MENU);
     }
 
     public void onWake(View view){
         GameView.instance.lair.wake();
+        SoundEffects.instance.play(SoundEffects.MENU);
         //System.out.println("wake");
     }
 }

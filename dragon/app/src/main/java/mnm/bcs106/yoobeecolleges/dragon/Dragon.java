@@ -58,7 +58,7 @@ public class Dragon extends Character {
         groundLevel = GameView.instance.groundLevel;
         position = new Vector2(GameView.instance.screenWidth/2, groundLevel);
 
-        flyingManaCost = 0;
+
         initBody(35);
 
 
@@ -160,11 +160,23 @@ public class Dragon extends Character {
     @Override
     public void onDamage(float damage) {
         GameView.instance.lair.wake();
-        if(!stunController.performing) {
+        if(!stunController.performing && !destroyed) {
             if(!destroyed && (health-damage)<0 && flying){
                 setVelocity((Math.signum(direction.x)/2*size/35)*(1-(float)Math.pow(position.y/groundLevel/2,2))+getVelocity().x,getVelocity().y);
             }
             super.onDamage(damage);
+
+            if(destroyed){
+                SoundEffects.instance.play(SoundEffects.BIGHURT);
+            }
+            else{
+                if(damage<maxHealth/8) {
+                    SoundEffects.instance.play(SoundEffects.HURT);
+                }
+                else{
+                    SoundEffects.instance.play(SoundEffects.BIGHURT);
+                }
+            }
         }
         stunController.triggerAction();
     }
@@ -196,6 +208,9 @@ public class Dragon extends Character {
 
 
     }
+
+
+
     public void moveBy(Vector2 moveBy){
         //System.out.println(isSleeping);
         if(!isSleeping && !destroyed) {
@@ -238,14 +253,17 @@ public class Dragon extends Character {
                             speed = (speed + Math.min(magnitude, maxMoveSpeed * walkSpeed)) / 2 * Math.abs(direction.x);
 
                         } else {
+
                             speed = speed * 0.99f;
                         }
+
                         if (mana <= 0) {
                             direction.y = Math.max(direction.y, 0);
                         }
                         direction.y = Math.min(direction.y, 0);
 
                     } else {
+
                         mana -= flyingManaCost * fixedDeltaTime / 1000 * (GameView.instance.screenHeight - position.y) / GameView.instance.screenHeight;
                         mana = Math.max(0, mana);
 
@@ -371,21 +389,39 @@ public class Dragon extends Character {
 
             flying = !(position.y >= groundLevel);
 
+
             if (breathingFire && mana > 0) {
 
                 //if(Math.random()<0.05)
                 //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
-
-
+                if(!breathSound) {
+                    breathSoundID = SoundEffects.instance.play(SoundEffects.BREATH,-1,0);
+                    breathSound = true;
+                    breathSoundVol = 1;
+                }
                 fireBreath.breath(deltaTime);
                 mana -= fireManaCost * deltaTime / 1000;
                 mana = Math.max(0, mana);
 
 
             }
+            else{
+                if(breathSound) {
+
+                    SoundEffects.instance.setVolume(breathSoundID,breathSoundVol);
+                    breathSoundVol-=deltaTime/800;
+                    if(breathSoundVol<0) {
+                        SoundEffects.instance.stop(breathSoundID);
+                        breathSound = false;
+                    }
+                }
+            }
+
+
 
         }
         else {
+
             breathingFire = false;
         }
 
@@ -394,9 +430,11 @@ public class Dragon extends Character {
 
         super.physics(deltaTime);
         speed *= friction;
-
-
     }
+    float breathSoundVol = 1;
+    int breathSoundID;
+    boolean breathSound = false;
+
     public void drawBreath(Canvas canvas) {
 
     }
@@ -444,7 +482,7 @@ public class Dragon extends Character {
 
     public void collectedGold(){
         goldHolding++;
-        //SoundEffects.instance.play(SoundEffects.PEW);
+        SoundEffects.instance.play(SoundEffects.COIN);
     }
 
     int animDuration = 500, animTime = 0;
@@ -704,7 +742,7 @@ class Leg{
         src = new RectF(0, 0, dragon.radius*3/2f , dragon.radius *3/2f-GameView.instance.screenWidth/200);
         dst = src;
     }
-
+    boolean soundPlayed = false;
     public void update(float deltaTime){
         float left = segment.position.x - src.width()/2 + GameView.instance.cameraDisp.x;// + segment.wave*segment.direction.y;
         float top = segment.position.y;// + segment.wave*segment.direction.x;
@@ -716,6 +754,14 @@ class Leg{
             }
             left+=Math.min(dragon.speed/dragon.maxMoveSpeed*3,1)*(Math.cos(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase))*dragon.radius/2;
             top+=dragon.speed/dragon.maxMoveSpeed*Math.min(Math.sin(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)*dragon.radius/2,0.1f);
+
+            if(Math.sin(2*dragon.maxMoveSpeed*Math.signum(segment.direction.x)*segment.time/900*Math.PI+phase)>0.9 && !soundPlayed && dragon.speed/dragon.maxMoveSpeed>0.1){
+                soundPlayed = true;
+                SoundEffects.instance.play(SoundEffects.WALKING);
+            }
+            else{
+                soundPlayed = false;
+            }
         }
         float right = left + src.width();
         float bottom = top + src.height();
@@ -726,6 +772,7 @@ class Leg{
         if (!walking) {
             matrix.postRotate(Math.signum(segment.direction.x) * dragon.speed / dragon.maxMoveSpeed * 20, dst.centerX(), dst.top);
         }
+
     }
     public void draw(Canvas canvas){
 
@@ -851,18 +898,32 @@ class Wing{
         }
 
     }
+    boolean soundPlayed = false;
     public void update(float deltaTime){
         time += deltaTime*(dragon.speed/dragon.maxMoveSpeed*4+1)*0.75f;
         position = new Vector2(segment.position.x,segment.position.y);
         //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
         if(walking || dragon.isSleeping || dragon.destroyed){
             flap = (Math.signum(segment.direction.x)*1f/4+flap)/2;
+
             rotation = segment.rotation+Math.signum(segment.direction.x)*10;
             scaleX=(2f+scaleX)/2;
             //position.x -= Math.signum(segment.direction.x)*sprite.getWidth()/3;
         }
         else {
             flap = ((float) Math.sin(time / 1000 * Math.PI)+flap)/2;
+            double f = Math.cos(time / 1000 * Math.PI);
+            if(front) {
+                if (flap > 0.4 && flap <0.6 ) {
+                    if(!soundPlayed) {
+                        soundPlayed = true;
+                        SoundEffects.instance.play(SoundEffects.FLYING);
+                    }
+                }
+                else {
+                    soundPlayed = false;
+                }
+            }
             rotation = segment.rotation;
             scaleX=(1+scaleX)/2;
 
@@ -919,7 +980,10 @@ class FireBreath{
 
 
     }
+
     public void breath(float deltaTime){
+
+
 
         if(timeSinceShoot > shootTime) {
             currentBreath++;

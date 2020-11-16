@@ -142,7 +142,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnTribute((int)screenWidth*2,(int)groundLevel,500, scene.finalFort);
         Game.instance.gameOver = false;
         timeScale = 1;
-
+        Music.instance.startFadeOut(3000);
         resume();
     }
 
@@ -186,7 +186,7 @@ public class GameView extends SurfaceView implements Runnable {
                 physics();
             }
             long physicsTime = System.currentTimeMillis();
-            System.out.println( "physics " + (physicsTime - started));
+            //System.out.println( "physics " + (physicsTime - started));
 
             //Apply game logic to game objects
 
@@ -194,22 +194,22 @@ public class GameView extends SurfaceView implements Runnable {
 
 
             long updateTime = System.currentTimeMillis();
-            System.out.println( "update " + (updateTime-physicsTime));
+            //System.out.println( "update " + (updateTime-physicsTime));
             if(isDrawing) {
                 draw();
             }
             long drawTime = System.currentTimeMillis() - updateTime;
-            System.out.println( "draw main " + drawTime);
+            //System.out.println( "draw main " + drawTime);
             totalFrame += drawTime;
             numberFrame++;
-            System.out.println("average draw " + totalFrame/numberFrame);
+            //System.out.println("average draw " + totalFrame/numberFrame);
 
             //If the time between frames does not match the target FPS, delay or skip to match
 
             deltaTime = (System.currentTimeMillis() - started);
             int lag = (int) (fixedDeltaTime/timeScale - deltaTime);
 
-            System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
+            //System.out.println(deltaTime + " " + fixedDeltaTime + " " + lag);
             if (lag > 0) {
                 try {
                     Thread.sleep(lag);
@@ -291,21 +291,28 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     private void update() {
 
+        Music.instance.update(fixedDeltaTime);
 
-            player.update(fixedDeltaTime);
-
-        scene.update(fixedDeltaTime);
-        npc_pool.update(fixedDeltaTime);
-        projectilePool.update(fixedDeltaTime);
-        //System.out.println(fixedDeltaTime +" "+ deltaTime);
-        goldPool.update(fixedDeltaTime);
-        hud.update(fixedDeltaTime);
-        lair.update(fixedDeltaTime);
-        firePool.update(fixedDeltaTime);
         if(!player.visible) {
             if (!Game.instance.gameOver) {
+                timeScale = 1;
                 Game.instance.showGameOver = true;
+                SoundEffects.instance.pauseAll();
+                Music.instance.playDeathMusic();
+
             }
+        }
+        else{
+            player.update(fixedDeltaTime);
+
+            scene.update(fixedDeltaTime);
+            npc_pool.update(fixedDeltaTime);
+            projectilePool.update(fixedDeltaTime);
+            //System.out.println(fixedDeltaTime +" "+ deltaTime);
+            goldPool.update(fixedDeltaTime);
+            hud.update(fixedDeltaTime);
+            lair.update(fixedDeltaTime);
+            firePool.update(fixedDeltaTime);
         }
 
     }

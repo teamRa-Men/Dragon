@@ -42,13 +42,10 @@ public class ArcherTower extends Foundation {
         super.physics(deltaTime);
         float d = GameView.instance.player.position.x - (x+width/2);
         if(Math.abs(d)<width/3){
-            if(GameView.instance.player.position.y > dst.top+height/5){
-                GameView.instance.player.position.x = Math.signum(d) * width / 3 + width / 2 + x;
-            }
-            else{
-                GameView.instance.player.position.y = dst.top+height/5;
-            }
+            if(GameView.instance.player.position.y > dst.top+height/5) {
+                GameView.instance.player.position.x = Math.signum(d) * (width / 3+1) + width / 2 + x;
 
+            }
         }
 
 

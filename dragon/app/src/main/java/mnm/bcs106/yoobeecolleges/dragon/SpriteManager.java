@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -266,5 +267,16 @@ public class SpriteManager {
     }
     public Bitmap getNPCSprite( String spriteName) {
         return NPCSprites.get(spriteName);
+    }
+
+    //0 horizontal, 1 vertical
+    public static Bitmap flip(Bitmap bitmap, int type){
+        Matrix matrix =new Matrix();
+        if(type==0){
+            matrix.preScale(-1.0f, 1.0f);
+        }else if(type==1){
+            matrix.preScale(1.0f, -1.0f);
+        }
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 }
