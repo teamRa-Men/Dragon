@@ -358,18 +358,14 @@ public class Scene {
         }
 
 
-        if(Math.abs(eastFort.x - GameView.instance.player.position.x) < width*3) {
-
+        
             eastFort.draw(canvas);
-        }
-        if(Math.abs(westFort.x - GameView.instance.player.position.x) < width*3) {
+
 
             westFort.draw(canvas);
-        }
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < width*3) {
 
             finalFort.draw(canvas);
-        }
+
 
 
 
