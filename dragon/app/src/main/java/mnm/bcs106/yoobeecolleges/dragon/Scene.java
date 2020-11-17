@@ -358,7 +358,7 @@ public class Scene {
         }
 
 
-        
+
             eastFort.draw(canvas);
 
 
@@ -399,10 +399,8 @@ public class Scene {
 
 
     public void update(float deltaTime){
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width) {
-            if(!Music.instance.playingTheme) {
-                Music.instance.playThemeMusic();
-            }
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width && !GameView.instance.player.destroyed) {
+            Music.instance.playThemeMusic(true);
         }
 
         eastFort.update(deltaTime);

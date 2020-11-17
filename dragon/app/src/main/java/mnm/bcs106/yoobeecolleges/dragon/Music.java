@@ -17,92 +17,59 @@ public class Music{
         //Set up media player if there is no instance of it
         instance = this;
         this.context = context;
+        themeMusicPlayer = MediaPlayer.create(context, R.raw.theme);
+        themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
 
+        deathMusicPlayer = MediaPlayer.create(context, R.raw.death);
+        deathMusicPlayer.setLooping(false);
+        deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
 
     }
 
     public void setVolume(float volume){
         volume = Math.min(Math.max(volume,0),1);
-        System.out.println(volume);
-
-            if (deathMusicPlayer != null && playingDeath) {
-                deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
-            }
-
-
-        if(themeMusicPlayer!=null && playingTheme) {
+            deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
             themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
-        }
     }
 
-    public void playThemeMusic(){
-        if(!playingTheme) {
+    public void playThemeMusic(boolean loop){
+
+        if(!themeMusicPlayer.isPlaying()) {
             stopDeathMusic();
-            System.out.println("THEMEMUSIC");
+            themeVolume = 1;
 
-            try {
+            themeMusicPlayer.setLooping(loop);
+            themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
 
-                themeVolume = 1;
-                themeMusicPlayer = MediaPlayer.create(context, R.raw.theme);
-                themeMusicPlayer.setLooping(true);
-                themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
-                playingTheme = true;
-                themeMusicPlayer.start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            themeMusicPlayer.start();
         }
-
-
     }
 
     public void stopThemeMusic(){
-        playingTheme = false;
-        if(themeMusicPlayer != null) {
-
-            themeMusicPlayer.release();
-
+        if(themeMusicPlayer.isPlaying()) {
+            themeMusicPlayer.pause();
+            themeMusicPlayer.seekTo(0);
         }
     }
 
     public void playDeathMusic(){
-       if(!playingDeath) {
-           System.out.println("DEATHMUSIC");
-
-           stopThemeMusic();
-
-           deathVolume = 1;
-
-
-           try {
-               deathMusicPlayer = MediaPlayer.create(context, R.raw.death);
-               deathMusicPlayer.setLooping(false);
-               deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
-               playingDeath = true;
-               deathMusicPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                   @Override
-                   public void onCompletion(MediaPlayer mp) {
-                       stopDeathMusic();
-                   }
-               });
-               deathMusicPlayer.start();
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
-
-
+        if(!deathMusicPlayer.isPlaying()) {
+            stopThemeMusic();
+            deathVolume = 1;
+            deathMusicPlayer.setLooping(false);
+            deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
+            deathMusicPlayer.start();
+        }
     }
 
 
 
     public void stopDeathMusic(){
-        playingDeath = false;
-        if(deathMusicPlayer != null) {
-
-            deathMusicPlayer.release();
-
+        if(deathMusicPlayer.isPlaying()) {
+            deathMusicPlayer.pause();
+            deathMusicPlayer.seekTo(0);
         }
+
     }
     public void startFadeOut(float fadeLength){
         this.fadeLength = fadeLength;
@@ -114,7 +81,7 @@ public class Music{
     public void update(float deltaTime){
         if(fadeOut){
             fadeTime-=deltaTime;
-            if(playingDeath && deathMusicPlayer!=null){
+            if(deathMusicPlayer.isPlaying()){
                 deathVolume = fadeTime/fadeLength;
                 deathMusicPlayer.setVolume(deathVolume*volume,deathVolume*volume);
                 if(fadeTime<0){
@@ -123,7 +90,7 @@ public class Music{
                     fadeTime = 0;
                 }
             }
-            if(playingTheme && themeMusicPlayer!=null){
+            if(themeMusicPlayer.isPlaying()){
                 themeVolume =fadeTime/fadeLength;
                 themeMusicPlayer.setVolume(themeVolume*volume,themeVolume*volume);
                 if(fadeTime<0){

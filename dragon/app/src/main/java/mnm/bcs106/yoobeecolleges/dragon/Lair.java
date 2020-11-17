@@ -19,6 +19,7 @@ public class Lair {
     Bitmap goldPile;
     float goldPileHeight;
     float sleepTimeSpeed = 8;
+    int timeSinceLevelUp = 0;
 
     Dragon player;
     float maximumMana = 200;
@@ -230,17 +231,26 @@ public class Lair {
             Game.instance.showSleepButton = false;
 
             Game.instance.showWakeButton = true;
-            Game.instance.showUpgradeButton = true;
 
-            experience += deltaTime * depositedGold / 1500;
-            //System.out.println(experience);
-            nextLevel =  level*level * 500;
+
+            if(timeSinceLevelUp > 2000){
+                GameView.instance.timeScale = sleepTimeSpeed;
+                experience += deltaTime * depositedGold / 1500;
+                nextLevel =  level*level * 500;
+            }
+            else{
+                timeSinceLevelUp+=deltaTime;
+            }
+
+
             if (experience > nextLevel) {
+                GameView.instance.timeScale = 1;
                 SoundEffects.instance.play(SoundEffects.LEVELUP);
                 experience = 0;
                 level++;
                 upgradePoints += 3;
                 player.maxGoldHolding = (int)level*50;
+                timeSinceLevelUp = 0;
 
                 //Grow
                 GameView.instance.isDrawing = false;
@@ -253,6 +263,8 @@ public class Lair {
 
 
             }
+
+
             if (player.mana < player.maxMana) {
                 player.mana += player.manaRegen * 3 * deltaTime / 1000;
                 player.mana = Math.min(player.mana, player.maxMana);
@@ -263,7 +275,7 @@ public class Lair {
             }
         } else {
             Game.instance.showWakeButton = false;
-            Game.instance.showUpgradeButton = false;
+
 
                 Game.instance.showMournButton = Math.abs(position.x - width*0.4 - player.position.x )<width/20 && !player.flying;
 

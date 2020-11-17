@@ -40,8 +40,8 @@ public class GoldPool {
             }
         }
         if(Math.random()<0.1){
-            Music.instance.playThemeMusic();
-            Music.instance.themeMusicPlayer.setLooping(false);
+            Music.instance.playThemeMusic(false);
+
         }
     }
 

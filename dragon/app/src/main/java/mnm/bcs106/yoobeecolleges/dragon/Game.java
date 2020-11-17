@@ -67,7 +67,7 @@ public class Game extends AppCompatActivity {
     CardView creditCard;
 
     //state variables
-    boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showUpgradeButton = false, showWakeButton = false, showDay = true;
+    boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showWakeButton = false, showDay = true;
     boolean showMournButton = false;
     boolean mourning = false;
     int breathCoolDownLength = 300, coolDownTime = 0;
@@ -256,7 +256,7 @@ public class Game extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                Music.instance.playThemeMusic();
+                Music.instance.playThemeMusic(true);
             }
 
             @Override
@@ -487,10 +487,10 @@ public class Game extends AppCompatActivity {
 
             fadeView(showSleepButton, sleepButton);
             fadeView(showWakeButton, wakeButton);
-            fadeView(showUpgradeButton, upgradeButton);
-            fadeView(showWakeButton, xpBarLair);
+            fadeView(showGold, upgradeButton);
+            fadeView(showGold, xpBarLair);
             fadeView(showGold,goldDeposited);
-            fadeView(showWakeButton,  xpTextLair);
+            fadeView(showGold,  xpTextLair);
             fadeView(showMournButton,mournButton);
 
 

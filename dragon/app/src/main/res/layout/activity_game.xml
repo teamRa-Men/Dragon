@@ -54,14 +54,13 @@
         <ProgressBar
             android:id="@+id/xpBarLair"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
-            app:layout_constraintEnd_toStartOf="@+id/upgradeButton"
-            app:layout_constraintStart_toEndOf="@+id/wakeButton"
-            app:layout_constraintTop_toTopOf="@+id/sleepButton" />
+            android:layout_marginBottom="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/goldDeposited"
+            app:layout_constraintHorizontal_bias="0.87"
+            app:layout_constraintStart_toStartOf="@+id/goldDeposited" />
 
         <Button
             android:id="@+id/sleepButton"
@@ -74,40 +73,10 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.77"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.93" />
-
-        <Button
-            android:id="@+id/mourn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundedbuttonshape"
-            android:onClick="onMourn"
-            android:text="mourn"
-            android:textColor="@color/colorDragon"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.93" />
-
-        <TextView
-            android:id="@+id/goldDeposited"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:padding="10dp"
-            android:shadowColor="#7C7C7C"
-            android:shadowDy="5"
-            android:shadowRadius="10"
-            android:textColor="@color/colorDragon"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/sleepButton"
-            app:layout_constraintEnd_toEndOf="@+id/sleepButton"
-            app:layout_constraintStart_toStartOf="@+id/sleepButton" />
+            app:layout_constraintVertical_bias="0.89" />
 
         <Button
             android:id="@+id/wakeButton"
@@ -119,24 +88,50 @@
             android:textColor="@color/colorDragon"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
-            app:layout_constraintEnd_toStartOf="@+id/sleepButton"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/sleepButton" />
+            app:layout_constraintEnd_toEndOf="@+id/sleepButton"
+            app:layout_constraintStart_toStartOf="@+id/sleepButton" />
 
         <Button
-            android:id="@+id/upgradeButton"
+            android:id="@+id/mourn"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:background="@drawable/roundedbuttonshape"
-            android:text="Upgrade"
+            android:onClick="onMourn"
+            android:text="mourn"
             android:textColor="@color/colorDragon"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
+            app:layout_constraintEnd_toEndOf="@+id/wakeButton"
+            app:layout_constraintStart_toStartOf="@+id/wakeButton" />
+
+        <TextView
+            android:id="@+id/goldDeposited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="10dp"
+            android:shadowColor="#7C7C7C"
+            android:shadowDy="5"
+            android:shadowRadius="10"
+            android:textColor="@color/colorDragon"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/xpBarLair"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.4"
-            app:layout_constraintStart_toEndOf="@+id/sleepButton"
-            app:layout_constraintTop_toTopOf="@+id/sleepButton" />
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/upgradeButton"
+            android:layout_width="55dp"
+            android:layout_height="41dp"
+            android:background="@drawable/roundedbuttonshape"
+            android:text="lvUP"
+            android:textColor="@color/colorDragon"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/xpBarLair"
+            app:layout_constraintStart_toEndOf="@+id/xpBarLair"
+            app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
 
         <Button
             android:id="@+id/buttonOfStop"

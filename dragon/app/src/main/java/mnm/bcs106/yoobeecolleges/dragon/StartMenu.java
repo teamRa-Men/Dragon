@@ -23,7 +23,7 @@ public class StartMenu extends AppCompatActivity {
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         Music music = new Music(this);
-        music.playThemeMusic();
+        music.playThemeMusic(true);
         new SoundEffects(this);
     }
 

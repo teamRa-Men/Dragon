@@ -9,7 +9,7 @@ public class SoundEffects{
     SoundPool soundPool;
     public static SoundEffects instance;
     public boolean coinPlaying = false;
-    public MediaPlayer[] coinPlayer = new MediaPlayer[6];
+    public MediaPlayer[] coinPlayer = new MediaPlayer[4];
 
     Context context;
     public static int
@@ -77,7 +77,7 @@ public class SoundEffects{
 
         soundId[SELECT] = soundPool.load(context,R.raw.select,1);
         soundId[MENU] = soundPool.load(context,R.raw.menu,1);
-        soundId[LEVELUP] = soundPool.load(context,R.raw.levelup,1);
+        soundId[LEVELUP] = soundPool.load(context,R.raw.level,1);
 
         soundId[BELLS] = soundPool.load(context,R.raw.bells,1);
         soundId[SPEAR] = soundPool.load(context,R.raw.spear,1);

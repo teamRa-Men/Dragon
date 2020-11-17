@@ -294,7 +294,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
 
         Music.instance.update(fixedDeltaTime);
-        if(player.health<0){
+        if(player.health<0 && player.visible){
             drawHUD = false;
             Music.instance.playDeathMusic();
         }
