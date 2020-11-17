@@ -131,7 +131,7 @@ Matrix matrix;
     public int getTileNr() {
         return 3;
     }
-}
+
 
 
 // TODO:
@@ -164,3 +164,4 @@ Matrix matrix;
             }
         }
     }
+}

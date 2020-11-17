@@ -284,7 +284,7 @@ public class Game extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 System.out.println(soundVolume.getProgress()/100f);
                 SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
-                SoundEffects.instance.play(SoundEffects.COIN);
+                SoundEffects.instance.playCoin();
                 SoundEffects.instance.play(SoundEffects.MENU);
             }
         });

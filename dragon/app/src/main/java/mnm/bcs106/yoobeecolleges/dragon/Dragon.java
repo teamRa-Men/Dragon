@@ -483,7 +483,7 @@ public class Dragon extends Character {
 
     public void collectedGold(){
         goldHolding++;
-        SoundEffects.instance.play(SoundEffects.COIN);
+        SoundEffects.instance.playCoin();
     }
 
     int animDuration = 500, animTime = 0, deathTime = 0;

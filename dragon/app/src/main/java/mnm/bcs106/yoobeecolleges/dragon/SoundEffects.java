@@ -8,12 +8,14 @@ import android.media.SoundPool;
 public class SoundEffects{
     SoundPool soundPool;
     public static SoundEffects instance;
+    public boolean coinPlaying = false;
+    public MediaPlayer[] coinPlayer = new MediaPlayer[6];
 
     Context context;
     public static int
             SELECT = 0,
             MENU = 1,
-            COIN = 2,
+            TRIBUTE = 2,
             FIRE = 3,
             BREATH = 4,
             DAMAGE = 5,
@@ -61,7 +63,7 @@ public class SoundEffects{
         soundId[MOURN] = soundPool.load(context,R.raw.mourn,1);
         soundId[ARROW] = soundPool.load(context,R.raw.arrow,1);
 
-        soundId[COIN] = soundPool.load(context,R.raw.coin,1);
+        soundId[TRIBUTE] = soundPool.load(context,R.raw.tribute,1);
         soundId[SLEEP] = soundPool.load(context,R.raw.snoring,1);
         soundId[DAMAGE] = soundPool.load(context,R.raw.damage,1);
 
@@ -85,6 +87,10 @@ public class SoundEffects{
         soundId[FLYING] = soundPool.load(context,R.raw.flying,1);
         soundId[WALKING] = soundPool.load(context,R.raw.walking,1);
 
+        for (int i = 0; i < coinPlayer.length; i++) {
+            coinPlayer[i] = MediaPlayer.create(context, R.raw.coin);
+            coinPlayer[i].setVolume(volumeMul / 3, volumeMul / 3);
+        }
     }
 
     //Play with default attributes
@@ -124,6 +130,16 @@ public class SoundEffects{
 
     public void setVolume(int id,float volume){
         soundPool.setVolume(id,volume*volumeMul,volume*volumeMul);
+    }
+
+    public void playCoin(){
+        for(int i = 0; i < coinPlayer.length;i++) {
+            if(!coinPlayer[i].isPlaying()){
+                coinPlayer[i].setVolume(volumeMul / 3, volumeMul / 3);
+                coinPlayer[i].start();
+                return;
+            }
+        }
     }
 
 }

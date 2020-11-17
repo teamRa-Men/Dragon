@@ -338,7 +338,7 @@ public class Lair {
                 } else {
                     GoldPool.instance.collectedGold(g);
                     depositedGold++;
-                    SoundEffects.instance.play(SoundEffects.COIN);
+                    SoundEffects.instance.playCoin();
                     StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
 
@@ -348,7 +348,7 @@ public class Lair {
                 if (disp.sqrMagnitude() < (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)){
                     GoldPool.instance.collectedGold(g);
                     depositedGold++;
-                    SoundEffects.instance.play(SoundEffects.COIN);
+                    SoundEffects.instance.playCoin();
                     StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
                 }
