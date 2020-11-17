@@ -229,6 +229,8 @@ public class Dragon extends Character {
                 }
                 return;
             }
+            if( GameView.instance.lair != null&&!destroyed)
+                groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
             if (!stunController.performing) {
                 float magnitude = moveBy.getLength();
                 if (magnitude > 0.01) {
@@ -354,8 +356,7 @@ public class Dragon extends Character {
 
     @Override
     public void physics(float deltaTime) {
-        if( GameView.instance.lair != null&&!destroyed)
-            groundLevel = GameView.instance.lair.getGroundLevel(position, radius);
+
         if(!isSleeping) {
             if(position.x < -Scene.instance.islandSizeLeft+Scene.instance.width && velocity!=null) {
                 //direction.x = (-0.1f + direction.x)/2;
@@ -505,7 +506,7 @@ public class Dragon extends Character {
             animTime += fixedDeltaTime;
         }
 
-        friction=0.9975f;
+        friction=0.998f;
         bounce = 0.35f;
         if (position.y < groundLevel) {
             setVelocity(getVelocity().x, getVelocity().y + fixedDeltaTime/200 );
@@ -629,7 +630,7 @@ class Head{
         else{
             open = open/2;
         }
-        if(dragon.destroyed){
+        if(dragon.destroyed || Game.instance.mourning){
             open = (20+open)/2;
         }
     }

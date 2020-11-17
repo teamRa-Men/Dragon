@@ -190,7 +190,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="0"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/circle" />
+                            app:srcCompat="@drawable/speed" />
 
                         <ProgressBar
                             android:id="@+id/progressSpeed"
@@ -270,7 +270,7 @@
                             android:layout_margin="10dp"
                             android:layout_weight="0"
                             android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/heart" />
+                            app:srcCompat="@drawable/health" />
 
                         <ProgressBar
                             android:id="@+id/progressHealth"

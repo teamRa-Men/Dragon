@@ -442,16 +442,30 @@ public class Game extends AppCompatActivity {
                         if (coolDownTime > breathCoolDownLength) {
                             breathCoolDown = false;
                             coolDownTime = 0;
+
                         }
                     }
                 }
                 else{
                     coolDownTime += 1000 / 15;
                     if(coolDownTime>4000){
-                        mourning = false;
+
                         coolDownTime = 0;
+
                         gameView.drawHUD = true;
-                        gameView.player.direction = new Vector2(gameView.player.direction.x,0);
+                        //gameView.player.direction = new Vector2(gameView.player.direction.x,0);
+                        float groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
+                        gameView.player.groundLevel = groundLevel;
+                        gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
+                        gameView.player.position.y = groundLevel;
+                        gameView.player.direction.y = 0;
+                        gameView.lair.lieDown();
+                        groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
+                        gameView.player.groundLevel = groundLevel;
+                        gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
+                        gameView.player.position.y = groundLevel;
+                        gameView.player.direction.y = 0;
+                        mourning = false;
                     }
                 }
 

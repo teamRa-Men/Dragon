@@ -219,6 +219,7 @@ public class Lair {
             groundLevel = Math.min(GameView.instance.groundLevel - r * 1.4f, goldSurface - r);
         }
 
+
         return  groundLevel;
     }
 
