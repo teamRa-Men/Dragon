@@ -38,7 +38,6 @@ public class Lair {
 
     Rect colliderLeft,colliderCenter,colliderRight;
 
-
     public Lair() {
         width = Game.instance.screenWidth*3/4;
         height = GameView.instance.screenWidth*3/4/4;
