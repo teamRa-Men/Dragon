@@ -36,7 +36,16 @@ Matrix matrix;
             buildingSprite=1;
         }
         cost = 110;
-
+/*
+        if(buildingSprite == 3) {
+            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
+                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),
+                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "3")}, 1000);
+        }
+        else{
+            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
+        }
+        */
 
         buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
         windMill = SpriteManager.instance.getBuildingSprite("WindMill");
@@ -104,8 +113,9 @@ Matrix matrix;
         //============================
 
         else{
+            int r = (int)(2+Math.random()*5);
             if(beenEmptied == false){
-            GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/2);
+            GoldPool.instance.spawnGold(collider.centerX(), collider.centerY(),goldRate/2 + r);
             beenEmptied = true;}
             this.buildingImage = SpriteManager.instance.getBuildingSprite("FarmRuin");
             goldRate = 0;
@@ -129,37 +139,6 @@ Matrix matrix;
     @Override
     public int getTileNr() {
         return 3;
-    }
-
-    public void repair(int repairRate, float deltaTime){
-
-        if(!isStanding){    // && currentInhabitants > 1
-            rebuildTime+=deltaTime;
-
-            if( rebuildTime > 1000){
-                health+=repairRate;
-                rebuildTime = 0;
-            }
-
-
-            if(health == maxHealth) {
-                isStanding = true;
-                beenEmptied = false;
-
-                double r = Math.random();
-
-                if(r<0.25){
-                    buildingSprite = 2;
-                }
-                else if(r<0.5){
-                    buildingSprite=1;
-                }
-                cost = 110;
-
-                buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
-                windMill = SpriteManager.instance.getBuildingSprite("WindMill");
-            }
-        }
     }
 }
 
