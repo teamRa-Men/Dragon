@@ -5,7 +5,7 @@
     android:id="@+id/gameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="?android:attr/navigationBarColor"
     android:elevation="0dp"
     tools:context=".Game">
 
@@ -20,143 +20,191 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/UI"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:elevation="10dp"
-        android:visibility="visible"
+    <TextView
+        android:id="@+id/showDayText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:shadowColor="#A5A5A5"
+        android:shadowDy="10"
+        android:shadowRadius="10"
+        android:text="DAY 1"
+        android:textColor="@android:color/white"
+        android:textSize="70dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toStartOf="@+id/startSurfaceView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.120000005" />
+
+    <Button
+        android:id="@+id/sleepButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/roundedbuttonshape"
+        android:onClick="onSleep"
+        android:text="Sleep"
+        android:textColor="@color/colorDragon"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/statsHUD"
+        app:layout_constraintStart_toEndOf="@+id/statsHUD"
+        app:layout_constraintTop_toTopOf="@+id/statsHUD" />
+
+    <Button
+        android:id="@+id/mourn"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/roundedbuttonshape"
+        android:onClick="onMourn"
+        android:text="mourn"
+        android:textColor="@color/colorDragon"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/statsHUD"
+        app:layout_constraintStart_toEndOf="@+id/statsHUD"
+        app:layout_constraintTop_toTopOf="@+id/statsHUD" />
+
+    <Button
+        android:id="@+id/wakeButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:background="@drawable/roundedbuttonshape"
+        android:onClick="onWake"
+        android:text="Wake"
+        android:textColor="@color/colorDragon"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/statsHUD"
+        app:layout_constraintStart_toEndOf="@+id/statsHUD"
+        app:layout_constraintTop_toTopOf="@+id/statsHUD" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/statsHUD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stat_hud"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-
-        <TextView
-            android:id="@+id/showDayText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="50dp"
-            android:fontFamily="sans-serif-condensed"
-            android:shadowColor="#A5A5A5"
-            android:shadowDy="10"
-            android:shadowRadius="10"
-            android:text="DAY 1"
-            android:textColor="@android:color/white"
-            android:textSize="70dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/xpBarLair"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="100dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="30dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/goldDeposited"
-            app:layout_constraintHorizontal_bias="0.87"
-            app:layout_constraintStart_toStartOf="@+id/goldDeposited" />
-
-        <Button
-            android:id="@+id/sleepButton"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundedbuttonshape"
-            android:onClick="onSleep"
-            android:text="Sleep"
-            android:textColor="@color/colorDragon"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.77"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.89" />
-
-        <Button
-            android:id="@+id/wakeButton"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundedbuttonshape"
-            android:onClick="onWake"
-            android:text="Wake"
-            android:textColor="@color/colorDragon"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
-            app:layout_constraintEnd_toEndOf="@+id/sleepButton"
-            app:layout_constraintStart_toStartOf="@+id/sleepButton" />
-
-        <Button
-            android:id="@+id/mourn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@drawable/roundedbuttonshape"
-            android:onClick="onMourn"
-            android:text="mourn"
-            android:textColor="@color/colorDragon"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/sleepButton"
-            app:layout_constraintEnd_toEndOf="@+id/wakeButton"
-            app:layout_constraintStart_toStartOf="@+id/wakeButton" />
+        app:layout_constraintVertical_bias="0.95">
 
         <TextView
             android:id="@+id/goldDeposited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="sans-serif-condensed"
-            android:padding="10dp"
+            android:padding="0dp"
             android:shadowColor="#7C7C7C"
             android:shadowDy="5"
             android:shadowRadius="10"
-            android:textColor="@color/colorDragon"
+            android:text="100"
+            android:textColor="@android:color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/xpBarLair"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/upgradeButton"
-            android:layout_width="55dp"
-            android:layout_height="41dp"
-            android:background="@drawable/roundedbuttonshape"
-            android:text="lvUP"
-            android:textColor="@color/colorDragon"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/xpBarLair"
-            app:layout_constraintStart_toEndOf="@+id/xpBarLair"
-            app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
-
-        <Button
-            android:id="@+id/buttonOfStop"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:background="@drawable/pause"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.02"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.04000002" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="0dp"
+            android:shadowColor="#7C7C7C"
+            android:shadowDy="5"
+            android:shadowRadius="10"
+            android:text="XP"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/xpBarLair"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+        <TextView
+            android:id="@+id/levelLair"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:shadowColor="#808080"
-            android:shadowDy="10"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="0dp"
+            android:shadowColor="#7C7C7C"
+            android:shadowDy="5"
             android:shadowRadius="10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.58"
+            android:text="LV 1 "
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/levelLair"
+            app:srcCompat="@drawable/health_hud" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:srcCompat="@drawable/mana_hud" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/goldDeposited"
+            app:layout_constraintEnd_toStartOf="@+id/goldDeposited"
+            app:layout_constraintTop_toTopOf="@+id/goldDeposited"
+            app:srcCompat="@drawable/gold_hud" />
+
+        <ProgressBar
+            android:id="@+id/xpBarLair"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="150dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            android:layout_marginTop="248dp"
+            app:layout_constraintEnd_toEndOf="@+id/mana"
+            app:layout_constraintStart_toStartOf="@+id/mana"
+            app:layout_constraintTop_toBottomOf="@+id/mana" />
+
+        <ProgressBar
+            android:id="@+id/health"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="150dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/goldDeposited" />
+
+        <ProgressBar
+            android:id="@+id/mana"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="150dp"
+            android:layout_height="15dp"
+            android:layout_margin="2dp"
+            app:layout_constraintEnd_toEndOf="@+id/health"
+            app:layout_constraintStart_toStartOf="@+id/health"
+            app:layout_constraintTop_toBottomOf="@+id/health" />
 
         <TextView
             android:id="@+id/xpTextLair"
@@ -166,14 +214,54 @@
             android:shadowColor="#808080"
             android:shadowDy="10"
             android:shadowRadius="10"
-            android:text="XP"
+            android:text="0/100"
             android:textColor="@color/colorDragon"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/xpBarLair"
             app:layout_constraintEnd_toEndOf="@+id/xpBarLair"
             app:layout_constraintStart_toStartOf="@+id/xpBarLair"
             app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
 
+        <TextView
+            android:id="@+id/manaText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#808080"
+            android:shadowDy="10"
+            android:shadowRadius="10"
+            android:text="100/100"
+            android:textColor="@color/colorDragon"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/mana"
+            app:layout_constraintEnd_toEndOf="@+id/mana"
+            app:layout_constraintStart_toStartOf="@+id/mana"
+            app:layout_constraintTop_toBottomOf="@+id/health" />
+
+        <TextView
+            android:id="@+id/healthText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#808080"
+            android:shadowDy="10"
+            android:shadowRadius="10"
+            android:text="100/100"
+            android:textColor="@color/colorDragon"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/health"
+            app:layout_constraintEnd_toEndOf="@+id/health"
+            app:layout_constraintStart_toStartOf="@+id/health"
+            app:layout_constraintTop_toTopOf="@+id/health" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/buttonOfStop"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/pause"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/startSurfaceView"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadScreen"
@@ -181,8 +269,10 @@
         android:layout_height="match_parent"
         android:elevation="20dp"
         android:foreground="@android:color/background_dark"
-        android:visibility="visible">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

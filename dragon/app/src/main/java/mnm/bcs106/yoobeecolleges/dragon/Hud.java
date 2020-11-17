@@ -44,7 +44,7 @@ public class Hud {
             control.setStrokeWidth(20);
             control.setStrokeCap(Paint.Cap.ROUND);
 
-            fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire);
+            fireButtonSprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire_hud);
             fireButtonSprite = Bitmap.createScaledBitmap(fireButtonSprite, Game.instance.controlRadius*2,Game.instance.controlRadius*2, false);
             fire.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
 
@@ -74,7 +74,7 @@ public class Hud {
             gold.setFakeBoldText(true);
             gold.setColor(Color.WHITE);
             gold.setTextAlign(Paint.Align.RIGHT);
-            gold.setShadowLayer(3,1,1,Color.DKGRAY);*/
+            gold.setShadowLayer(3,1,1,Color.DKGRAY);
 
             bar.setColor(Color.BLACK);
             bar.setShadowLayer(3,0,3,Color.DKGRAY);
@@ -88,6 +88,7 @@ public class Hud {
             healthBottom = healthTop+20;
             manaTop = healthBottom + 10;
             manaBottom = manaTop+20;
+            */
     }
     public void update(float deltaTime){
         dragFrom = Game.instance.dragFrom;
@@ -107,9 +108,11 @@ public class Hud {
             fire.setColorFilter(new LightingColorFilter(Color.WHITE,0));
 
         }
-
+        /*
         healthWidth = Math.max((int)(healthMaxWidth*player.health/player.maxHealth),0);
         manaWidth = (int)(manaMaxWidth*player.mana/player.maxMana);
+
+         */
     }
     public  void draw(Canvas canvas){
         if(dragFrom !=null && dragTo!=null) {
@@ -128,11 +131,11 @@ public class Hud {
         canvas.drawBitmap(goldMeterFront,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
 
         // canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
-
+    /*
         canvas.drawRect(barLeft, manaTop, barLeft + manaMaxWidth, manaBottom, bar);
         canvas.drawRect(barLeft, healthTop, barLeft + healthMaxWidth, healthBottom, bar);
         canvas.drawRect(barLeft, manaTop,barLeft + manaWidth, manaBottom, mana);
-        canvas.drawRect(barLeft, healthTop,barLeft+ healthWidth, healthBottom, health);
+        canvas.drawRect(barLeft, healthTop,barLeft+ healthWidth, healthBottom, health);*/
 
     }
 }

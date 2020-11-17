@@ -40,7 +40,7 @@ public class Scene {
     int  groundX2, groundX1, groundX0, mountainX2, mountainX1, mountainX0, hillsX2, hillsX1, hillsX0;
 
 
-    Paint skyPaint, backPaint,frontPaint, black;
+    Paint skyPaint, backPaint,frontPaint, bottomPaint;
 
     float islandSizeLeft, islandSizeRight;
 
@@ -275,10 +275,10 @@ public class Scene {
         backPaint = new Paint();
         frontPaint = new Paint();
         skyPaint = new Paint();
-        black = new Paint();
+        bottomPaint = new Paint();
         frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
         backPaint.setColor(Color.rgb(240,250,255));
-        black.setColor(Color.BLACK);
+        bottomPaint.setColor(Color.rgb(23,20,10));
         //skyPaint.setColor(Color.rgb(250,250,255));
     }
 
@@ -372,7 +372,7 @@ public class Scene {
 
     }
     public void drawForeground(Canvas canvas){
-        canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,black);
+        canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,bottomPaint);
         canvas.drawBitmap(ground, groundX + groundX0, GameView.instance.groundLevel * .985f, null);
         canvas.drawBitmap(ground, groundX + groundX1, GameView.instance.groundLevel * .985f, null);
         canvas.drawBitmap(ground, groundX + groundX2, GameView.instance.groundLevel * .985f, null);

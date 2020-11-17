@@ -33,10 +33,15 @@ public class Game extends AppCompatActivity {
     Button mournButton;
     Button sleepButton;
     Button wakeButton;
-    Button upgradeButton;
+    View upgradeButton;
     ProgressBar xpBarLair;
     TextView xpTextLair;
+    ProgressBar healthBar;
+    TextView healthText;
+    ProgressBar manaBar;
+    TextView manaText;
     TextView goldDeposited;
+    TextView levelLair;
 
     Button stopButton;
     Button pauseContinue;
@@ -67,7 +72,7 @@ public class Game extends AppCompatActivity {
     CardView creditCard;
 
     //state variables
-    boolean breathCoolDown, showGameOver = false, gameOver = false,showGold = false, showSleepButton = false, showWakeButton = false, showDay = true;
+    boolean breathCoolDown, showGameOver = false, gameOver = false, showSleepButton = false, showWakeButton = false, showDay = true;
     boolean showMournButton = false;
     boolean mourning = false;
     int breathCoolDownLength = 300, coolDownTime = 0;
@@ -183,7 +188,8 @@ public class Game extends AppCompatActivity {
         pauseDialogBuilder.setView(pauseMenu);
         final AlertDialog dialog = pauseDialogBuilder.create();
 
-
+//******************************************************************************************************************
+        //PAUSE MENU
 
         stopButton = findViewById(R.id.buttonOfStop);
         soundVolume = pauseMenu.findViewById(R.id.soundVolume);
@@ -289,7 +295,8 @@ public class Game extends AppCompatActivity {
             }
         });
 
-
+//******************************************************************************************************************
+        //UPGRADE MENU
 
 
         upgradeDialogBuilder = new AlertDialog.Builder(this,android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
@@ -302,7 +309,7 @@ public class Game extends AppCompatActivity {
         upgradeManaButton = upgradeMenu.findViewById(R.id.upgradeMana);
         upgradeHealthButton = upgradeMenu.findViewById(R.id.upgradeHealth);
 
-        level = upgradeMenu.findViewById(R.id.level);
+        level = upgradeMenu.findViewById(R.id.levelLair);
         upgradePoints = upgradeMenu.findViewById(R.id.upgradePoints);
         xpText = upgradeMenu.findViewById(R.id.xpTextAmount);
         xpBar = upgradeMenu.findViewById(R.id.xpBar);
@@ -375,7 +382,7 @@ public class Game extends AppCompatActivity {
         mournButton = findViewById(R.id.mourn);
         sleepButton = findViewById(R.id.sleepButton);
         wakeButton = findViewById(R.id.wakeButton);
-        upgradeButton = findViewById(R.id.upgradeButton);
+        upgradeButton = findViewById(R.id.statsHUD);
         upgradeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -385,9 +392,22 @@ public class Game extends AppCompatActivity {
                 upgradeDialog.show();
             }
         });
+
+
+        //******************************************************************************************************************
+        //HUD
+
         xpBarLair= findViewById(R.id.xpBarLair);
         xpTextLair = findViewById(R.id.xpTextLair);
+
+        healthBar= findViewById(R.id.health);
+        healthText = findViewById(R.id.healthText);
+
+        manaBar= findViewById(R.id.mana);
+        manaText = findViewById(R.id.manaText);
+
         goldDeposited = findViewById(R.id.goldDeposited);
+        levelLair = findViewById(R.id.levelLair);
 
 
     }
@@ -447,6 +467,7 @@ public class Game extends AppCompatActivity {
                     }
                 }
                 else{
+
                     coolDownTime += 1000 / 15;
                     if(coolDownTime>4000){
 
@@ -485,25 +506,24 @@ public class Game extends AppCompatActivity {
             runTime+=1000/15;
 
 
-            fadeView(showSleepButton, sleepButton);
-            fadeView(showWakeButton, wakeButton);
-            fadeView(showGold, upgradeButton);
-            fadeView(showGold, xpBarLair);
-            fadeView(showGold,goldDeposited);
-            fadeView(showGold,  xpTextLair);
-            fadeView(showMournButton,mournButton);
+            fadeView(showSleepButton&&!mourning&&!gameOver, sleepButton);
+            fadeView(showWakeButton&&!mourning&&!gameOver, wakeButton);
+            fadeView(showMournButton&&!mourning&&!gameOver,mournButton);
 
-
+            fadeView(!mourning&&!gameOver,stopButton);
 
             Lair lair = GameView.instance.lair;
-            if(showGold){
-                goldDeposited.setText("LV " + (int)lair .level + "    " + lair.depositedGold + " G");
-            }
-            if(showSleepButton || showWakeButton) {
+            Dragon player = GameView.instance.player;
 
-                xpBarLair.setProgress((int) (lair.experience / (lair.nextLevel) * 100));
-                xpTextLair.setText((int) lair.experience + " XP");
-            }
+            //UPDATE HUD
+            goldDeposited.setText(""+lair.depositedGold);
+            levelLair.setText("LV "+ (int)lair.level);
+            xpBarLair.setProgress((int) (lair.experience / (lair.nextLevel) * 100));
+            xpTextLair.setText((int)lair.experience +""+"/"+""+ (int)lair.nextLevel);
+            healthBar.setProgress((int) ( player.health/ (player.maxHealth) * 100));
+            healthText.setText((int)player.health +""+"/"+""+ (int)player.maxHealth);
+            manaBar.setProgress((int) (player.mana / (player.maxMana) * 100));
+            manaText.setText((int)player.mana +""+"/"+""+ (int)player.maxMana);
         }
 
         //Show game over pop up if told by game engine

@@ -286,9 +286,8 @@ public class Lair {
             Game.instance.showSleepButton = Math.abs(player.position.x - position.x) < goldPile.getWidth() / 2 && player.position.y > goldPileHeight - player.radius * 2;
 
         }
-        if (Math.abs(player.aimFor().x - position.x) < goldPile.getWidth() / 4 ) {
-            Game.instance.showGold = true;
-        if (GameView.instance.player.goldHolding > 0) {
+
+        if (GameView.instance.player.goldHolding > 0 &&  Math.abs(player.position.x - position.x) < goldPile.getWidth() / 4) {
 
                 //depositedGold += 1;
                 //System.out.println(depositedGold);}
@@ -300,10 +299,8 @@ public class Lair {
                 GameView.instance.player.goldHolding--;
 
             }
-        }
-        else{
-            Game.instance.showGold = false;
-        }
+
+
 
         float dx=  Math.abs(player.position.x-position.x);
         if(!(player.position.y > colliderLeft.top && dx < width/2)) {
@@ -344,7 +341,7 @@ public class Lair {
             if( g.fromDragon) {
 
                 if (disp.sqrMagnitude() > (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)) {
-                        g.speed = (g.speed+0.2f)/2;
+                        g.speed = Math.max(g.speed,0.2f);
                         g.setDir(position.add(g.position.multiply(-1)).getNormal().multiply(0.03f).add(g.direction));
 
                 } else {
