@@ -391,7 +391,7 @@ public class Dragon extends Character {
             flying = !(position.y >= groundLevel);
 
 
-            if (breathingFire && mana > 0) {
+            if (breathingFire && mana > 0 && !destroyed) {
 
                 //if(Math.random()<0.05)
                 //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
@@ -408,7 +408,6 @@ public class Dragon extends Character {
             }
             else{
                 if(breathSound) {
-
                     SoundEffects.instance.setVolume(breathSoundID,breathSoundVol);
                     breathSoundVol-=deltaTime/800;
                     if(breathSoundVol<0) {
@@ -491,6 +490,14 @@ public class Dragon extends Character {
     boolean down = false;
     @Override
     protected void destroyAnim(Canvas canvas) {
+        if(breathSound) {
+                breathingFire = false;
+
+                SoundEffects.instance.stop(breathSoundID);
+                breathSound = false;
+
+        }
+
         GameView.instance.timeScale = 0.2f;
 
         groundLevel = GameView.instance.lair.getGroundLevel(position, radius*0.6f);
