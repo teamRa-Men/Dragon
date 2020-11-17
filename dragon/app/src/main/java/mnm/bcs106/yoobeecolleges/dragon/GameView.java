@@ -294,15 +294,16 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
 
         Music.instance.update(fixedDeltaTime);
-        if(player.health<=0){
+        if(player.health<0){
             drawHUD = false;
+            Music.instance.playDeathMusic();
         }
         if(!player.visible) {
             if (!Game.instance.gameOver) {
                 timeScale = 1;
                 Game.instance.showGameOver = true;
                 SoundEffects.instance.pauseAll();
-                Music.instance.playDeathMusic();
+
 
             }
         }

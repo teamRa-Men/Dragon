@@ -55,11 +55,17 @@ public class Wooloo extends NPC{
                 npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
             }
             if(fleeingSound ){
-                SoundEffects.instance.setVolume(fleeSoundID,Math.abs(npcX - target.x)/1500);
-                if( Math.abs(npcX - target.x) < 10) {
+                SoundEffects.instance.setVolume(fleeSoundID,GameView.instance.cameraSize/2/Math.abs(npcX - GameView.instance.player.position.x));
+                if( Math.abs(npcX - target.x) < 10 ) {
                     fleeingSound = false;
                     SoundEffects.instance.stop(fleeSoundID);
                 }
+            }
+        }
+        else{
+            if(fleeingSound ) {
+                fleeingSound = false;
+                SoundEffects.instance.stop(fleeSoundID);
             }
         }
     }

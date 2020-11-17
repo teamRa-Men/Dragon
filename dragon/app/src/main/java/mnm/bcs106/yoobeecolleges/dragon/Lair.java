@@ -287,8 +287,7 @@ public class Lair {
 
                 GoldPool.instance.spawnGold((int)p.x, (int)(p.y+ GameView.instance.player.radius), 1,true);
                 GameView.instance.player.goldHolding--;
-                depositedGold++;
-                StatsRecorder.instance.setMaxGold(depositedGold);
+
             }
         }
         else{
@@ -339,6 +338,9 @@ public class Lair {
 
                 } else {
                     GoldPool.instance.collectedGold(g);
+                    depositedGold++;
+                    SoundEffects.instance.play(SoundEffects.COIN);
+                    StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
 
                 }
@@ -346,6 +348,9 @@ public class Lair {
             else {
                 if (disp.sqrMagnitude() < (goldPile.getWidth() / 2) * (goldPile.getWidth() / 2)){
                     GoldPool.instance.collectedGold(g);
+                    depositedGold++;
+                    SoundEffects.instance.play(SoundEffects.COIN);
+                    StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
                 }
             }

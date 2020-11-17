@@ -251,19 +251,6 @@ public class Foundation {
 
                 }
 
-                else if(buildingType == 3){
-                    double r = Math.random();
-                    int buildingSprite = 3;
-                    if(r<0.25){
-                        buildingSprite = 2;
-                    }
-                    else if(r<0.5){
-                        buildingSprite=1;
-                    }
-
-                    buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
-                }
-
                 else if(buildingType == 4){
                     buildingImage = SpriteManager.instance.getBuildingSprite("Tower1");
                 }
