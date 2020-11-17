@@ -35,22 +35,13 @@ Matrix matrix;
         else if(r<0.5){
             buildingSprite=1;
         }
-        cost = 110;
-/*
-        if(buildingSprite == 3) {
-            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1"),
-                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "2"),
-                    SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "3")}, 1000);
-        }
-        else{
-            spriteAnim = new SpriteAnimation(new Bitmap[]{SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1")}, 10000);
-        }
-        */
+
 
         buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
         windMill = SpriteManager.instance.getBuildingSprite("WindMill");
         matrix = new Matrix();
 
+        cost = 110;
         height = tilesize*tileNr/3;
 
         buildingType = 3;
@@ -148,3 +139,28 @@ Matrix matrix;
 //      sprites to individual objects?
 //      Cattle and sheep spawn. (when Villagers present?)
 
+    @Override
+    public void repair(int repairRate, float deltaTime){
+
+        if(!isStanding || buildingType == 1){    // && currentInhabitants > 1
+            rebuildTime+=deltaTime;
+
+            if( rebuildTime > 1000){
+                health+=repairRate;
+                rebuildTime = 0;
+            }
+
+
+            if(health == maxHealth) {
+                double r = Math.random();
+
+                if(r<0.25){
+                    buildingSprite = 2;
+                }
+                else if(r<0.5){
+                    buildingSprite=1;
+                }
+                buildingImage = SpriteManager.instance.getBuildingSprite("Farm" + buildingSprite + "1");
+            }
+        }
+    }
