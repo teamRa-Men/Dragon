@@ -57,8 +57,10 @@ public class Projectile extends GameObject {
             super.physics(deltaTime);
             timeSinceShot += deltaTime;
             if (parent == null) {
-                if(GameView.instance.player.fireBreath.projectileCollision(this)){
-                    timeSinceShot = Math.max(0.9f*coolDown,timeSinceShot);
+                if(type == MAGIC){
+                     if(GameView.instance.player.fireBreath.projectileCollision(this)){
+                        timeSinceShot = Math.max(0.9f*coolDown,timeSinceShot);
+                    }
                 }
                 if(timeSinceShot < coolDown * 0.75f){
                     if (GameView.instance.player.projectileCollision(this)) {

@@ -37,7 +37,7 @@ public class Dragon extends Character {
     int goldHolding = 0,maxGoldHolding = 50;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 2.5f, manaRegen=5;
+    float flyingManaCost = 5, fireManaCost = 4f, manaRegen=5;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -956,7 +956,7 @@ class FireBreath{
     Dragon dragon;
     float range,length;
 
-    float shootTime = 20, timeSinceShoot;
+    float shootTime = 30, timeSinceShoot;
     Vector2 direction, collisionPosition;
     Bitmap[] sprites = new Bitmap[6];
     Paint paint = new Paint();
@@ -966,7 +966,7 @@ class FireBreath{
 
     public FireBreath(Dragon dragon){
         this.dragon = dragon;
-        range = 6*dragon.radius;
+        range = 8*dragon.radius;
         direction = dragon.direction;
 
         Bitmap fireSheet = SpriteManager.instance.fireSheet;
@@ -986,10 +986,10 @@ class FireBreath{
         paint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFire),0));
         backPaint.setColorFilter(new LightingColorFilter(Game.instance.getResources().getColor(R.color.colorFireCold),0));
         for(float i = 0; i < breathSize;i++){
-            backFlames.add(new Flame(this,  range,Game.instance.getResources().getColor(R.color.colorFireCold), 3f/2*dragon.radius*(1+(float)Math.random())));
+            backFlames.add(new Flame(this,  range,Game.instance.getResources().getColor(R.color.colorFireCold), 2*dragon.radius*(1+(float)Math.random())));
         }
         for(float i = 0; i < breathSize;i++){
-            flames.add(new Flame(this,  range,Game.instance.getResources().getColor(R.color.colorFire), dragon.radius*(1+(float)Math.random())));
+            flames.add(new Flame(this,  range,Game.instance.getResources().getColor(R.color.colorFire), 1.3f*dragon.radius*(1+(float)Math.random())));
         }
 
 
@@ -1005,9 +1005,9 @@ class FireBreath{
                 currentBreath = 0;
             }
             Flame f = flames.get(currentBreath);
-            f.shoot(dragon.position, direction, dragon.speed + dragon.radius / 110);
+            f.shoot(dragon.position, direction, dragon.speed + dragon.radius / 90);
             f = backFlames.get(currentBreath);
-            f.shoot(dragon.position, direction, dragon.speed + dragon.radius / 110);
+            f.shoot(dragon.position, direction, dragon.speed + dragon.radius / 90);
             timeSinceShoot = 0;
 
 
@@ -1118,7 +1118,7 @@ class Flame {
             distanceTravelled = Vector2.distance(shootFrom,position);
             if (distanceTravelled < breath.range) {
                 position = position.add(direction.multiply(speed * deltaTime));
-                size = Math.min(distanceTravelled/(6*breath.dragon.radius)*0.8f+0.2f,1)*maxSize;
+                size = Math.min(distanceTravelled/(7*breath.dragon.radius)*0.8f+0.2f,1)*maxSize;
                 //paint.setAlpha((int)(Math.min(distanceTravelled/range*2+0.1f,1)*255));
 
 
