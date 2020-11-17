@@ -24,10 +24,13 @@ public class Music{
     public void setVolume(float volume){
         volume = Math.min(Math.max(volume,0),1);
         System.out.println(volume);
-        if(deathMusicPlayer!=null) {
-            deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
-        }
-        if(themeMusicPlayer!=null) {
+
+            if (deathMusicPlayer != null && playingDeath) {
+                deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
+            }
+
+
+        if(themeMusicPlayer!=null && playingTheme) {
             themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
         }
     }
