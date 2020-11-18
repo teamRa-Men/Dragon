@@ -289,7 +289,7 @@ public class Dragon extends Character {
 
                             }
                                 speed = (speed + Math.min(magnitude, maxMoveSpeed)) / 2;
-                            
+
                         }
 
 

@@ -39,6 +39,13 @@ public class DragonLayers extends NPC {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(idleBoolean){
+            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+                idleBoolean = false;
+                SoundEffects.instance.stop(idleID);
+            }
+        }
         if(alive) {
             arrowRechargeTime.update(deltaTime);
 
@@ -87,15 +94,11 @@ public class DragonLayers extends NPC {
                 idleBoolean = true;
                 idleID = SoundEffects.instance.play(SoundEffects.DRAGONLAYER_IDLING, -1, 1);
             }
-            if(idleBoolean){
-                SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-                if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
-                    idleBoolean = false;
-                    SoundEffects.instance.stop(idleID);
-                }
-            }
+
         }
     }
+
+
 
     public void shoot() {
         Vector2 target = GameView.instance.player.aimFor();

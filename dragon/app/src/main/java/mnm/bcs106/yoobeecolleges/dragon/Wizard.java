@@ -34,6 +34,13 @@ public class Wizard extends NPC {
     public void update(float deltaTime) {
         super.update(deltaTime);
         arrowRechargeTime.update(deltaTime);
+        if(shootBoolean){
+            SoundEffects.instance.setVolume(shootSpellID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+                shootBoolean = false;
+                SoundEffects.instance.stop(shootSpellID);
+            }
+        }
         if (!lockTarget){
             if (Math.abs(GameView.instance.player.position.x-CreationPoint.x)<GameView.instance.screenWidth/2){
                 lockTarget = true;
@@ -56,16 +63,16 @@ public class Wizard extends NPC {
                     shootBoolean = true;
                     shootSpellID = SoundEffects.instance.play(SoundEffects.WIZARD_CHARGE, -1, 1);
                 }
-                if(shootBoolean){
-                    SoundEffects.instance.setVolume(shootSpellID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-                    if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
-                        shootBoolean = false;
-                        SoundEffects.instance.stop(shootSpellID);
-                    }
-                }
+
             }
             else if (arrowRechargeTime.performing){
                 npcBitmap = shootingSprite;
+                if(shootBoolean){
+
+                        shootBoolean = false;
+                        SoundEffects.instance.stop(shootSpellID);
+                    
+                }
                 if(!shot) {
                     shoot();
                     shot = true;
