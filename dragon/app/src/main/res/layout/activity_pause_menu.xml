@@ -163,7 +163,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="40dp"
                     android:layout_weight="0.7"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     app:cardCornerRadius="20dp">
 
                     <androidx.core.widget.NestedScrollView
@@ -183,8 +183,12 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="10dp"
-                                android:text="I’ve learned: How to animate Game objects. Detect if game objects get close to each other. How to use physics class. How to use update class. Use Array List class. How to measure Max FPS and scale it under each screen automatically. How to use Android studio Git without github. "
-                                android:textColor="#000000" />
+                                android:gravity="center_horizontal"
+                                android:lineSpacingExtra="8sp"
+                                android:text="LEAD DESIGNER\n    Manny Kwong \n\n  LEAD PROGRAMMER\n    Manny Kwong \n\n  PROGRAMMERS\n    Matthew Bogdanow \n   Julian (NAE) Grabowsky \n\n LEAD ARTIST\n  Julian (NAE) Grabowsky \n\n CHARACTER ARTIST\n Manny Kwong  \n\n  NPC ARTIST\n Matthew Bogdanow \n \n BACKGROUND ARTIST\n Manny Kwong \n\n  MUSIC\n Julian (NAE) Grabowsky \n \n SOUND EFFECTS\n Manny Kwong   \n Matthew Bogdanow  \n\n BUG CATCHER EXTRAORDINAIRE\n    Matthew Bogdanow \n\n \n\n\n  I’ve learned: How to animate Game objects. Detect if game objects get close to each other. How to use physics class. How to use update class. Use Array List class. How to measure Max FPS and scale it under each screen automatically. How to use Android studio Git without github. "
+                                android:textColor="#000000"
+                                android:textStyle="bold"
+                                android:visibility="visible" />
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="100dp"
