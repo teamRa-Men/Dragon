@@ -36,7 +36,7 @@ public class Wizard extends NPC {
         arrowRechargeTime.update(deltaTime);
         if(shootBoolean){
             SoundEffects.instance.setVolume(shootSpellID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize || !alive) {
                 shootBoolean = false;
                 SoundEffects.instance.stop(shootSpellID);
             }
@@ -71,7 +71,7 @@ public class Wizard extends NPC {
 
                         shootBoolean = false;
                         SoundEffects.instance.stop(shootSpellID);
-                    
+
                 }
                 if(!shot) {
                     shoot();

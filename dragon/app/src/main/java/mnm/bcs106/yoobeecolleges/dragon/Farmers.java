@@ -60,7 +60,7 @@ import android.graphics.Rect;
         }
         if(idleBoolean){
             SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize || !alive) {
                 idleBoolean = false;
                 SoundEffects.instance.stop(idleID);
             }
@@ -84,7 +84,7 @@ import android.graphics.Rect;
     public void update(float deltaTime) {
         if(runForestRun){
             SoundEffects.instance.setVolume(scaredID,GameView.instance.cameraSize/2/Math.abs(npcX - GameView.instance.player.position.x+1));
-            if(Math.abs(npcX - target.x) < 10) {
+            if(Math.abs(npcX - target.x) < 10 || !alive) {
                 runForestRun = false;
                 SoundEffects.instance.stop(scaredID);
             }
