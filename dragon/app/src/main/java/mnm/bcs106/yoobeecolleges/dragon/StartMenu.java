@@ -30,10 +30,10 @@ public class StartMenu extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-        startView = new StartView(this);
-        ConstraintLayout startLayout = findViewById(R.id.startSurfaceView);
-        startLayout.addView(startView);
-        updateUI();
+        //startView = new StartView(this);
+        //ConstraintLayout startLayout = findViewById(R.id.startSurfaceView);
+        //startLayout.addView(startView);
+        //updateUI();
     }
 
     public void updateUI(){
@@ -55,6 +55,7 @@ public class StartMenu extends AppCompatActivity {
 
     public void startGame(View view){
         SoundEffects.instance.play(SoundEffects.SELECT);
+
         Intent i = new Intent(this, Game.class).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
         finish();

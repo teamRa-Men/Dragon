@@ -67,7 +67,7 @@ public class StartView extends SurfaceView {
 
         //Player gameobject
         Bitmap playerSprite = BitmapFactory.decodeResource(this.getResources(), R.drawable.empty);
-        player = new StartDragon(playerSprite,0.5f,0.9f,screenHeight,screenHeight);
+        player = new StartDragon(playerSprite,0.5f,0.9f,screenWidth,screenHeight);
 
         back.setColor(Color.WHITE);
 

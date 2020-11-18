@@ -47,7 +47,7 @@ public class StartDragon extends Character {
         direction = Vector2.right;
 
 
-        position = new Vector2(width/2, height/2);
+        position = new Vector2(width*0.6f, height*0.5f);
 
 
         initBody(55);
@@ -64,7 +64,7 @@ public class StartDragon extends Character {
 
 
 
-        radius = (float)cameraSize*size/3000;
+        radius = (float)cameraSize*size/2000;
 
         bodyStart = size/7;
         bodyEnd = size/3;
@@ -78,11 +78,11 @@ public class StartDragon extends Character {
         head = new StartHead(this, radius);
 
 
-        Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
+        Bitmap dragonSheet = SpriteManager.instance.startDragonSheet;
 
-        Rect r = SpriteManager.instance.getDragonSpriteRect("Segment");
+        Rect r = SpriteManager.instance.getStartDragonSpriteRect("Segment");
         Bitmap segmentSprite =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
-        r = SpriteManager.instance.getDragonSpriteRect("SpikedSegment");
+        r = SpriteManager.instance.getStartDragonSpriteRect("SpikedSegment");
         Bitmap spikedSegmentSprite =Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
 
 
@@ -249,19 +249,19 @@ class StartHead{
 
         direction = new Vector2(dragon.direction.x,dragon.direction.y);
 
-        dragonSheet = SpriteManager.instance.dragonSheet;
+        dragonSheet = SpriteManager.instance.startDragonSheet;
         src = new RectF(0,0,radius * 2, radius * 2);
 
 
-        Rect r = SpriteManager.instance.getDragonSpriteRect("Head");
+        Rect r = SpriteManager.instance.getStartDragonSpriteRect("Head");
         head = Bitmap.createBitmap(dragonSheet, r.left, r.top, r.width(), r.height());
         head = Bitmap.createScaledBitmap(head, (int) src.width(), (int) src.height(),  true);
 
 
-        r = SpriteManager.instance.getDragonSpriteRect("Jaw");
+        r = SpriteManager.instance.getStartDragonSpriteRect("Jaw");
         jaw = Bitmap.createBitmap(dragonSheet,r.left, r.top, r.width(), r.height());
         jaw = Bitmap.createScaledBitmap(jaw,(int)src.width(),(int)src.height(),true);
-        r = SpriteManager.instance.getDragonSpriteRect("HeadSleeping");
+        r = SpriteManager.instance.getStartDragonSpriteRect("HeadSleeping");
     }
     public void draw(Canvas canvas){
 
@@ -283,7 +283,7 @@ class StartHead{
         matrix.postScale(1,Math.signum(direction.x),  dst.centerX(),dst.centerY());
         matrix.postRotate((float) rotation - Math.signum(direction.x)*open, dst.centerX(),dst.centerY());
 
-
+        canvas.drawBitmap(jaw, matrix, paint);
         canvas.drawBitmap(head, matrix, paint);
 
         //canvas.drawBitmap(spriteEye, matrix,null);
@@ -389,13 +389,13 @@ class StartLeg{
         this.segment = segment;
         this.front = front;
         position = dragon.position;
-        Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
+        Bitmap dragonSheet = SpriteManager.instance.startDragonSheet;
         if(!front){
-            Rect r = SpriteManager.instance.getDragonSpriteRect("BackLegFlying");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("BackLegFlying");
             spriteFlying = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else{
-            Rect r = SpriteManager.instance.getDragonSpriteRect("LegFlying");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("LegFlying");
             spriteFlying = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
 
@@ -449,13 +449,13 @@ class StartArm{
         this.front = front;
         position = dragon.position;
 
-        Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
+        Bitmap dragonSheet = SpriteManager.instance.startDragonSheet;
         if(!front){
-            Rect r = SpriteManager.instance.getDragonSpriteRect("BackArm");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("BackArm");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else{
-            Rect r = SpriteManager.instance.getDragonSpriteRect("Arm");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("Arm");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         sprite = Bitmap.createScaledBitmap(sprite, (int) (dragon.radius*3/2f-StartView.instance.screenWidth/200  ), (int) (dragon.radius *3/2f-StartView.instance.screenWidth/200), true);
@@ -491,7 +491,7 @@ class StartWing{
     Bitmap sprite;
     RectF src;
     RectF dst;
-    float time, flap,scaleX;
+    float time, flap;
     boolean front;
     Paint paint=new Paint();
     StartDragon dragon;
@@ -501,13 +501,13 @@ class StartWing{
         this.segment = segment;
         this.front = front;
         this.dragon = dragon;
-        Bitmap dragonSheet = SpriteManager.instance.dragonSheet;
+        Bitmap dragonSheet = SpriteManager.instance.startDragonSheet;
         if(front){
-            Rect r = SpriteManager.instance.getDragonSpriteRect("Wing");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("Wing");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         else {
-            Rect r = SpriteManager.instance.getDragonSpriteRect("BackWing");
+            Rect r = SpriteManager.instance.getStartDragonSpriteRect("BackWing");
             sprite = Bitmap.createBitmap(dragonSheet,r.left,r.top,r.width(),r.height());
         }
         sprite = Bitmap.createScaledBitmap(sprite, size/2, size,true);
@@ -518,8 +518,8 @@ class StartWing{
     }
     public void draw(Canvas canvas){
 
-        float left = position.x - sprite.getWidth()*(scaleX/2)+segment.radius*0.3f*segment.direction.y*Math.signum(segment.direction.x)+segment.wave*segment.direction.y;
-        float right = left+sprite.getWidth()*scaleX;
+        float left = position.x - sprite.getWidth()/2+segment.radius*0.3f*segment.direction.y*Math.signum(segment.direction.x)+segment.wave*segment.direction.y;
+        float right = left+sprite.getWidth();
         float top = position.y-sprite.getHeight()+segment.wave*segment.direction.x;
         float bottom = position.y+segment.radius/8+segment.wave*segment.direction.x;
 
@@ -529,6 +529,9 @@ class StartWing{
 
         matrix.postScale(1,flap,left,bottom);
         matrix.postRotate((float) rotation, dst.centerX(),dst.bottom);
+
+
+        System.out.println("drawWing" +dst.left + " " + dst.right  );
 
         canvas.drawBitmap(sprite, matrix, paint);
 

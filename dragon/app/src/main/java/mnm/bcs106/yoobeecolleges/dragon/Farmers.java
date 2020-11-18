@@ -54,9 +54,13 @@ import android.graphics.Rect;
             flee = false;
             double targetDistance = (Math.random()-0.5f) * Farm.tileNr*GameView.instance.cameraSize/9;
             target.x = (int) (farmX+ targetDistance);
-            if(!idleBoolean) {
-                idleBoolean = true;
-                idleID  = SoundEffects.instance.play(SoundEffects.FARMER_IDLING,-1,1);
+
+            if(!idleBoolean && (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize/2) ) {
+                if(Math.random()<0.1) {
+                    idleBoolean = true;
+
+                    idleID = SoundEffects.instance.play(SoundEffects.FARMER_IDLING, 0, 1);
+                }
             }
             countdown = 0;
         }else {
@@ -103,13 +107,13 @@ import android.graphics.Rect;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
                     if (!runForestRun){
-                        scaredID = SoundEffects.instance.play(SoundEffects.SCARED_WILLAGERS,1,1);
+                        scaredID = SoundEffects.instance.play(SoundEffects.SCARED_WILLAGERS,-1,1);
                         runForestRun = true;
                     }
                 } else {
                     idle(500, Math.abs(npcX - target.x) < 10);
                     runForestRun = false;
-                    SoundEffects.instance.stop(scaredID);
+                   SoundEffects.instance.stop(scaredID);
                 }
             }
             if (atHome){

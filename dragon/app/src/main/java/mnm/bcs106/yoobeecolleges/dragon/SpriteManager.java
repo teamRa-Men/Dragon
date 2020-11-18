@@ -14,7 +14,7 @@ import android.view.SurfaceView;
 import java.util.HashMap;
 
 public class SpriteManager {
-    Bitmap buildingSheet, NPCSheet, fireSheet, dragonSheet, environmentSheet;
+    Bitmap buildingSheet, NPCSheet, fireSheet, dragonSheet, startDragonSheet, environmentSheet;
     HashMap<String,Bitmap> buildingSprites, NPCSprites;
 
     public static SpriteManager instance;
@@ -36,11 +36,12 @@ public class SpriteManager {
         fireSheet = BitmapFactory.decodeResource(res,R.drawable.fire_sheet);
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
 
-        //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
-        //dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
+        startDragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_refined);
+        startDragonSheet = Bitmap.createScaledBitmap(startDragonSheet,128*2,192*2,true);
         dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_low);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
-
+        //dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_refined);
+        //dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(res, R.drawable.environment_sheet_low);
         environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1088,true);
@@ -236,6 +237,24 @@ public class SpriteManager {
         put("BackWing",spriteRect(d,d*2,d,d*2));
     }};
 
+    private final HashMap<String,Rect> startDragonSpriteRects = new HashMap<String,Rect>() {{
+        int d = 64;
+        put("Head",spriteRect(0,0,d*2,d*2));
+        put("Jaw",spriteRect(d*2,0,d*2,d*2));
+        put("HeadSleeping",spriteRect(d*2,d*2,d*2,d*2));
+        put("Segment",spriteRect(d,d*5,d,d));
+        put("SpikedSegment",spriteRect(0,d*5,d,d));
+        put("Arm",spriteRect(0,d*4,d,d));
+        put("BackArm",spriteRect(d, d*4,d,d));
+        put("Leg",spriteRect(d*2,d*4,d,d));
+        put("BackLeg",spriteRect(d*2,d*5,d,d));
+        put("LegFlying",spriteRect(d*3,d*4,d,d));
+        put("BackLegFlying",spriteRect(d*3,d*5,d,d));
+        put("Wing",spriteRect(0,d*2,d,d*2));
+        put("BackWing",spriteRect(d,d*2,d,d*2));
+    }};
+
+
     private Rect spriteRect(int left, int top, int width, int height) {
         return new Rect(left, top, left+width, top+height);
     }
@@ -252,6 +271,9 @@ public class SpriteManager {
     }
     public Rect getDragonSpriteRect( String spriteName) {
         return dragonSpriteRects.get(spriteName);
+    }
+    public Rect getStartDragonSpriteRect( String spriteName) {
+        return startDragonSpriteRects.get(spriteName);
     }
     public Rect getEnvironmentSpriteRect( String spriteName) {
         return environmentSpriteRects.get(spriteName);

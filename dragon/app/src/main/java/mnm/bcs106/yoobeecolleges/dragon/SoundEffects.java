@@ -152,7 +152,8 @@ public class SoundEffects{
     }
 
     public void setVolume(int id,float volume){
-        soundPool.setVolume(id,volume*volumeMul,volume*volumeMul);
+        this.volumeMul = volume;
+
     }
 
     public void playCoin(){
