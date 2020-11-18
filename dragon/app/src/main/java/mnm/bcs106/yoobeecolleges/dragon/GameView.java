@@ -28,7 +28,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     //final float fixedDeltaTime = (int) (1000 / Game.instance.refreshRating); // in milliseconds
-        final float fixedDeltaTime = (int) (1000 / 30); // in milliseconds
+        final float fixedDeltaTime = (int) (1000 / 60); // in milliseconds
     public float timeScale = 1;
     float deltaTime = fixedDeltaTime;
 
