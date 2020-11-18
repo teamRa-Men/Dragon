@@ -21,6 +21,7 @@
         android:background="@android:color/white"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center_vertical"
+        android:paddingTop="20dp"
         android:shadowColor="#BDBDBD"
         android:shadowDy="10"
         android:shadowRadius="10"
