@@ -539,7 +539,7 @@ public class Game extends AppCompatActivity {
             xpBarLair.setProgress((int) (lair.experience / (lair.nextLevel) * 100));
             xpTextLair.setText((int)lair.experience +""+"/"+""+ (int)lair.nextLevel);
             healthBar.setProgress((int) ( player.health/ (player.maxHealth) * 100));
-            healthText.setText((int)player.health +""+"/"+""+ (int)player.maxHealth);
+            healthText.setText((int)Math.max(player.health,0) +""+"/"+""+ (int)player.maxHealth);
             manaBar.setProgress((int) (player.mana / (player.maxMana) * 100));
             manaText.setText((int)player.mana +""+"/"+""+ (int)player.maxMana);
 
@@ -606,6 +606,7 @@ public class Game extends AppCompatActivity {
                 gameView.pause();
 
                 runTime = 0;
+                loadScreen.setVisibility(View.VISIBLE);
                 loadScreen.setAlpha(1);
                 Game.instance.showDay = true;
                 gameView.init();
