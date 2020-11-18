@@ -40,7 +40,7 @@ public class DragonLayers extends NPC {
     public void update(float deltaTime) {
         super.update(deltaTime);
         if(idleBoolean){
-            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/8/(Math.abs(npcX - GameView.instance.player.position.x)+1));
             if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize || !alive) {
                 idleBoolean = false;
                 SoundEffects.instance.stop(idleID);
