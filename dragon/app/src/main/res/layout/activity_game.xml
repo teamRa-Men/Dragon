@@ -275,7 +275,7 @@
         android:layout_height="match_parent"
         android:elevation="20dp"
         android:foreground="@android:color/background_dark"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
