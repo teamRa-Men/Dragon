@@ -506,14 +506,16 @@ public class Game extends AppCompatActivity {
             runTime+=1000/15;
 
 
-            fadeView(showSleepButton&&!mourning&&!gameOver, sleepButton);
-            fadeView(showWakeButton&&!mourning&&!gameOver, wakeButton);
-            fadeView(showMournButton&&!mourning&&!gameOver,mournButton);
 
-            fadeView(!mourning&&!gameOver,stopButton);
 
             Lair lair = GameView.instance.lair;
             Dragon player = GameView.instance.player;
+
+            fadeView(showSleepButton&&!mourning&&player.health>=0, sleepButton);
+            fadeView(showWakeButton&&!mourning&&player.health>=0, wakeButton);
+            fadeView(showMournButton&&!mourning&&player.health>=0,mournButton);
+            fadeView(!mourning&&player.health>=0,upgradeButton);
+            fadeView(!mourning&&player.health>=0,stopButton);
 
             //UPDATE HUD
             goldDeposited.setText(""+lair.depositedGold);
