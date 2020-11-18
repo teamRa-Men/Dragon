@@ -10,7 +10,7 @@
     tools:context=".Game">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/startSurfaceView"
+        android:id="@+id/surfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
         android:textColor="@android:color/white"
         android:textSize="70dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/startSurfaceView"
+        app:layout_constraintStart_toStartOf="@+id/surfaceView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -258,8 +258,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/pause"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/startSurfaceView"
-        app:layout_constraintTop_toTopOf="@+id/startSurfaceView" />
+        app:layout_constraintStart_toStartOf="@+id/surfaceView"
+        app:layout_constraintTop_toTopOf="@+id/surfaceView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadScreen"

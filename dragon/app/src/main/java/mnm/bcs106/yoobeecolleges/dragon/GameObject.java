@@ -32,12 +32,13 @@ public class GameObject implements Comparable{
     public GameObject(Bitmap sprite, float offsetX, float offsetY){
         //Init visuals
         offset = new Vector2(offsetX,offsetY);//Bitmap offset from position
-        if(sprite == null) {
-            sprite = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.empty);
+        if(sprite != null) {
+
+
+            width = sprite.getWidth();
+            height = sprite.getHeight();
+            setSprite(sprite);
         }
-        width = sprite.getWidth();
-        height = sprite.getHeight();
-        setSprite(sprite);
 
         paint = new Paint();
         drawDisplacement = new Vector2(0,0);
@@ -57,7 +58,7 @@ public class GameObject implements Comparable{
     //-----------------------------------------------------------------------------------------------------------
     public void draw(Canvas canvas){
 
-        if(visible) {
+        if(visible && sprite!=null) {
 
             //Rotate sprite around pivot
             float r = rotation;
@@ -81,12 +82,14 @@ public class GameObject implements Comparable{
 
             //Drawing transformation matices
             RectF dst = getBounds();
-            dst.offset(GameView.instance.cameraDisp.x,GameView.instance.cameraDisp.y);
-            matrix.setRectToRect(srcRect, dst, Matrix.ScaleToFit.FILL);
-            matrix.postScale(scaleX,scaleY,pivot.x+GameView.instance.cameraDisp.x,pivot.y);
-            matrix.postRotate(r,pivot.x+GameView.instance.cameraDisp.x,pivot.y+GameView.instance.cameraDisp.y);
+            if(GameView.instance!=null) {
+                dst.offset(GameView.instance.cameraDisp.x, GameView.instance.cameraDisp.y);
+                matrix.setRectToRect(srcRect, dst, Matrix.ScaleToFit.FILL);
+                matrix.postScale(scaleX, scaleY, pivot.x + GameView.instance.cameraDisp.x, pivot.y);
+                matrix.postRotate(r, pivot.x + GameView.instance.cameraDisp.x, pivot.y + GameView.instance.cameraDisp.y);
 
-            canvas.drawBitmap(sprite, matrix, paint);
+                canvas.drawBitmap(sprite, matrix, paint);
+            }
         }
     }
 
@@ -194,11 +197,13 @@ public class GameObject implements Comparable{
 
     public void setWidth(float w){
         width= w;
+        if(sprite!=null)
         height = w*(float)sprite.getHeight()/sprite.getWidth();
     }
 
     public void setHeight(float h){
         height = h;
+        if(sprite!=null)
         width = h*(float)sprite.getWidth()/sprite.getHeight();
     }
 

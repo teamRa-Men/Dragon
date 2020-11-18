@@ -109,7 +109,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         groundLevel = screenHeight*7/10;
 
-        spriteManager = new SpriteManager();
+        spriteManager = new SpriteManager(getResources(),cameraSize);
         //Init scene
 
         npc_pool = new NPC_Pool();

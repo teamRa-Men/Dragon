@@ -1,5 +1,6 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,37 +16,37 @@ import java.util.HashMap;
 public class SpriteManager {
     Bitmap buildingSheet, NPCSheet, fireSheet, dragonSheet, environmentSheet;
     HashMap<String,Bitmap> buildingSprites, NPCSprites;
-    GameView gameView;
-    public static SpriteManager instance;
 
-    public SpriteManager() {
+    public static SpriteManager instance;
+    final int cameraSize;
+
+    public SpriteManager(Resources res,int size) {
+        this.cameraSize = size;
         instance = this;
-        gameView = GameView.instance;
-        //buildingSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.building_sheet_2);
-        // buildingSheet = Bitmap.createScaledBitmap(buildingSheet,1152,1024,true);
-        buildingSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.building_sheet_low);
+
+        buildingSheet = BitmapFactory.decodeResource(res, R.drawable.building_sheet_low);
         buildingSheet = Bitmap.createScaledBitmap(buildingSheet,1152/2,512,true);
 
-        NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet);
+        NPCSheet = BitmapFactory.decodeResource(res,R.drawable.npc_sheet);
         NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392,768,true);
 
         //NPCSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.npc_sheet_low);
         //NPCSheet = Bitmap.createScaledBitmap(NPCSheet,392/2,768/2,true);
 
-        fireSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.fire_sheet);
+        fireSheet = BitmapFactory.decodeResource(res,R.drawable.fire_sheet);
         fireSheet = Bitmap.createScaledBitmap(fireSheet,64,96,true);
 
         //dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_refined);
         //dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
-        dragonSheet = BitmapFactory.decodeResource(Game.instance.getResources(),R.drawable.dragon_sheet_low);
+        dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_low);
         dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
 
 
-        environmentSheet = BitmapFactory.decodeResource(Game.instance.getResources(), R.drawable.environment_sheet_low);
+        environmentSheet = BitmapFactory.decodeResource(res, R.drawable.environment_sheet_low);
         environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1088,true);
 
         NPCSprites = new HashMap<String,Bitmap>() {{
-            int size = GameView.instance.cameraSize / 20;
+            int size = cameraSize / 20;
             put("Wooloo",getSprite(getNPCSpriteRect("Wooloo"),NPCSheet,size,size));
 
             put("Farmer1",getSprite(getNPCSpriteRect("Farmer1"),NPCSheet,size,size));
@@ -70,7 +71,7 @@ public class SpriteManager {
         }};
 
         buildingSprites = new HashMap<String,Bitmap>() {{
-            int tileSize = GameView.instance.cameraSize/12;
+            int tileSize = cameraSize/12;
             put("House1",getSprite(getBuildingSpriteRect("House1"),buildingSheet,tileSize,tileSize));
             put("House2",getSprite(getBuildingSpriteRect("House2"),buildingSheet,tileSize,tileSize));
             put("House3",getSprite(getBuildingSpriteRect("House3"),buildingSheet,tileSize,tileSize));
