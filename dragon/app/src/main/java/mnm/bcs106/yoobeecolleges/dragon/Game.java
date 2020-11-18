@@ -592,7 +592,7 @@ public class Game extends AppCompatActivity {
             avenged = "";
         }
 
-            records.setText("Days Survived: " + (statsRecorder.days-1) + " \n Gold Collected: "+statsRecorder.maxGold +"\n Kingdoms Defeated: "+ statsRecorder.kingdoms + "\n Mum was " +avenged+ " Avenged");
+            records.setText("Days Survived: " + (statsRecorder.days-1) + " \n Max Gold Collected: "+statsRecorder.maxGold +"\n Kingdoms Defeated: "+ statsRecorder.kingdoms + "\n Mum was " +avenged+ " Avenged");
 
         SoundEffects.instance.pauseAll();
         //Dialog box positive button, start new game
