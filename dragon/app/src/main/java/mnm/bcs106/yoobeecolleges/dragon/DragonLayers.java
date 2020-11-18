@@ -10,6 +10,10 @@ public class DragonLayers extends NPC {
     public float hitY;
     public int dmg;
     boolean shot=false;
+    public int idleID;
+    public int shootID;
+    public boolean idleBoolean;
+    public boolean shootBoolean;
     Bitmap idleSprite, shootSprite, shootingSprite;
 
     public DragonLayers(float speed, int maxHP, int width, int height, int damage) {
@@ -17,7 +21,6 @@ public class DragonLayers extends NPC {
         target.x = (int)npcX;
         arrowRechargeTime = new ActionController(1000*(1+(float)Math.random()/4), (float) 500,2000*(1+(float)Math.random()/4));
         dmg = damage;
-
 
         idleSprite =SpriteManager.instance.getNPCSprite("Slayer1");
         shootSprite =SpriteManager.instance.getNPCSprite("Slayer2");
@@ -73,12 +76,22 @@ public class DragonLayers extends NPC {
                 moveToTarget(deltaTime);
                 npcY = (int) GameView.instance.groundLevel - npcRect.height();
                 npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
-
             }
             else {
                 idle(GameView.instance.screenWidth/4,Math.abs(npcX - target.x) < 10);
                 if (Math.abs(GameView.instance.player.aimFor().x  - npcX) < GameView.instance.cameraSize / 3){
                     lockTarget = true;
+                }
+            }
+            if((!idleBoolean && Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize/2) ) {
+                idleBoolean = true;
+                idleID = SoundEffects.instance.play(SoundEffects.DRAGONLAYER_IDLING, -1, 1);
+            }
+            if(idleBoolean){
+                SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+                if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+                    idleBoolean = false;
+                    SoundEffects.instance.stop(idleID);
                 }
             }
         }

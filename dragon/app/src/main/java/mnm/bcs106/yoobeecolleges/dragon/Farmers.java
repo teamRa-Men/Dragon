@@ -14,12 +14,12 @@ import android.graphics.Rect;
     public boolean work = false;
     Bitmap idleSprite, workingSprite;
     public Boolean atHome = false;
-    int scaredID;
-    int idleID;
-    int wellAnywayID;
-    boolean runForestRun = false;
-    boolean idleBoolean = false;
-    boolean wellAnywayBoolean = false;
+    public int scaredID;
+    public int idleID;
+    public int wellAnywayID;
+    public boolean runForestRun = false;
+    public boolean idleBoolean = false;
+    public boolean wellAnywayBoolean = false;
 
     public Farmers( float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
@@ -198,6 +198,11 @@ import android.graphics.Rect;
         else{
             npcBitmap = idleSprite;
         }
-
+//        if(idleBoolean ){
+//            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/Math.abs(npcX - GameView.instance.player.position.x));
+//        }
+        if(runForestRun ){
+            SoundEffects.instance.setVolume(scaredID,GameView.instance.cameraSize/2/Math.abs(npcX - GameView.instance.player.position.x));
+        }
     }
 }
