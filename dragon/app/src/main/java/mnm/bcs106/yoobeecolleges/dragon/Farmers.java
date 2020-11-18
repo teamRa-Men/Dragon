@@ -14,6 +14,12 @@ import android.graphics.Rect;
     public boolean work = false;
     Bitmap idleSprite, workingSprite;
     public Boolean atHome = false;
+    int scaredID;
+    int idleID;
+    int wellAnywayID;
+    boolean runForestRun = false;
+    boolean idleBoolean = false;
+    boolean wellAnywayBoolean = false;
 
     public Farmers( float speed, int maxHP, int width, int height) {
         super(speed, maxHP, width, height);
@@ -24,6 +30,7 @@ import android.graphics.Rect;
 
         npcBitmap = idleSprite;
         npcType = 2;
+        idleID = SoundEffects.FARMER_IDLING;
     }
 
     /*
@@ -44,19 +51,26 @@ import android.graphics.Rect;
 
     public void doStuff() {
         if (countdown >= Math.random()*5000+8000){
-                flee = false;
-                double targetDistance = (Math.random()-0.5f) * Farm.tileNr*GameView.instance.cameraSize/9;
-                target.x = (int) (farmX+ targetDistance);
-                countdown = 0;
+            flee = false;
+            double targetDistance = (Math.random()-0.5f) * Farm.tileNr*GameView.instance.cameraSize/9;
+            target.x = (int) (farmX+ targetDistance);
+            if(!idleBoolean) {
+                idleBoolean = true;
+                idleID  = SoundEffects.instance.play(SoundEffects.FARMER_IDLING,-1,1);
+            }
+            countdown = 0;
+        }else {
+            if (idleBoolean){
+                SoundEffects.instance.stop(idleID);
+                idleBoolean = false;
+            }
         }
-
     }
 
     /*
     Down bellow I updated update method giving villagers logic of going to work when it's morning and run away from the dragon
     if they see that he's close, or run back home once it's night back to safety keeping them protected from the dragon.
      */
-
 
     @Override
     public void update(float deltaTime) {
@@ -88,8 +102,14 @@ import android.graphics.Rect;
                     work = false;
                     target.x = (int) (npcX + (-(Math.signum(GameView.instance.player.position.x - npcX)) * 1500));
                     tempCreationPoint.x = target.x;
+                    if (!runForestRun){
+                        scaredID = SoundEffects.instance.play(SoundEffects.SCARED_WILLAGERS,1,1);
+                        runForestRun = true;
+                    }
                 } else {
                     idle(500, Math.abs(npcX - target.x) < 10);
+                    runForestRun = false;
+                    SoundEffects.instance.stop(scaredID);
                 }
             }
             if (atHome){
@@ -162,5 +182,6 @@ import android.graphics.Rect;
         else{
             npcBitmap = idleSprite;
         }
+
     }
 }

@@ -704,4 +704,16 @@ public class Game extends AppCompatActivity {
         //gameView.player.moveBy(new Vector2(dx,-Math.abs(4*dx)));
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        GameView.instance.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GameView.instance.resume();
+    }
 }
