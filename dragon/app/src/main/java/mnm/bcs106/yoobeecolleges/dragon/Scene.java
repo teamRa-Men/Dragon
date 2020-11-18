@@ -60,7 +60,7 @@ public class Scene {
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
             finalFort.grow();
-            System.out.println("fort level " + finalFort.lv);
+            //System.out.println("fort level " + finalFort.lv);
             if(finalFort.lv == 2){
                 break;
             }
@@ -388,11 +388,16 @@ public class Scene {
 
 
     public void update(float deltaTime){
-        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width && !GameView.instance.player.destroyed) {
-            Music.instance.playThemeMusic(false);
+        if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width && Math.random()<0.5) {
+            if (!(GameView.instance.player.health <= 0)) {
+                Music.instance.playThemeMusic(false);
+            }
+
         }
 
-        eastFort.update(deltaTime);
+
+
+            eastFort.update(deltaTime);
         westFort.update(deltaTime);
         finalFort.update(deltaTime);
         if(!finalFort.isStanding && !StatsRecorder.instance.finalKingdom){

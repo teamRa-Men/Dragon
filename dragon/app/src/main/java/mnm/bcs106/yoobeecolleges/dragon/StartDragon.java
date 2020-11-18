@@ -531,7 +531,7 @@ class StartWing{
         matrix.postRotate((float) rotation, dst.centerX(),dst.bottom);
 
 
-        System.out.println("drawWing" +dst.left + " " + dst.right  );
+        //System.out.println("drawWing" +dst.left + " " + dst.right  );
 
         canvas.drawBitmap(sprite, matrix, paint);
 

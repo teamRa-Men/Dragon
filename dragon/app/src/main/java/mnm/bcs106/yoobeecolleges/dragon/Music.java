@@ -35,6 +35,7 @@ public class Music{
     public void playThemeMusic(boolean loop){
 
         if(!themeMusicPlayer.isPlaying()) {
+            System.out.println("theme");
             stopDeathMusic();
             themeVolume = 1;
 

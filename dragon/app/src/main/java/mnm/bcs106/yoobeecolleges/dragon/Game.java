@@ -214,8 +214,9 @@ public class Game extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GameView.instance.pause();
+
                 SoundEffects.instance.play(SoundEffects.MENU);
+                GameView.instance.pause();
                 dialog.show();
             }
         });
@@ -439,8 +440,7 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
 
-    final float fixedDeltaTime = (1000 / 30); // in milliseconds
-
+    final float fixedDeltaTime = (1000 / 15);
     public void updateUI(){
         runnable = new Runnable() {
             @Override
@@ -449,16 +449,16 @@ public class Game extends AppCompatActivity {
             }
         };
 
+        runTime+=(long)(fixedDeltaTime);
 
-
-        if(!gameOver && gameView.isRunning) {
+        if(!gameOver ) {
             if(runTime > loadingTime) {
-                gameView.pause();
-                gameView.resume();
+
                 float alpha = loadScreen.getAlpha();
                 if (alpha > 0) {
                     loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha / alpha);
                 }
+
 
                 if(!mourning) {
                     //gameView.setPlayerMovement(dragTo);
@@ -508,14 +508,19 @@ public class Game extends AppCompatActivity {
                     showDayText.setText("DAY "+ gameView.scene.day);
                     showDayText.setAlpha(1);
                     showDay = false;
+
                 }
                 else  if (showDayText.getAlpha()> 0){
                     showDayText.setAlpha(showDayText.getAlpha() - 0.005f /showDayText.getAlpha() /showDayText.getAlpha());
                 }
+                else {
+                    gameView.pause();
+                    gameView.resume();
+                }
             }
 
 
-            runTime+=(long)(fixedDeltaTime);
+
 
 
 
@@ -570,6 +575,7 @@ public class Game extends AppCompatActivity {
 
     //On game over show dialog box with results and give the player the options of quiting to main menu or trying again
     void gameOver(){
+
         //Apply only once
         showGameOver = false;
         gameOver = true;
@@ -582,19 +588,21 @@ public class Game extends AppCompatActivity {
         gameOverDialogBuilder.setView(showGameOver);
         final AlertDialog dialog = gameOverDialogBuilder.create();
         TextView records = showGameOver.findViewById(R.id.newHighScore);
-        if(statsRecorder.days-1 == 1) {
-            records.setText("You Survived " + (statsRecorder.days-1) + " Day");
-        }
-        else{
-            records.setText("You Survived " + statsRecorder.days + " Days");
+        String avenged= "not";
+        if(statsRecorder.finalKingdom){
+            avenged = "";
         }
 
+            records.setText("Days Survived: " + (statsRecorder.days-1) + " \n Gold Collected: "+statsRecorder.maxGold +"\n Kingdoms Defeated: "+ statsRecorder.kingdoms + "\n Mum was " +avenged+ " Avenged");
+
+        SoundEffects.instance.pauseAll();
         //Dialog box positive button, start new game
         showGameOver.findViewById(R.id.tryAgain).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //reset states and restart game loop
-                SoundEffects.instance.play(SoundEffects.SELECT);
+
+
                 Music.instance.startFadeOut(1000);
                 gameView.pause();
 
@@ -603,11 +611,11 @@ public class Game extends AppCompatActivity {
                 Game.instance.showDay = true;
                 gameView.init();
                 statsRecorder.init();
+                gameOver = false;
                 //Close dialog box
-
-                SoundEffects.instance.release();
-
-                SoundEffects soundEffects = new SoundEffects(Game.instance);
+SoundEffects.instance.release();
+SoundEffects soundEffects = new SoundEffects(Game.instance);
+                updateUI();
                 dialog.dismiss();
             }
         });
@@ -684,8 +692,6 @@ public class Game extends AppCompatActivity {
 
             }
 
-
-            System.out.println();
 
         }
 

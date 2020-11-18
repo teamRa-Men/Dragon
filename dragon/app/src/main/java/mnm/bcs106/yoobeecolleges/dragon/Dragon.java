@@ -168,6 +168,7 @@ public class Dragon extends Character {
 
             if(destroyed){
                 SoundEffects.instance.play(SoundEffects.BIGHURT);
+
             }
             else{
                 if(damage<maxHealth/8) {

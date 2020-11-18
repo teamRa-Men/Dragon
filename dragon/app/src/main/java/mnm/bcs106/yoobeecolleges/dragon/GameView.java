@@ -145,7 +145,7 @@ public class GameView extends SurfaceView implements Runnable {
         //npc_pool.spawnTribute((int)screenWidth*2,(int)groundLevel,150, scene.finalFort);
         Game.instance.gameOver = false;
         timeScale = 1;
-        Music.instance.startFadeOut(3000);
+        Music.instance.startFadeOut(6000);
         Game.instance.stopButton.setVisibility(VISIBLE);
         resume();
 
@@ -242,7 +242,7 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     private void draw() {
-        System.out.println(timeScale);
+
         Canvas canvas = new Canvas();
         try {
             canvas = holder.lockCanvas(null);
@@ -300,17 +300,18 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
     //Game logic
     //-----------------------------------------------------------------------------------------------------------
+
     private void update() {
 
         Music.instance.update(fixedDeltaTime);
-        if(player.health<0 && player.visible){
+        if(player.health<0 && player.visible ){
             drawHUD = false;
             Music.instance.playDeathMusic();
             Game.instance.stopButton.setVisibility(INVISIBLE);
         }
         if(!player.visible) {
             if (!Game.instance.gameOver) {
-                timeScale = 1;
+                timeScale = 0f;
                 Game.instance.showGameOver = true;
                 SoundEffects.instance.pauseAll();
 
