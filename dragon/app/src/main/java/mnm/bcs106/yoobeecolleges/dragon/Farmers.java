@@ -159,6 +159,7 @@ import android.graphics.Rect;
 
             super.update(deltaTime);
         }else{
+            idleBoolean = false;
             if (alive){
                 if (Math.abs(npcX-CreationPoint.x) < 7 && !atHome){
 //                    System.out.println("CP = " + CreationPoint.x + " Target = " + target.x + " TempCP = " + tempCreationPoint.x);
