@@ -55,6 +55,7 @@ import android.graphics.Rect;
 
 
             idleID = SoundEffects.instance.play(SoundEffects.FARMER_IDLING, -1, 1);
+            SoundEffects.instance.setVolume(idleID,SoundEffects.instance.volumeMul/3);
 
         }
         if(idleBoolean){
@@ -118,6 +119,7 @@ import android.graphics.Rect;
                     tempCreationPoint.x = target.x;
                     if (!runForestRun){
                         scaredID = SoundEffects.instance.play(SoundEffects.SCARED_WILLAGERS,-1,1);
+                        SoundEffects.instance.setVolume(scaredID,SoundEffects.instance.volumeMul/3);
                         runForestRun = true;
                     }
 

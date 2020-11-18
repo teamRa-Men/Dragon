@@ -135,6 +135,7 @@ public class SoundEffects{
             if(GameView.instance!= null && effect!=SELECT){
                 rate *=Math.min(GameView.instance.timeScale,1);
             }
+
             return soundPool.play(soundId[effect],volumeMul/3,volumeMul/3,1,loop,rate);
         }
         return -1;

@@ -229,6 +229,7 @@ public class Fortress extends Foundation {
                 if (townFear > surrenderFear) {
                     surrender = true;
                     flag.setSurrender(surrender);
+                    SoundEffects.instance.play(SoundEffects.TRIBUTE);
                 }
             }
             else {
@@ -434,6 +435,15 @@ public class Fortress extends Foundation {
             levelUp();
         }
     }
+
+    @Override
+    public void OnDamage() {
+        super.OnDamage();
+        if (!isStanding){
+            SoundEffects.instance.play(SoundEffects.TRIBUTE);
+        }
+    }
+
     public void tax(){
         int currentGold1 = currentGold;
         if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {

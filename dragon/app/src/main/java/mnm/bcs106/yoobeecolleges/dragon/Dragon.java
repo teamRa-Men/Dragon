@@ -37,7 +37,7 @@ public class Dragon extends Character {
     int goldHolding = 0,maxGoldHolding = 50;
     float attack = 1, maxMana = 60;
     float mana = maxMana;
-    float flyingManaCost = 5, fireManaCost = 4f, manaRegen=5;
+    float flyingManaCost = 5, fireManaCost = 4f, manaRegen=6;
 
     public Dragon(Bitmap sprite, float offsetX, float offsetY,int width, int height) {
         super(sprite, offsetX, offsetY);
@@ -397,27 +397,18 @@ public class Dragon extends Character {
 
                 //if(Math.random()<0.05)
                 //ProjectilePool.instance.shootArrow((int)position.x,(int)position.y,1f/2+speed,direction.x+(float)Math.random()/4,direction.y+(float)Math.random()/4);
+
+                fireBreath.breath(deltaTime);
+                mana -= fireManaCost * deltaTime / 1000;
+                mana = Math.max(0, mana);
                 if(!breathSound) {
                     breathSoundID = SoundEffects.instance.play(SoundEffects.BREATH,-1,0);
                     breathSound = true;
                     breathSoundVol = 1;
                 }
-                fireBreath.breath(deltaTime);
-                mana -= fireManaCost * deltaTime / 1000;
-                mana = Math.max(0, mana);
-
 
             }
-            else{
-                if(breathSound) {
-                    SoundEffects.instance.setVolume(breathSoundID,breathSoundVol);
-                    breathSoundVol-=deltaTime/800;
-                    if(breathSoundVol<0) {
-                        SoundEffects.instance.stop(breathSoundID);
-                        breathSound = false;
-                    }
-                }
-            }
+
 
 
 
@@ -427,19 +418,23 @@ public class Dragon extends Character {
             breathingFire = false;
         }
 
+
         fireBreath.physics(deltaTime);
 
 
         super.physics(deltaTime);
         speed *= friction;
+        if(!breathingFire || mana <= 0 || destroyed) {
+
+            SoundEffects.instance.stop(breathSoundID);
+            breathSound = false;
+
+        }
     }
     float breathSoundVol = 1;
     int breathSoundID;
     boolean breathSound = false;
 
-    public void drawBreath(Canvas canvas) {
-
-    }
 
 
     @Override

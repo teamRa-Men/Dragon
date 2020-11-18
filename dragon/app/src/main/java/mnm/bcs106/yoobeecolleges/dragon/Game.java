@@ -440,7 +440,7 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
 
-    final float fixedDeltaTime = (1000 / 15);
+    final float fixedDeltaTime = (1000 / 30);
     public void updateUI(){
         runnable = new Runnable() {
             @Override
@@ -505,6 +505,7 @@ public class Game extends AppCompatActivity {
 
 
                 if(showDay){
+
                     showDayText.setText("DAY "+ gameView.scene.day);
                     showDayText.setAlpha(1);
                     showDay = false;
@@ -514,7 +515,7 @@ public class Game extends AppCompatActivity {
                 else  if (showDayText.getAlpha()> 0){
                     showDayText.setAlpha(showDayText.getAlpha() - 0.005f /showDayText.getAlpha() /showDayText.getAlpha());
                 }
-               
+
             }
 
 

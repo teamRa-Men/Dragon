@@ -44,6 +44,7 @@ public class Tribute extends NPC{
             if(Math.abs(target.x-npcX) < 7 || (Math.abs(GameView.instance.player.position.x - npcX)< GameView.instance.screenWidth/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3)){
                 GoldPool.instance.spawnGold((int)npcX,(int)npcY,tributeSize);
                 given = true;
+                SoundEffects.instance.play(SoundEffects.TRIBUTE);
             }
 
         }

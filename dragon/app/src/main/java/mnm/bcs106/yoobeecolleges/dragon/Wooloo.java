@@ -45,6 +45,7 @@ public class Wooloo extends NPC{
                 tempCreationPoint.x = target.x;
                 if(!fleeingSound){
                     fleeSoundID = SoundEffects.instance.play(SoundEffects.SHEEPFLEEING,-1,1);
+                    SoundEffects.instance.setVolume(fleeSoundID,SoundEffects.instance.volumeMul/3);
                     fleeingSound = true;
                 }
 
