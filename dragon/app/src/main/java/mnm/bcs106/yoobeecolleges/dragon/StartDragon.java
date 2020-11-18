@@ -47,7 +47,7 @@ public class StartDragon extends Character {
         direction = Vector2.right;
 
 
-        position = new Vector2(width*0.6f, height*0.5f);
+        position = new Vector2(width*0.65f, height*0.55f);
 
 
         initBody(55);
