@@ -77,7 +77,7 @@ public class Game extends AppCompatActivity {
     boolean breathCoolDown, showGameOver = false, gameOver = false, showSleepButton = false, showWakeButton = false, showDay = true;
     boolean showMournButton = false;
     boolean mourning = false;
-    int breathCoolDownLength = 300, coolDownTime = 0;
+    int breathCoolDownLength = 150, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
     float refreshRating;
