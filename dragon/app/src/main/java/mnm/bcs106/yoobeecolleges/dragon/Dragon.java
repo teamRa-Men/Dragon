@@ -351,7 +351,8 @@ public class Dragon extends Character {
     }
     //lead
     public Vector2 aimFor(){
-        return segments.get((bodyStart+bodyEnd)/2).position;
+
+        return segments.get(segments.size()/5).position;
     }
 
     @Override

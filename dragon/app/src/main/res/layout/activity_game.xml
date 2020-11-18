@@ -114,15 +114,17 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
             android:padding="0dp"
             android:text="XP"
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textSize="10sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/xpBarLair"
             app:layout_constraintEnd_toStartOf="@+id/xpBarLair"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toTopOf="@+id/xpBarLair" />
 
         <TextView
             android:id="@+id/levelLair"
