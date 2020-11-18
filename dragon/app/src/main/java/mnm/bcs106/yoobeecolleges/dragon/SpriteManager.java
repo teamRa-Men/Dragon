@@ -38,10 +38,10 @@ public class SpriteManager {
 
         startDragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_refined);
         startDragonSheet = Bitmap.createScaledBitmap(startDragonSheet,128*2,192*2,true);
-        dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_low);
-        dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
-        //dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_refined);
-        //dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
+        //dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_low);
+        //dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128,192,true);
+        dragonSheet = BitmapFactory.decodeResource(res,R.drawable.dragon_sheet_refined);
+        dragonSheet = Bitmap.createScaledBitmap(dragonSheet,128*2,192*2,true);
 
         environmentSheet = BitmapFactory.decodeResource(res, R.drawable.environment_sheet_low);
         environmentSheet = Bitmap.createScaledBitmap(environmentSheet,1024,1088,true);
@@ -221,7 +221,7 @@ public class SpriteManager {
     }};
 
     private final HashMap<String,Rect> dragonSpriteRects = new HashMap<String,Rect>() {{
-        int d = 32;
+        int d = 64;
         put("Head",spriteRect(0,0,d*2,d*2));
         put("Jaw",spriteRect(d*2,0,d*2,d*2));
         put("HeadSleeping",spriteRect(d*2,d*2,d*2,d*2));
