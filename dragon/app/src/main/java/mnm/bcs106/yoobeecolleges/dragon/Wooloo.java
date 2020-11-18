@@ -31,8 +31,8 @@ public class Wooloo extends NPC{
     public void update(float deltaTime) {
         super.update(deltaTime);
         if(fleeingSound ){
-            SoundEffects.instance.setVolume(fleeSoundID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-            if( Math.abs(npcX - target.x) < 10 || !alive) {
+            SoundEffects.instance.setVolume(fleeSoundID,GameView.instance.cameraSize/8/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if( Math.abs(npcX - target.x) < 10 || !alive ) {
                 fleeingSound = false;
                 SoundEffects.instance.stop(fleeSoundID);
             }

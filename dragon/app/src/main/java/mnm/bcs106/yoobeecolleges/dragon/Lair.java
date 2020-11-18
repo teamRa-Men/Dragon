@@ -223,6 +223,8 @@ public class Lair {
         return  groundLevel;
     }
 
+    boolean levelUp = false;
+
     public void update(float deltaTime) {
 
 
@@ -233,14 +235,16 @@ public class Lair {
             Game.instance.showWakeButton = true;
 
 
-            if(timeSinceLevelUp > 2000){
-                GameView.instance.timeScale = sleepTimeSpeed;
-                experience += deltaTime * depositedGold / 1500;
-                nextLevel =  level*level * 500;
-            }
-            else{
-                timeSinceLevelUp+=deltaTime;
-            }
+                if (timeSinceLevelUp > 2000) {
+                    GameView.instance.timeScale = sleepTimeSpeed;
+                    experience += deltaTime * depositedGold / 1500;
+                    nextLevel = level * level * 500;
+                    levelUp = false;
+                } else {
+                    timeSinceLevelUp += deltaTime;
+
+                }
+
 
 
             if (experience > nextLevel) {
@@ -251,9 +255,10 @@ public class Lair {
                 upgradePoints += 3;
                 player.maxGoldHolding = (int)level*50;
                 timeSinceLevelUp = 0;
-
+                levelUp = true;
                 //Grow
                 GameView.instance.isDrawing = false;
+
                 int size = player.size + 3;
                 if (size < 70) {
                     player.initBody(size);
@@ -314,6 +319,8 @@ public class Lair {
         return GameView.instance.groundLevel-goldPile.getHeight()/3*(float)Math.pow((float)depositedGold/1000,1f/3);
     }
 
+
+
     public void drawBackground (Canvas canvas){
         canvas.drawBitmap(lairBack, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), paint);
         canvas.drawBitmap(goldPile, (int) (position.x - goldPile.getWidth() / 2) + GameView.instance.cameraDisp.x, goldPileHeight, paint);
@@ -329,6 +336,24 @@ public class Lair {
 
         if(frontPaint.getAlpha()>1) {
             canvas.drawBitmap(lairFront, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), frontPaint);
+        }
+
+        if(levelUp) {
+
+            Paint p = new Paint();
+            p.setColor(Color.WHITE);
+            p.setAlpha(255 * (2000 - timeSinceLevelUp) / 2000);
+            if (timeSinceLevelUp < 2000) {
+
+                for (int i = 0; i < 8; i++) {
+                    float left = Game.instance.screenWidth / 2 - Math.signum(player.direction.x) * (i - 1) * player.radius / 2;
+                    float right = left + 5;
+                    float bottom = position.y + height / 4 - height / 2 * timeSinceLevelUp / 2000 + (float)Math.sin((float)i/11*Math.PI*15)*height/8;
+                    float top = bottom - height / 10;
+
+                    canvas.drawRect(left, top, right, bottom, p);
+                }
+            }
         }
 
 
