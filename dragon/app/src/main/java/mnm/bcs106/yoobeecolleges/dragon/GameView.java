@@ -148,6 +148,7 @@ public class GameView extends SurfaceView implements Runnable {
         Music.instance.startFadeOut(3000);
         Game.instance.stopButton.setVisibility(VISIBLE);
         resume();
+
     }
 
     Vector2 randomPosition(){
@@ -241,6 +242,7 @@ public class GameView extends SurfaceView implements Runnable {
     //-----------------------------------------------------------------------------------------------------------
 
     private void draw() {
+        System.out.println(timeScale);
         Canvas canvas = new Canvas();
         try {
             canvas = holder.lockCanvas(null);

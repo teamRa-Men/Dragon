@@ -155,8 +155,6 @@ public class Game extends AppCompatActivity {
         gameView = new GameView(this);
         statsRecorder.init();
 
-        SoundEffects.instance.release();
-        SoundEffects soundEffects = new SoundEffects(Game.instance);
 
         ConstraintLayout gameLayout = findViewById(R.id.surfaceView);
         gameLayout.addView(gameView);
@@ -449,10 +447,12 @@ public class Game extends AppCompatActivity {
             }
         };
         //30 frames per second
-        handler.postDelayed(runnable, 1000/60);
+        handler.postDelayed(runnable, 1000/15);
 
         if(!gameOver && gameView.isRunning) {
             if(runTime > loadingTime) {
+                gameView.pause();
+                gameView.resume();
                 float alpha = loadScreen.getAlpha();
                 if (alpha > 0) {
                     loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha / alpha);
@@ -468,7 +468,7 @@ public class Game extends AppCompatActivity {
                     if (!breathCoolDown) {
                         gameView.breathFire(breathFire);
                     } else {
-                        coolDownTime += 1000 / 60;
+                        coolDownTime += 1000 / 15;
                         if (coolDownTime > breathCoolDownLength) {
                             breathCoolDown = false;
                             coolDownTime = 0;
@@ -478,8 +478,8 @@ public class Game extends AppCompatActivity {
                 }
                 else{
 
-                    coolDownTime += 1000 / 60;
-                    if(coolDownTime>4000){
+                    coolDownTime += 1000 / 15;
+                    if(coolDownTime>2000){
 
                         coolDownTime = 0;
 
