@@ -58,13 +58,7 @@ import android.graphics.Rect;
             SoundEffects.instance.setVolume(idleID,SoundEffects.instance.volumeMul/3);
 
         }
-        if(idleBoolean){
-            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/8/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize || !alive) {
-                idleBoolean = false;
-                SoundEffects.instance.stop(idleID);
-            }
-        }
+
         countdown = 0;
         if (countdown >= Math.random()*5000+8000){
             flee = false;
@@ -87,6 +81,13 @@ import android.graphics.Rect;
             if(Math.abs(npcX - target.x) < 10 || !alive) {
                 runForestRun = false;
                 SoundEffects.instance.stop(scaredID);
+            }
+        }
+        if(idleBoolean){
+            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/8/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize || !alive) {
+                idleBoolean = false;
+                SoundEffects.instance.stop(idleID);
             }
         }
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
