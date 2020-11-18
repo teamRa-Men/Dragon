@@ -27,9 +27,9 @@ public class Music{
     }
 
     public void setVolume(float volume){
-        this.volume = Math.min(Math.max(volume,0),1);
-        deathMusicPlayer.setVolume(deathVolume * volume, deathVolume * volume);
-        themeMusicPlayer.setVolume(themeVolume * volume, themeVolume * volume);
+        this.volume = volume;
+        deathMusicPlayer.setVolume(deathVolume * this.volume, deathVolume * this.volume);
+        themeMusicPlayer.setVolume(themeVolume * this.volume, themeVolume * this.volume);
     }
 
     public void playThemeMusic(boolean loop){

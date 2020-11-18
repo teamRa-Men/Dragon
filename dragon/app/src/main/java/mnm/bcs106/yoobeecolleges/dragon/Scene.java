@@ -400,7 +400,7 @@ public class Scene {
 
     public void update(float deltaTime){
         if(Math.abs(finalFort.x - GameView.instance.player.position.x) < 2*width && !GameView.instance.player.destroyed) {
-            Music.instance.playThemeMusic(true);
+            Music.instance.playThemeMusic(false);
         }
 
         eastFort.update(deltaTime);

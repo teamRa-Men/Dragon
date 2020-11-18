@@ -149,6 +149,7 @@ public class SoundEffects{
 
     public void release(){
         soundPool.release();
+
     }
 
     public void setVolume(int id,float volume){

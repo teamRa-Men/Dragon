@@ -50,24 +50,27 @@ import android.graphics.Rect;
      */
 
     public void doStuff() {
+        if((!idleBoolean && Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize/2) ) {
+            idleBoolean = true;
+
+
+            idleID = SoundEffects.instance.play(SoundEffects.FARMER_IDLING, -1, 1);
+
+        }
+        if(idleBoolean){
+            SoundEffects.instance.setVolume(idleID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+                idleBoolean = false;
+                SoundEffects.instance.stop(idleID);
+            }
+        }
+        countdown = 0;
         if (countdown >= Math.random()*5000+8000){
             flee = false;
             double targetDistance = (Math.random()-0.5f) * Farm.tileNr*GameView.instance.cameraSize/9;
             target.x = (int) (farmX+ targetDistance);
 
-            if(!idleBoolean && (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize/2) ) {
-                if(Math.random()<0.1) {
-                    idleBoolean = true;
 
-                    idleID = SoundEffects.instance.play(SoundEffects.FARMER_IDLING, 0, 1);
-                }
-            }
-            countdown = 0;
-        }else {
-            if (idleBoolean){
-                SoundEffects.instance.stop(idleID);
-                idleBoolean = false;
-            }
         }
     }
 
@@ -78,6 +81,13 @@ import android.graphics.Rect;
 
     @Override
     public void update(float deltaTime) {
+        if(runForestRun){
+            SoundEffects.instance.setVolume(scaredID,GameView.instance.cameraSize/2/Math.abs(npcX - GameView.instance.player.position.x+1));
+            if(Math.abs(npcX - target.x) < 10) {
+                runForestRun = false;
+                SoundEffects.instance.stop(scaredID);
+            }
+        }
         if(((Scene.instance.timeOfDay)/(Scene.instance.dayLength) > 0) && ((Scene.instance.timeOfDay)/(Scene.instance.dayLength) < 0.5) && alive) {
             if (!wasAttacked) {
                 if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.screenHeight/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3) {
@@ -110,11 +120,12 @@ import android.graphics.Rect;
                         scaredID = SoundEffects.instance.play(SoundEffects.SCARED_WILLAGERS,-1,1);
                         runForestRun = true;
                     }
+
                 } else {
                     idle(500, Math.abs(npcX - target.x) < 10);
-                    runForestRun = false;
-                   SoundEffects.instance.stop(scaredID);
+
                 }
+
             }
             if (atHome){
                 npcY = CreationPoint.y;
@@ -144,6 +155,7 @@ import android.graphics.Rect;
                     whereFarm = true;
                 }
             }
+
 
             super.update(deltaTime);
         }else{

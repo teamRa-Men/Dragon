@@ -104,7 +104,7 @@ public class Game extends AppCompatActivity {
 
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
-    int runTime = 0, loadingTime = 8000;
+    int runTime = 0, loadingTime = 5000;
 
 
     public Context context;
@@ -264,7 +264,7 @@ public class Game extends AppCompatActivity {
         musicVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Music.instance.setVolume(musicVolume.getProgress()/100f);
+                Music.instance.setVolume((float)progress/100f);
             }
 
             @Override
@@ -274,7 +274,6 @@ public class Game extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Music.instance.setVolume(soundVolume.getProgress()/100f);
                 Music.instance.stopThemeMusic();
                 SoundEffects.instance.play(SoundEffects.MENU);
             }
@@ -285,7 +284,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
+                SoundEffects.instance.volumeMul = (float)progress/100f;
             }
 
             @Override
@@ -295,8 +294,6 @@ public class Game extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                System.out.println(soundVolume.getProgress()/100f);
-                SoundEffects.instance.volumeMul = soundVolume.getProgress()/100f;
                 SoundEffects.instance.playCoin();
                 SoundEffects.instance.play(SoundEffects.MENU);
             }
@@ -448,7 +445,7 @@ public class Game extends AppCompatActivity {
         //30 frames per second
         handler.postDelayed(runnable, 1000/15);
 
-        if(!gameOver) {
+        if(!gameOver && gameView.isRunning) {
             if(runTime > loadingTime) {
                 float alpha = loadScreen.getAlpha();
                 if (alpha > 0) {
@@ -591,6 +588,10 @@ public class Game extends AppCompatActivity {
                 gameView.init();
                 statsRecorder.init();
                 //Close dialog box
+
+                SoundEffects.instance.release();
+
+                SoundEffects soundEffects = new SoundEffects(Game.instance);
                 dialog.dismiss();
             }
         });
