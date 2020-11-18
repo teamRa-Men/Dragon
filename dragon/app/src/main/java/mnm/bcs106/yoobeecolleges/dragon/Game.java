@@ -77,7 +77,7 @@ public class Game extends AppCompatActivity {
     boolean breathCoolDown, showGameOver = false, gameOver = false, showSleepButton = false, showWakeButton = false, showDay = true;
     boolean showMournButton = false;
     boolean mourning = false;
-    int breathCoolDownLength = 150, coolDownTime = 0;
+    int breathCoolDownLength = 100, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
     float refreshRating;
@@ -106,7 +106,7 @@ public class Game extends AppCompatActivity {
 
     Vector2 dragTo, dragFrom;
     int controlRadius = 30;
-    int runTime = 0, loadingTime = 3000;
+    int runTime = 0, loadingTime = 1500;
 
 
     public Context context;
@@ -439,6 +439,8 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
 
+    final float fixedDeltaTime = (1000 / 60); // in milliseconds
+
     public void updateUI(){
         runnable = new Runnable() {
             @Override
@@ -446,8 +448,8 @@ public class Game extends AppCompatActivity {
                 updateUI();
             }
         };
-        //30 frames per second
-        handler.postDelayed(runnable, 1000/15);
+
+        handler.postDelayed(runnable, (long)(fixedDeltaTime) );
 
         if(!gameOver && gameView.isRunning) {
             if(runTime > loadingTime) {
@@ -468,7 +470,7 @@ public class Game extends AppCompatActivity {
                     if (!breathCoolDown) {
                         gameView.breathFire(breathFire);
                     } else {
-                        coolDownTime += 1000 / 15;
+                        coolDownTime += (long)(fixedDeltaTime);
                         if (coolDownTime > breathCoolDownLength) {
                             breathCoolDown = false;
                             coolDownTime = 0;
@@ -478,7 +480,7 @@ public class Game extends AppCompatActivity {
                 }
                 else{
 
-                    coolDownTime += 1000 / 15;
+                    coolDownTime += (long)(fixedDeltaTime);
                     if(coolDownTime>2000){
 
                         coolDownTime = 0;
@@ -513,7 +515,7 @@ public class Game extends AppCompatActivity {
             }
 
 
-            runTime+=1000/15;
+            runTime+=(long)(fixedDeltaTime);
 
 
 
