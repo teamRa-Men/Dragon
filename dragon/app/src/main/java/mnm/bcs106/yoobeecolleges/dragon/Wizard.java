@@ -10,6 +10,8 @@ public class Wizard extends NPC {
     public float hitX;
     public float hitY;
     public int dmg;
+    public int shootSpellID;
+    public boolean shootBoolean;
     boolean shot=false;
     Bitmap idleSprite, shootSprite, shootingSprite;
 
@@ -50,6 +52,17 @@ public class Wizard extends NPC {
                 float dy = npcRect.height()/8 * ((float) Math.random() - 0.5f);
                 float dx = npcRect.width()/8 * ((float) Math.random() - 0.5f);
                 npcRect.offset((int)dx,(int)dy);
+                if((!shootBoolean && Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.cameraSize/2) ) {
+                    shootBoolean = true;
+                    shootSpellID = SoundEffects.instance.play(SoundEffects.WIZARD_CHARGE, -1, 1);
+                }
+                if(shootBoolean){
+                    SoundEffects.instance.setVolume(shootSpellID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+                    if(Math.abs(npcX - GameView.instance.player.position.x)>GameView.instance.cameraSize) {
+                        shootBoolean = false;
+                        SoundEffects.instance.stop(shootSpellID);
+                    }
+                }
             }
             else if (arrowRechargeTime.performing){
                 npcBitmap = shootingSprite;
@@ -71,7 +84,6 @@ public class Wizard extends NPC {
             }
 
         }
-
     }
 
     public void shoot() {
