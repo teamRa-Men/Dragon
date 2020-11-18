@@ -163,7 +163,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="40dp"
                     android:layout_weight="0.7"
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     app:cardCornerRadius="20dp">
 
                     <androidx.core.widget.NestedScrollView
