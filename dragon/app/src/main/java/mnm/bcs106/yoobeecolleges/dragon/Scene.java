@@ -356,20 +356,9 @@ public class Scene {
         for (int i = 0; i < tiniesPositions.length; i++) {
             canvas.drawBitmap(tinies[tiniesPositions[i].y], groundX + tiniesPositions[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
         }
-
-
-
             eastFort.draw(canvas);
-
-
             westFort.draw(canvas);
-
             finalFort.draw(canvas);
-
-
-
-
-
     }
     public void drawForeground(Canvas canvas){
         canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,bottomPaint);

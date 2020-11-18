@@ -33,6 +33,7 @@ public class StartMenu extends AppCompatActivity {
         startView = new StartView(this);
         ConstraintLayout startLayout = findViewById(R.id.startSurfaceView);
         startLayout.addView(startView);
+
         updateUI();
     }
 

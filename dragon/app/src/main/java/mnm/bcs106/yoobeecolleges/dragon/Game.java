@@ -21,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import org.w3c.dom.Text;
+
 //-----------------------------------------------------------------------------------------------------------
 //Game Controller
 //Initialized game, handles user input, UI, sounds
@@ -571,7 +573,13 @@ public class Game extends AppCompatActivity {
 
         gameOverDialogBuilder.setView(showGameOver);
         final AlertDialog dialog = gameOverDialogBuilder.create();
-
+        TextView records = showGameOver.findViewById(R.id.newHighScore);
+        if(statsRecorder.days-1 == 1) {
+            records.setText("You Survived " + (statsRecorder.days-1) + " Day");
+        }
+        else{
+            records.setText("You Survived " + statsRecorder.days + " Days");
+        }
 
         //Dialog box positive button, start new game
         showGameOver.findViewById(R.id.tryAgain).setOnClickListener(new View.OnClickListener() {
