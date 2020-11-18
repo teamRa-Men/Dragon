@@ -64,7 +64,7 @@ public class StartDragon extends Character {
 
 
 
-        radius = (float)cameraSize*size/2000;
+        radius = (float)cameraSize*size/1500;
 
         bodyStart = size/7;
         bodyEnd = size/3;
