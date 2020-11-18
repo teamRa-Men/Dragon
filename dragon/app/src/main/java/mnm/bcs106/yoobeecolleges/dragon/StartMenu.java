@@ -45,10 +45,10 @@ public class StartMenu extends AppCompatActivity {
             }
         };
         //30 frames per second
-        handler.postDelayed(runnable, 1000/15);
+        handler.postDelayed(runnable, 1000/30);
         startView.movePlayerBy(null);
-        startView.update(1000/15);
-        startView.physics(1000/15);
+        startView.update(1000/30);
+        startView.physics(1000/30);
         startView.draw();
 
     }

@@ -543,7 +543,7 @@ class StartWing{
         position = new Vector2(segment.position.x,segment.position.y);
         //System.out.println(dragon.speed/dragon.maxMoveSpeed/2);
 
-        flap = ((float) Math.sin(time / 1000 * Math.PI)+flap)/2;
+        flap = ((float) Math.sin(time / 1000 * Math.PI*2)+flap)/2;
         double f = Math.cos(time / 1000 * Math.PI);
         if(front) {
             if (flap > 0.4 && flap <0.6 && dragon.speed/dragon.maxMoveSpeed>0.5) {

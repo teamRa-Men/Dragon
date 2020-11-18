@@ -162,12 +162,13 @@ public class StartView extends SurfaceView {
 
     }
 
+    Paint black = new Paint();
     public void drawForeground(Canvas canvas) {
-
+        black.setColor(Color.BLACK);
         canvas.drawBitmap(ground, groundX + groundX0, height - ground.getHeight(), null);
         canvas.drawBitmap(ground, groundX + groundX1, height - ground.getHeight(), null);
         canvas.drawBitmap(ground, groundX + groundX2, height - ground.getHeight(), null);
-
+        canvas.drawRect(0, height, width, height + height/2, black);
     }
 
 
