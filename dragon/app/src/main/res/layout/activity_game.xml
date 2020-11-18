@@ -260,10 +260,11 @@
         android:id="@+id/buttonOfStop"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:background="@drawable/pause"
+        android:background="@drawable/roundedbuttonshape"
+        android:foreground="@drawable/pause"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/startSurfaceView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/startSurfaceView" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loadScreen"
@@ -275,6 +276,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
