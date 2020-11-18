@@ -276,20 +276,20 @@ public class Dragon extends Character {
 
                             if (mana <= 0) {
                                 direction.y = 0.5f;
-                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
-                            } else {
-                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
                             }
+
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
+
 
                         } else {
                             setDir(moveBy.add(direction.multiply(0.1f)));
 
                             if (mana <= 0) {
                                 direction.y = 0.5f;
-                                speed = (speed + Math.min(magnitude, maxMoveSpeed / 2)) / 2;
-                            } else {
-                                speed = (speed + Math.min(magnitude, maxMoveSpeed)) / 2;
+
                             }
+                                speed = (speed + Math.min(magnitude, maxMoveSpeed)) / 2;
+                            
                         }
 
 
