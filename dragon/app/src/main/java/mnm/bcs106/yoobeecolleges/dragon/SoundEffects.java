@@ -32,7 +32,16 @@ public class SoundEffects{
             SPEAR = 16,
             SHEEPFLEEING = 17,
             STEAL = 18,
-    WALKING = 19, FLYING = 20;
+            WALKING = 19,
+            FLYING = 20,
+            FARMER_IDLING = 21,
+            GOLD_ARRIVED = 22,
+            DRAGONLAYER_IDLING = 23,
+            SCARED_WILLAGERS = 24,
+            THROW_DA_HO = 25,
+            WELL_ANYWAY = 26,
+            WHAT_DID_YA_SAY = 27,
+            WIZARD_CHARGE = 28;
 
 
     int[] soundId;
@@ -58,7 +67,7 @@ public class SoundEffects{
         soundPool = poolBuilder.build();
 
         //List of available sound effects
-        soundId = new int[21];
+        soundId = new int[29];
         soundId[HIT] = soundPool.load(context,R.raw.damage,1);
         soundId[MOURN] = soundPool.load(context,R.raw.mourn,1);
         soundId[ARROW] = soundPool.load(context,R.raw.arrow,1);
@@ -86,6 +95,20 @@ public class SoundEffects{
         soundId[SHEEPFLEEING] = soundPool.load(context,R.raw.sheep_fleeing,1);
         soundId[FLYING] = soundPool.load(context,R.raw.flying,1);
         soundId[WALKING] = soundPool.load(context,R.raw.walking,1);
+
+        soundId[GOLD_ARRIVED] = soundPool.load(context,R.raw.goldarrived,1);
+        soundId[DRAGONLAYER_IDLING] = soundPool.load(context,R.raw.idledragonlayer,1);
+        soundId[FARMER_IDLING] = soundPool.load(context,R.raw.idlefarmers,1);
+
+        soundId[SCARED_WILLAGERS] = soundPool.load(context,R.raw.scaredwillagers,1);
+        soundId[THROW_DA_HO] = soundPool.load(context,R.raw.throwdaho,1);
+        soundId[WELL_ANYWAY] = soundPool.load(context,R.raw.wellanyway,1);
+
+        soundId[WHAT_DID_YA_SAY] = soundPool.load(context,R.raw.whatdidyasay,1);
+        soundId[WIZARD_CHARGE] = soundPool.load(context,R.raw.wizardcharge,1);
+        soundId[WELL_ANYWAY] = soundPool.load(context,R.raw.wellanyway,1);
+
+//        soundId[] = soundPool.load(context,R.raw.,1);
 
         for (int i = 0; i < coinPlayer.length; i++) {
             coinPlayer[i] = MediaPlayer.create(context, R.raw.coin);

@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+import android.media.SoundPool;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
@@ -144,6 +146,7 @@ public class GameView extends SurfaceView implements Runnable {
         Game.instance.gameOver = false;
         timeScale = 1;
         Music.instance.startFadeOut(3000);
+        Game.instance.stopButton.setVisibility(VISIBLE);
         resume();
     }
 
@@ -161,6 +164,7 @@ public class GameView extends SurfaceView implements Runnable {
     public void resume() {
         isRunning = true;
         gameThread = new Thread(this);
+        SoundEffects.instance.soundPool.autoResume();
         gameThread.start();
     }
 
@@ -170,6 +174,9 @@ public class GameView extends SurfaceView implements Runnable {
         while (retry) {
             try {
                 gameThread.join();//execute completely and then stop
+                SoundEffects.instance.soundPool.autoPause();
+                Music.instance.stopDeathMusic();
+                Music.instance.stopThemeMusic();
                 retry = false;
             } catch (Exception e) {
                 gameThread.stop();
@@ -297,6 +304,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(player.health<0 && player.visible){
             drawHUD = false;
             Music.instance.playDeathMusic();
+            Game.instance.stopButton.setVisibility(INVISIBLE);
         }
         if(!player.visible) {
             if (!Game.instance.gameOver) {
