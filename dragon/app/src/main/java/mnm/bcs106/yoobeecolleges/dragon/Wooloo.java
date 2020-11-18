@@ -30,6 +30,13 @@ public class Wooloo extends NPC{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        if(fleeingSound ){
+            SoundEffects.instance.setVolume(fleeSoundID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
+            if( Math.abs(npcX - target.x) < 10 ) {
+                fleeingSound = false;
+                SoundEffects.instance.stop(fleeSoundID);
+            }
+        }
         if (alive) {
             if (Math.abs(GameView.instance.player.position.x - npcX) < GameView.instance.screenHeight/4 && GameView.instance.player.position.y > GameView.instance.screenHeight/3) {
 
@@ -54,13 +61,7 @@ public class Wooloo extends NPC{
                 }
                 npcRect.offsetTo((int) (npcX + GameView.instance.cameraDisp.x), (int)npcY);
             }
-            if(fleeingSound ){
-                SoundEffects.instance.setVolume(fleeSoundID,GameView.instance.cameraSize/2/(Math.abs(npcX - GameView.instance.player.position.x)+1));
-                if( Math.abs(npcX - target.x) < 10 ) {
-                    fleeingSound = false;
-                    SoundEffects.instance.stop(fleeSoundID);
-                }
-            }
+
         }
         else{
             if(fleeingSound ) {
