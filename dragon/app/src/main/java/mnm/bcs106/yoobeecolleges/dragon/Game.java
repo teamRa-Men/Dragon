@@ -439,7 +439,7 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
 
-    final float fixedDeltaTime = (1000 / 60); // in milliseconds
+    final float fixedDeltaTime = (1000 / 30); // in milliseconds
 
     public void updateUI(){
         runnable = new Runnable() {
@@ -449,7 +449,7 @@ public class Game extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, (long)(fixedDeltaTime) );
+
 
         if(!gameOver && gameView.isRunning) {
             if(runTime > loadingTime) {
@@ -481,7 +481,7 @@ public class Game extends AppCompatActivity {
                 else{
 
                     coolDownTime += (long)(fixedDeltaTime);
-                    if(coolDownTime>2000){
+                    if(coolDownTime>1000){
 
                         coolDownTime = 0;
 
@@ -538,6 +538,8 @@ public class Game extends AppCompatActivity {
             healthText.setText((int)player.health +""+"/"+""+ (int)player.maxHealth);
             manaBar.setProgress((int) (player.mana / (player.maxMana) * 100));
             manaText.setText((int)player.mana +""+"/"+""+ (int)player.maxMana);
+
+            handler.postDelayed(runnable, (long)(fixedDeltaTime) );
         }
 
         //Show game over pop up if told by game engine
