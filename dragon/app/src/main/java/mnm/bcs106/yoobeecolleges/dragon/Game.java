@@ -509,11 +509,12 @@ public class Game extends AppCompatActivity {
                     showDayText.setText("DAY "+ gameView.scene.day);
                     showDayText.setAlpha(1);
                     showDay = false;
-                    gameView.pause();
-                    gameView.resume();
+
                 }
                 else  if (showDayText.getAlpha()> 0){
                     showDayText.setAlpha(showDayText.getAlpha() - 0.005f /showDayText.getAlpha() /showDayText.getAlpha());
+                    gameView.pause();
+                    gameView.resume();
                 }
 
             }

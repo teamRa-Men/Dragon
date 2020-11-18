@@ -342,7 +342,7 @@ public class Dragon extends Character {
         for (int i = 0; i < colliders.length; i++) {
             Segment segment = colliders[i];
             if(segment.getBounds().contains(other.position.x,other.position.y)){
-                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.6) {
+                if(Vector2.distance(other.position,segment.getCenter())<segment.radius*0.8) {
                     collided = true;
                     other.setParent(segment);
                 }
