@@ -1,9 +1,9 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 
 public class StatsRecorder {
-    int level,days,maxGold,houses,towers, kingdoms, farms, farmers, thieves, dragonSlayers, wizards, wooloo;
+    int level,days,gold,buildings,houses,towers, kingdoms, farms, farmers, thieves, dragonSlayers, wizards, wooloo, NPC;
     long startTime, finishTime, playTime;
-    boolean finalKingdom = false;
+    int finalKingdom = -1;
     public static StatsRecorder instance;
 
     public StatsRecorder(){
@@ -12,7 +12,7 @@ public class StatsRecorder {
     public void init(){
         level=0;
         days =0;
-        maxGold = 0;
+        gold = 0;
         houses =0;
         towers=0;
         kingdoms=0;
@@ -37,6 +37,7 @@ public class StatsRecorder {
     }
 
     public void buildingDestroyed(int type){
+        buildings++;
         switch (type){
             case 1: kingdoms++; break;
             case 2: houses++; break;
@@ -45,6 +46,7 @@ public class StatsRecorder {
         }
     }
     public void npcDestroyed(int type){
+        NPC++;
         switch (type){
             case 1: wooloo++; break;
             case 2: farmers++; break;
@@ -54,7 +56,7 @@ public class StatsRecorder {
         }
     }
     public void finalKingdomDestroyed(){
-        finalKingdom = true;
+        finalKingdom = Scene.instance.day-1;
         gameEnd();
     }
 
@@ -62,15 +64,13 @@ public class StatsRecorder {
     public void gameEnd(){
         level = (int)GameView.instance.lair.level;
         days = Scene.instance.day;
+        gold = GameView.instance.lair.depositedGold;
         finishTime = System.currentTimeMillis();
         playTime = finishTime-startTime;
+
         saveStats();
     }
 
-    public void setMaxGold(int gold){
-        if(gold > maxGold){
-            maxGold = gold;
-        }
-    }
+
 
 }

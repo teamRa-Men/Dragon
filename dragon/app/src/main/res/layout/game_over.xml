@@ -17,15 +17,15 @@
         android:id="@+id/gameOverText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="20dp"
         android:layout_weight="1"
         android:background="@android:color/white"
         android:fontFamily="sans-serif-condensed-medium"
         android:gravity="center_vertical"
-        android:paddingTop="20dp"
         android:shadowColor="#BDBDBD"
         android:shadowDy="10"
         android:shadowRadius="10"
-        android:text="YOU DIED!"
+        android:text="YOU DIED"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="24sp"
@@ -33,70 +33,58 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-97dp" />
 
-    <TextView
-        android:id="@+id/newHighScore"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:elevation="2dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="center"
-        android:lineSpacingExtra="10sp"
-        android:shadowColor="#7A7A7A"
-        android:shadowDy="10"
-        android:shadowRadius="10"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="70dp" />
+        android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/tryAgain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="15dp"
+            <TextView
+                android:id="@+id/newHighScore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/roundedbuttonshape"
+                android:elevation="2dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="10dp"
+                android:lineSpacingExtra="10sp"
+                android:shadowColor="#7A7A7A"
                 android:shadowDy="10"
                 android:shadowRadius="10"
-                android:text="Try Again"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="70dp" />
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <Button
+        android:id="@+id/tryAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
         android:layout_weight="1"
-        android:background="@color/colorDragon" />
+        android:background="@drawable/roundedbuttonshape"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:shadowDy="10"
+        android:shadowRadius="10"
+        android:text="Try Again"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

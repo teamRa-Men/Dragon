@@ -75,7 +75,8 @@ public class Game extends AppCompatActivity {
 
     //state variables
     boolean breathCoolDown, showGameOver = false, gameOver = false, showSleepButton = false, showWakeButton = false, showDay = true;
-    boolean showMournButton = false;
+
+    boolean showMournButton = false, showGameWon = false;
     boolean mourning = false;
     int breathCoolDownLength = 100, coolDownTime = 0;
     int screenHeight, screenWidth;
@@ -450,7 +451,9 @@ public class Game extends AppCompatActivity {
         };
 
         runTime+=(long)(fixedDeltaTime);
-
+        if(showGameWon){
+            gameWon();
+        }
         if(!gameOver ) {
             if(runTime > loadingTime) {
 
@@ -534,6 +537,7 @@ public class Game extends AppCompatActivity {
             fadeView(!mourning&&player.health>=0,upgradeButton);
             fadeView(!mourning&&player.health>=0,stopButton);
 
+
             //UPDATE HUD
             goldDeposited.setText(""+lair.depositedGold);
             levelLair.setText("LV "+ (int)lair.level);
@@ -572,6 +576,48 @@ public class Game extends AppCompatActivity {
             }
         }
     }
+    void gameWon(){
+        SoundEffects.instance.play(SoundEffects.VICTORY);
+        statsRecorder.gameEnd();
+        showGameWon = false;
+
+        gameView.pause();
+        //Custom alert dialog
+        ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
+
+        gameOverDialogBuilder.setView(showGameOver);
+        final AlertDialog dialog = gameOverDialogBuilder.create();
+        TextView message = showGameOver.findViewById(R.id.gameOverText);
+        message.setText("CONGRATULATIONS!");
+        TextView records = showGameOver.findViewById(R.id.newHighScore);
+        String avenged= " not";
+        String avengedDays = "";
+        if(statsRecorder.finalKingdom >=0){
+            avenged = "";
+            avengedDays = " in "+statsRecorder.finalKingdom+ " Days!";
+        }
+
+        records.setText("Days Survived  " + (statsRecorder.days-1) + " \n Gold Collected  "+statsRecorder.gold +"\n Kingdoms Defeated  "+ statsRecorder.kingdoms + "\n Mum was" +avenged+ " Avenged" + avengedDays);
+
+        SoundEffects.instance.pauseAll();
+        //Dialog box positive button, start new game
+        Button b = showGameOver.findViewById(R.id.tryAgain);
+        b.setText("CONTINUE");
+        showGameOver.findViewById(R.id.tryAgain).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //reset states and restart game loop
+                Music.instance.startFadeOut(1000);
+                gameView.resume();
+
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+
 
     //On game over show dialog box with results and give the player the options of quiting to main menu or trying again
     void gameOver(){
@@ -586,14 +632,18 @@ public class Game extends AppCompatActivity {
         ViewGroup showGameOver = (ViewGroup) getLayoutInflater().inflate(R.layout.game_over,null,false);
 
         gameOverDialogBuilder.setView(showGameOver);
-        final AlertDialog dialog = gameOverDialogBuilder.create();
-        TextView records = showGameOver.findViewById(R.id.newHighScore);
-        String avenged= "not";
-        if(statsRecorder.finalKingdom){
-            avenged = "";
-        }
 
-            records.setText("Days Survived: " + (statsRecorder.days-1) + " \n Max Gold Collected: "+statsRecorder.maxGold +"\n Kingdoms Defeated: "+ statsRecorder.kingdoms + "\n Mum was " +avenged+ " Avenged");
+        final AlertDialog dialog = gameOverDialogBuilder.create();
+        TextView message = showGameOver.findViewById(R.id.gameOverText);
+        message.setText("YOU DIED");
+        TextView records = showGameOver.findViewById(R.id.newHighScore);
+        String avenged= " not";
+        String avengedDays = "";
+        if(statsRecorder.finalKingdom >=0){
+            avenged = "";
+            avengedDays = " in "+statsRecorder.finalKingdom+ " Days!";
+        }
+        records.setText("Days Survived  " + (statsRecorder.days-1) + " \n Gold Collected  "+statsRecorder.gold +"\n Kingdoms Defeated  "+ statsRecorder.kingdoms + "\n Mum was " +avenged+ " Avenged" + avengedDays);
 
         SoundEffects.instance.pauseAll();
         //Dialog box positive button, start new game

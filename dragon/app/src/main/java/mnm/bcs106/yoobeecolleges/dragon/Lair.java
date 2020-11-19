@@ -253,7 +253,7 @@ public class Lair {
                 experience = 0;
                 level++;
                 upgradePoints += 3;
-                player.maxGoldHolding = (int)level*50;
+                player.maxGoldHolding = (int)level*80;
                 timeSinceLevelUp = 0;
                 levelUp = true;
                 //Grow
@@ -373,7 +373,6 @@ public class Lair {
                     GoldPool.instance.collectedGold(g);
                     depositedGold++;
                     SoundEffects.instance.playCoin();
-                    StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
 
                 }
@@ -383,7 +382,6 @@ public class Lair {
                     GoldPool.instance.collectedGold(g);
                     depositedGold++;
                     SoundEffects.instance.playCoin();
-                    StatsRecorder.instance.setMaxGold(depositedGold);
                     goldPileHeight = getGoldPileHeight();
                 }
             }

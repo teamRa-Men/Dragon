@@ -127,10 +127,6 @@ public class GameView extends SurfaceView implements Runnable {
         player.setDestroyedSound(SoundEffects.DEATH);
         lair = new Lair();
 
-
-
-
-
         drawHUD = true;
 
         hud = new Hud();
@@ -307,7 +303,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(player.health<0 && player.visible ){
             drawHUD = false;
             Music.instance.playDeathMusic();
-            Game.instance.stopButton.setVisibility(INVISIBLE);
+      
         }
         if(!player.visible) {
             if (!Game.instance.gameOver) {

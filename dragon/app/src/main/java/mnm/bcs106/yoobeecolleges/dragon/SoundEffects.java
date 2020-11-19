@@ -39,7 +39,7 @@ public class SoundEffects{
             DRAGONLAYER_IDLING = 23,
             SCARED_WILLAGERS = 24,
             THROW_DA_HO = 25,
-            WELL_ANYWAY = 26,
+            VICTORY = 26,
             WHAT_DID_YA_SAY = 27,
             WIZARD_CHARGE = 28;
 
@@ -102,11 +102,10 @@ public class SoundEffects{
 
         soundId[SCARED_WILLAGERS] = soundPool.load(context,R.raw.scaredwillagers,1);
         soundId[THROW_DA_HO] = soundPool.load(context,R.raw.throwdaho,1);
-        soundId[WELL_ANYWAY] = soundPool.load(context,R.raw.wellanyway,1);
 
         soundId[WHAT_DID_YA_SAY] = soundPool.load(context,R.raw.whatdidyasay,1);
         soundId[WIZARD_CHARGE] = soundPool.load(context,R.raw.wizardcharge,1);
-        soundId[WELL_ANYWAY] = soundPool.load(context,R.raw.wellanyway,1);
+        soundId[VICTORY] = soundPool.load(context,R.raw.victory,1);
 
 //        soundId[] = soundPool.load(context,R.raw.,1);
 

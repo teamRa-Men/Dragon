@@ -57,10 +57,10 @@ public class Scene {
         islandSizeRight =width*7;
 
         finalFort = new Fortress( -width*6, (int)gameView.groundLevel);
+
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
             finalFort.grow();
-            //System.out.println("fort level " + finalFort.lv);
             if(finalFort.lv == 2){
                 break;
             }
@@ -70,6 +70,8 @@ public class Scene {
         gameView.npc_pool.spawnDragonLayers(finalFort.x,finalFort.y,finalFort);
 
         gameView.npc_pool.spawnWizard(finalFort.x,finalFort.y,3,finalFort);
+
+
 
         eastFort = new Fortress( width*3, (int)gameView.groundLevel);
         gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
@@ -397,11 +399,12 @@ public class Scene {
 
 
 
-            eastFort.update(deltaTime);
+        eastFort.update(deltaTime);
         westFort.update(deltaTime);
         finalFort.update(deltaTime);
-        if(!finalFort.isStanding && !StatsRecorder.instance.finalKingdom){
+        if(!finalFort.isStanding && StatsRecorder.instance.finalKingdom==-1){
             StatsRecorder.instance.finalKingdomDestroyed();
+            Game.instance.showGameWon = true;
 
         }
 

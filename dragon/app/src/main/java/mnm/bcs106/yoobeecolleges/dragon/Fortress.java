@@ -19,7 +19,7 @@ public class Fortress extends Foundation {
 
     int lv;
 
-
+    boolean spawnedNPC = false;
 
     int currentGold;
     int maxGold;
@@ -135,42 +135,7 @@ public class Fortress extends Foundation {
 
 
             grow();
-/*
-            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
-                    && (currentGold >= (maxGold / 10 * 9))
-                    && lv == 0) {
 
-                lv++;
-                maxGold = maxGold * 4 + 300;
-                maxBuildings = 12;
-
-                this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress2");
-
-
-                currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
-                currentTilesRight += 1;
-
-                currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
-                currentTilesLeft += 1;
-            }
-
-            if ((((currentBuildingsRight.size() + currentBuildingsLeft.size()) >= maxBuildings) || (currentTilesLeft + currentTilesRight >= 8))
-                    && (currentGold >= (maxGold / 10 * 9))
-                    && lv == 1) {
-
-                lv++;
-                maxGold = maxGold * 4 + 600;
-                maxBuildings = 18;
-
-                this.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
-
-
-                currentBuildingsRight.add(new ArcherTower(x + (tilesize * tileNr) + (currentTilesRight) * tilesize, y, true, this));
-                currentTilesRight += 1;
-
-                currentBuildingsLeft.add(new ArcherTower(x - (currentTilesLeft) * tilesize - ArcherTower.tileNr * tilesize, y, true, this));
-                currentTilesLeft += 1;
-            }*/
 
             //    =   ========  ==   ==
             //   = =     ==     ==  ==
@@ -207,22 +172,24 @@ public class Fortress extends Foundation {
                     }
                 }
             }
+            if(!spawnedNPC) {
+                //spawning thief
+                if ((townFear > 20 && lv != 0 && (currentGold < maxGold / 2)) || (goldRate < 200 && lv != 0) && Scene.instance.day > 2 && Scene.instance.timeOfDay / Scene.instance.dayLength > 0.5
+                        && Scene.instance.timeOfDay / Scene.instance.dayLength < 0.6) {
+                    GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel, 1, this);
+                }
 
-            //spawning thief
-            if((townFear > 20 && lv != 0 && (currentGold < maxGold/2)) || (goldRate < 200 && lv != 0)&&Scene.instance.day>2 && Scene.instance.timeOfDay/ Scene.instance.dayLength>0.5
-            &&Scene.instance.timeOfDay/ Scene.instance.dayLength<0.6){
-                GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel,1, this);
-            }
+                //spawning dragonslayer
+                if (townFear > 30 && lv != 0) {
+                    GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, this);
+                }
 
-            //spawning dragonslayer
-            if(townFear > 30 && lv != 0){
-                GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, this);
-            }
-
-            //spawning wizard
-            if(townFear > 35 && lv ==2 && !summonedWizard){
-                GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
-                summonedWizard = true;
+                //spawning wizard
+                if (townFear > 35 && lv == 2 && !summonedWizard) {
+                    GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
+                    summonedWizard = true;
+                }
+                spawnedNPC = true;
             }
 
             if(!surrender) {
@@ -445,6 +412,7 @@ public class Fortress extends Foundation {
     }
 
     public void tax(){
+        spawnedNPC = false;
         int currentGold1 = currentGold;
         if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {
             if (currentGold < maxGold && (!hasTaxed)) {
@@ -684,7 +652,7 @@ public class Fortress extends Foundation {
         float l= (float)Math.sqrt(dx*dx+dy*dy);
         dx = dx/l-((float)Math.random()-0.5f)/2;
         dy = dy/l-(float)(Math.random())/10;
-        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 5);
+        ProjectilePool.instance.shootArrow(creationPoint.x, creationPoint.y, 1, dx, dy, 3);
     }
 }
 
