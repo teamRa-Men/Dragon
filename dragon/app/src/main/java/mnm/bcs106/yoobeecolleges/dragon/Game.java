@@ -461,72 +461,67 @@ public class Game extends AppCompatActivity {
                 if (alpha > 0) {
                     loadScreen.setAlpha(loadScreen.getAlpha() - 0.01f / alpha / alpha);
                 }
-
-
-                if(!mourning) {
-                    //gameView.setPlayerMovement(dragTo);
-                    if (dragFrom != null && dragTo != null) {
-                        gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius / 2));
-                    } else {
-                        gameView.movePlayerBy(null);
-                    }
-                    if (!breathCoolDown) {
-                        gameView.breathFire(breathFire);
-                    } else {
-                        coolDownTime += (long)(fixedDeltaTime);
-                        if (coolDownTime > breathCoolDownLength) {
-                            breathCoolDown = false;
-                            coolDownTime = 0;
-
-                        }
-                    }
-                }
-                else{
-
-                    coolDownTime += (long)(fixedDeltaTime);
-                    if(coolDownTime>1000){
-
-                        coolDownTime = 0;
-
-                        gameView.drawHUD = true;
-                        //gameView.player.direction = new Vector2(gameView.player.direction.x,0);
-                        float groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
-                        gameView.player.groundLevel = groundLevel;
-                        gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
-                        gameView.player.position.y = groundLevel;
-                        gameView.player.direction.y = 0;
-                        gameView.lair.lieDown();
-                        groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
-                        gameView.player.groundLevel = groundLevel;
-                        gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
-                        gameView.player.position.y = groundLevel;
-                        gameView.player.direction.y = 0;
-                        mourning = false;
-                    }
-                }
-
-
-
-                if(showDay){
-
-                    showDayText.setText("DAY "+ gameView.scene.day);
-                    showDayText.setAlpha(1);
-                    showDay = false;
-
-                }
-                else  if (showDayText.getAlpha()> 0){
-                    showDayText.setAlpha(showDayText.getAlpha() - 0.005f /showDayText.getAlpha() /showDayText.getAlpha());
-                    gameView.pause();
-                    gameView.resume();
-                }
-
+            }
+            else{
+                gameView.pause();
+                gameView.resume();
             }
 
 
+            if(!mourning) {
+                //gameView.setPlayerMovement(dragTo);
+                if (dragFrom != null && dragTo != null) {
+                    gameView.movePlayerBy(dragTo.sub(dragFrom).multiply(1f / controlRadius / 2));
+                } else {
+                    gameView.movePlayerBy(null);
+                }
+                if (!breathCoolDown) {
+                    gameView.breathFire(breathFire);
+                } else {
+                    coolDownTime += (long)(fixedDeltaTime);
+                    if (coolDownTime > breathCoolDownLength) {
+                        breathCoolDown = false;
+                        coolDownTime = 0;
 
+                    }
+                }
+            }
+            else{
 
+                coolDownTime += (long)(fixedDeltaTime);
+                if(coolDownTime>1000){
 
+                    coolDownTime = 0;
 
+                    gameView.drawHUD = true;
+                    //gameView.player.direction = new Vector2(gameView.player.direction.x,0);
+                    float groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
+                    gameView.player.groundLevel = groundLevel;
+                    gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
+                    gameView.player.position.y = groundLevel;
+                    gameView.player.direction.y = 0;
+                    gameView.lair.lieDown();
+                    groundLevel = GameView.instance.groundLevel-gameView.player.radius*0.6f;
+                    gameView.player.groundLevel = groundLevel;
+                    gameView.player.position.x += Math.signum(gameView.player.direction.x)*gameView.player.radius/8;
+                    gameView.player.position.y = groundLevel;
+                    gameView.player.direction.y = 0;
+                    mourning = false;
+
+                }
+
+            }
+            if(showDay){
+
+                showDayText.setText("DAY "+ gameView.scene.day);
+                showDayText.setAlpha(1);
+                showDay = false;
+
+            }
+            else  if (showDayText.getAlpha()> 0){
+                showDayText.setAlpha(showDayText.getAlpha() - 0.01f /showDayText.getAlpha() /showDayText.getAlpha());
+
+            }
 
             Lair lair = GameView.instance.lair;
             Dragon player = GameView.instance.player;
@@ -664,8 +659,8 @@ public class Game extends AppCompatActivity {
                 statsRecorder.init();
                 gameOver = false;
                 //Close dialog box
-SoundEffects.instance.release();
-SoundEffects soundEffects = new SoundEffects(Game.instance);
+                SoundEffects.instance.release();
+                SoundEffects soundEffects = new SoundEffects(Game.instance);
                 updateUI();
 
                 dialog.dismiss();

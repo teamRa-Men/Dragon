@@ -303,7 +303,7 @@ public class GameView extends SurfaceView implements Runnable {
         if(player.health<0 && player.visible ){
             drawHUD = false;
             Music.instance.playDeathMusic();
-      
+
         }
         if(!player.visible) {
             if (!Game.instance.gameOver) {

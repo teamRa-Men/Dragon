@@ -166,7 +166,7 @@ public class Lair {
         player.speed = 0;
         lieDown();
         GameView.instance.timeScale = sleepTimeSpeed;
-        Music.instance.startFadeOut(2000);
+
         soundID = SoundEffects.instance.play(SoundEffects.SLEEP,-1,1);
     }
 
