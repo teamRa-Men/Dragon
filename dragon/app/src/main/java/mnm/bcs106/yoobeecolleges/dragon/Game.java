@@ -102,7 +102,7 @@ public class Game extends AppCompatActivity {
     public static Game instance;
 
 
-    int runTime = 0, loadingTime = 1500;
+    int runTime = 0, loadingTime = 500;
 
 
     public Context context;
