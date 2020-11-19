@@ -119,9 +119,7 @@ public class Hud {
 
             canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, control);
         }
-        Paint joystick = new Paint();
-        joystick.setColor(Color.WHITE);
-        joystick.setAlpha(100);
+
 
       canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
 
@@ -135,7 +133,12 @@ public class Hud {
 
         Vector2 dragFrom = Game.instance.dragFrom;
         Vector2 dragTo =  Game.instance.dragTo;
+
+        Paint joystick = new Paint();
+        joystick.setColor(Color.rgb(110,110,110));
+
         canvas.drawCircle(dragFrom.x,dragFrom.y,Game.instance.controlRadius/2, joystick);
+        joystick.setAlpha(50);
         canvas.drawCircle(dragFrom.x,dragFrom.y,Game.instance.controlRadius*2, joystick);
         // canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
     /*
