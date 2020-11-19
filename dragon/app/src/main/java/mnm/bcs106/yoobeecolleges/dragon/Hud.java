@@ -135,6 +135,7 @@ public class Hud {
         Vector2 dragTo =  Game.instance.dragTo;
 
         Paint joystick = new Paint();
+        joystick.setAntiAlias(true);
         joystick.setColor(Color.rgb(110,110,110));
 
         canvas.drawCircle(dragFrom.x,dragFrom.y,Game.instance.controlRadius/2, joystick);

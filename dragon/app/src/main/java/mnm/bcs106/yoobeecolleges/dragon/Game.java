@@ -78,7 +78,7 @@ public class Game extends AppCompatActivity {
 
     boolean showMournButton = false, showGameWon = false;
     boolean mourning = false;
-    int breathCoolDownLength = 50, coolDownTime = 0;
+    int breathCoolDownLength = 10, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
     float refreshRating;
