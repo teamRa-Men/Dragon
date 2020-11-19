@@ -280,7 +280,7 @@ public class Scene {
         bottomPaint = new Paint();
         frontPaint.setColor(Game.instance.getResources().getColor(R.color.colorPrimaryDark));
         backPaint.setColor(Color.rgb(240,250,255));
-        bottomPaint.setColor(Color.rgb(23,20,10));
+        bottomPaint.setColor(Color.rgb(30,30,20));
         //skyPaint.setColor(Color.rgb(250,250,255));
     }
 

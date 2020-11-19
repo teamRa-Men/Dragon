@@ -119,9 +119,11 @@ public class Hud {
 
             canvas.drawLine(dragFrom.x, dragFrom.y, dragTo.x, dragTo.y, control);
         }
+        Paint joystick = new Paint();
+        joystick.setColor(Color.WHITE);
+        joystick.setAlpha(100);
 
-
-        canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
+      canvas.drawBitmap(fireButtonSprite,Game.instance.fireButton.x-Game.instance.controlRadius, Game.instance.fireButton.y-Game.instance.controlRadius, fire);
 
         canvas.drawBitmap(goldMeterBack,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
         canvas.drawBitmap(goldMeter,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
@@ -130,6 +132,11 @@ public class Hud {
 
         canvas.drawBitmap(goldMeterFront,GameView.instance.screenWidth-Game.instance.controlRadius*2, screenHeight/30, null);
 
+
+        Vector2 dragFrom = Game.instance.dragFrom;
+        Vector2 dragTo =  Game.instance.dragTo;
+        canvas.drawCircle(dragFrom.x,dragFrom.y,Game.instance.controlRadius/2, joystick);
+        canvas.drawCircle(dragFrom.x,dragFrom.y,Game.instance.controlRadius*2, joystick);
         // canvas.drawText(GameView.instance.player.goldHolding+" G",GameView.instance.screenWidth, screenHeight/10,gold);
     /*
         canvas.drawRect(barLeft, manaTop, barLeft + manaMaxWidth, manaBottom, bar);

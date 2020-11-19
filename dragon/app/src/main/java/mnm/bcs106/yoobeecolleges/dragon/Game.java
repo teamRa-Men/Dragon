@@ -78,7 +78,7 @@ public class Game extends AppCompatActivity {
 
     boolean showMournButton = false, showGameWon = false;
     boolean mourning = false;
-    int breathCoolDownLength = 100, coolDownTime = 0;
+    int breathCoolDownLength = 50, coolDownTime = 0;
     int screenHeight, screenWidth;
     public StatsRecorder statsRecorder;
     float refreshRating;
@@ -101,12 +101,7 @@ public class Game extends AppCompatActivity {
     //Singleton
     public static Game instance;
 
-    //Player control
-    boolean dragging = false;
-    boolean breathFire = false;
 
-    Vector2 dragTo, dragFrom;
-    int controlRadius = 30;
     int runTime = 0, loadingTime = 1500;
 
 
@@ -188,8 +183,8 @@ public class Game extends AppCompatActivity {
     void initUI(){
 
         controlRadius = screenWidth/20;
-        fireButton = new Vector2(screenWidth*0.95f,screenHeight*0.85f);
-
+        fireButton = new Vector2(screenWidth*0.95f,screenHeight*0.75f);
+        dragFrom = new Vector2(screenWidth*0.15f,screenHeight*0.8f);
         //Load high score
         loadScreen = findViewById(R.id.loadScreen);
 
@@ -441,7 +436,7 @@ public class Game extends AppCompatActivity {
     //*********************************************************************************************************************************************************//
     // Game loop and game state methods
 
-    final float fixedDeltaTime = (1000 / 30);
+    final float fixedDeltaTime = (1000 / 60);
     public void updateUI(){
         runnable = new Runnable() {
             @Override
@@ -673,8 +668,12 @@ public class Game extends AppCompatActivity {
     }
 
     //*********************************************************************************************************************************************************//
-    // Accessor / Mutator methods
+    //Player control
+    boolean dragging = false;
+    boolean breathFire = false;
 
+    Vector2 dragTo, dragFrom;
+    int controlRadius = 50;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -688,14 +687,15 @@ public class Game extends AppCompatActivity {
 
             if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
                 //System.out.println("dow");
-                if (Vector2.distance(fireButton, p) > controlRadius) {
+                if (Vector2.distance(dragFrom, p) < controlRadius/2) {
                     if (!dragging) {
-                        dragFrom = p;
+                        dragTo = p;
                         dragging = true;
                     }
 
 
-                } else {
+                }
+                if (Vector2.distance(fireButton, p) < controlRadius){
                     breathFire = true;
                 }
 
@@ -704,8 +704,10 @@ public class Game extends AppCompatActivity {
 
             if (action == MotionEvent.ACTION_MOVE) {
                 //System.out.println("move");
-                if (Vector2.distance(fireButton, p) > controlRadius) {
-                    dragging = true;
+                if (Vector2.distance(dragFrom, p) < controlRadius*4) {
+                    if (!dragging) {
+                        dragging = true;
+                    }
                     Vector2 disp = p.sub(dragFrom);
 
                     if (disp.getLength() > controlRadius * 2) {
@@ -714,7 +716,8 @@ public class Game extends AppCompatActivity {
                     }
                     dragTo = p;
 
-                } else {
+                }
+                if (Vector2.distance(fireButton, p) < controlRadius){
                     breathFire = true;
                 }
             }
@@ -727,7 +730,6 @@ public class Game extends AppCompatActivity {
                 } else {
                     breathFire = false;
                     breathCoolDown = true;
-
                 }
                 if (!dragging) {
                     breathFire = false;
