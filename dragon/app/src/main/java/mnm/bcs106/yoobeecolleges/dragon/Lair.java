@@ -338,7 +338,7 @@ public class Lair {
             canvas.drawBitmap(lairFront, (int) (position.x - width / 2) + GameView.instance.cameraDisp.x, (int) (position.y - height), frontPaint);
         }
 
-        if(levelUp) {
+        if(levelUp && isSleeping) {
 
             Paint p = new Paint();
             p.setColor(Color.WHITE);

@@ -121,11 +121,7 @@ public class Dragon extends Character {
                 s = new Segment(this, i, (segments.get(i-1).radius+(float) Math.pow((float) (size - i) /(size - bodyEnd)*0.7f,1.5f) * radius)/2+1,sprite);
                 segments.add(s);
             }
-            float c = Math.min((float)(size-i)/size/5,0.15f)+0.85f;
 
-            s.paint.setColorFilter(new LightingColorFilter(Color.rgb((int)(255*c),
-                    (int)(255*c),
-                    (int)(255*c)),0));
 
             if(i>0) {
 
