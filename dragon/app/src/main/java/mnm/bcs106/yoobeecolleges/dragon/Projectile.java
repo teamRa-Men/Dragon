@@ -2,22 +2,24 @@
 package mnm.bcs106.yoobeecolleges.dragon;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 
 public class Projectile extends GameObject {
     int damage = 5;
-    float pushX, pushY;
     float coolDown = 5000; //This determines when the projectile returns to the pool after being shot
     float timeSinceShot; //When this is larger than the coolDown the projectile returns to pool
     public boolean returnToPool = false;
     public int type;//0=arrow, 1 = magic, 2 = spear
     public static int MAGIC=1, ARROW=0, SPEAR=2;
+    float explosionTime = -1;
 
     public Projectile(Bitmap sprite, float offsetX, float offsetY,int type) {
         super(sprite, offsetX, offsetY);
         bounce = 0;
         this.type = type;
         init();
+        paint.setColor(Color.WHITE);
 
     }
 
@@ -48,7 +50,14 @@ public class Projectile extends GameObject {
             }
 
         }
-        super.draw(canvas);
+        radius = GameView.instance.screenWidth/30;
+        if(type==MAGIC && explosionTime > 0){
+            canvas.drawCircle((int)(position.x+GameView.instance.cameraDisp.x+radius/10*Math.random()),(int)(position.y+radius/10*Math.random()),radius,paint);
+        }
+        else{
+            super.draw(canvas);
+        }
+
     }
 
     @Override
@@ -57,7 +66,7 @@ public class Projectile extends GameObject {
             super.physics(deltaTime);
             timeSinceShot += deltaTime;
             if (parent == null) {
-                if(type == MAGIC){
+                if(type != SPEAR){
                      if(GameView.instance.player.fireBreath.projectileCollision(this)){
                         timeSinceShot = Math.max(0.9f*coolDown,timeSinceShot);
                     }
@@ -66,11 +75,19 @@ public class Projectile extends GameObject {
                     if (GameView.instance.player.projectileCollision(this)) {
                         GameView.instance.player.onDamage(damage);
                         timeSinceShot = coolDown * 0.75f;
+                        if(type == MAGIC){
+                            explosionTime = 1000;
+                            parent = null;
+                            speed = 0;
+                        }
+                    }
+                    else{
+                        if (type == MAGIC) {
+                            setDir(direction.add(GameView.instance.player.aimFor().add(position.multiply(-1f)).multiply(0.2f)));
+                        }
                     }
                 }
-                if (type == MAGIC) {
-                    setDir(direction.add(GameView.instance.player.aimFor().add(position.multiply(-1f)).multiply(0.2f)));
-                }
+
 
             }
         }

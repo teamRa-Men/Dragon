@@ -749,7 +749,6 @@ public class Game extends AppCompatActivity {
 
     }
 
-
     public void onSleep(View view){
         GameView.instance.lair.sleep();
         SoundEffects.instance.play(SoundEffects.MENU);

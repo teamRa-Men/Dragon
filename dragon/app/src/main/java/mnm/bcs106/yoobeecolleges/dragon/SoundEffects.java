@@ -8,7 +8,6 @@ import android.media.SoundPool;
 public class SoundEffects{
     SoundPool soundPool;
     public static SoundEffects instance;
-    public boolean coinPlaying = false;
     public MediaPlayer[] coinPlayer = new MediaPlayer[4];
 
     Context context;
@@ -123,6 +122,7 @@ public class SoundEffects{
 
                 rate *=Math.min(GameView.instance.timeScale,1);
             }
+            if(soundPool!=null)
             return soundPool.play(soundId[effect],volumeMul/3,volumeMul/3,1,0,rate);
         }
         return -1;
@@ -134,20 +134,23 @@ public class SoundEffects{
             if(GameView.instance!= null && effect!=SELECT){
                 rate *=Math.min(GameView.instance.timeScale,1);
             }
-
+            if(soundPool!=null)
             return soundPool.play(soundId[effect],volumeMul/3,volumeMul/3,1,loop,rate);
         }
         return -1;
     }
     public void stop(int id){
+        if(soundPool!=null)
         soundPool.stop(id);
     }
 
     public void pauseAll(){
+        if(soundPool!=null)
         soundPool.autoPause();
     }
 
     public void release(){
+        if(soundPool!=null)
         soundPool.release();
 
     }
