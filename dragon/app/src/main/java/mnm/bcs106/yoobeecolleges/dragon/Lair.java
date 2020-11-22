@@ -92,6 +92,8 @@ public class Lair {
         bottom = top + height/3;
         colliderLeft = new Rect(left,top,right,bottom);
 
+        player.fireBreath.setColor((player.attack-minimumAttack)/(maximumAttack-minimumAttack));
+
     }
 
 
@@ -180,6 +182,7 @@ public class Lair {
     public boolean upgradeAttack(){
         if(upgradePoints > 0 && player.attack < maximumAttack) {
             player.attack+=maximumAttack/20;
+            player.fireBreath.setColor((player.attack-minimumAttack)/(maximumAttack-minimumAttack));
             upgradePoints--;
             return true;
         }

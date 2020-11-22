@@ -172,22 +172,25 @@ public class Fortress extends Foundation {
                     }
                 }
             }
+            if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) > 0.6) {
+                spawnedNPC = false;
+            }
             if(!spawnedNPC) {
                 //spawning thief
-                if ((townFear > 20 && lv != 0 && (currentGold < maxGold / 2)) || (goldRate < 200 && lv != 0) && Scene.instance.day > 2 && Scene.instance.timeOfDay / Scene.instance.dayLength > 0.5
-                        && Scene.instance.timeOfDay / Scene.instance.dayLength < 0.6) {
+                if ((townFear > 20 && lv != 0 && (currentGold < maxGold / 2)) || (goldRate < 200 && lv != 0) && Scene.instance.day > 2) {
                     GameView.instance.npc_pool.spawnThiefs(x, (int) GameView.instance.groundLevel, 1, this);
                 }
+                if(!surrender) {
+                    //spawning dragonslayer
+                    if (townFear > 30 && lv != 0) {
+                        GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, this);
+                    }
 
-                //spawning dragonslayer
-                if (townFear > 30 && lv != 0) {
-                    GameView.instance.npc_pool.spawnDragonLayers(x, (int) GameView.instance.groundLevel, this);
-                }
-
-                //spawning wizard
-                if (townFear > 35 && lv == 2 && !summonedWizard) {
-                    GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
-                    summonedWizard = true;
+                    //spawning wizard
+                    if (townFear > 35 && lv == 2 && !summonedWizard) {
+                        GameView.instance.npc_pool.spawnFarmers(x, (int) GameView.instance.groundLevel, this);
+                        summonedWizard = true;
+                    }
                 }
                 spawnedNPC = true;
             }
@@ -408,11 +411,25 @@ public class Fortress extends Foundation {
         super.OnDamage();
         if (!isStanding){
             SoundEffects.instance.play(SoundEffects.TRIBUTE);
+
+            for (int i = 0; i < currentBuildingsRight.size(); i++) {
+                currentBuildingsRight.get(i).fear = 0;
+            }
+
+            for (int i = 0; i < currentBuildingsLeft.size(); i++) {
+                currentBuildingsLeft.get(i).fear = 0;
+            }
+            fear = 0;
+            townFear = 0;
+            surrender = false;
+            flag.setSurrender(surrender);
+            flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min((townFear /surrenderFear+2)/3,1)));
+            flag.y = flagy;
         }
     }
 
     public void tax(){
-        spawnedNPC = false;
+
         int currentGold1 = currentGold;
         if ((Scene.instance.timeOfDay) / (Scene.instance.dayLength) < 0.2) {
             if (currentGold < maxGold && (!hasTaxed)) {
@@ -566,7 +583,7 @@ public class Fortress extends Foundation {
     public void Flagposition(float deltaTime){
 
         countdown+=deltaTime;
-        int flagf = 0;
+
 
         flagy = (int)(GameView.instance.groundLevel-tilesize*2*(Math.min((townFear /surrenderFear+2)/3,1)));
 

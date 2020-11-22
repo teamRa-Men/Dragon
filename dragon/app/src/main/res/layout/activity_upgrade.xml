@@ -67,7 +67,7 @@
                             android:text="LV 100"
                             android:textAlignment="center"
                             android:textColor="#333333"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -87,7 +87,7 @@
                             android:text="100 P"
                             android:textAlignment="center"
                             android:textColor="#3C3C3C"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -126,7 +126,7 @@
                                 android:shadowRadius="10"
                                 android:text="1000000 XP"
                                 android:textColor="@color/colorDragon"
-                                android:textSize="18sp"
+                                android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="@+id/xpBar"
                                 app:layout_constraintStart_toStartOf="@+id/xpBar"
@@ -212,7 +212,7 @@
                             android:text="+"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
-                            android:textSize="30sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -252,7 +252,7 @@
                             android:text="+"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
-                            android:textSize="30sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -292,7 +292,7 @@
                             android:text="+"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
-                            android:textSize="30sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -331,7 +331,7 @@
                             android:text="+"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
-                            android:textSize="30sp"
+                            android:textSize="14sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

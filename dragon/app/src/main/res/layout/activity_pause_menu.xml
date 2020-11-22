@@ -75,7 +75,8 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
                                 android:text="Restart"
-                                android:textColor="#FFFFFF" />
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp" />
 
                             <Button
                                 android:id="@+id/pauseContinue"
@@ -85,7 +86,8 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
                                 android:text="Continue"
-                                android:textColor="#FFFFFF" />
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp" />
 
                             <Button
                                 android:id="@+id/pauseCredits"
@@ -95,7 +97,8 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
                                 android:text="Credits"
-                                android:textColor="#FFFFFF" />
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp" />
 
                             <Button
                                 android:id="@+id/pauseExit"
@@ -105,7 +108,8 @@
                                 android:layout_weight="1"
                                 android:background="@drawable/roundedbuttonshape"
                                 android:text="Exit"
-                                android:textColor="#FFFFFF" />
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <Space
@@ -121,7 +125,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Music"
-                        android:textColor="#000000" />
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
 
                     <SeekBar
                         android:id="@+id/musicVolume"
@@ -137,7 +142,8 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="Sound Effects"
-                        android:textColor="#000000" />
+                        android:textColor="#000000"
+                        android:textSize="12sp" />
 
                     <SeekBar
                         android:id="@+id/soundVolume"
@@ -187,6 +193,7 @@
                                 android:lineSpacingExtra="8sp"
                                 android:text="LEAD DESIGNER\n    Manny Kwong \n\n  LEAD PROGRAMMER\n    Manny Kwong \n\n  PROGRAMMERS\n    Matthew Bogdanow \n   Julian (NAE) Grabowsky \n\n LEAD ARTIST\n  Julian (NAE) Grabowsky \n\n CHARACTER ARTIST\n Manny Kwong  \n\n  NPC ARTIST\n Matthew Bogdanow \n \n BACKGROUND ARTIST\n Manny Kwong \n\n  MUSIC\n Julian (NAE) Grabowsky \n \n SOUND EFFECTS\n Manny Kwong   \n Matthew Bogdanow  \n\n BUG CATCHER EXTRAORDINAIRE\n    Matthew Bogdanow \n\n \n\n\n  I’ve learned: How to animate Game objects. Detect if game objects get close to each other. How to use physics class. How to use update class. Use Array List class. How to measure Max FPS and scale it under each screen automatically. How to use Android studio Git without github. "
                                 android:textColor="#000000"
+                                android:textSize="12sp"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 

@@ -1064,7 +1064,12 @@ class FireBreath{
         }
         return collided;
     }
-
+public void setColor(float strength){
+    for (int i = backFlames.size() - 1; i >= 0; i--) {
+        Flame f = backFlames.get(i);
+       f.setColor(strength);
+    }
+}
 
     public void draw(Canvas canvas){
         //Paint paint = new Paint();
@@ -1105,6 +1110,9 @@ class Flame {
 
 
         paint.setColorFilter(new LightingColorFilter(color,0));
+    }
+    public void setColor(float strength){
+        paint.setColorFilter(new LightingColorFilter(Color.rgb(255,(int)(150+100*strength),85),0));
     }
     public void physics(float deltaTime){
 
