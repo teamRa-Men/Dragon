@@ -359,6 +359,7 @@ public class Scene {
             canvas.drawBitmap(tinies[tiniesPositions[i].y], groundX + tiniesPositions[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
         }
             eastFort.draw(canvas);
+            finalFort.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
             westFort.draw(canvas);
             finalFort.draw(canvas);
     }
