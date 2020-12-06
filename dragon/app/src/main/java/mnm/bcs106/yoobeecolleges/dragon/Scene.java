@@ -340,7 +340,7 @@ public class Scene {
 
 
         if (Math.abs(GameView.instance.lair.position.x - GameView.instance.player.position.x) < width * 2.5){
-           drawLairForest(canvas);
+            drawLairForest(canvas);
 
         }
         else if( GameView.instance.player.position.x < -0){
@@ -358,10 +358,12 @@ public class Scene {
         for (int i = 0; i < tiniesPositions.length; i++) {
             canvas.drawBitmap(tinies[tiniesPositions[i].y], groundX + tiniesPositions[i].x, gameView.groundLevel - tinies[0].getHeight(), null);
         }
-            eastFort.draw(canvas);
+        eastFort.draw(canvas);
+        if(finalFort.isStanding) {
             finalFort.buildingImage = SpriteManager.instance.getBuildingSprite("Fortress3");
-            westFort.draw(canvas);
-            finalFort.draw(canvas);
+        }
+        westFort.draw(canvas);
+        finalFort.draw(canvas);
     }
     public void drawForeground(Canvas canvas){
         canvas.drawRect(0,GameView.instance.groundLevel ,width,height*2,bottomPaint);
