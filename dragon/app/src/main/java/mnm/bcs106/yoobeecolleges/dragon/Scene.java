@@ -56,7 +56,7 @@ public class Scene {
         islandSizeLeft =width*10;
         islandSizeRight =width*7;
 
-        finalFort = new Fortress( -width*3, (int)gameView.groundLevel);
+        finalFort = new Fortress( -width*6, (int)gameView.groundLevel);
 
         for(int i = 0; i < 20; i++) {
             finalFort.currentGold = finalFort.maxGold;
@@ -76,7 +76,7 @@ public class Scene {
         eastFort = new Fortress( width*3, (int)gameView.groundLevel);
         gameView.npc_pool.spawnDragonLayers(eastFort.x,eastFort.y,eastFort);
 
-        westFort = new Fortress( -width*10, (int)gameView.groundLevel);
+        westFort = new Fortress( -width*2, (int)gameView.groundLevel);
 
 
 
